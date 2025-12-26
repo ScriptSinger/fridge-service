@@ -15,6 +15,7 @@ services:
     build:
       context: .
       dockerfile: docker/php/php.dockerfile
+    user: "${UID}:${GID}"
 
     volumes:
       - ./:/var/www/html
@@ -38,6 +39,7 @@ services:
     build:
       context: .
       dockerfile: docker/composer/composer.dockerfile
+    user: "${UID}:${GID}"
     volumes:
       - ./:/var/www/html
     working_dir: /var/www/html
