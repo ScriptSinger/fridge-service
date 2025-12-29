@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('error_code_id')->constrained()->cascadeOnDelete();
             $table->foreignId('problem_id')->constrained()->cascadeOnDelete();
             $table->unique(['error_code_id', 'problem_id']);
+            $table->timestamps();
         });
     }
 
