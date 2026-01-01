@@ -10,6 +10,11 @@ use MoonShine\Laravel\DependencyInjection\MoonShine;
 use MoonShine\Laravel\DependencyInjection\MoonShineConfigurator;
 use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
 use App\MoonShine\Resources\MoonShineUserRole\MoonShineUserRoleResource;
+use App\MoonShine\Resources\Service\ServiceResource;
+use App\MoonShine\Resources\Brand\BrandResource;
+use App\MoonShine\Resources\ErrorCode\ErrorCodeResource;
+use App\MoonShine\Resources\Lead\LeadResource;
+use App\MoonShine\Resources\Problem\ProblemResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -22,6 +27,11 @@ class MoonShineServiceProvider extends ServiceProvider
             ->resources([
                 MoonShineUserResource::class,
                 MoonShineUserRoleResource::class,
+                ServiceResource::class,
+                BrandResource::class,
+                ErrorCodeResource::class,
+                LeadResource::class,
+                ProblemResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),

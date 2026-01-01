@@ -86,8 +86,8 @@ return [
     ],
 
     // Layout, palette, pages, forms
-    'layout' => AppLayout::class,
-    'palette' => PurplePalette::class,
+    'layout' => App\MoonShine\Layouts\MoonShineLayout::class,
+    'palette' => MoonShine\ColorManager\Palettes\PurplePalette::class,
 
     'forms' => [
         'login' => LoginForm::class,
@@ -95,7 +95,7 @@ return [
     ],
 
     'pages' => [
-        'dashboard' => Dashboard::class,
+        'dashboard' => App\MoonShine\Pages\Dashboard::class,
         'profile' => ProfilePage::class,
         'login' => LoginPage::class,
         'error' => ErrorPage::class,
