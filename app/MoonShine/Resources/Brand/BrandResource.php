@@ -9,9 +9,12 @@ use App\Models\Brand;
 use App\MoonShine\Resources\Brand\Pages\BrandIndexPage;
 use App\MoonShine\Resources\Brand\Pages\BrandFormPage;
 use App\MoonShine\Resources\Brand\Pages\BrandDetailPage;
-
+use App\MoonShine\Resources\ErrorCode\ErrorCodeResource;
+use App\MoonShine\Resources\Problem\ProblemResource;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
+use MoonShine\Laravel\Fields\Relationships\HasMany;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Text;
@@ -49,6 +52,8 @@ class BrandResource extends ModelResource
                     ->required(),
 
                 Textarea::make('Description', 'description'),
+                HasMany::make('Error Codes', 'errorCodes', ErrorCodeResource::class),
+
             ]),
         ];
     }
@@ -60,6 +65,18 @@ class BrandResource extends ModelResource
             Text::make('Slug', 'slug'),
             Text::make('Name', 'name'),
             Textarea::make('Description', 'description'),
+
+            HasMany::make(
+                'Problems',
+                'problems',
+                ProblemResource::class
+            )->readonly(),
+
+            HasMany::make(
+                'Error Codes',
+                'errorCodes',
+                ErrorCodeResource::class
+            )->readonly(),
         ];
     }
 

@@ -10,8 +10,8 @@ class Service extends Model
     use Sluggable;
 
     protected $fillable = [
-        'slug',
         'title',
+        'slug',
         'h1',
         'content',
         'is_active'

@@ -6,13 +6,15 @@ namespace App\MoonShine\Resources\ErrorCode;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ErrorCode;
+use App\MoonShine\Resources\Brand\BrandResource;
 use App\MoonShine\Resources\ErrorCode\Pages\ErrorCodeIndexPage;
 use App\MoonShine\Resources\ErrorCode\Pages\ErrorCodeFormPage;
 use App\MoonShine\Resources\ErrorCode\Pages\ErrorCodeDetailPage;
-
+use App\MoonShine\Resources\Problem\ProblemResource;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
-
+use MoonShine\Laravel\Fields\Relationships\BelongsTo;
+use MoonShine\Laravel\Fields\Relationships\HasMany;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Text;
@@ -55,6 +57,10 @@ class ErrorCodeResource extends ModelResource
                     ->required(),
 
                 Textarea::make('Description', 'description'),
+
+                BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)
+                    ->required()
+                    ->searchable(),
             ]),
         ];
     }
@@ -67,6 +73,18 @@ class ErrorCodeResource extends ModelResource
             Text::make('Title', 'code'),
             Text::make('Code', 'code'),
             Textarea::make('Description', 'description'),
+
+            HasMany::make(
+                'Problems',
+                'problems',
+                ProblemResource::class
+            )->readonly(),
+
+            HasMany::make(
+                'Brand',
+                'brand',
+                BrandResource::class
+            )->readonly(),
         ];
     }
 
