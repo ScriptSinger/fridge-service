@@ -13,6 +13,10 @@ class Service extends Model
         'title',
         'slug',
         'h1',
+        'excerpt',
+        'description',
+        'image',
+        'image_alt',
         'content',
         'is_active'
     ];

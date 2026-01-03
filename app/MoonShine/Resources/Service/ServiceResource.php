@@ -13,7 +13,9 @@ use App\MoonShine\Resources\Service\Pages\ServiceDetailPage;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
 use MoonShine\UI\Components\Layout\Box;
+use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
@@ -34,6 +36,10 @@ class ServiceResource extends ModelResource
             Text::make('Slug', 'slug'),
             Text::make('SEO title', 'title'),
             Text::make('H1', 'h1'),
+            Text::make('Meta description', 'description'),
+            Text::make('Excerpt', 'excerpt'),
+            Image::make('Изображение', 'image')
+                ->disk('public'),
             Textarea::make('Контент', 'content'),
             Switcher::make('Активна', 'is_active'),
         ];
@@ -55,6 +61,17 @@ class ServiceResource extends ModelResource
                 Text::make('H1', 'h1')
                     ->required(),
 
+                Text::make('Meta description', 'description'),
+
+                Text::make('Excerpt', 'excerpt')
+                    ->hint('Подзаголовок / Hero / preview'),
+
+                Image::make('Изображение', 'image')
+                    ->disk('public')
+                    ->hint('Hero / OG image 720x600'),
+
+                Text::make('Alt для изображения', 'image_alt'),
+
                 Textarea::make('Контент', 'content'),
 
                 Switcher::make('Активна', 'is_active')
@@ -70,6 +87,11 @@ class ServiceResource extends ModelResource
             Text::make('Slug', 'slug'),
             Text::make('SEO title', 'title'),
             Text::make('H1', 'h1'),
+            Text::make('Meta description', 'description'),
+            Text::make('Excerpt', 'excerpt'),
+            Image::make('Изображение', 'image')
+                ->disk('public'),
+            Text::make('Alt для изображения', 'image_alt'),
             Textarea::make('Контент', 'content'),
             Switcher::make('Активна', 'is_active'),
         ];
