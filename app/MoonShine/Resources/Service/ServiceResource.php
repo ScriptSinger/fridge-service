@@ -64,7 +64,7 @@ class ServiceResource extends ModelResource
                 Text::make('Meta description', 'description'),
 
                 Text::make('Excerpt', 'excerpt')
-                    ->hint('Подзаголовок / Hero / preview'),
+                    ->hint('Подзаголовок / Hero / preview (не менее 105 символов)'),
 
                 Image::make('Изображение', 'image')
                     ->disk('public')

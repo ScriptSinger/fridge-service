@@ -52,7 +52,8 @@ unset($__defined_vars, $__key, $__value); ?>
                             src="https://dummyimage.com/1203x503">
                     </div>
                     <h2 class="text-xl font-medium title-font text-gray-900 mt-5"><?php echo e($problem->h1); ?></h2>
-                    <p class="text-base leading-relaxed mt-2"><?php echo e($problem->content); ?></p>
+                    <p class="text-base leading-relaxed mt-2">
+                    <p><?php echo e($problem->short_content); ?></p>
                     <a class="text-yellow-500 inline-flex items-center mt-3">Подробнее
                         <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                             stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
@@ -64,4 +65,4 @@ unset($__defined_vars, $__key, $__value); ?>
         </div>
     </div>
 </section>
-<?php /**PATH /var/www/html/resources/views/components/layouts/blog.blade.php ENDPATH**/ ?>
+<?php /**PATH /var/www/html/resources/views/components/sections/blog.blade.php ENDPATH**/ ?>

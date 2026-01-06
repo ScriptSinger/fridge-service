@@ -3,20 +3,21 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>{{ $title ?? 'Сервисный центр' }}</title>
-    <meta name="description" content="{{ $description ?? '' }}">
+
+    @include('partials.seo-meta', ['meta' => $meta ?? []])
+
     @vite('resources/css/app.css')
 </head>
 
 <body>
 
-    @include('partials.header')
+    <x-layouts.header />
 
     <main>
         {{ $slot }}
     </main>
 
-    @include('partials.footer')
+    <x-layouts.footer />
 
     @vite('resources/js/app.js')
 </body>

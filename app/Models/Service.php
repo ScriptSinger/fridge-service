@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Service extends Model
 {
@@ -33,5 +34,10 @@ class Service extends Model
     public function leads()
     {
         return $this->morphMany(Lead::class, 'leadable');
+    }
+
+    public function getShortDescriptionAttribute()
+    {
+        return Str::limit(strip_tags($this->description), 120);
     }
 }
