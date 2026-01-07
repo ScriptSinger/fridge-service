@@ -30,7 +30,7 @@ foreach ($attributes->all() as $__key => $__value) {
 
 unset($__defined_vars, $__key, $__value); ?>
 
-<section class="text-gray-600 body-font">
+<section id="services" class="text-gray-600 body-font">
     <div class="container px-5 py-24 mx-auto flex flex-wrap">
         <div class="flex flex-wrap -m-4">
             <?php $__currentLoopData = $services; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $service): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

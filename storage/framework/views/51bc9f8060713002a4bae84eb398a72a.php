@@ -6,14 +6,31 @@
         <div
             class="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
             <div class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left md:mt-0 mt-10">
-                <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
-                        stroke-linejoin="round" stroke-width="2"
-                        class="w-10 h-10 text-white p-2 bg-yellow-500 rounded-full" viewBox="0 0 24 24">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-                    </svg>
-                    <span class="ml-3 text-xl">Tailblocks</span>
-                </a>
+
+
+                <?php if (isset($component)) { $__componentOriginalc9b691e47e4aeaac2320d6494f20beb6 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalc9b691e47e4aeaac2320d6494f20beb6 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.logo','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.logo'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalc9b691e47e4aeaac2320d6494f20beb6)): ?>
+<?php $attributes = $__attributesOriginalc9b691e47e4aeaac2320d6494f20beb6; ?>
+<?php unset($__attributesOriginalc9b691e47e4aeaac2320d6494f20beb6); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc9b691e47e4aeaac2320d6494f20beb6)): ?>
+<?php $component = $__componentOriginalc9b691e47e4aeaac2320d6494f20beb6; ?>
+<?php unset($__componentOriginalc9b691e47e4aeaac2320d6494f20beb6); ?>
+<?php endif; ?>
+
+
+
                 <p class="mt-2 text-sm text-gray-500">Air plant banjo lyft occupy retro adaptogen indego</p>
             </div>
             <div class="flex-grow flex flex-wrap md:pr-20 -mb-10 md:text-left text-center order-first">

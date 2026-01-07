@@ -4,7 +4,7 @@
 
 @props(['services'])
 
-<section class="text-gray-600 body-font">
+<section id="services" class="text-gray-600 body-font">
     <div class="container px-5 py-24 mx-auto flex flex-wrap">
         <div class="flex flex-wrap -m-4">
             @foreach ($services as $service)
