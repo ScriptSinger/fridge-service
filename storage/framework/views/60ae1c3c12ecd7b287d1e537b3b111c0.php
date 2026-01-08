@@ -10,15 +10,17 @@
                          class="flex-shrink-0 w-10 h-10 rounded-full bg-yellow-500 inline-flex items-center justify-center text-white relative z-10">
                          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                              stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                             <path
+                                 d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" "></path>
                          </svg>
                      </div>
                      <div class="flex-grow pl-4">
-                         <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">STEP 1</h2>
-                         <p class="leading-relaxed">VHS cornhole pop-up, try-hard 8-bit iceland helvetica. Kinfolk
-                             bespoke try-hard cliche palo santo offal.</p>
+                         <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">Оставляете заявку
+                         </h2>
+                         <p class="leading-relaxed">Клиент оставляет данные на сайте или по телефону.</p>
                      </div>
                  </div>
+
                  <div class="flex relative pb-12">
                      <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
                          <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
@@ -27,15 +29,20 @@
                          class="flex-shrink-0 w-10 h-10 rounded-full bg-yellow-500 inline-flex items-center justify-center text-white relative z-10">
                          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                              stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-                             <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                             <path d=" M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125
+                                 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3
+                                 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0
+                                 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554
+                                 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0
+                                 0h-12"></path>
                          </svg>
                      </div>
                      <div class="flex-grow pl-4">
-                         <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">STEP 2</h2>
-                         <p class="leading-relaxed">Vice migas literally kitsch +1 pok pok. Truffaut hot chicken
-                             slow-carb health goth, vape typewriter.</p>
+                         <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">Выезд мастера</h2>
+                         <p class="leading-relaxed">Специалист приезжает в удобное время.</p>
                      </div>
                  </div>
+
                  <div class="flex relative pb-12">
                      <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
                          <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
@@ -44,16 +51,19 @@
                          class="flex-shrink-0 w-10 h-10 rounded-full bg-yellow-500 inline-flex items-center justify-center text-white relative z-10">
                          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                              stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-                             <circle cx="12" cy="5" r="3"></circle>
-                             <path d="M12 22V8M5 12H2a10 10 0 0020 0h-3"></path>
+                             <path
+                                 d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z">
+                             </path>
                          </svg>
                      </div>
                      <div class="flex-grow pl-4">
-                         <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">STEP 3</h2>
-                         <p class="leading-relaxed">Coloring book nar whal glossier master cleanse umami. Salvia +1
-                             master cleanse blog taiyaki.</p>
+                         <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">
+                             Диагностика и
+                             согласование стоимости</h2>
+                         <p class="leading-relaxed">Мастер определяет причину поломки и согласует цену.</p>
                      </div>
                  </div>
+
                  <div class="flex relative pb-12">
                      <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
                          <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
@@ -62,16 +72,19 @@
                          class="flex-shrink-0 w-10 h-10 rounded-full bg-yellow-500 inline-flex items-center justify-center text-white relative z-10">
                          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                              stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-                             <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
-                             <circle cx="12" cy="7" r="4"></circle>
+                             <path
+                                 d="M4.5 12a7.5 7.5 0 0 0 15 0m-15 0a7.5 7.5 0 1 1 15 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077 1.41-.513m14.095-5.13 1.41-.513M5.106 17.785l1.15-.964m11.49-9.642 1.149-.964M7.501 19.795l.75-1.3m7.5-12.99.75-1.3m-6.063 16.658.26-1.477m2.605-14.772.26-1.477m0 17.726-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205 12 12m6.894 5.785-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495">
+                             </path>
                          </svg>
                      </div>
                      <div class="flex-grow pl-4">
-                         <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">STEP 4</h2>
-                         <p class="leading-relaxed">VHS cornhole pop-up, try-hard 8-bit iceland helvetica. Kinfolk
-                             bespoke try-hard cliche palo santo offal.</p>
+                         <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">Ремонт
+                             техники на
+                             месте</h2>
+                         <p class="leading-relaxed">Проводится ремонт с учётом нужных запчастей.</p>
                      </div>
                  </div>
+
                  <div class="flex relative">
                      <div
                          class="flex-shrink-0 w-10 h-10 rounded-full bg-yellow-500 inline-flex items-center justify-center text-white relative z-10">
@@ -82,9 +95,9 @@
                          </svg>
                      </div>
                      <div class="flex-grow pl-4">
-                         <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">FINISH</h2>
-                         <p class="leading-relaxed">Pitchfork ugh tattooed scenester echo park gastropub whatever
-                             cold-pressed retro.</p>
+                         <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">Проверка
+                             результата и гарантия</h2>
+                         <p class="leading-relaxed">Клиент принимает работу, получает гарантию.</p>
                      </div>
                  </div>
              </div>
