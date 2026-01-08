@@ -128,6 +128,26 @@
 <?php $component = $__componentOriginal62de9fc3ebe431a0d746cd50eda6c97f; ?>
 <?php unset($__componentOriginal62de9fc3ebe431a0d746cd50eda6c97f); ?>
 <?php endif; ?>
+    <?php if (isset($component)) { $__componentOriginal070c0d0a50045cf1b6b6a24423c3ac7c = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal070c0d0a50045cf1b6b6a24423c3ac7c = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.scroll-up','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.scroll-up'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal070c0d0a50045cf1b6b6a24423c3ac7c)): ?>
+<?php $attributes = $__attributesOriginal070c0d0a50045cf1b6b6a24423c3ac7c; ?>
+<?php unset($__attributesOriginal070c0d0a50045cf1b6b6a24423c3ac7c); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal070c0d0a50045cf1b6b6a24423c3ac7c)): ?>
+<?php $component = $__componentOriginal070c0d0a50045cf1b6b6a24423c3ac7c; ?>
+<?php unset($__componentOriginal070c0d0a50045cf1b6b6a24423c3ac7c); ?>
+<?php endif; ?>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginalfa710ee477a7171fb238cadd060c5959)): ?>

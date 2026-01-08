@@ -5,4 +5,5 @@
     <x-sections.pricing />
     <x-sections.blog :problems="$problems" />
     <x-sections.contact />
+    <x-ui.scroll-up />
 </x-layouts.app>

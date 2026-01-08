@@ -18,7 +18,28 @@
                 </div>
                 <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
                     <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs mt-4">Телефон</h2>
-                    <p class="leading-relaxed">8 (919) 609-34-85</p>
+                    <p class="leading-relaxed">
+                        <?php if (isset($component)) { $__componentOriginal068cc96cf51f1c56d971e8c803681b29 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal068cc96cf51f1c56d971e8c803681b29 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.phone','data' => ['class' => 'inline-flex items-center bg-yellow-500 text-white border-0 py-2 px-4 rounded text-base hover:bg-yellow-600 focus:outline-none mt-4 md:mt-0']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.phone'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['class' => 'inline-flex items-center bg-yellow-500 text-white border-0 py-2 px-4 rounded text-base hover:bg-yellow-600 focus:outline-none mt-4 md:mt-0']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal068cc96cf51f1c56d971e8c803681b29)): ?>
+<?php $attributes = $__attributesOriginal068cc96cf51f1c56d971e8c803681b29; ?>
+<?php unset($__attributesOriginal068cc96cf51f1c56d971e8c803681b29); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal068cc96cf51f1c56d971e8c803681b29)): ?>
+<?php $component = $__componentOriginal068cc96cf51f1c56d971e8c803681b29; ?>
+<?php unset($__componentOriginal068cc96cf51f1c56d971e8c803681b29); ?>
+<?php endif; ?>
+                    </p>
                 </div>
             </div>
         </div>
