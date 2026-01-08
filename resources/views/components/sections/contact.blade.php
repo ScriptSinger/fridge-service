@@ -20,7 +20,10 @@
                 </div>
                 <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
                     <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs mt-4">Телефон</h2>
-                    <p class="leading-relaxed">8 (919) 609-34-85</p>
+                    <p class="leading-relaxed">
+                        <x-ui.phone
+                            class="inline-flex items-center bg-yellow-500 text-white border-0 py-2 px-4 rounded text-base hover:bg-yellow-600 focus:outline-none mt-4 md:mt-0" />
+                    </p>
                 </div>
             </div>
         </div>

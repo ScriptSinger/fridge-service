@@ -7,7 +7,6 @@
     </svg>
     <span class="ml-3 text-xl">РемБытТехника</span> --}}
 
-
-    <img src="{{ Vite::asset('resources/img/logo.jpeg') }}" alt="Логотип" class="h-24 w-auto">
+    <img src="{{ Vite::asset('resources/img/logo.png') }}" alt="Логотип" class="h-24 w-auto">
 
 </a>
