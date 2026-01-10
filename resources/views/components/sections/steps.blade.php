@@ -1,5 +1,10 @@
  <section class="text-gray-600 body-font">
      <div class="container px-5 py-24 mx-auto flex flex-wrap">
+         <div class="flex flex-col   w-full mb-12">
+             <h2 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Этапы ремонта</h2>
+             <p class="lg:w-2/3 leading-relaxed text-base">Как правило, ремонт выполняется в день обращения</p>
+         </div>
+
          <div class="flex flex-wrap w-full">
              <div class="lg:w-2/5 md:w-1/2 md:pr-10 md:py-6">
                  <div class="flex relative pb-12">
@@ -11,13 +16,14 @@
                          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                              stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
                              <path
-                                 d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" "></path>
+                                 d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10">
+                             </path>
                          </svg>
                      </div>
                      <div class="flex-grow pl-4">
                          <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">Оставляете заявку
                          </h2>
-                         <p class="leading-relaxed">Клиент оставляет данные на сайте или по телефону.</p>
+                         <p class="leading-relaxed">Заполните форму или позвоните — уточним детали и время.</p>
                      </div>
                  </div>
 
@@ -58,8 +64,7 @@
                      </div>
                      <div class="flex-grow pl-4">
                          <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">
-                             Диагностика и
-                             согласование стоимости</h2>
+                             Диагностика и согласование стоимости</h2>
                          <p class="leading-relaxed">Мастер определяет причину поломки и согласует цену.</p>
                      </div>
                  </div>
@@ -78,9 +83,8 @@
                          </svg>
                      </div>
                      <div class="flex-grow pl-4">
-                         <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">Ремонт
-                             техники на
-                             месте</h2>
+                         <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">Ремонт на месте
+                         </h2>
                          <p class="leading-relaxed">Проводится ремонт с учётом нужных запчастей.</p>
                      </div>
                  </div>
@@ -102,7 +106,7 @@
                  </div>
              </div>
              <img class="lg:w-3/5 md:w-1/2 object-cover object-center rounded-lg md:mt-0 mt-12"
-                 src="https://dummyimage.com/1200x500" alt="step">
+                 src="{{ Vite::asset('resources/img/steps.png') }}" alt="steps">
          </div>
      </div>
  </section>

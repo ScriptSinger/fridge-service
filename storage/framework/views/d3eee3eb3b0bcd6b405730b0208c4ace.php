@@ -1,5 +1,3 @@
-
-
 <?php $attributes ??= new \Illuminate\View\ComponentAttributeBag;
 
 $__newAttributes = [];
@@ -36,24 +34,24 @@ unset($__defined_vars, $__key, $__value); ?>
                 <div class="w-24 h-full bg-yellow-500"></div>
             </div>
             <div class="flex flex-wrap sm:flex-row flex-col py-6 mb-12">
-                <h2 class="sm:w-2/5 text-gray-900 font-medium title-font text-2xl mb-2 sm:mb-0">Частые неисправности
+                <h2 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Частые неисправности
                     бытовой техники
                 </h2>
-                <p class="sm:w-3/5 leading-relaxed text-base sm:pl-10 pl-0">Мы собрали самые распространённые поломки
+                <p class="lg:w-2/3 leading-relaxed text-base">Мы собрали самые распространённые поломки
                     бытовой техники, с которыми
                     к нам обращаются клиенты. Для каждой проблемы указаны симптомы,
                     причины и возможные способы ремонта.</p>
             </div>
         </div>
-        <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
 
+        <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
             <?php $__currentLoopData = $problems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $problem): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="p-4 md:w-1/3 sm:mb-0 mb-6">
                     <div class="rounded-lg h-64 overflow-hidden">
                         <img alt="content" class="object-cover object-center h-full w-full"
                             src="https://dummyimage.com/1203x503">
                     </div>
-                    <h2 class="text-xl font-medium title-font text-gray-900 mt-5"><?php echo e($problem->h1); ?></h2>
+                    <h3 class="text-xl font-medium title-font text-gray-900 mt-5"><?php echo e($problem->h1); ?></h3>
                     <p class="text-base leading-relaxed mt-2">
                     <p><?php echo e($problem->short_content); ?></p>
                     <a class="text-yellow-500 inline-flex items-center mt-3">Подробнее

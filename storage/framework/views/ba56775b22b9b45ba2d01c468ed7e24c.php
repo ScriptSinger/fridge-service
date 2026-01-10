@@ -5,22 +5,24 @@
             <p class="lg:w-2/3 leading-relaxed text-base">Выберите тип вашей техники</p>
         </div>
         <div class="flex flex-wrap -m-4 ">
-            @foreach ($services as $service)
+            <?php $__currentLoopData = $services; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $service): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="w-full md:w-full lg:w-1/2 sm:w-1/2 p-4">
                     <div class="flex relative cursor-pointer">
                         <div class="flex flex-wrap w-full bg-gray-100 sm:py-24 py-16 sm:px-10 px-6 relative">
                             <img alt="gallery"
                                 class="w-full object-cover h-full object-center block opacity-25 absolute inset-0"
-                                src="{{ asset('storage/' . $service->image) }}">
+                                src="<?php echo e(asset('storage/' . $service->image)); ?>">
                             <div class="text-center relative z-10 w-full">
-                                <h3 class="text-xl text-gray-900 font-medium title-font mb-2">{{ $service->title }}
+                                <h3 class="text-xl text-gray-900 font-medium title-font mb-2"><?php echo e($service->title); ?>
+
 
                                 </h3>
                             </div>
                         </div>
                     </div>
                 </div>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
     </div>
 </section>
+<?php /**PATH /var/www/html/resources/views/components/sections/services_2.blade.php ENDPATH**/ ?>
