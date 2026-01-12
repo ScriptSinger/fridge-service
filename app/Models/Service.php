@@ -12,6 +12,7 @@ class Service extends Model
 
     protected $fillable = [
         'title',
+        'type',
         'slug',
         'h1',
         'excerpt',
@@ -31,6 +32,12 @@ class Service extends Model
         ];
     }
 
+    public function brands()
+    {
+        return $this->belongsToMany(Brand::class);
+    }
+
+
     public function leads()
     {
         return $this->morphMany(Lead::class, 'leadable');
@@ -39,5 +46,18 @@ class Service extends Model
     public function getShortDescriptionAttribute()
     {
         return Str::limit(strip_tags($this->description), 120);
+    }
+
+    /**
+     * Получить название типа техники в нужном падеже
+     *
+     * @param string $case 'nominative', 'genitive', 'dative', 'accusative', 'instrumental', 'prepositional'
+     * @return string
+     */
+    public function typeInCase(string $case = 'nominative'): string
+    {
+        $map = config('tech_types');
+        $type = $this->type; // поле модели type
+        return $map[$type][$case] ?? Str::lower($type);
     }
 }

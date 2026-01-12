@@ -29,4 +29,4 @@
         </div>
     </div>
 </section>
-<?php /**PATH /var/www/html/resources/views/components/sections/services.blade.php ENDPATH**/ ?>
+<?php /**PATH /var/www/html/resources/views/components/sections/home/services.blade.php ENDPATH**/ ?>

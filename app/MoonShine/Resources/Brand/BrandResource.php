@@ -13,10 +13,11 @@ use App\MoonShine\Resources\ErrorCode\ErrorCodeResource;
 use App\MoonShine\Resources\Problem\ProblemResource;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
-use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\Laravel\Fields\Relationships\HasMany;
 use MoonShine\UI\Components\Layout\Box;
+use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 
@@ -43,7 +44,6 @@ class BrandResource extends ModelResource
         return [
             Box::make([
                 ID::make()->readonly(),
-
                 Text::make('Slug', 'slug')
                     ->readonly()
                     ->hint('Генерируется автоматически'),
@@ -51,9 +51,14 @@ class BrandResource extends ModelResource
                 Text::make('Name', 'name')
                     ->required(),
 
+                File::make('Логотип', 'image')
+                    ->disk('public')
+                    ->dir('brands')
+                    ->removable()
+                    ->hint('420x260'),
+
                 Textarea::make('Description', 'description'),
                 HasMany::make('Error Codes', 'errorCodes', ErrorCodeResource::class),
-
             ]),
         ];
     }

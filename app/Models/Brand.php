@@ -24,6 +24,11 @@ class Brand extends Model
         ];
     }
 
+    public function services()
+    {
+        return $this->belongsToMany(Service::class);
+    }
+
     public function problems()
     {
         return $this->belongsToMany(Problem::class, 'brand_problem');

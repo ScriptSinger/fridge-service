@@ -67,4 +67,4 @@ unset($__defined_vars, $__key, $__value); ?>
         </div>
     </div>
 </section>
-<?php /**PATH /var/www/html/resources/views/components/sections/blog.blade.php ENDPATH**/ ?>
+<?php /**PATH /var/www/html/resources/views/components/sections/home/blog.blade.php ENDPATH**/ ?>

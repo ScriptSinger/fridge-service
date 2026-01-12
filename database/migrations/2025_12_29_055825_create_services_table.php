@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->string('slug')->unique()->nullable();           // SEO-friendly URL
-            $table->string('title');                    // <title>
+            $table->string('title');
+            $table->string('type')->nullable();                       // <title>
             $table->string('description')->nullable();  // meta description
             $table->string('h1');                       // заголовок страницы
             $table->string('excerpt')->nullable();      // подзаголовок / Hero / preview
@@ -31,6 +32,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('brand_service', function (Blueprint $table) {
+            $table->dropForeign(['service_id']);
+        });
+
         Schema::dropIfExists('services');
     }
 };

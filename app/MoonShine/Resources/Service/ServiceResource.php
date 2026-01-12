@@ -6,12 +6,14 @@ namespace App\MoonShine\Resources\Service;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Service;
+use App\MoonShine\Resources\Brand\BrandResource;
 use App\MoonShine\Resources\Service\Pages\ServiceIndexPage;
 use App\MoonShine\Resources\Service\Pages\ServiceFormPage;
 use App\MoonShine\Resources\Service\Pages\ServiceDetailPage;
 
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
@@ -35,6 +37,7 @@ class ServiceResource extends ModelResource
             ID::make()->sortable(),
             Text::make('Slug', 'slug'),
             Text::make('SEO title', 'title'),
+            Text::make('Type', 'type'),
             Text::make('H1', 'h1'),
             Text::make('Meta description', 'description'),
             Text::make('Excerpt', 'excerpt'),
@@ -58,6 +61,8 @@ class ServiceResource extends ModelResource
                 Text::make('SEO title', 'title')
                     ->required(),
 
+                Text::make('Type', 'type'),
+
                 Text::make('H1', 'h1')
                     ->required(),
 
@@ -76,6 +81,14 @@ class ServiceResource extends ModelResource
 
                 Switcher::make('Активна', 'is_active')
                     ->default(true),
+
+                BelongsToMany::make(
+                    'Brands',
+                    'brands',
+                    fn($item) => $item->name,
+                    BrandResource::class
+                ),
+
             ]),
         ];
     }
@@ -86,6 +99,7 @@ class ServiceResource extends ModelResource
             ID::make(),
             Text::make('Slug', 'slug'),
             Text::make('SEO title', 'title'),
+            Text::make('Type', 'type'),
             Text::make('H1', 'h1'),
             Text::make('Meta description', 'description'),
             Text::make('Excerpt', 'excerpt'),
