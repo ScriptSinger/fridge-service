@@ -10,7 +10,8 @@
         <div class="flex flex-wrap -m-4">
             @foreach ($brands as $brand)
                 <div class="lg:w-1/4 md:w-1/2 p-4 w-full shadow-sm hover:shadow-lg transition">
-                    <a class="block relative h-48 rounded overflow-hidden">
+                    <a href="{{ route('brands.show', [$service->slug, $brand->slug]) }}"
+                        class="block relative h-48 rounded overflow-hidden">
                         <img alt="{{ $brand->name }}" aria-label="Перейти на страницу бренда {{ $brand->name }}"
                             class="object-contain object-center w-full h-full block cursor-pointer"
                             src="{{ asset('storage/' . $brand->image) }}">
