@@ -36,14 +36,10 @@ class ServiceResource extends ModelResource
         return [
             ID::make()->sortable(),
             Text::make('Slug', 'slug'),
-            Text::make('SEO title', 'title'),
-            Text::make('Type', 'type'),
-            Text::make('H1', 'h1'),
-            Text::make('Meta description', 'description'),
-            Text::make('Excerpt', 'excerpt'),
+            Text::make('H1', 'title'),
+            Text::make('Description', 'description'),
             Image::make('Изображение', 'image')
                 ->disk('public'),
-            Textarea::make('Контент', 'content'),
             Switcher::make('Активна', 'is_active'),
         ];
     }
@@ -58,30 +54,16 @@ class ServiceResource extends ModelResource
                     ->readonly()
                     ->hint('Генерируется автоматически'),
 
-                Text::make('SEO title', 'title')
+                Text::make('H1', 'title')
                     ->required(),
 
-                Text::make('Type', 'type'),
-
-                Text::make('H1', 'h1')
-                    ->required(),
-
-                Text::make('Meta description', 'description'),
-
-                Text::make('Excerpt', 'excerpt')
-                    ->hint('Подзаголовок / Hero / preview (не менее 105 символов)'),
-
+                Text::make('Description', 'description')->hint('Подзаголовок / Hero / preview (не менее 105 символов)'),
                 Image::make('Изображение', 'image')
                     ->disk('public')
                     ->hint('Hero / OG image 720x600'),
-
                 Text::make('Alt для изображения', 'image_alt'),
-
-                Textarea::make('Контент', 'content'),
-
                 Switcher::make('Активна', 'is_active')
                     ->default(true),
-
                 BelongsToMany::make(
                     'Brands',
                     'brands',
@@ -98,15 +80,11 @@ class ServiceResource extends ModelResource
         return [
             ID::make(),
             Text::make('Slug', 'slug'),
-            Text::make('SEO title', 'title'),
-            Text::make('Type', 'type'),
-            Text::make('H1', 'h1'),
-            Text::make('Meta description', 'description'),
-            Text::make('Excerpt', 'excerpt'),
+            Text::make('H1', 'title'),
+            Text::make('Description', 'description'),
             Image::make('Изображение', 'image')
                 ->disk('public'),
             Text::make('Alt для изображения', 'image_alt'),
-            Textarea::make('Контент', 'content'),
             Switcher::make('Активна', 'is_active'),
         ];
     }

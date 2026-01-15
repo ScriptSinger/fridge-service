@@ -13,16 +13,12 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->string('slug')->unique()->nullable();           // SEO-friendly URL
+            $table->string('slug')->unique()->nullable();
             $table->string('title');
-            $table->string('type')->nullable();                       // <title>
-            $table->string('description')->nullable();  // meta description
-            $table->string('h1');                       // заголовок страницы
-            $table->string('excerpt')->nullable();      // подзаголовок / Hero / preview
-            $table->string('image')->nullable();        // hero / og:image
-            $table->string('image_alt')->nullable();    // SEO alt для изображения
-            $table->longText('content')->nullable();    // основной текст
-            $table->boolean('is_active')->default(true); // управление показом
+            $table->string('description')->nullable();
+            $table->string('image')->nullable();
+            $table->string('image_alt')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

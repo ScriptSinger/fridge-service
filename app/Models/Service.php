@@ -11,15 +11,11 @@ class Service extends Model
     use Sluggable;
 
     protected $fillable = [
-        'title',
-        'type',
         'slug',
-        'h1',
-        'excerpt',
+        'title',
         'description',
         'image',
         'image_alt',
-        'content',
         'is_active'
     ];
 
@@ -54,10 +50,10 @@ class Service extends Model
      * @param string $case 'nominative', 'genitive', 'dative', 'accusative', 'instrumental', 'prepositional'
      * @return string
      */
-    public function typeInCase(string $case = 'nominative'): string
+    public function titleInCase(string $case = 'nominative'): string
     {
         $map = config('tech_types');
-        $type = $this->type; // поле модели type
-        return $map[$type][$case] ?? Str::lower($type);
+        $title = $this->title; // поле модели title
+        return $map[$title][$case] ?? Str::lower($title);
     }
 }

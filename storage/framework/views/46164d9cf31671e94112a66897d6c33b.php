@@ -2,10 +2,10 @@
     <div class="container px-5 py-24 mx-auto">
         <div class="flex flex-col   w-full mb-12">
             <h2 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900"> Бренды
-                <?php echo e(Str::lower($service->typeInCase('genitive'))); ?>,
+                <?php echo e(Str::lower($service->titleInCase('genitive'))); ?>,
                 которые мы ремонтируем</h2>
             <p class="lg:w-2/3 leading-relaxed text-base">Работаем с большинством популярных марок. Ремонтируем бытовые и
-                коммерческие <?php echo e(Str::lower($service->typeInCase('accusative'))); ?>.</p>
+                коммерческие <?php echo e(Str::lower($service->titleInCase('accusative'))); ?>.</p>
         </div>
         <div class="flex flex-wrap -m-4">
             <?php $__currentLoopData = $brands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $brand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
