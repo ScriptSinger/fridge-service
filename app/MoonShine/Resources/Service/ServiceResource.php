@@ -36,10 +36,17 @@ class ServiceResource extends ModelResource
         return [
             ID::make()->sortable(),
             Text::make('Slug', 'slug'),
-            Text::make('H1', 'title'),
+            Text::make('Type', 'type'),
+
+            Text::make('H1', 'h1'),
+            Text::make('Subtitle', 'subtitle'),
+
+
+            Text::make('Title', 'title'),
             Text::make('Description', 'description'),
             Image::make('Изображение', 'image')
                 ->disk('public'),
+
             Switcher::make('Активна', 'is_active'),
         ];
     }
@@ -54,23 +61,33 @@ class ServiceResource extends ModelResource
                     ->readonly()
                     ->hint('Генерируется автоматически'),
 
-                Text::make('H1', 'title')
+                Text::make('H1', 'h1')
                     ->required(),
+                Text::make('Subtitle', 'subtitle')->hint('Подзаголовок / Hero / preview (не менее 105 символов)'),
 
-                Text::make('Description', 'description')->hint('Подзаголовок / Hero / preview (не менее 105 символов)'),
                 Image::make('Изображение', 'image')
                     ->disk('public')
                     ->hint('Hero / OG image 720x600'),
                 Text::make('Alt для изображения', 'image_alt'),
                 Switcher::make('Активна', 'is_active')
                     ->default(true),
+
+            ]),
+
+            Box::make('SEO / Метаданные', [
+                Text::make('Title', 'title'),
+                Text::make('Description', 'description'),
+
+
+            ]),
+
+            Box::make([
                 BelongsToMany::make(
                     'Brands',
                     'brands',
                     fn($item) => $item->name,
                     BrandResource::class
                 ),
-
             ]),
         ];
     }

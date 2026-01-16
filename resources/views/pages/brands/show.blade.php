@@ -1,6 +1,6 @@
 <x-layouts.app>
     <x-ui.breadcrumbs :model="$brand" route="brands.show" />
-    <x-sections.brands.hero :brand="$brand" />
+    <x-sections.brands.hero :service="$service" :brand="$brand" />
 
     <x-sections.home.steps />
     <x-sections.home.pricing />

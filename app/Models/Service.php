@@ -12,6 +12,9 @@ class Service extends Model
 
     protected $fillable = [
         'slug',
+        'type',
+        'h1',
+        'subtitle',
         'title',
         'description',
         'image',
@@ -23,7 +26,7 @@ class Service extends Model
     {
         return [
             'slug' => [
-                'source' => 'title'
+                'source' => 'h1'
             ]
         ];
     }
@@ -50,10 +53,10 @@ class Service extends Model
      * @param string $case 'nominative', 'genitive', 'dative', 'accusative', 'instrumental', 'prepositional'
      * @return string
      */
-    public function titleInCase(string $case = 'nominative'): string
+    public function typeInCase(string $case = 'nominative'): string
     {
         $map = config('tech_types');
-        $title = $this->title; // поле модели title
-        return $map[$title][$case] ?? Str::lower($title);
+        $type = $this->type;
+        return $map[$type][$case] ?? Str::lower($type);
     }
 }
