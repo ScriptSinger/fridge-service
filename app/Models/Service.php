@@ -33,7 +33,7 @@ class Service extends Model
 
     public function brands()
     {
-        return $this->belongsToMany(Brand::class);
+        return $this->belongsToMany(Brand::class)->withPivot(['h1', 'subtitle', 'title', 'description']);
     }
 
 

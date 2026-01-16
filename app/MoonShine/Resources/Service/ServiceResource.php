@@ -18,6 +18,7 @@ use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
+use MoonShine\UI\Fields\Textarea;
 
 /**
  * @extends ModelResource<Service, ServiceIndexPage, ServiceFormPage, ServiceDetailPage>
@@ -78,7 +79,13 @@ class ServiceResource extends ModelResource
                     'brands',
                     fn($item) => $item->name,
                     BrandResource::class
-                ),
+                )->fields([
+                    Text::make('H1', 'h1'),
+                    Textarea::make('Subtitle', 'subtitle'),
+                    Text::make('Title', 'title'),
+                    Textarea::make('Description', 'description'),
+
+                ]),
             ]),
         ];
     }
@@ -96,6 +103,18 @@ class ServiceResource extends ModelResource
             Text::make('Title', 'title'),
             Text::make('Description', 'description'),
             Switcher::make('Активна', 'is_active'),
+
+            BelongsToMany::make(
+                'Brands',
+                'brands',
+                fn($item) => $item->name,
+                BrandResource::class
+            )->fields([
+                Text::make('H1', 'h1'),
+                Textarea::make('Subtitle', 'subtitle'),
+                Text::make('Title', 'title'),
+                Textarea::make('Description', 'description'),
+            ]),
         ];
     }
 
