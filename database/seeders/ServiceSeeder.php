@@ -20,8 +20,6 @@ class ServiceSeeder extends Seeder
                 'subtitle'    => 'Под ключ с гарантией качества',
                 'title'       => 'Ремонт холодильников',
                 'description' => 'Профессиональный ремонт холодильников всех марок на дому. Гарантия, выезд мастера, цены от 500 ₽.',
-                'image'       => 'services/repair-fridge.jpg',
-                'image_alt'   => 'Ремонт холодильников на дому',
                 'is_active'   => true,
             ],
             [
@@ -30,8 +28,6 @@ class ServiceSeeder extends Seeder
                 'subtitle'    => 'Под ключ с гарантией качества',
                 'title'       => 'Ремонт стиральных машин',
                 'description' => 'Качественный ремонт стиральных машин с выездом мастера. Диагностика и гарантия.',
-                'image'       => 'services/repair-washing-machine.jpg',
-                'image_alt'   => 'Ремонт стиральных машин на дому',
                 'is_active'   => true,
             ],
         ];

@@ -14,8 +14,8 @@ Breadcrumbs::for('services.show', function (BreadcrumbTrail $trail, $service) {
     $trail->push($service->title, route('services.show', $service));
 });
 
-Breadcrumbs::for('brands.show', function (BreadcrumbTrail $trail, Brand $brand) {
+Breadcrumbs::for('services.brands.show', function (BreadcrumbTrail $trail, Brand $brand) {
     $service = request()->route('service');
     $trail->parent('services.show', $service);
-    $trail->push($brand->name, route('brands.show', [$service, $brand]));
+    $trail->push($brand->name, route('services.brands.show', [$service, $brand]));
 });

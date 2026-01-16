@@ -15,8 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('slug')->unique()->nullable();
             $table->string('name');
+            $table->string('h1')->nullable();
+            $table->string('subtitle')->nullable();
+            $table->string('title')->nullable();
+            $table->string('description')->nullable();
             $table->string('image')->nullable();
-            $table->longText('description')->nullable();
+            $table->string('image_alt')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

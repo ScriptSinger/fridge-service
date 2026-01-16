@@ -1,4 +1,4 @@
-<x-layouts.app>
+<x-layouts.app :title="$service->title" :description="$service->description">
     <x-ui.breadcrumbs :model="$service" route="services.show" />
     <x-sections.service.hero :service="$service" />
     <x-sections.service.brands :brands="$brands" :service="$service" />

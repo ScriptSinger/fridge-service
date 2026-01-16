@@ -11,13 +11,15 @@ use App\MoonShine\Resources\Brand\Pages\BrandFormPage;
 use App\MoonShine\Resources\Brand\Pages\BrandDetailPage;
 use App\MoonShine\Resources\ErrorCode\ErrorCodeResource;
 use App\MoonShine\Resources\Problem\ProblemResource;
+use App\MoonShine\Resources\Service\ServiceResource;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\Laravel\Fields\Relationships\HasMany;
 use MoonShine\UI\Components\Layout\Box;
-use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
+use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 
@@ -33,9 +35,15 @@ class BrandResource extends ModelResource
     {
         return [
             ID::make()->sortable(),
-            Text::make('Slug', 'slug'),
+            Image::make('Изображение', 'image')
+                ->disk('public'),
             Text::make('Name', 'name'),
-            Textarea::make('Description', 'description'),
+            Text::make('Slug', 'slug'),
+            Text::make('H1', 'h1'),
+            Text::make('Subtitle', 'subtitle'),
+            Text::make('Title', 'title'),
+            Text::make('Description', 'description'),
+            Switcher::make('Активна', 'is_active'),
         ];
     }
 
@@ -50,16 +58,39 @@ class BrandResource extends ModelResource
 
                 Text::make('Name', 'name')
                     ->required(),
-
-                File::make('Логотип', 'image')
+                Text::make('H1', 'h1')
+                    ->required()
+                    ->hint('Slug generation'),
+                Text::make('Subtitle', 'subtitle')
+                    ->hint('Подзаголовок / Hero / preview (не менее 105 символов)'),
+                Image::make('Изображение', 'image')
                     ->disk('public')
-                    ->dir('brands')
-                    ->removable()
-                    ->hint('420x260'),
+                    ->dir('services')
+                    ->hint('420x260')
+                    ->removable(),
 
-                Textarea::make('Description', 'description'),
-                HasMany::make('Error Codes', 'errorCodes', ErrorCodeResource::class),
+                Text::make('Alt для изображения', 'image_alt'),
+                Switcher::make('Активна', 'is_active')
+                    ->default(true),
+
             ]),
+
+            Box::make('SEO / Метаданные', [
+                Text::make('Title', 'title'),
+                Text::make('Description', 'description'),
+            ]),
+
+            Box::make([
+                BelongsToMany::make(
+                    'Services',
+                    'services',
+                    fn($item) => $item->title,
+                    ServiceResource::class
+                ),
+            ]),
+
+            Box::make([HasMany::make('Error Codes', 'errorCodes', ErrorCodeResource::class),])
+
         ];
     }
 

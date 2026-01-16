@@ -11,4 +11,4 @@ Route::get('/services/{service:slug}', [ServiceController::class, 'show'])
     ->name('services.show');
 
 Route::get('/services/{service:slug}/{brand:slug}', [BrandController::class, 'show'])
-    ->name('brands.show');
+    ->name('services.brands.show');

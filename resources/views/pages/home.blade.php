@@ -1,5 +1,5 @@
-<x-layouts.app>
-    <x-sections.home.hero />
+<x-layouts.app :title="$page->title" :description="$page->description">
+    <x-sections.home.hero :page="$page" />
     <x-sections.home.services :services="$services" />
     <x-sections.home.steps />
     <x-sections.home.pricing />

@@ -2,31 +2,30 @@
 
 declare(strict_types=1);
 
-namespace App\MoonShine\Resources\Service;
+namespace App\MoonShine\Resources\Page;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Service;
-use App\MoonShine\Resources\Brand\BrandResource;
-use App\MoonShine\Resources\Service\Pages\ServiceIndexPage;
-use App\MoonShine\Resources\Service\Pages\ServiceFormPage;
-use App\MoonShine\Resources\Service\Pages\ServiceDetailPage;
+use App\Models\Page;
+use App\MoonShine\Resources\Page\Pages\PageIndexPage;
+use App\MoonShine\Resources\Page\Pages\PageFormPage;
+use App\MoonShine\Resources\Page\Pages\PageDetailPage;
+
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
-use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\UI\Components\Layout\Box;
+
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 
 /**
- * @extends ModelResource<Service, ServiceIndexPage, ServiceFormPage, ServiceDetailPage>
+ * @extends ModelResource<Page, PageIndexPage, PageFormPage, PageDetailPage>
  */
-class ServiceResource extends ModelResource
+class PageResource extends ModelResource
 {
-    protected string $model = Service::class;
-
-    protected string $title = 'Services';
+    protected string $model = Page::class;
+    protected string $title = 'Pages';
 
     protected function indexFields(): iterable
     {
@@ -34,8 +33,8 @@ class ServiceResource extends ModelResource
             ID::make()->sortable(),
             Image::make('Изображение', 'image')
                 ->disk('public'),
-            Text::make('Slug', 'slug'),
             Text::make('Type', 'type'),
+            Text::make('Slug', 'slug'),
             Text::make('H1', 'h1'),
             Text::make('Subtitle', 'subtitle'),
             Text::make('Title', 'title'),
@@ -49,36 +48,32 @@ class ServiceResource extends ModelResource
         return [
             Box::make([
                 ID::make()->readonly(),
+
                 Text::make('Slug', 'slug')
                     ->readonly()
                     ->hint('Генерируется автоматически'),
+
                 Text::make('Type', 'type'),
+
                 Text::make('H1', 'h1')
-                    ->required()
-                    ->hint('Slug generation'),
-                Text::make('Subtitle', 'subtitle')
-                    ->hint('Подзаголовок / Hero / preview (не менее 105 символов)'),
-                Image::make('Изображение', 'image')
+                    ->required(),
+                Text::make('Subtitle', 'subtitle')->hint('Подзаголовок / Hero / preview (не менее 105 символов)'),
+
+                Image::make('Hero image', 'image')
                     ->disk('public')
-                    ->dir('services')
-                    ->hint('Hero / OG image 720x600'),
+                    ->dir('pages')
+                    ->removable()
+                    ->hint('720x600'),
+
                 Text::make('Alt для изображения', 'image_alt'),
                 Switcher::make('Активна', 'is_active')
                     ->default(true),
+
             ]),
+
             Box::make('SEO / Метаданные', [
                 Text::make('Title', 'title'),
                 Text::make('Description', 'description'),
-
-
-            ]),
-            Box::make([
-                BelongsToMany::make(
-                    'Brands',
-                    'brands',
-                    fn($item) => $item->name,
-                    BrandResource::class
-                ),
             ]),
         ];
     }
@@ -89,8 +84,8 @@ class ServiceResource extends ModelResource
             ID::make()->sortable(),
             Image::make('Изображение', 'image')
                 ->disk('public'),
-            Text::make('Slug', 'slug'),
             Text::make('Type', 'type'),
+            Text::make('Slug', 'slug'),
             Text::make('H1', 'h1'),
             Text::make('Subtitle', 'subtitle'),
             Text::make('Title', 'title'),
@@ -105,9 +100,9 @@ class ServiceResource extends ModelResource
     protected function pages(): array
     {
         return [
-            ServiceIndexPage::class,
-            ServiceFormPage::class,
-            ServiceDetailPage::class,
+            PageIndexPage::class,
+            PageFormPage::class,
+            PageDetailPage::class,
         ];
     }
 }

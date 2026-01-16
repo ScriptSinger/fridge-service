@@ -1,5 +1,5 @@
 <section x-data="modalPhone()" class="text-gray-600 body-font">
-    <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+    <div class="container mx-auto flex px-5 py-24 pt-9 md:flex-row flex-col items-center">
         <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
             <img src="{{ Vite::asset('resources/img/hero.png') }}" alt="Логотип">
         </div>
