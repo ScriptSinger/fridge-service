@@ -14,6 +14,7 @@
         "diglactic/laravel-breadcrumbs": "^10.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
+        "lee-to/moonshine-input-extension-char-count": "^2.0",
         "moonshine/moonshine": "^4.3"
     },
     "require-dev": {

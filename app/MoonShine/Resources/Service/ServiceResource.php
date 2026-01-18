@@ -10,6 +10,7 @@ use App\MoonShine\Resources\Brand\BrandResource;
 use App\MoonShine\Resources\Service\Pages\ServiceIndexPage;
 use App\MoonShine\Resources\Service\Pages\ServiceFormPage;
 use App\MoonShine\Resources\Service\Pages\ServiceDetailPage;
+use Leeto\InputExtensionCharCount\InputExtensions\CharCount;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
 use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
@@ -58,9 +59,12 @@ class ServiceResource extends ModelResource
                 Text::make('Постоянная ссылка', 'permalink'),
                 Text::make('Type', 'type'),
                 Text::make('H1', 'h1')
+                    ->extension(new CharCount())
+                    ->hint('30–60 символов')
                     ->required(),
                 Text::make('Subtitle', 'subtitle')
-                    ->hint('Подзаголовок / Hero / preview (не менее 105 символов)'),
+                    ->extension(new CharCount())
+                    ->hint('105–120 символов'),
                 Switcher::make('Активна', 'is_active')
                     ->default(true),
             ]),
@@ -74,8 +78,12 @@ class ServiceResource extends ModelResource
             ]),
 
             Box::make('SEO / Метаданные', [
-                Text::make('Title', 'title'),
-                Text::make('Description', 'description'),
+                Text::make('Title', 'title')
+                    ->extension(new CharCount())
+                    ->hint('55–60 (макс 65) символов'),
+                Text::make('Description', 'description')
+                    ->extension(new CharCount())
+                    ->hint('140–160 симоволов'),
             ]),
 
             Box::make([
@@ -84,13 +92,16 @@ class ServiceResource extends ModelResource
                     'brands',
                     fn($item) => $item->name,
                     BrandResource::class
-                )->fields([
-                    Text::make('H1', 'h1'),
-                    Textarea::make('Subtitle', 'subtitle'),
-                    Text::make('Title', 'title'),
-                    Textarea::make('Description', 'description'),
-
-                ]),
+                )
+                    ->fields([
+                        Text::make('H1', 'h1')->extension(new CharCount()),
+                        Text::make('Subtitle', 'subtitle')
+                            ->extension(new CharCount()),
+                        Text::make('Title', 'title')
+                            ->extension(new CharCount()),
+                        Text::make('Description', 'description')
+                            ->extension(new CharCount()),
+                    ]),
             ]),
         ];
     }
