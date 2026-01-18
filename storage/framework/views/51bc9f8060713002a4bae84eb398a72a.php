@@ -1,8 +1,8 @@
 <footer class="text-gray-600 body-font">
     <div
         class="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
-        <div class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left md:mt-0 mt-10">
-
+        <div
+            class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left md:mt-0 mt-10 flex flex-col items-center">
             <?php if (isset($component)) { $__componentOriginalc9b691e47e4aeaac2320d6494f20beb6 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalc9b691e47e4aeaac2320d6494f20beb6 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.logo','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
@@ -23,9 +23,7 @@
 <?php $component = $__componentOriginalc9b691e47e4aeaac2320d6494f20beb6; ?>
 <?php unset($__componentOriginalc9b691e47e4aeaac2320d6494f20beb6); ?>
 <?php endif; ?>
-            <p class="mt-2 text-sm text-gray-500">Ремонт крупной бытовой техники в Уфе: выезд мастера, диагностика и
-                гарантия на работы. </p>
-
+            <p class="mt-2 text-sm text-gray-500 text-center">Ремонт крупной бытовой техники в Уфе </p>
         </div>
 
         <div class="flex-grow flex flex-wrap md:pr-20 -mb-10 md:text-left text-center order-first">

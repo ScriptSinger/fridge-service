@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             PageSeeder::class,
             ServiceSeeder::class,
             BrandSeeder::class,
+            ServiceBrandSeeder::class,
             ProblemSeeder::class,
             ErrorCodeSeeder::class,
         ]);

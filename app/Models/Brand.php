@@ -12,7 +12,9 @@ class Brand extends Model
     protected $fillable = [
         'name',
         'slug',
-        'description'
+        'image',
+        'image_alt',
+        'is_active'
     ];
 
     public function sluggable(): array

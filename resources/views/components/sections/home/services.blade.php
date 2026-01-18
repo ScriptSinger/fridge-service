@@ -6,6 +6,7 @@
         </div>
         <div class="flex flex-wrap -m-4 ">
             @foreach ($services as $service)
+                @continue(!$service->slug)
                 <div class="w-full md:w-full lg:w-1/2 sm:w-1/2 p-4 ">
                     <div class="flex relative cursor-pointer">
 
@@ -22,8 +23,8 @@
 
                                 </h3>
                             </div>
-
                         </a>
+
                     </div>
                 </div>
             @endforeach

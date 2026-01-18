@@ -36,6 +36,7 @@ class ServiceResource extends ModelResource
             Image::make('Изображение', 'image')
                 ->disk('public'),
             Text::make('Slug', 'slug'),
+            Text::make('Постоянная ссылка', 'permalink'),
             Text::make('Type', 'type'),
             Text::make('H1', 'h1'),
             Text::make('Subtitle', 'subtitle'),
@@ -53,26 +54,30 @@ class ServiceResource extends ModelResource
                 Text::make('Slug', 'slug')
                     ->readonly()
                     ->hint('Генерируется автоматически'),
+
+                Text::make('Постоянная ссылка', 'permalink'),
                 Text::make('Type', 'type'),
                 Text::make('H1', 'h1')
-                    ->required()
-                    ->hint('Slug generation'),
+                    ->required(),
                 Text::make('Subtitle', 'subtitle')
                     ->hint('Подзаголовок / Hero / preview (не менее 105 символов)'),
+                Switcher::make('Активна', 'is_active')
+                    ->default(true),
+            ]),
+
+            Box::make([
                 Image::make('Изображение', 'image')
                     ->disk('public')
                     ->dir('services')
                     ->hint('Hero / OG image 720x600'),
                 Text::make('Alt для изображения', 'image_alt'),
-                Switcher::make('Активна', 'is_active')
-                    ->default(true),
             ]),
+
             Box::make('SEO / Метаданные', [
                 Text::make('Title', 'title'),
                 Text::make('Description', 'description'),
-
-
             ]),
+
             Box::make([
                 BelongsToMany::make(
                     'Brands',
@@ -97,6 +102,7 @@ class ServiceResource extends ModelResource
             Image::make('Изображение', 'image')
                 ->disk('public'),
             Text::make('Slug', 'slug'),
+            Text::make('Постоянная ссылка', 'permalink'),
             Text::make('Type', 'type'),
             Text::make('H1', 'h1'),
             Text::make('Subtitle', 'subtitle'),

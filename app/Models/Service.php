@@ -12,6 +12,7 @@ class Service extends Model
 
     protected $fillable = [
         'slug',
+        'permalink',
         'type',
         'h1',
         'subtitle',
@@ -26,7 +27,7 @@ class Service extends Model
     {
         return [
             'slug' => [
-                'source' => 'h1'
+                'source' => 'permalink'
             ]
         ];
     }

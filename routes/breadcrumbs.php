@@ -11,7 +11,7 @@ Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('services.show', function (BreadcrumbTrail $trail, $service) {
     $trail->parent('home');
-    $trail->push($service->title, route('services.show', $service));
+    $trail->push($service->permalink, route('services.show', $service));
 });
 
 Breadcrumbs::for('services.brands.show', function (BreadcrumbTrail $trail, Brand $brand) {

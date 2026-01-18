@@ -6,6 +6,7 @@
         </div>
         <div class="flex flex-wrap -m-4 ">
             <?php $__currentLoopData = $services; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $service): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php if(!$service->slug) continue; ?>
                 <div class="w-full md:w-full lg:w-1/2 sm:w-1/2 p-4 ">
                     <div class="flex relative cursor-pointer">
 
@@ -23,8 +24,8 @@
 
                                 </h3>
                             </div>
-
                         </a>
+
                     </div>
                 </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

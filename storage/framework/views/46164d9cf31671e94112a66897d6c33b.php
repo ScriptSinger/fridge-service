@@ -9,6 +9,7 @@
         </div>
         <div class="flex flex-wrap -m-4">
             <?php $__currentLoopData = $brands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $brand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php if(!$brand->slug) continue; ?>
                 <div class="lg:w-1/4 md:w-1/2 p-4 w-full shadow-sm hover:shadow-lg transition">
                     <a href="<?php echo e(route('services.brands.show', [$service->slug, $brand->slug])); ?>"
                         class="block relative h-48 rounded overflow-hidden">

@@ -39,10 +39,6 @@ class BrandResource extends ModelResource
                 ->disk('public'),
             Text::make('Name', 'name'),
             Text::make('Slug', 'slug'),
-            Text::make('H1', 'h1'),
-            Text::make('Subtitle', 'subtitle'),
-            Text::make('Title', 'title'),
-            Text::make('Description', 'description'),
             Switcher::make('Активна', 'is_active'),
         ];
     }
@@ -51,46 +47,34 @@ class BrandResource extends ModelResource
     {
         return [
             Box::make([
-                ID::make()->readonly(),
                 Text::make('Slug', 'slug')
                     ->readonly()
                     ->hint('Генерируется автоматически'),
-
                 Text::make('Name', 'name')
                     ->required(),
-                Text::make('H1', 'h1')
-                    ->required()
-                    ->hint('Slug generation'),
-                Text::make('Subtitle', 'subtitle')
-                    ->hint('Подзаголовок / Hero / preview (не менее 105 символов)'),
+                Switcher::make('Активна', 'is_active')
+                    ->default(true),
+            ]),
+
+            Box::make([
                 Image::make('Изображение', 'image')
                     ->disk('public')
                     ->dir('services')
                     ->hint('420x260')
                     ->removable(),
-
                 Text::make('Alt для изображения', 'image_alt'),
-                Switcher::make('Активна', 'is_active')
-                    ->default(true),
-
-            ]),
-
-            Box::make('SEO / Метаданные', [
-                Text::make('Title', 'title'),
-                Text::make('Description', 'description'),
             ]),
 
             Box::make([
                 BelongsToMany::make(
                     'Services',
                     'services',
-                    fn($item) => $item->title,
+                    fn($item) => $item->type,
                     ServiceResource::class
                 ),
             ]),
 
             Box::make([HasMany::make('Error Codes', 'errorCodes', ErrorCodeResource::class),])
-
         ];
     }
 
@@ -100,14 +84,15 @@ class BrandResource extends ModelResource
             ID::make()->sortable(),
             Text::make('Slug', 'slug'),
             Text::make('Name', 'name'),
-            Textarea::make('Description', 'description'),
-
+            Image::make('Изображение', 'image')
+                ->disk('public'),
+            Text::make('Alt для изображения', 'image_alt'),
+            Switcher::make('Активна', 'is_active'),
             HasMany::make(
                 'Problems',
                 'problems',
                 ProblemResource::class
             )->readonly(),
-
             HasMany::make(
                 'Error Codes',
                 'errorCodes',
