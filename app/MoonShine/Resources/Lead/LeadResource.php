@@ -12,12 +12,13 @@ use App\Models\Service;
 use App\MoonShine\Resources\Lead\Pages\LeadIndexPage;
 use App\MoonShine\Resources\Lead\Pages\LeadFormPage;
 use App\MoonShine\Resources\Lead\Pages\LeadDetailPage;
-
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
 use MoonShine\Laravel\Fields\Relationships\MorphTo;
 use MoonShine\UI\Components\Layout\Box;
+use MoonShine\UI\Fields\DateRange;
 use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 
@@ -34,20 +35,19 @@ class LeadResource extends ModelResource
     {
         return [
             ID::make()->sortable(),
-            Text::make('Name', 'name'),
-            Text::make('Phone', 'phone'),
-            Textarea::make('Comment', 'comment'),
-
+            Text::make('Name', 'name')->sortable(),
+            Text::make('Phone', 'phone')->sortable(),
+            Textarea::make('Comment', 'comment')->sortable(),
             MorphTo::make('Leadable', 'leadable')
                 ->types([
                     Service::class => 'title',
                     Brand::class   => 'name',
                     Page::class => 'title',
-                ]),
+                ])->sortable(),
 
-            Text::make('Utm_source', 'utm_source'),
-            Text::make('Utm_medium', 'utm_medium'),
-            Text::make('Utm_campaign', 'utm_campaign'),
+            Text::make('Utm_source', 'utm_source')->sortable(),
+            Text::make('Utm_medium', 'utm_medium')->sortable(),
+            Text::make('Utm_campaign', 'utm_campaign')->sortable(),
         ];
     }
 
@@ -80,7 +80,22 @@ class LeadResource extends ModelResource
         ];
     }
 
-
+    protected function filters(): array
+    {
+        return [
+            Select::make('Leadable Type', 'leadable_type')
+                ->options([
+                    Service::class => 'Service',
+                    Brand::class   => 'Brand',
+                    Page::class    => 'Page',
+                ])
+                ->nullable(),
+            DateRange::make('Created between', 'created_at'),
+            Text::make('UTM Source', 'utm_source'),
+            Text::make('UTM Medium', 'utm_medium'),
+            Text::make('UTM Campaign', 'utm_campaign'),
+        ];
+    }
     /**
      * @return list<class-string<PageContract>>
      */
