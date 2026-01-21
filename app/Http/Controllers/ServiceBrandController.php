@@ -10,10 +10,8 @@ class ServiceBrandController extends Controller
 {
     public function show(Service $service, Brand $brand)
     {
-
-
-        return view('pages.services.brand', [
-
+        return view('pages.brand', [
+            'service' => $service,
             'brand'   => $brand,
         ]);
     }

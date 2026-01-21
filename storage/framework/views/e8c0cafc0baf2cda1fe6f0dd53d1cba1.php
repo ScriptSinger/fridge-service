@@ -1,7 +1,7 @@
 <?php $attributes ??= new \Illuminate\View\ComponentAttributeBag;
 
 $__newAttributes = [];
-$__propNames = \Illuminate\View\ComponentAttributeBag::extractPropNames((['model', 'containerClass' => '']));
+$__propNames = \Illuminate\View\ComponentAttributeBag::extractPropNames((['model', 'h1', 'subtitle', 'containerClass' => '']));
 
 foreach ($attributes->all() as $__key => $__value) {
     if (in_array($__key, $__propNames)) {
@@ -16,7 +16,7 @@ $attributes = new \Illuminate\View\ComponentAttributeBag($__newAttributes);
 unset($__propNames);
 unset($__newAttributes);
 
-foreach (array_filter((['model', 'containerClass' => '']), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
+foreach (array_filter((['model', 'h1', 'subtitle', 'containerClass' => '']), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
     $$__key = $$__key ?? $__value;
 }
 
@@ -37,10 +37,10 @@ unset($__defined_vars, $__key, $__value); ?>
         </div>
         <div
             class="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
-            <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900"><?php echo e($model->h1); ?>
+            <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900"><?php echo e($h1); ?>
 
             </h1>
-            <p class="mb-8 leading-relaxed "><?php echo e($model->subtitle); ?> </p>
+            <p class="mb-8 leading-relaxed "><?php echo e($subtitle); ?> </p>
             <div class="flex justify-center">
                 <button @click="openModal()"
                     class="inline-flex text-white bg-yellow-500 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-lg cursor-pointer">Заказать
