@@ -8,14 +8,14 @@
                 коммерческие {{ Str::lower($service->typeInCase('accusative')) }}.</p>
         </div>
         <div class="flex flex-wrap -m-4">
-            @foreach ($brands as $brand)
-                @continue(!$brand->slug)
+            @foreach ($models as $model)
+                @continue(!$model->slug)
                 <div class="lg:w-1/4 md:w-1/2 p-4 w-full shadow-sm hover:shadow-lg transition">
-                    <a href="{{ route('services.brands.show', [$service->slug, $brand->slug]) }}"
+                    <a href="{{ route('services.brands.show', [$service->slug, $model->slug]) }}"
                         class="block relative h-48 rounded overflow-hidden">
-                        <img alt="{{ $brand->name }}" aria-label="Перейти на страницу бренда {{ $brand->name }}"
+                        <img alt="{{ $model->name }}" aria-label="Перейти на страницу бренда {{ $model->name }}"
                             class="object-contain object-center w-full h-full block cursor-pointer"
-                            src="{{ asset('storage/' . $brand->image) }}">
+                            src="{{ asset('storage/' . $model->image) }}">
                     </a>
                 </div>
             @endforeach

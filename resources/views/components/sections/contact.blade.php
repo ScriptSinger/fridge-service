@@ -1,7 +1,3 @@
-{{-- <div>
-    <!-- It is never too late to be what you might have been. - George Eliot -->
-</div> --}}
-
 <section id="contact" class="text-gray-600 body-font relative">
     <div class="container px-5 py-24 mx-auto flex sm:flex-nowrap flex-wrap">
         <div
@@ -27,25 +23,16 @@
                 </div>
             </div>
         </div>
+
         <div class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
-            <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Обратная связь</h2>
-            <p class="leading-relaxed mb-5 text-gray-600">Заполните форму, и мы свяжемся с вами в ближайшее время.</p>
-            <div class="relative mb-4">
-                <label for="name" class="leading-7 text-sm text-gray-600">Имя</label>
-                <input type="text" name="name"
-                    class="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-            </div>
-            <div class="relative mb-4">
-                <label for="name" class="leading-7 text-sm text-gray-600">Телефон</label>
-                <input type="text" name="name"
-                    class="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-            </div>
-
-
-            <button
-                class="text-white bg-yellow-500 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-lg cursor-pointer">Отправить</button>
-            <p class="text-xs text-gray-500 mt-3">Мы уважаем вашу конфиденциальность и не передаем данные третьим лицам.
-            </p>
+            <x-ui.lead-form class="w-full" id="my-form" :payload="[
+                'leadable_type' => get_class($model),
+                'leadable_id' => $model->id,
+                'utm_source' => session('utm_source'),
+                'utm_medium' => session('utm_medium'),
+                'utm_campaign' => session('utm_campaign'),
+            ]" />
         </div>
+
     </div>
 </section>

@@ -1,5 +1,3 @@
-
-
 <section id="contact" class="text-gray-600 body-font relative">
     <div class="container px-5 py-24 mx-auto flex sm:flex-nowrap flex-wrap">
         <div
@@ -43,26 +41,42 @@
                 </div>
             </div>
         </div>
+
         <div class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
-            <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Обратная связь</h2>
-            <p class="leading-relaxed mb-5 text-gray-600">Заполните форму, и мы свяжемся с вами в ближайшее время.</p>
-            <div class="relative mb-4">
-                <label for="name" class="leading-7 text-sm text-gray-600">Имя</label>
-                <input type="text" name="name"
-                    class="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-            </div>
-            <div class="relative mb-4">
-                <label for="name" class="leading-7 text-sm text-gray-600">Телефон</label>
-                <input type="text" name="name"
-                    class="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-            </div>
-
-
-            <button
-                class="text-white bg-yellow-500 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-lg cursor-pointer">Отправить</button>
-            <p class="text-xs text-gray-500 mt-3">Мы уважаем вашу конфиденциальность и не передаем данные третьим лицам.
-            </p>
+            <?php if (isset($component)) { $__componentOriginal897620b40651a3282cad306fdc12aab3 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal897620b40651a3282cad306fdc12aab3 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.lead-form','data' => ['class' => 'w-full','id' => 'my-form','payload' => [
+                'leadable_type' => get_class($page),
+                'leadable_id' => $page->id,
+                'utm_source' => session('utm_source'),
+                'utm_medium' => session('utm_medium'),
+                'utm_campaign' => session('utm_campaign'),
+            ]]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.lead-form'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['class' => 'w-full','id' => 'my-form','payload' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute([
+                'leadable_type' => get_class($page),
+                'leadable_id' => $page->id,
+                'utm_source' => session('utm_source'),
+                'utm_medium' => session('utm_medium'),
+                'utm_campaign' => session('utm_campaign'),
+            ])]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal897620b40651a3282cad306fdc12aab3)): ?>
+<?php $attributes = $__attributesOriginal897620b40651a3282cad306fdc12aab3; ?>
+<?php unset($__attributesOriginal897620b40651a3282cad306fdc12aab3); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal897620b40651a3282cad306fdc12aab3)): ?>
+<?php $component = $__componentOriginal897620b40651a3282cad306fdc12aab3; ?>
+<?php unset($__componentOriginal897620b40651a3282cad306fdc12aab3); ?>
+<?php endif; ?>
         </div>
+
     </div>
 </section>
 <?php /**PATH /var/www/html/resources/views/components/sections/home/contact.blade.php ENDPATH**/ ?>

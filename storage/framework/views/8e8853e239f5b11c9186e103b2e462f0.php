@@ -43,11 +43,12 @@
         </div>
 
         <div class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
+
             <?php if (isset($component)) { $__componentOriginal897620b40651a3282cad306fdc12aab3 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal897620b40651a3282cad306fdc12aab3 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.lead-form','data' => ['class' => 'w-full','id' => 'my-form','payload' => [
-                'leadable_type' => get_class($model),
-                'leadable_id' => $model->id,
+                'leadable_type' => get_class($service),
+                'leadable_id' => $service->id,
                 'utm_source' => session('utm_source'),
                 'utm_medium' => session('utm_medium'),
                 'utm_campaign' => session('utm_campaign'),
@@ -59,8 +60,8 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['class' => 'w-full','id' => 'my-form','payload' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute([
-                'leadable_type' => get_class($model),
-                'leadable_id' => $model->id,
+                'leadable_type' => get_class($service),
+                'leadable_id' => $service->id,
                 'utm_source' => session('utm_source'),
                 'utm_medium' => session('utm_medium'),
                 'utm_campaign' => session('utm_campaign'),
@@ -79,4 +80,4 @@
 
     </div>
 </section>
-<?php /**PATH /var/www/html/resources/views/components/sections/contact.blade.php ENDPATH**/ ?>
+<?php /**PATH /var/www/html/resources/views/components/sections/service/contact.blade.php ENDPATH**/ ?>

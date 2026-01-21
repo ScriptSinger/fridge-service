@@ -8,14 +8,14 @@
                 коммерческие <?php echo e(Str::lower($service->typeInCase('accusative'))); ?>.</p>
         </div>
         <div class="flex flex-wrap -m-4">
-            <?php $__currentLoopData = $brands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $brand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <?php if(!$brand->slug) continue; ?>
+            <?php $__currentLoopData = $models; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $model): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php if(!$model->slug) continue; ?>
                 <div class="lg:w-1/4 md:w-1/2 p-4 w-full shadow-sm hover:shadow-lg transition">
-                    <a href="<?php echo e(route('services.brands.show', [$service->slug, $brand->slug])); ?>"
+                    <a href="<?php echo e(route('services.brands.show', [$service->slug, $model->slug])); ?>"
                         class="block relative h-48 rounded overflow-hidden">
-                        <img alt="<?php echo e($brand->name); ?>" aria-label="Перейти на страницу бренда <?php echo e($brand->name); ?>"
+                        <img alt="<?php echo e($model->name); ?>" aria-label="Перейти на страницу бренда <?php echo e($model->name); ?>"
                             class="object-contain object-center w-full h-full block cursor-pointer"
-                            src="<?php echo e(asset('storage/' . $brand->image)); ?>">
+                            src="<?php echo e(asset('storage/' . $model->image)); ?>">
                     </a>
                 </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

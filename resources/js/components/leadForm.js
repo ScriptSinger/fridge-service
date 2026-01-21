@@ -1,0 +1,48 @@
+export default (payload = {}) => ({
+    // Данные формы
+    form: {
+        name: "",
+        phone: "",
+        comment: "",
+    },
+
+    init() {
+        console.log("payload:", payload); // <-- сюда
+    },
+
+    // Состояния
+    loading: false,
+    success: false,
+    errors: {},
+
+    // Отправка формы
+    async submit() {
+        this.loading = true;
+        this.errors = {};
+        this.success = false;
+
+        try {
+            // POST-запрос через Axios (он уже подключён в bootstrap.js)
+            const { data } = await axios.post("/api/leads", {
+                ...this.form, // поля формы
+                ...payload, // leadable_type, leadable_id, UTM и др.
+            });
+
+            // Если успешно
+            this.success = true;
+            // очищаем форму
+            this.form.name = "";
+            this.form.phone = "";
+            this.form.comment = "";
+        } catch (err) {
+            // Если валидация не прошла
+            if (err.response?.status === 422) {
+                this.errors = err.response.data.errors || {};
+            } else {
+                console.error(err); // для других ошибок
+            }
+        } finally {
+            this.loading = false;
+        }
+    },
+});

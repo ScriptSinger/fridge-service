@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('type')->nullable();
             $table->string('h1')->nullable();
             $table->string('subtitle')->nullable();
-
             $table->string('title')->nullable();
             $table->string('description')->nullable();
             $table->string('image')->nullable();

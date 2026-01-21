@@ -10,6 +10,7 @@
     @include('components.seo.og')
     @include('components.seo.robots')
     @include('components.seo.jsonld')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @vite('resources/css/app.css')
 </head>

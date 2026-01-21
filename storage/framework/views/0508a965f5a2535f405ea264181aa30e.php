@@ -28,25 +28,25 @@
 <?php $component = $__componentOriginal8cf0999d3b47e512090d9f940d848847; ?>
 <?php unset($__componentOriginal8cf0999d3b47e512090d9f940d848847); ?>
 <?php endif; ?>
-    <?php if (isset($component)) { $__componentOriginala6167f818edef42cac826eaf1560c30d = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginala6167f818edef42cac826eaf1560c30d = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.brands.hero','data' => ['brand' => $brand]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('sections.brands.hero'); ?>
+    <?php if (isset($component)) { $__componentOriginal7d77bb759cf09fb7609ab7d50dcb0764 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal7d77bb759cf09fb7609ab7d50dcb0764 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.hero','data' => ['model' => $brand,'containerClass' => 'pt-9']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('sections.hero'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['brand' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($brand)]); ?>
+<?php $component->withAttributes(['model' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($brand),'containerClass' => 'pt-9']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__attributesOriginala6167f818edef42cac826eaf1560c30d)): ?>
-<?php $attributes = $__attributesOriginala6167f818edef42cac826eaf1560c30d; ?>
-<?php unset($__attributesOriginala6167f818edef42cac826eaf1560c30d); ?>
+<?php if (isset($__attributesOriginal7d77bb759cf09fb7609ab7d50dcb0764)): ?>
+<?php $attributes = $__attributesOriginal7d77bb759cf09fb7609ab7d50dcb0764; ?>
+<?php unset($__attributesOriginal7d77bb759cf09fb7609ab7d50dcb0764); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginala6167f818edef42cac826eaf1560c30d)): ?>
-<?php $component = $__componentOriginala6167f818edef42cac826eaf1560c30d; ?>
-<?php unset($__componentOriginala6167f818edef42cac826eaf1560c30d); ?>
+<?php if (isset($__componentOriginal7d77bb759cf09fb7609ab7d50dcb0764)): ?>
+<?php $component = $__componentOriginal7d77bb759cf09fb7609ab7d50dcb0764; ?>
+<?php unset($__componentOriginal7d77bb759cf09fb7609ab7d50dcb0764); ?>
 <?php endif; ?>
     <?php if (isset($component)) { $__componentOriginal27e3926b5509f06a5367689fb7ef6d7e = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal27e3926b5509f06a5367689fb7ef6d7e = $attributes; } ?>
@@ -88,25 +88,25 @@
 <?php $component = $__componentOriginalb2a6a8f422c927342180e7423973ba2a; ?>
 <?php unset($__componentOriginalb2a6a8f422c927342180e7423973ba2a); ?>
 <?php endif; ?>
-    <?php if (isset($component)) { $__componentOriginale2f450239f13014f1c73811bb7fb05ad = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginale2f450239f13014f1c73811bb7fb05ad = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.home.contact','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('sections.home.contact'); ?>
+    <?php if (isset($component)) { $__componentOriginal62de9fc3ebe431a0d746cd50eda6c97f = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal62de9fc3ebe431a0d746cd50eda6c97f = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.contact','data' => ['model' => $brand]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('sections.contact'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes([]); ?>
+<?php $component->withAttributes(['model' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($brand)]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__attributesOriginale2f450239f13014f1c73811bb7fb05ad)): ?>
-<?php $attributes = $__attributesOriginale2f450239f13014f1c73811bb7fb05ad; ?>
-<?php unset($__attributesOriginale2f450239f13014f1c73811bb7fb05ad); ?>
+<?php if (isset($__attributesOriginal62de9fc3ebe431a0d746cd50eda6c97f)): ?>
+<?php $attributes = $__attributesOriginal62de9fc3ebe431a0d746cd50eda6c97f; ?>
+<?php unset($__attributesOriginal62de9fc3ebe431a0d746cd50eda6c97f); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginale2f450239f13014f1c73811bb7fb05ad)): ?>
-<?php $component = $__componentOriginale2f450239f13014f1c73811bb7fb05ad; ?>
-<?php unset($__componentOriginale2f450239f13014f1c73811bb7fb05ad); ?>
+<?php if (isset($__componentOriginal62de9fc3ebe431a0d746cd50eda6c97f)): ?>
+<?php $component = $__componentOriginal62de9fc3ebe431a0d746cd50eda6c97f; ?>
+<?php unset($__componentOriginal62de9fc3ebe431a0d746cd50eda6c97f); ?>
 <?php endif; ?>
     <?php if (isset($component)) { $__componentOriginal070c0d0a50045cf1b6b6a24423c3ac7c = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal070c0d0a50045cf1b6b6a24423c3ac7c = $attributes; } ?>

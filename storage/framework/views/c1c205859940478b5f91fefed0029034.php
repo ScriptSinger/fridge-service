@@ -16,16 +16,17 @@
             </div>
         </div>
     </div>
+
     <?php if (isset($component)) { $__componentOriginalcbe49f6e5340e477c5cce7d23df25248 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalcbe49f6e5340e477c5cce7d23df25248 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.modal-phone','data' => ['xRef' => 'modal']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.modal-phone','data' => ['xRef' => 'modal','page' => $page]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('ui.modal-phone'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['x-ref' => 'modal']); ?>
+<?php $component->withAttributes(['x-ref' => 'modal','page' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($page)]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginalcbe49f6e5340e477c5cce7d23df25248)): ?>
@@ -36,5 +37,6 @@
 <?php $component = $__componentOriginalcbe49f6e5340e477c5cce7d23df25248; ?>
 <?php unset($__componentOriginalcbe49f6e5340e477c5cce7d23df25248); ?>
 <?php endif; ?>
+
 </section>
 <?php /**PATH /var/www/html/resources/views/components/sections/home/hero.blade.php ENDPATH**/ ?>

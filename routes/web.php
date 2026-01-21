@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\BrandController;
+
 use App\Http\Controllers\HomeController;
+
 use App\Http\Controllers\ServiceBrandController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;

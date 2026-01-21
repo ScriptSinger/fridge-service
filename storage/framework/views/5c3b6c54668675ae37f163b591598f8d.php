@@ -38,6 +38,7 @@ unset($__defined_vars, $__key, $__value); ?>
     <?php echo $__env->make('components.seo.og', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
     <?php echo $__env->make('components.seo.robots', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
     <?php echo $__env->make('components.seo.jsonld', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
     <?php echo app('Illuminate\Foundation\Vite')('resources/css/app.css'); ?>
 </head>
