@@ -28,12 +28,11 @@ foreach ($attributes->all() as $__key => $__value) {
 
 unset($__defined_vars, $__key, $__value); ?>
 
-
 <section x-data="modalPhone()" class="text-gray-600 body-font">
-    <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center <?php echo e($containerClass); ?>">
+    <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center <?php echo e($containerClass); ?> ">
         <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
             
-            <img src="<?php echo e(Vite::asset('resources/img/hero.png')); ?>" alt="Мастер по ремонту бытовой техники в Уфе">
+            <img src="<?php echo e(asset('assets/images/hero.png')); ?>" alt="Мастер по ремонту бытовой техники в Уфе">
         </div>
         <div
             class="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
@@ -48,7 +47,6 @@ unset($__defined_vars, $__key, $__value); ?>
             </div>
         </div>
     </div>
-
     <?php if (isset($component)) { $__componentOriginalcbe49f6e5340e477c5cce7d23df25248 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalcbe49f6e5340e477c5cce7d23df25248 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.modal-phone','data' => ['xRef' => 'modal','model' => $model]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
@@ -69,6 +67,5 @@ unset($__defined_vars, $__key, $__value); ?>
 <?php $component = $__componentOriginalcbe49f6e5340e477c5cce7d23df25248; ?>
 <?php unset($__componentOriginalcbe49f6e5340e477c5cce7d23df25248); ?>
 <?php endif; ?>
-
 </section>
 <?php /**PATH /var/www/html/resources/views/components/sections/hero.blade.php ENDPATH**/ ?>

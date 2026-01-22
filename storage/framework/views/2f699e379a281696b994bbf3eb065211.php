@@ -106,7 +106,7 @@
                  </div>
              </div>
              <img class="lg:w-3/5 md:w-1/2 object-cover object-center rounded-lg md:mt-0 mt-12"
-                 src="<?php echo e(Vite::asset('resources/img/steps.png')); ?>" alt="steps">
+                 src="<?php echo e(asset('assets/images/steps.png')); ?>" alt="steps">
          </div>
      </div>
  </section>
