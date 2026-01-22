@@ -1,4 +1,3 @@
-@props(['payload' => []])
 <div x-data='leadForm(@json($payload))' {{ $attributes->merge(['class' => 'w-full']) }}>
     <template x-if="!success">
         <div>

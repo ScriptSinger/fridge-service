@@ -1,7 +1,7 @@
- <?php $attributes ??= new \Illuminate\View\ComponentAttributeBag;
+<?php $attributes ??= new \Illuminate\View\ComponentAttributeBag;
 
 $__newAttributes = [];
-$__propNames = \Illuminate\View\ComponentAttributeBag::extractPropNames((['payload' => [], 'model' => null]));
+$__propNames = \Illuminate\View\ComponentAttributeBag::extractPropNames((['model']));
 
 foreach ($attributes->all() as $__key => $__value) {
     if (in_array($__key, $__propNames)) {
@@ -16,7 +16,7 @@ $attributes = new \Illuminate\View\ComponentAttributeBag($__newAttributes);
 unset($__propNames);
 unset($__newAttributes);
 
-foreach (array_filter((['payload' => [], 'model' => null]), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
+foreach (array_filter((['model']), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
     $$__key = $$__key ?? $__value;
 }
 
@@ -27,47 +27,35 @@ foreach ($attributes->all() as $__key => $__value) {
 }
 
 unset($__defined_vars, $__key, $__value); ?>
+<div x-cloak x-show="open" style="display: none;" class="fixed inset-0 bg-black/90 flex items-center justify-center z-50"
+    x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
 
- <div x-cloak x-show="open" style="display: none;" class="fixed inset-0 bg-black/90 flex items-center justify-center z-50"
-     x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
-     x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
-     x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+    <div @click.away="closeModal()" class="bg-white rounded-lg p-6 w-full max-w-md relative">
+        <button @click="closeModal()"
+            class="absolute top-2 right-2 text-gray-500 hover:text-gray-900 cursor-pointer">✕</button>
 
-     <div @click.away="closeModal()" class="bg-white rounded-lg p-6 w-full max-w-md relative">
-         <button @click="closeModal()"
-             class="absolute top-2 right-2 text-gray-500 hover:text-gray-900 cursor-pointer">✕</button>
-         <?php if (isset($component)) { $__componentOriginal897620b40651a3282cad306fdc12aab3 = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal897620b40651a3282cad306fdc12aab3 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.lead-form','data' => ['class' => 'w-full','id' => 'my-form','payload' => [
-             'leadable_type' => get_class($model),
-             'leadable_id' => $model->id,
-             'utm_source' => session('utm_source'),
-             'utm_medium' => session('utm_medium'),
-             'utm_campaign' => session('utm_campaign'),
-         ]]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('ui.lead-form'); ?>
+        <?php if (isset($component)) { $__componentOriginal788b25b48ffcc6963c4a37549101363b = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal788b25b48ffcc6963c4a37549101363b = $attributes; } ?>
+<?php $component = App\View\Components\Forms\Leads::resolve(['model' => $model] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('forms.leads'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
-<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php $attributes = $attributes->except(\App\View\Components\Forms\Leads::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['class' => 'w-full','id' => 'my-form','payload' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute([
-             'leadable_type' => get_class($model),
-             'leadable_id' => $model->id,
-             'utm_source' => session('utm_source'),
-             'utm_medium' => session('utm_medium'),
-             'utm_campaign' => session('utm_campaign'),
-         ])]); ?>
+<?php $component->withAttributes(['class' => 'w-full']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__attributesOriginal897620b40651a3282cad306fdc12aab3)): ?>
-<?php $attributes = $__attributesOriginal897620b40651a3282cad306fdc12aab3; ?>
-<?php unset($__attributesOriginal897620b40651a3282cad306fdc12aab3); ?>
+<?php if (isset($__attributesOriginal788b25b48ffcc6963c4a37549101363b)): ?>
+<?php $attributes = $__attributesOriginal788b25b48ffcc6963c4a37549101363b; ?>
+<?php unset($__attributesOriginal788b25b48ffcc6963c4a37549101363b); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal897620b40651a3282cad306fdc12aab3)): ?>
-<?php $component = $__componentOriginal897620b40651a3282cad306fdc12aab3; ?>
-<?php unset($__componentOriginal897620b40651a3282cad306fdc12aab3); ?>
+<?php if (isset($__componentOriginal788b25b48ffcc6963c4a37549101363b)): ?>
+<?php $component = $__componentOriginal788b25b48ffcc6963c4a37549101363b; ?>
+<?php unset($__componentOriginal788b25b48ffcc6963c4a37549101363b); ?>
 <?php endif; ?>
-     </div>
- </div>
+    </div>
+</div>
 <?php /**PATH /var/www/html/resources/views/components/ui/modal-phone.blade.php ENDPATH**/ ?>

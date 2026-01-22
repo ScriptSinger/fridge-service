@@ -25,13 +25,7 @@
         </div>
 
         <div class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
-            <x-ui.lead-form class="w-full" id="my-form" :payload="[
-                'leadable_type' => get_class($model),
-                'leadable_id' => $model->id,
-                'utm_source' => session('utm_source'),
-                'utm_medium' => session('utm_medium'),
-                'utm_campaign' => session('utm_campaign'),
-            ]" />
+            <x-forms.leads class="w-full" :model="$model" />
         </div>
 
     </div>

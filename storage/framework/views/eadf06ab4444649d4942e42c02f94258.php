@@ -43,37 +43,25 @@
         </div>
 
         <div class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
-            <?php if (isset($component)) { $__componentOriginal897620b40651a3282cad306fdc12aab3 = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal897620b40651a3282cad306fdc12aab3 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.lead-form','data' => ['class' => 'w-full','id' => 'my-form','payload' => [
-                'leadable_type' => get_class($model),
-                'leadable_id' => $model->id,
-                'utm_source' => session('utm_source'),
-                'utm_medium' => session('utm_medium'),
-                'utm_campaign' => session('utm_campaign'),
-            ]]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('ui.lead-form'); ?>
+            <?php if (isset($component)) { $__componentOriginal788b25b48ffcc6963c4a37549101363b = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal788b25b48ffcc6963c4a37549101363b = $attributes; } ?>
+<?php $component = App\View\Components\Forms\Leads::resolve(['model' => $model] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('forms.leads'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
-<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php $attributes = $attributes->except(\App\View\Components\Forms\Leads::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['class' => 'w-full','id' => 'my-form','payload' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute([
-                'leadable_type' => get_class($model),
-                'leadable_id' => $model->id,
-                'utm_source' => session('utm_source'),
-                'utm_medium' => session('utm_medium'),
-                'utm_campaign' => session('utm_campaign'),
-            ])]); ?>
+<?php $component->withAttributes(['class' => 'w-full']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__attributesOriginal897620b40651a3282cad306fdc12aab3)): ?>
-<?php $attributes = $__attributesOriginal897620b40651a3282cad306fdc12aab3; ?>
-<?php unset($__attributesOriginal897620b40651a3282cad306fdc12aab3); ?>
+<?php if (isset($__attributesOriginal788b25b48ffcc6963c4a37549101363b)): ?>
+<?php $attributes = $__attributesOriginal788b25b48ffcc6963c4a37549101363b; ?>
+<?php unset($__attributesOriginal788b25b48ffcc6963c4a37549101363b); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal897620b40651a3282cad306fdc12aab3)): ?>
-<?php $component = $__componentOriginal897620b40651a3282cad306fdc12aab3; ?>
-<?php unset($__componentOriginal897620b40651a3282cad306fdc12aab3); ?>
+<?php if (isset($__componentOriginal788b25b48ffcc6963c4a37549101363b)): ?>
+<?php $component = $__componentOriginal788b25b48ffcc6963c4a37549101363b; ?>
+<?php unset($__componentOriginal788b25b48ffcc6963c4a37549101363b); ?>
 <?php endif; ?>
         </div>
 

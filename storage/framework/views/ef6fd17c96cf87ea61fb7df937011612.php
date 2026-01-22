@@ -29,4 +29,4 @@
         <p class="text-grey-600 font-medium text-center">Спасибо! Заявка отправлена.</p>
     </template>
 </div>
-<?php /**PATH /var/www/html/resources/views/components/ui/lead-form.blade.php ENDPATH**/ ?>
+<?php /**PATH /var/www/html/resources/views/components/forms/leads.blade.php ENDPATH**/ ?>

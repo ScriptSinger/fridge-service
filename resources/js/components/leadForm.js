@@ -1,21 +1,14 @@
 export default (payload = {}) => ({
-    // Данные формы
     form: {
         name: "",
         phone: "",
         comment: "",
     },
 
-    init() {
-        console.log("payload:", payload); // <-- сюда
-    },
-
-    // Состояния
     loading: false,
     success: false,
     errors: {},
 
-    // Отправка формы
     async submit() {
         this.loading = true;
         this.errors = {};
