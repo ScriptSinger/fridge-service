@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\ServiceBrandController;
 use App\Http\Controllers\ServiceController;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
