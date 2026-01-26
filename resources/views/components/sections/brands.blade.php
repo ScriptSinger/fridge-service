@@ -1,11 +1,12 @@
-<x-ui.section>
-    <div class="flex flex-col   w-full mb-12">
-        <h2 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900"> Бренды
+<x-ui.sections.wrapper>
+
+    <x-ui.sections.header
+        title="Бренды
             {{ Str::lower($service->typeInCase('genitive')) }},
-            которые мы ремонтируем</h2>
-        <p class="lg:w-2/3 leading-relaxed text-base">Работаем с большинством популярных марок. Ремонтируем бытовые и
-            коммерческие {{ Str::lower($service->typeInCase('accusative')) }}.</p>
-    </div>
+            которые мы ремонтируем"
+        subtitle="Работаем с большинством популярных марок. Ремонтируем бытовые и
+            коммерческие {{ Str::lower($service->typeInCase('accusative')) }}." />
+
     <div class="flex flex-wrap -m-4">
         @foreach ($models as $model)
             @continue(!$model->slug)
@@ -19,4 +20,4 @@
             </div>
         @endforeach
     </div>
-</x-ui.section>
+</x-ui.sections.wrapper>

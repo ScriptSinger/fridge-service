@@ -1,0 +1,1 @@
+components.sections.home.pricing<?php /**PATH /var/www/html/storage/framework/views/b6f8dd0ebf68bcc5967426fd72bff6bf.blade.php ENDPATH**/ ?>

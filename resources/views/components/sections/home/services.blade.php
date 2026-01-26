@@ -1,8 +1,5 @@
-<x-ui.section id="services">
-    <div class="flex flex-col   w-full mb-12">
-        <h2 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Что нужно ремонтировать?</h2>
-        <p class="lg:w-2/3 leading-relaxed text-base">Выберите тип вашей техники</p>
-    </div>
+<x-ui.sections.wrapper id="services">
+    <x-ui.sections.header title="Что нужно ремонтировать?" subtitle="Выберите тип вашей техники" />
     <div class="flex flex-wrap -m-4 ">
         @foreach ($services as $service)
             @continue(!$service->slug)
@@ -28,4 +25,4 @@
             </div>
         @endforeach
     </div>
-</x-ui.section>
+</x-ui.sections.wrapper>

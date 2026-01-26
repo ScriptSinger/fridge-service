@@ -1,8 +1,10 @@
-<x-ui.section>
+<x-ui.sections.wrapper>
     <div class="flex flex-col   w-full mb-12">
-        <h2 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Этапы ремонта</h2>
-        <p class="lg:w-2/3 leading-relaxed text-base">Как правило, ремонт выполняется в день обращения</p>
+        <h2 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900"></h2>
+        <p class="lg:w-2/3 leading-relaxed text-base"></p>
     </div>
+
+    <x-ui.sections.header title="Этапы ремонта" subtitle="Как правило, ремонт выполняется в день обращения" />
 
     <div class="flex flex-wrap w-full">
         <div class="lg:w-2/5 md:w-1/2 md:pr-10 md:py-6">
@@ -110,4 +112,4 @@
         <img class="lg:w-3/5 md:w-1/2 object-cover object-center rounded-lg md:mt-0 mt-12"
             src="{{ asset('assets/images/steps.png') }}" alt="steps">
     </div>
-</x-ui.section>
+</x-ui.sections.wrapper>

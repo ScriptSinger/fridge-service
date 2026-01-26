@@ -1,0 +1,1 @@
+components.ui.section<?php /**PATH /var/www/html/storage/framework/views/2d3a5c2eaa6228886f60988c1bd5d9d8.blade.php ENDPATH**/ ?>

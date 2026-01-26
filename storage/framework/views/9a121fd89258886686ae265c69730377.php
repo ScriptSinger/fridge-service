@@ -28,30 +28,37 @@ foreach ($attributes->all() as $__key => $__value) {
 
 unset($__defined_vars, $__key, $__value); ?>
 
-<?php if (isset($component)) { $__componentOriginal386dc8449d6925e995096d9b8aa1f23d = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal386dc8449d6925e995096d9b8aa1f23d = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.section','data' => ['id' => 'blog']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('ui.section'); ?>
+<?php if (isset($component)) { $__componentOriginalbda7854c2841beaee0e9cbf64d042c0a = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalbda7854c2841beaee0e9cbf64d042c0a = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.sections.wrapper','data' => ['id' => 'blog']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.sections.wrapper'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['id' => 'blog']); ?>
-    <div class="flex flex-col">
-        <div class="h-1 bg-gray-200 rounded overflow-hidden">
-            <div class="w-24 h-full bg-yellow-500"></div>
-        </div>
-        <div class="flex flex-wrap sm:flex-row flex-col py-6 mb-12">
-            <h2 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Частые неисправности
-                бытовой техники
-            </h2>
-            <p class="lg:w-2/3 leading-relaxed text-base">Мы собрали самые распространённые поломки
-                бытовой техники, с которыми
-                к нам обращаются клиенты. Для каждой проблемы указаны симптомы,
-                причины и возможные способы ремонта.</p>
-        </div>
-    </div>
+
+    <?php if (isset($component)) { $__componentOriginal0801d0fb74ec05d77bd33020e23b75f8 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal0801d0fb74ec05d77bd33020e23b75f8 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.sections.header','data' => ['title' => 'Частые неисправности бытовой техники','subtitle' => 'Мы собрали самые распространённые поломки бытовой техники, с которыми к нам обращаются клиенты. Для каждой проблемы указаны симптомы, причины и возможные способы ремонта.']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.sections.header'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['title' => 'Частые неисправности бытовой техники','subtitle' => 'Мы собрали самые распространённые поломки бытовой техники, с которыми к нам обращаются клиенты. Для каждой проблемы указаны симптомы, причины и возможные способы ремонта.']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal0801d0fb74ec05d77bd33020e23b75f8)): ?>
+<?php $attributes = $__attributesOriginal0801d0fb74ec05d77bd33020e23b75f8; ?>
+<?php unset($__attributesOriginal0801d0fb74ec05d77bd33020e23b75f8); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal0801d0fb74ec05d77bd33020e23b75f8)): ?>
+<?php $component = $__componentOriginal0801d0fb74ec05d77bd33020e23b75f8; ?>
+<?php unset($__componentOriginal0801d0fb74ec05d77bd33020e23b75f8); ?>
+<?php endif; ?>
 
     <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
         <?php $__currentLoopData = $problems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $problem): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -76,12 +83,12 @@ unset($__defined_vars, $__key, $__value); ?>
     </div>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__attributesOriginal386dc8449d6925e995096d9b8aa1f23d)): ?>
-<?php $attributes = $__attributesOriginal386dc8449d6925e995096d9b8aa1f23d; ?>
-<?php unset($__attributesOriginal386dc8449d6925e995096d9b8aa1f23d); ?>
+<?php if (isset($__attributesOriginalbda7854c2841beaee0e9cbf64d042c0a)): ?>
+<?php $attributes = $__attributesOriginalbda7854c2841beaee0e9cbf64d042c0a; ?>
+<?php unset($__attributesOriginalbda7854c2841beaee0e9cbf64d042c0a); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal386dc8449d6925e995096d9b8aa1f23d)): ?>
-<?php $component = $__componentOriginal386dc8449d6925e995096d9b8aa1f23d; ?>
-<?php unset($__componentOriginal386dc8449d6925e995096d9b8aa1f23d); ?>
+<?php if (isset($__componentOriginalbda7854c2841beaee0e9cbf64d042c0a)): ?>
+<?php $component = $__componentOriginalbda7854c2841beaee0e9cbf64d042c0a; ?>
+<?php unset($__componentOriginalbda7854c2841beaee0e9cbf64d042c0a); ?>
 <?php endif; ?>
 <?php /**PATH /var/www/html/resources/views/components/sections/home/blog.blade.php ENDPATH**/ ?>

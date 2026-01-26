@@ -1,10 +1,7 @@
-<x-ui.section id="pricing">
-    <div class="flex flex-col   w-full mb-12">
-        <h2 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Примерные цены на ремонт
-            бытовой
-            техники</h2>
-        <p class="lg:w-2/3 leading-relaxed text-base">Точная стоимость определяется после диагностики</p>
-    </div>
+<x-ui.sections.wrapper id="pricing">
+
+    <x-ui.sections.header title="Примерные цены на ремонт бытовой техники"
+        subtitle="Точная стоимость определяется после диагностики" />
 
     <div class=" w-full mx-auto overflow-auto">
         <table class="table-auto w-full text-left whitespace-no-wrap">
@@ -47,4 +44,4 @@
             * Диагностика бесплатна при последующем ремонте
         </p>
     </div>
-</x-ui.section>
+</x-ui.sections.wrapper>
