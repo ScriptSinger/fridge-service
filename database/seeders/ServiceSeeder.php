@@ -3,14 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\Service;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Database\Seeder;
 
 class ServiceSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $services = [
@@ -34,12 +31,9 @@ class ServiceSeeder extends Seeder
             ],
         ];
 
-        foreach ($services as $service) {
-
-            Service::updateOrCreate(
-                ['title' => $service['title']],
-                $service
-            );
+        foreach ($services as $data) {
+            $data['slug'] = SlugService::createSlug(Service::class, 'slug', $data['permalink']);
+            Service::create($data);
         }
     }
 }

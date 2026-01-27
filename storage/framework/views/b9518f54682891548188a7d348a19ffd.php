@@ -48,6 +48,26 @@
 <?php $component = $__componentOriginal7d77bb759cf09fb7609ab7d50dcb0764; ?>
 <?php unset($__componentOriginal7d77bb759cf09fb7609ab7d50dcb0764); ?>
 <?php endif; ?>
+    <?php if (isset($component)) { $__componentOriginalbd6682a686d18752ee21d4fbbcac6f86 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalbd6682a686d18752ee21d4fbbcac6f86 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.common.problems','data' => ['problems' => $problems,'service' => $service]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('sections.common.problems'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['problems' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($problems),'service' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($service)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalbd6682a686d18752ee21d4fbbcac6f86)): ?>
+<?php $attributes = $__attributesOriginalbd6682a686d18752ee21d4fbbcac6f86; ?>
+<?php unset($__attributesOriginalbd6682a686d18752ee21d4fbbcac6f86); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalbd6682a686d18752ee21d4fbbcac6f86)): ?>
+<?php $component = $__componentOriginalbd6682a686d18752ee21d4fbbcac6f86; ?>
+<?php unset($__componentOriginalbd6682a686d18752ee21d4fbbcac6f86); ?>
+<?php endif; ?>
     <?php if (isset($component)) { $__componentOriginal38df05f019cbe7712f9a08ba46b3fab0 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal38df05f019cbe7712f9a08ba46b3fab0 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.brands','data' => ['models' => $brands,'service' => $service]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>

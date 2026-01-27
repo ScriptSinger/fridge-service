@@ -3,37 +3,65 @@
 namespace Database\Seeders;
 
 use App\Models\Problem;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Service;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Database\Seeder;
 
 class ProblemSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $problems = [
-            'Холодильник не включается',
-            'Холодильник не морозит',
-            'Холодильник не холодит',
-            'Холодильник шумит',
-            'Холодильник течет',
-            'Не работает компрессор холодильника',
-            'Не закрывается дверь холодильника',
-            'Не работает No Frost',
-            'Перемораживает холодильник',
-            'Холодильник выключается сам',
+        // Список проблем для каждого типа техники
+        $problemsMap = [
+            'Холодильник' => [
+                'Холодильник не включается',
+                'Холодильник не морозит',
+                'Холодильник не холодит',
+                'Холодильник шумит',
+                'Холодильник течет',
+                'Не работает компрессор холодильника',
+                'Не закрывается дверь холодильника',
+                'Не работает No Frost',
+                'Перемораживает холодильник',
+                'Холодильник выключается сам',
+            ],
+            'Стиральная машина' => [
+                'Стиральная машина не включается',
+                'Не набирается вода',
+                'Не сливает воду',
+                'Не крутится барабан',
+                'Шумит при стирке',
+                'Протекает бак',
+                'Ошибка E01/E02',
+                'Не работает дисплей',
+                'Сильно вибрирует при отжиме',
+            ],
         ];
 
-        foreach ($problems as $problem) {
-            Problem::firstOrCreate(
-                ['title' => $problem],
-                [
-                    'h1' => $problem,
-                    'content' => "Причины и способы устранения проблемы: {$problem}",
-                ]
-            );
+        foreach ($problemsMap as $type => $problems) {
+            $service = Service::where('type', $type)->first();
+
+            if (!$service) {
+                $this->command->warn("Service '{$type}' не найден. Проблемы для него не будут добавлены.");
+                continue;
+            }
+
+            foreach ($problems as $problemTitle) {
+                // Генерация slug вручную через SlugService
+                $slug = SlugService::createSlug(Problem::class, 'slug', $problemTitle);
+
+                Problem::firstOrCreate(
+                    [
+                        'title' => $problemTitle,
+                        'service_id' => $service->id,
+                    ],
+                    [
+                        'h1' => $problemTitle,
+                        'content' => "Причины и способы устранения проблемы: {$problemTitle}",
+                        'slug' => $slug,
+                    ]
+                );
+            }
         }
     }
 }

@@ -41,7 +41,6 @@ final class MoonShineLayout extends AppLayout
             MenuItem::make(BrandResource::class, 'Brands'),
             MenuItem::make(ErrorCodeResource::class, 'ErrorCodes'),
             MenuItem::make(LeadResource::class, 'Leads'),
-
         ];
     }
 

@@ -32,6 +32,11 @@ class Service extends Model
         ];
     }
 
+    public function problems()
+    {
+        return $this->hasMany(Problem::class);
+    }
+
     public function brands()
     {
         return $this->belongsToMany(Brand::class)->withPivot(['h1', 'subtitle', 'title', 'description']);
