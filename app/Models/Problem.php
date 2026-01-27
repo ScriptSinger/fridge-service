@@ -31,6 +31,10 @@ class Problem extends Model
         return $this->belongsTo(Service::class);
     }
 
+    public function device()
+    {
+        return $this->belongsTo(Device::class);
+    }
 
     public function brands()
     {

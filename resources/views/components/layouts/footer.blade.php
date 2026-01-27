@@ -14,7 +14,7 @@
             </div>
 
             <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                <x-footer.services />
+                <x-footer.devices />
             </div>
 
             <div class="lg:w-1/4 md:w-1/2 w-full px-4">

@@ -10,14 +10,14 @@
 <?php $component->withAttributes(['id' => 'problems']); ?>
     <?php if (isset($component)) { $__componentOriginal0801d0fb74ec05d77bd33020e23b75f8 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal0801d0fb74ec05d77bd33020e23b75f8 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.sections.header','data' => ['title' => 'Частые неисправности '.e(Str::lower($service->typeInCase('genitive'))).'','subtitle' => 'Мы собрали самые распространённые поломки '.e(Str::lower($service->typeInCase('genitive'))).', с которыми к нам обращаются клиенты. Для каждой проблемы указаны симптомы, причины и возможные способы ремонта.']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.sections.header','data' => ['title' => 'Частые неисправности '.e(Str::lower($device->typeInCase('genitive'))).'','subtitle' => 'Мы собрали самые распространённые поломки '.e(Str::lower($device->typeInCase('genitive'))).', с которыми к нам обращаются клиенты. Для каждой проблемы указаны симптомы, причины и возможные способы ремонта.']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('ui.sections.header'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['title' => 'Частые неисправности '.e(Str::lower($service->typeInCase('genitive'))).'','subtitle' => 'Мы собрали самые распространённые поломки '.e(Str::lower($service->typeInCase('genitive'))).', с которыми к нам обращаются клиенты. Для каждой проблемы указаны симптомы, причины и возможные способы ремонта.']); ?>
+<?php $component->withAttributes(['title' => 'Частые неисправности '.e(Str::lower($device->typeInCase('genitive'))).'','subtitle' => 'Мы собрали самые распространённые поломки '.e(Str::lower($device->typeInCase('genitive'))).', с которыми к нам обращаются клиенты. Для каждой проблемы указаны симптомы, причины и возможные способы ремонта.']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal0801d0fb74ec05d77bd33020e23b75f8)): ?>

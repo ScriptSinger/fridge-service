@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Device;
 use App\Models\Page;
 use App\Models\Problem;
 use App\Models\Service;
@@ -13,7 +14,7 @@ class HomeController extends Controller
     {
         return view('pages.home', [
             'page' => Page::where('type', 'home')->firstOrFail(),
-            'services'   => Service::where('is_active', true)->get(),
+            'devices'   => Device::where('is_active', true)->get(),
             'problems'   => Problem::limit(6)->get(),
         ]);
     }

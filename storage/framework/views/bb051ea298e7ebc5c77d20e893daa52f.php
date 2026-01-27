@@ -1,29 +1,23 @@
 <?php if (isset($component)) { $__componentOriginalbda7854c2841beaee0e9cbf64d042c0a = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalbda7854c2841beaee0e9cbf64d042c0a = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.sections.wrapper','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.sections.wrapper','data' => ['id' => 'devices']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('ui.sections.wrapper'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes([]); ?>
+<?php $component->withAttributes(['id' => 'devices']); ?>
     <?php if (isset($component)) { $__componentOriginal0801d0fb74ec05d77bd33020e23b75f8 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal0801d0fb74ec05d77bd33020e23b75f8 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.sections.header','data' => ['title' => 'Бренды
-            '.e(Str::lower($device->typeInCase('genitive'))).',
-            которые мы ремонтируем','subtitle' => 'Работаем с большинством популярных марок. Ремонтируем бытовые и
-            коммерческие '.e(Str::lower($device->typeInCase('accusative'))).'.']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.sections.header','data' => ['title' => 'Что нужно ремонтировать?','subtitle' => 'Выберите тип вашей техники']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('ui.sections.header'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['title' => 'Бренды
-            '.e(Str::lower($device->typeInCase('genitive'))).',
-            которые мы ремонтируем','subtitle' => 'Работаем с большинством популярных марок. Ремонтируем бытовые и
-            коммерческие '.e(Str::lower($device->typeInCase('accusative'))).'.']); ?>
+<?php $component->withAttributes(['title' => 'Что нужно ремонтировать?','subtitle' => 'Выберите тип вашей техники']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal0801d0fb74ec05d77bd33020e23b75f8)): ?>
@@ -34,17 +28,29 @@
 <?php $component = $__componentOriginal0801d0fb74ec05d77bd33020e23b75f8; ?>
 <?php unset($__componentOriginal0801d0fb74ec05d77bd33020e23b75f8); ?>
 <?php endif; ?>
+    <div class="flex flex-wrap -m-4 ">
+        <?php $__currentLoopData = $devices; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $device): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php if(!$device->slug) continue; ?>
+            <div class="w-full md:w-full lg:w-1/2 sm:w-1/2 p-4 ">
+                <div class="flex relative cursor-pointer">
 
-    <div class="flex flex-wrap -m-4">
-        <?php $__currentLoopData = $models; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $model): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <?php if(!$model->slug) continue; ?>
-            <div class="lg:w-1/4 md:w-1/2 p-4 w-full shadow-sm hover:shadow-lg transition">
-                <a href="<?php echo e(route('devices.brands.show', [$device->slug, $model->slug])); ?>"
-                    class="block relative h-48 rounded overflow-hidden">
-                    <img alt="<?php echo e($model->name); ?>" aria-label="Перейти на страницу бренда <?php echo e($model->name); ?>"
-                        class="object-contain object-center w-full h-full block cursor-pointer"
-                        src="<?php echo e(asset('storage/' . $model->image)); ?>">
-                </a>
+                    <a href="<?php echo e(route('devices.show', $device->slug)); ?>"
+                        class="flex flex-wrap w-full bg-gray-100 sm:py-24 py-16 sm:px-10 px-6 relative block">
+                        <?php if($device->image): ?>
+                            <img alt="gallery"
+                                class="w-full object-cover h-full object-center block opacity-25 hover:opacity-60 transition-opacity duration-300 absolute inset-0"
+                                src="<?php echo e(Storage::url($device->image)); ?>">
+                        <?php endif; ?>
+
+                        <div class="text-center relative z-10 w-full">
+                            <h3 class="text-xl text-gray-900 font-medium title-font mb-2"><?php echo e($device->type); ?>
+
+
+                            </h3>
+                        </div>
+                    </a>
+
+                </div>
             </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>
@@ -58,4 +64,4 @@
 <?php $component = $__componentOriginalbda7854c2841beaee0e9cbf64d042c0a; ?>
 <?php unset($__componentOriginalbda7854c2841beaee0e9cbf64d042c0a); ?>
 <?php endif; ?>
-<?php /**PATH /var/www/html/resources/views/components/sections/brands.blade.php ENDPATH**/ ?>
+<?php /**PATH /var/www/html/resources/views/components/sections/home/devices.blade.php ENDPATH**/ ?>

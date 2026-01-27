@@ -1,5 +1,5 @@
-<x-layouts.app :title="$service->title" :description="$service->description">
-    <x-ui.breadcrumbs :model="$brand" route="services.brands.show" />
+<x-layouts.app :title="$device->title" :description="$device->description">
+    <x-ui.breadcrumbs :model="$brand" route="devices.brands.show" />
     <x-sections.hero :model="$brand" :h1="$brand->pivot->h1" :subtitle="$brand->pivot->subtitle" containerClass="pt-9" />
     <x-sections.common.steps />
     <x-sections.common.pricing />

@@ -1,6 +1,6 @@
 <x-ui.sections.wrapper id="problems">
-    <x-ui.sections.header title="Частые неисправности {{ Str::lower($service->typeInCase('genitive')) }}"
-        subtitle="Мы собрали самые распространённые поломки {{ Str::lower($service->typeInCase('genitive')) }}, с которыми к нам обращаются клиенты. Для каждой проблемы указаны симптомы, причины и возможные способы ремонта." />
+    <x-ui.sections.header title="Частые неисправности {{ Str::lower($device->typeInCase('genitive')) }}"
+        subtitle="Мы собрали самые распространённые поломки {{ Str::lower($device->typeInCase('genitive')) }}, с которыми к нам обращаются клиенты. Для каждой проблемы указаны симптомы, причины и возможные способы ремонта." />
 
     <div x-data="{ showAll: false }">
         <div class="flex flex-wrap -m-4">

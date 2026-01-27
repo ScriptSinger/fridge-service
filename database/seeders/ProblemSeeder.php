@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Device;
 use App\Models\Problem;
-use App\Models\Service;
+
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Database\Seeder;
 
@@ -39,10 +40,10 @@ class ProblemSeeder extends Seeder
         ];
 
         foreach ($problemsMap as $type => $problems) {
-            $service = Service::where('type', $type)->first();
+            $device = Device::where('type', $type)->first();
 
-            if (!$service) {
-                $this->command->warn("Service '{$type}' не найден. Проблемы для него не будут добавлены.");
+            if (!$device) {
+                $this->command->warn("Device '{$type}' не найден. Проблемы для него не будут добавлены.");
                 continue;
             }
 
@@ -53,7 +54,7 @@ class ProblemSeeder extends Seeder
                 Problem::firstOrCreate(
                     [
                         'title' => $problemTitle,
-                        'service_id' => $service->id,
+                        'device_id' => $device->id,
                     ],
                     [
                         'h1' => $problemTitle,

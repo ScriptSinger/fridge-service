@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('problems', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('service_id')->constrained()->onDelete('cascade');
+            $table->foreignId('device_id')->constrained()->onDelete('cascade');
             $table->string('slug')->unique()->nullable();
             $table->string('title');
             $table->string('h1');

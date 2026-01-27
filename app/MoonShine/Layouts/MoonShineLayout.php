@@ -16,6 +16,8 @@ use App\MoonShine\Resources\ErrorCode\ErrorCodeResource;
 use App\MoonShine\Resources\Lead\LeadResource;
 use App\MoonShine\Resources\Page\PageResource;
 use App\MoonShine\Resources\Problem\ProblemResource;
+use App\MoonShine\Resources\Device\DeviceResource;
+
 
 final class MoonShineLayout extends AppLayout
 {
@@ -36,11 +38,13 @@ final class MoonShineLayout extends AppLayout
         return [
             ...parent::menu(),
             MenuItem::make(PageResource::class, 'Pages'),
-            MenuItem::make(ServiceResource::class, 'Services'),
+            MenuItem::make(DeviceResource::class, 'Devices'),
             MenuItem::make(ProblemResource::class, 'Problems'),
             MenuItem::make(BrandResource::class, 'Brands'),
             MenuItem::make(ErrorCodeResource::class, 'ErrorCodes'),
             MenuItem::make(LeadResource::class, 'Leads'),
+            MenuItem::make(ServiceResource::class, 'Services'),
+
         ];
     }
 

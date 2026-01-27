@@ -52,10 +52,10 @@
             </div>
 
             <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                <?php if (isset($component)) { $__componentOriginal41cb3c43ed46a4bea702647a864bde34 = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal41cb3c43ed46a4bea702647a864bde34 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.footer.services','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('footer.services'); ?>
+                <?php if (isset($component)) { $__componentOriginald4cff5ddca3ecdb4e826ed5da0ea1274 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginald4cff5ddca3ecdb4e826ed5da0ea1274 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.footer.devices','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('footer.devices'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
@@ -64,13 +64,13 @@
 <?php $component->withAttributes([]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__attributesOriginal41cb3c43ed46a4bea702647a864bde34)): ?>
-<?php $attributes = $__attributesOriginal41cb3c43ed46a4bea702647a864bde34; ?>
-<?php unset($__attributesOriginal41cb3c43ed46a4bea702647a864bde34); ?>
+<?php if (isset($__attributesOriginald4cff5ddca3ecdb4e826ed5da0ea1274)): ?>
+<?php $attributes = $__attributesOriginald4cff5ddca3ecdb4e826ed5da0ea1274; ?>
+<?php unset($__attributesOriginald4cff5ddca3ecdb4e826ed5da0ea1274); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal41cb3c43ed46a4bea702647a864bde34)): ?>
-<?php $component = $__componentOriginal41cb3c43ed46a4bea702647a864bde34; ?>
-<?php unset($__componentOriginal41cb3c43ed46a4bea702647a864bde34); ?>
+<?php if (isset($__componentOriginald4cff5ddca3ecdb4e826ed5da0ea1274)): ?>
+<?php $component = $__componentOriginald4cff5ddca3ecdb4e826ed5da0ea1274; ?>
+<?php unset($__componentOriginald4cff5ddca3ecdb4e826ed5da0ea1274); ?>
 <?php endif; ?>
             </div>
 

@@ -11,18 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('brand_service', function (Blueprint $table) {
+        Schema::create('devices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('service_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('brand_id')->constrained()->cascadeOnDelete();
+            $table->string('slug')->unique()->nullable();
+            $table->string('permalink')->nullable();
+            $table->string('type')->nullable();
             $table->string('h1')->nullable();
             $table->string('subtitle')->nullable();
             $table->string('title')->nullable();
             $table->string('description')->nullable();
-
+            $table->string('image')->nullable();
+            $table->string('image_alt')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
-
-            $table->unique(['service_id', 'brand_id']);
         });
     }
 
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('brand_service');
+        Schema::dropIfExists('devices');
     }
 };

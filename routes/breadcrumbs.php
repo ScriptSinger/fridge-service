@@ -9,13 +9,13 @@ Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
     $trail->push('Главная', route('home'));
 });
 
-Breadcrumbs::for('services.show', function (BreadcrumbTrail $trail, $service) {
+Breadcrumbs::for('devices.show', function (BreadcrumbTrail $trail, $device) {
     $trail->parent('home');
-    $trail->push($service->permalink, route('services.show', $service));
+    $trail->push($device->permalink, route('devices.show', $device));
 });
 
-Breadcrumbs::for('services.brands.show', function (BreadcrumbTrail $trail, Brand $brand) {
-    $service = request()->route('service');
-    $trail->parent('services.show', $service);
-    $trail->push($brand->name, route('services.brands.show', [$service, $brand]));
+Breadcrumbs::for('devices.brands.show', function (BreadcrumbTrail $trail, Brand $brand) {
+    $device = request()->route('device');
+    $trail->parent('devices.show', $device);
+    $trail->push($brand->name, route('devices.brands.show', [$device, $brand]));
 });

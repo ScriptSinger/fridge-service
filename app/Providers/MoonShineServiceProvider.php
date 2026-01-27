@@ -16,6 +16,7 @@ use App\MoonShine\Resources\ErrorCode\ErrorCodeResource;
 use App\MoonShine\Resources\Lead\LeadResource;
 use App\MoonShine\Resources\Problem\ProblemResource;
 use App\MoonShine\Resources\Page\PageResource;
+use App\MoonShine\Resources\Device\DeviceResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -34,6 +35,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 LeadResource::class,
                 ProblemResource::class,
                 PageResource::class,
+                DeviceResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),

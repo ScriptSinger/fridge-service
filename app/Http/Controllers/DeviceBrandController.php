@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
-use App\Models\Service;
+use App\Models\Device;
 use Illuminate\Http\Request;
 
-class ServiceBrandController extends Controller
+class DeviceBrandController extends Controller
 {
-    public function show(Service $service, Brand $brand)
+    public function show(Device $device, Brand $brand)
     {
         return view('pages.brand', [
-            'service' => $service,
+            'device' => $device,
             'brand'   => $brand,
         ]);
     }

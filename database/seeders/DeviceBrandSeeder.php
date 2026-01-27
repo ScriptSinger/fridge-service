@@ -3,11 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Brand;
-use App\Models\Service;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Device;
 use Illuminate\Database\Seeder;
 
-class ServiceBrandSeeder extends Seeder
+class DeviceBrandSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,7 +15,7 @@ class ServiceBrandSeeder extends Seeder
     public function run(): void
     {
         // Получаем сервисы
-        $services = Service::whereIn('type', [
+        $devices = Device::whereIn('type', [
             'Холодильник',
             'Стиральная машина'
         ])->get();
@@ -24,20 +23,20 @@ class ServiceBrandSeeder extends Seeder
         // Получаем все бренды
         $brands = Brand::all();
 
-        foreach ($services as $service) {
+        foreach ($devices as $device) {
             $pivotData = [];
 
             foreach ($brands as $brand) {
                 $pivotData[$brand->id] = [
-                    'h1'          => "Ремонт {$service->typeInCase('genitive')} {$brand->name}",
+                    'h1'          => "Ремонт {$device->typeInCase('genitive')} {$brand->name}",
                     'subtitle'    => "Выезд мастера в день обращения для {$brand->name}",
-                    'title'       => "Ремонт {$brand->name} — {$service->h1}",
-                    'description' => "Обслуживаем все модели {$brand->name} {$service->typeInCase('genitive')}",
+                    'title'       => "Ремонт {$brand->name} — {$device->h1}",
+                    'description' => "Обслуживаем все модели {$brand->name} {$device->typeInCase('genitive')}",
                 ];
             }
 
             // Добавляет новые + обновляет существующие + не удаляет старые связи
-            $service->brands()->syncWithoutDetaching($pivotData);
+            $device->brands()->syncWithoutDetaching($pivotData);
         }
     }
 }

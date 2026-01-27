@@ -12,4 +12,4 @@
          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
      </ul>
  </div>
-<?php /**PATH /var/www/html/resources/views/components/footer/services.blade.php ENDPATH**/ ?>
+<?php /**PATH /var/www/html/resources/views/components/footer/devices.blade.php ENDPATH**/ ?>

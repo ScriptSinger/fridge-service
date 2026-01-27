@@ -24,9 +24,9 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             PageSeeder::class,
-            ServiceSeeder::class,
+            DeviceSeeder::class,
             BrandSeeder::class,
-            ServiceBrandSeeder::class,
+            DeviceBrandSeeder::class,
             ProblemSeeder::class,
             ErrorCodeSeeder::class,
         ]);

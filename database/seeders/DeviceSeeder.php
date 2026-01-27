@@ -2,15 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\Service;
+use App\Models\Device;
 use Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ServiceSeeder extends Seeder
+class DeviceSeeder extends Seeder
 {
     public function run(): void
     {
-        $services = [
+        $devices = [
             [
                 'permalink'   => 'Ремонт холодильников',
                 'type'        => 'Холодильник',
@@ -31,9 +32,9 @@ class ServiceSeeder extends Seeder
             ],
         ];
 
-        foreach ($services as $data) {
-            $data['slug'] = SlugService::createSlug(Service::class, 'slug', $data['permalink']);
-            Service::create($data);
+        foreach ($devices as $data) {
+            $data['slug'] = SlugService::createSlug(Device::class, 'slug', $data['permalink']);
+            Device::create($data);
         }
     }
 }
