@@ -4,23 +4,18 @@ namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class Service extends Model
 {
     use Sluggable;
 
     protected $fillable = [
-        'slug',
-        'permalink',
-        'type',
-        'h1',
-        'subtitle',
-        'title',
+        'name',
         'description',
-        'image',
-        'image_alt',
-        'is_active'
+        'device_id',
+        'brand_id',
+        'slug',
+        'tags',
     ];
 
     public function sluggable(): array
@@ -32,37 +27,42 @@ class Service extends Model
         ];
     }
 
-    public function problems()
+    /**
+     * Связь с устройством (Device)
+     */
+    public function device()
     {
-        return $this->hasMany(Problem::class);
-    }
-
-    public function brands()
-    {
-        return $this->belongsToMany(Brand::class)->withPivot(['h1', 'subtitle', 'title', 'description']);
-    }
-
-
-    public function leads()
-    {
-        return $this->morphMany(Lead::class, 'leadable');
-    }
-
-    public function getShortDescriptionAttribute()
-    {
-        return Str::limit(strip_tags($this->description), 120);
+        return $this->belongsTo(Device::class);
     }
 
     /**
-     * Получить название типа техники в нужном падеже
-     *
-     * @param string $case 'nominative', 'genitive', 'dative', 'accusative', 'instrumental', 'prepositional'
-     * @return string
+     * Связь с ценой (Price)
      */
-    public function typeInCase(string $case = 'nominative'): string
+    public function prices()
     {
-        $map = config('tech_types');
-        $type = $this->type;
-        return $map[$type][$case] ?? Str::lower($type);
+        return $this->hasMany(Price::class);
+    }
+
+    /**
+     * Связь с проблемами (Problem) через pivot
+     */
+    public function problems()
+    {
+        return $this->belongsToMany(Problem::class, 'problem_service');
+    }
+
+    /**
+     * Преобразуем JSON теги в массив
+     */
+    protected $casts = [
+        'tags' => 'array',
+    ];
+
+    /**
+     * Удобный аксессор для SEO / фронтенда
+     */
+    public function getDisplayNameAttribute(): string
+    {
+        return $this->name; // можно добавить доп. текст, если нужно
     }
 }

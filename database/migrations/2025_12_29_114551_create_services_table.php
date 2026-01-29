@@ -13,17 +13,22 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->foreignId('device_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            // slug для SEO (если нужно)
             $table->string('slug')->unique()->nullable();
-            $table->string('permalink')->nullable();
-            $table->string('type')->nullable();
-            $table->string('h1')->nullable();
-            $table->string('subtitle')->nullable();
-            $table->string('title')->nullable();
-            $table->string('description')->nullable();
-            $table->string('image')->nullable();
-            $table->string('image_alt')->nullable();
-            $table->boolean('is_active')->default(true);
+
+            // теги/категории (опционально, через JSON)
+            $table->json('tags')->nullable();
+
             $table->timestamps();
+
+            // индекс для быстрого поиска по device + brand
+            $table->index(['device_id']);
         });
     }
 

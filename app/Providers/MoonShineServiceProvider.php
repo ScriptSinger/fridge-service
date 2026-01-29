@@ -17,6 +17,7 @@ use App\MoonShine\Resources\Lead\LeadResource;
 use App\MoonShine\Resources\Problem\ProblemResource;
 use App\MoonShine\Resources\Page\PageResource;
 use App\MoonShine\Resources\Device\DeviceResource;
+use App\MoonShine\Resources\Price\PriceResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -36,6 +37,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 ProblemResource::class,
                 PageResource::class,
                 DeviceResource::class,
+                PriceResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),

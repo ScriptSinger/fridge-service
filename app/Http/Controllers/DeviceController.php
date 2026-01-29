@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Device;
 use App\Models\Problem;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class DeviceController extends Controller
@@ -17,10 +18,17 @@ class DeviceController extends Controller
             ->whereDoesntHave('brands')
             ->get();
 
+        $services = Service::with(['prices' => function ($query) {
+            $query->whereNull('brand_id');
+        }])
+            ->where('device_id', $device->id)
+            ->get();
+
         return view('pages.device', [
             'device' => $device,
             'brands'  => $device->brands,
-            'problems' => $problems
+            'problems' => $problems,
+            'services' => $services,
         ]);
     }
 }

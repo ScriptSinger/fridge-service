@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             PageSeeder::class,
             DeviceSeeder::class,
             BrandSeeder::class,
+            ServiceSeeder::class,
             DeviceBrandSeeder::class,
             ProblemSeeder::class,
             ErrorCodeSeeder::class,

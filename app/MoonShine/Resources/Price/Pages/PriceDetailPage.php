@@ -2,30 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\MoonShine\Resources\Service\Pages;
+namespace App\MoonShine\Resources\Price\Pages;
 
-use App\Models\Device;
-use MoonShine\Laravel\Pages\Crud\IndexPage;
+use MoonShine\Laravel\Pages\Crud\DetailPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\Contracts\UI\FieldContract;
-use MoonShine\Laravel\QueryTags\QueryTag;
-use MoonShine\UI\Components\Metrics\Wrapped\Metric;
-use MoonShine\UI\Fields\ID;
-use App\MoonShine\Resources\Service\ServiceResource;
+use App\MoonShine\Resources\Price\PriceResource;
 use MoonShine\Support\ListOf;
-use MoonShine\UI\Fields\Select;
-use MoonShine\UI\Fields\Text;
+use MoonShine\UI\Fields\ID;
 use Throwable;
 
 
 /**
- * @extends IndexPage<ServiceResource>
+ * @extends DetailPage<PriceResource>
  */
-class ServiceIndexPage extends IndexPage
+class PriceDetailPage extends DetailPage
 {
-    protected bool $isLazy = true;
-
     /**
      * @return list<FieldContract>
      */
@@ -36,40 +29,9 @@ class ServiceIndexPage extends IndexPage
     //     ];
     // }
 
-    /**
-     * @return ListOf<ActionButtonContract>
-     */
     protected function buttons(): ListOf
     {
         return parent::buttons();
-    }
-
-    /**
-     * @return list<FieldContract>
-     */
-    protected function filters(): iterable
-    {
-        return [
-            Text::make('Name', 'name'),
-            Select::make('Device', 'device_id')
-                ->options(Device::pluck('type', 'id')->toArray()),
-        ];
-    }
-
-    /**
-     * @return list<QueryTag>
-     */
-    protected function queryTags(): array
-    {
-        return [];
-    }
-
-    /**
-     * @return list<Metric>
-     */
-    protected function metrics(): array
-    {
-        return [];
     }
 
     /**
@@ -77,7 +39,7 @@ class ServiceIndexPage extends IndexPage
      *
      * @return TableBuilder
      */
-    protected function modifyListComponent(ComponentContract $component): ComponentContract
+    protected function modifyDetailComponent(ComponentContract $component): ComponentContract
     {
         return $component;
     }
