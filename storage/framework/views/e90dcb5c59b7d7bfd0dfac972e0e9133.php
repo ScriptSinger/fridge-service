@@ -30,14 +30,12 @@
 <?php unset($__componentOriginal0801d0fb74ec05d77bd33020e23b75f8); ?>
 <?php endif; ?>
 
-    
     <div class="hidden md:block">
         <?php echo $__env->make('components.sections.common.services.table', [
             'services' => $services,
         ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
     </div>
 
-    
     <div class="md:hidden">
         <?php echo $__env->make('components.sections.common.services.mobile', [
             'services' => $services,
