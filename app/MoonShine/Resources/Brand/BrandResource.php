@@ -11,10 +11,8 @@ use App\MoonShine\Resources\Brand\Pages\BrandFormPage;
 use App\MoonShine\Resources\Brand\Pages\BrandDetailPage;
 use App\MoonShine\Resources\ErrorCode\ErrorCodeResource;
 use App\MoonShine\Resources\Problem\ProblemResource;
-use App\MoonShine\Resources\Service\ServiceResource;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
-use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\Laravel\Fields\Relationships\HasMany;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\ID;
@@ -63,15 +61,6 @@ class BrandResource extends ModelResource
                     ->hint('420x260')
                     ->removable(),
                 Text::make('Alt для изображения', 'image_alt'),
-            ]),
-
-            Box::make([
-                BelongsToMany::make(
-                    'Services',
-                    'services',
-                    fn($item) => $item->type,
-                    ServiceResource::class
-                ),
             ]),
 
             Box::make([HasMany::make('Error Codes', 'errorCodes', ErrorCodeResource::class),])
