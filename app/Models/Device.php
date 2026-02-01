@@ -47,6 +47,13 @@ class Device extends Model
         return $this->morphMany(Lead::class, 'leadable');
     }
 
+
+    public function faqs()
+    {
+        return $this->hasMany(Faq::class);
+    }
+
+
     public function getShortDescriptionAttribute()
     {
         return Str::limit(strip_tags($this->description), 120);

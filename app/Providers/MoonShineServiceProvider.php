@@ -18,6 +18,7 @@ use App\MoonShine\Resources\Problem\ProblemResource;
 use App\MoonShine\Resources\Page\PageResource;
 use App\MoonShine\Resources\Device\DeviceResource;
 use App\MoonShine\Resources\Price\PriceResource;
+use App\MoonShine\Resources\Faq\FaqResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -38,6 +39,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 PageResource::class,
                 DeviceResource::class,
                 PriceResource::class,
+                FaqResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Brand;
+use App\Models\Device;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -11,30 +12,16 @@ class BrandSeeder extends Seeder
 {
     public function run(): void
     {
-        $brands = [
-            'Atlant',
-            'LG',
-            'Samsung',
-            'Bosch',
-            'Liebherr',
-            'Indesit',
-            'Haier',
-            'Beko',
-            'Miele',
-            'Stinol',
-            'Бирюса',
-            'Ariston',
-        ];
+        $brands = config('catalog.brands', []);
 
         foreach ($brands as $brandName) {
             $slug = SlugService::createSlug(Brand::class, 'slug', $brandName);
 
             Brand::updateOrCreate(
-                ['name' => $brandName],
+                ['name' => $brandName], // ищем по имени
                 [
-                    'image_alt' => "Ремонт холодильников {$brandName}",
-                    'is_active' => true,
                     'slug'      => $slug,
+                    'is_active' => true,
                 ]
             );
         }

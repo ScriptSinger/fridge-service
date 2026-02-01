@@ -29,6 +29,7 @@ class DeviceController extends Controller
             'brands'  => $device->brands,
             'problems' => $problems,
             'services' => $services,
+            'faqs'     => $device->faqs,
         ]);
     }
 }

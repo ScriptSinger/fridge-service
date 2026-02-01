@@ -17,6 +17,7 @@ use App\MoonShine\Resources\Lead\LeadResource;
 use App\MoonShine\Resources\Page\PageResource;
 use App\MoonShine\Resources\Problem\ProblemResource;
 use App\MoonShine\Resources\Device\DeviceResource;
+use App\MoonShine\Resources\Faq\FaqResource;
 use App\MoonShine\Resources\Price\PriceResource;
 
 final class MoonShineLayout extends AppLayout
@@ -45,6 +46,7 @@ final class MoonShineLayout extends AppLayout
             MenuItem::make(LeadResource::class, 'Leads'),
             MenuItem::make(ServiceResource::class, 'Services'),
             MenuItem::make(PriceResource::class, 'Prices'),
+            MenuItem::make(FaqResource::class, 'Faqs'),
 
         ];
     }

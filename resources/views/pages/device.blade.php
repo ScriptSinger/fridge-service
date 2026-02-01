@@ -4,6 +4,7 @@
     <x-sections.brands :models="$brands" :device="$device" />
     <x-sections.common.services.index :services="$services" />
     <x-sections.common.problems :problems="$problems" :device="$device" />
+    <x-sections.home.faq :faqs="$faqs" />
     <x-sections.contact :model="$device" />
     <x-ui.scroll-up />
 </x-layouts.app>

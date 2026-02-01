@@ -9,6 +9,7 @@ use App\Models\Brand;
 use App\MoonShine\Resources\Brand\Pages\BrandIndexPage;
 use App\MoonShine\Resources\Brand\Pages\BrandFormPage;
 use App\MoonShine\Resources\Brand\Pages\BrandDetailPage;
+use App\MoonShine\Resources\Device\DeviceResource;
 use App\MoonShine\Resources\ErrorCode\ErrorCodeResource;
 use App\MoonShine\Resources\Problem\ProblemResource;
 use MoonShine\Laravel\Resources\ModelResource;
@@ -63,7 +64,7 @@ class BrandResource extends ModelResource
                 Text::make('Alt для изображения', 'image_alt'),
             ]),
 
-            Box::make([HasMany::make('Error Codes', 'errorCodes', ErrorCodeResource::class),])
+            Box::make([HasMany::make('Error Codes', 'errorCodes', ErrorCodeResource::class),]),
         ];
     }
 

@@ -13,7 +13,7 @@ class ServiceSeeder extends Seeder
     public function run(): void
     {
         // Берём список услуг из config
-        $devicesServices = config('services_catalog.devices');
+        $devicesServices = config('catalog.services.devices');
 
         foreach ($devicesServices as $deviceType => $services) {
             // Получаем устройство, которое должно уже существовать
@@ -36,7 +36,7 @@ class ServiceSeeder extends Seeder
                 $data['slug'] = SlugService::createSlug(Service::class, 'slug', $serviceName);
 
                 // Создаём Service, если ещё нет
-                Service::firstOrCreate(['slug' => $data['slug']], $data);
+                Service::updateOrCreate(['slug' => $data['slug']], $data);
             }
         }
     }

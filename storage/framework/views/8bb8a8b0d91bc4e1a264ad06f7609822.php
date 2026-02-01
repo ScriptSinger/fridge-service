@@ -108,6 +108,26 @@
 <?php $component = $__componentOriginalbd6682a686d18752ee21d4fbbcac6f86; ?>
 <?php unset($__componentOriginalbd6682a686d18752ee21d4fbbcac6f86); ?>
 <?php endif; ?>
+    <?php if (isset($component)) { $__componentOriginal94f121500a9e13e948e5e55eab3f6814 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal94f121500a9e13e948e5e55eab3f6814 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.home.faq','data' => ['faqs' => $faqs]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('sections.home.faq'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['faqs' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($faqs)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal94f121500a9e13e948e5e55eab3f6814)): ?>
+<?php $attributes = $__attributesOriginal94f121500a9e13e948e5e55eab3f6814; ?>
+<?php unset($__attributesOriginal94f121500a9e13e948e5e55eab3f6814); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal94f121500a9e13e948e5e55eab3f6814)): ?>
+<?php $component = $__componentOriginal94f121500a9e13e948e5e55eab3f6814; ?>
+<?php unset($__componentOriginal94f121500a9e13e948e5e55eab3f6814); ?>
+<?php endif; ?>
     <?php if (isset($component)) { $__componentOriginal62de9fc3ebe431a0d746cd50eda6c97f = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal62de9fc3ebe431a0d746cd50eda6c97f = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.contact','data' => ['model' => $device]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
