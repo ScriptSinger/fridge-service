@@ -48,26 +48,6 @@
 <?php $component = $__componentOriginal7d77bb759cf09fb7609ab7d50dcb0764; ?>
 <?php unset($__componentOriginal7d77bb759cf09fb7609ab7d50dcb0764); ?>
 <?php endif; ?>
-    <?php if (isset($component)) { $__componentOriginalbd6682a686d18752ee21d4fbbcac6f86 = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginalbd6682a686d18752ee21d4fbbcac6f86 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.common.problems','data' => ['problems' => $problems,'device' => $device]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('sections.common.problems'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
-<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
-<?php endif; ?>
-<?php $component->withAttributes(['problems' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($problems),'device' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($device)]); ?>
-<?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginalbd6682a686d18752ee21d4fbbcac6f86)): ?>
-<?php $attributes = $__attributesOriginalbd6682a686d18752ee21d4fbbcac6f86; ?>
-<?php unset($__attributesOriginalbd6682a686d18752ee21d4fbbcac6f86); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginalbd6682a686d18752ee21d4fbbcac6f86)): ?>
-<?php $component = $__componentOriginalbd6682a686d18752ee21d4fbbcac6f86; ?>
-<?php unset($__componentOriginalbd6682a686d18752ee21d4fbbcac6f86); ?>
-<?php endif; ?>
     <?php if (isset($component)) { $__componentOriginal38df05f019cbe7712f9a08ba46b3fab0 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal38df05f019cbe7712f9a08ba46b3fab0 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.brands','data' => ['models' => $brands,'device' => $device]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
@@ -107,6 +87,26 @@
 <?php if (isset($__componentOriginal49c996d1f0208ad5f918311e429079e6)): ?>
 <?php $component = $__componentOriginal49c996d1f0208ad5f918311e429079e6; ?>
 <?php unset($__componentOriginal49c996d1f0208ad5f918311e429079e6); ?>
+<?php endif; ?>
+    <?php if (isset($component)) { $__componentOriginalbd6682a686d18752ee21d4fbbcac6f86 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalbd6682a686d18752ee21d4fbbcac6f86 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.common.problems','data' => ['problems' => $problems,'device' => $device]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('sections.common.problems'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['problems' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($problems),'device' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($device)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalbd6682a686d18752ee21d4fbbcac6f86)): ?>
+<?php $attributes = $__attributesOriginalbd6682a686d18752ee21d4fbbcac6f86; ?>
+<?php unset($__attributesOriginalbd6682a686d18752ee21d4fbbcac6f86); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalbd6682a686d18752ee21d4fbbcac6f86)): ?>
+<?php $component = $__componentOriginalbd6682a686d18752ee21d4fbbcac6f86; ?>
+<?php unset($__componentOriginalbd6682a686d18752ee21d4fbbcac6f86); ?>
 <?php endif; ?>
     <?php if (isset($component)) { $__componentOriginal62de9fc3ebe431a0d746cd50eda6c97f = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal62de9fc3ebe431a0d746cd50eda6c97f = $attributes; } ?>

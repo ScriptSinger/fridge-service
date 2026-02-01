@@ -9,8 +9,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
 
-Route::get('/appliances/{device:slug}', [DeviceController::class, 'show'])
+Route::get('{device:slug}', [DeviceController::class, 'show'])
     ->name('devices.show');
 
-Route::get('/appliances/{device:slug}/{brand:slug}', [DeviceBrandController::class, 'show'])
+Route::get('{device:slug}/{brand:slug}', [DeviceBrandController::class, 'show'])
     ->name('devices.brands.show');

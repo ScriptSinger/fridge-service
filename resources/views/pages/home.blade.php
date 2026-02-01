@@ -3,8 +3,9 @@
     {{-- <x-sections.home.services :services="$services" /> --}}
     <x-sections.home.devices :devices="$devices" />
     <x-sections.common.steps />
-    <x-sections.common.pricing />
-    <x-sections.home.blog :problems="$problems" />
+    <x-sections.home.benefits />
+
+
     <x-sections.contact :model="$page" />
     <x-ui.scroll-up />
 </x-layouts.app>

@@ -69,10 +69,10 @@
 <?php $component = $__componentOriginalf4f1dfdecf844b69556b9865479b670d; ?>
 <?php unset($__componentOriginalf4f1dfdecf844b69556b9865479b670d); ?>
 <?php endif; ?>
-    <?php if (isset($component)) { $__componentOriginalb9b00f3e602a33ff58bc769ad743ea5e = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginalb9b00f3e602a33ff58bc769ad743ea5e = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.common.pricing','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('sections.common.pricing'); ?>
+    <?php if (isset($component)) { $__componentOriginal373f381962c3c66943eda474148a283c = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal373f381962c3c66943eda474148a283c = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.home.benefits','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('sections.home.benefits'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
@@ -81,34 +81,16 @@
 <?php $component->withAttributes([]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__attributesOriginalb9b00f3e602a33ff58bc769ad743ea5e)): ?>
-<?php $attributes = $__attributesOriginalb9b00f3e602a33ff58bc769ad743ea5e; ?>
-<?php unset($__attributesOriginalb9b00f3e602a33ff58bc769ad743ea5e); ?>
+<?php if (isset($__attributesOriginal373f381962c3c66943eda474148a283c)): ?>
+<?php $attributes = $__attributesOriginal373f381962c3c66943eda474148a283c; ?>
+<?php unset($__attributesOriginal373f381962c3c66943eda474148a283c); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginalb9b00f3e602a33ff58bc769ad743ea5e)): ?>
-<?php $component = $__componentOriginalb9b00f3e602a33ff58bc769ad743ea5e; ?>
-<?php unset($__componentOriginalb9b00f3e602a33ff58bc769ad743ea5e); ?>
+<?php if (isset($__componentOriginal373f381962c3c66943eda474148a283c)): ?>
+<?php $component = $__componentOriginal373f381962c3c66943eda474148a283c; ?>
+<?php unset($__componentOriginal373f381962c3c66943eda474148a283c); ?>
 <?php endif; ?>
-    <?php if (isset($component)) { $__componentOriginaldbb7a66e9e2fd8493ff7d49eb74055db = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginaldbb7a66e9e2fd8493ff7d49eb74055db = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.home.blog','data' => ['problems' => $problems]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('sections.home.blog'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
-<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
-<?php endif; ?>
-<?php $component->withAttributes(['problems' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($problems)]); ?>
-<?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginaldbb7a66e9e2fd8493ff7d49eb74055db)): ?>
-<?php $attributes = $__attributesOriginaldbb7a66e9e2fd8493ff7d49eb74055db; ?>
-<?php unset($__attributesOriginaldbb7a66e9e2fd8493ff7d49eb74055db); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginaldbb7a66e9e2fd8493ff7d49eb74055db)): ?>
-<?php $component = $__componentOriginaldbb7a66e9e2fd8493ff7d49eb74055db; ?>
-<?php unset($__componentOriginaldbb7a66e9e2fd8493ff7d49eb74055db); ?>
-<?php endif; ?>
+
+
     <?php if (isset($component)) { $__componentOriginal62de9fc3ebe431a0d746cd50eda6c97f = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal62de9fc3ebe431a0d746cd50eda6c97f = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.contact','data' => ['model' => $page]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
