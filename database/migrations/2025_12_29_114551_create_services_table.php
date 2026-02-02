@@ -19,14 +19,10 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
 
-            // slug для SEO (если нужно)
             $table->string('slug')->unique()->nullable();
-
-            // теги/категории (опционально, через JSON)
             $table->json('tags')->nullable();
-
             $table->timestamps();
-
+            $table->boolean('is_active')->default(true);
             // индекс для быстрого поиска по device + brand
             $table->index(['device_id']);
         });

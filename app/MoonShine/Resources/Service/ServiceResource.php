@@ -15,6 +15,7 @@ use MoonShine\Contracts\Core\PageContract;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\HasMany;
 use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 
@@ -46,7 +47,8 @@ class ServiceResource extends ModelResource
                 'prices',
                 fn($item) => $item->type,
                 PriceResource::class
-            )->sortable()
+            )->sortable(),
+            Switcher::make('Активна', 'is_active'),
         ];
     }
 
@@ -64,6 +66,8 @@ class ServiceResource extends ModelResource
 
             HasMany::make('Prices', 'prices')->creatable(),
             // HasMany::make('Problems', 'problems'), // связь через pivot
+            Switcher::make('Активна', 'is_active'),
+
         ];
     }
 
@@ -78,8 +82,9 @@ class ServiceResource extends ModelResource
                 fn($item) => $item->type,
                 DeviceResource::class
             )->required(),
-
             HasMany::make('Prices', 'prices'),
+            Switcher::make('Активна', 'is_active')
+
         ];
     }
 

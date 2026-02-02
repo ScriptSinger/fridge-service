@@ -39,12 +39,12 @@ class Device extends Model
 
     public function problems()
     {
-        return $this->hasMany(Problem::class);
+        return $this->hasMany(Problem::class)->where('is_active', true);
     }
 
     public function services()
     {
-        return $this->hasMany(Service::class);
+        return $this->hasMany(Service::class)->where('is_active', true);;
     }
 
     public function faqs()

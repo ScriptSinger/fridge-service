@@ -18,6 +18,7 @@ use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\Laravel\Fields\Relationships\HasMany;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 
@@ -39,6 +40,7 @@ class ProblemResource extends ModelResource
             Text::make('Title', 'title'),
             Text::make('H1', 'h1'),
             Textarea::make('Content', 'content'),
+            Switcher::make('Активна', 'is_active'),
         ];
     }
 
@@ -60,6 +62,8 @@ class ProblemResource extends ModelResource
 
                 Textarea::make('Content', 'content'),
 
+                Switcher::make('Активна', 'is_active'),
+
                 BelongsToMany::make(
                     'Brands',
                     'brands',
@@ -73,7 +77,6 @@ class ProblemResource extends ModelResource
                     fn($item) => $item->title,
                     ErrorCodeResource::class
                 ),
-
             ]),
         ];
     }
@@ -99,6 +102,7 @@ class ProblemResource extends ModelResource
                 ErrorCodeResource::class
             )->readonly(),
 
+            Switcher::make('Активна', 'is_active'),
 
         ];
     }
