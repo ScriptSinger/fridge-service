@@ -48,6 +48,46 @@
 <?php $component = $__componentOriginal7d77bb759cf09fb7609ab7d50dcb0764; ?>
 <?php unset($__componentOriginal7d77bb759cf09fb7609ab7d50dcb0764); ?>
 <?php endif; ?>
+    <?php if (isset($component)) { $__componentOriginalbd6682a686d18752ee21d4fbbcac6f86 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalbd6682a686d18752ee21d4fbbcac6f86 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.common.problems','data' => ['problems' => $problems,'device' => $device]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('sections.common.problems'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['problems' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($problems),'device' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($device)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalbd6682a686d18752ee21d4fbbcac6f86)): ?>
+<?php $attributes = $__attributesOriginalbd6682a686d18752ee21d4fbbcac6f86; ?>
+<?php unset($__attributesOriginalbd6682a686d18752ee21d4fbbcac6f86); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalbd6682a686d18752ee21d4fbbcac6f86)): ?>
+<?php $component = $__componentOriginalbd6682a686d18752ee21d4fbbcac6f86; ?>
+<?php unset($__componentOriginalbd6682a686d18752ee21d4fbbcac6f86); ?>
+<?php endif; ?>
+    <?php if (isset($component)) { $__componentOriginal49c996d1f0208ad5f918311e429079e6 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal49c996d1f0208ad5f918311e429079e6 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.common.services.index','data' => ['services' => $services]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('sections.common.services.index'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['services' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($services)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal49c996d1f0208ad5f918311e429079e6)): ?>
+<?php $attributes = $__attributesOriginal49c996d1f0208ad5f918311e429079e6; ?>
+<?php unset($__attributesOriginal49c996d1f0208ad5f918311e429079e6); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal49c996d1f0208ad5f918311e429079e6)): ?>
+<?php $component = $__componentOriginal49c996d1f0208ad5f918311e429079e6; ?>
+<?php unset($__componentOriginal49c996d1f0208ad5f918311e429079e6); ?>
+<?php endif; ?>
     <?php if (isset($component)) { $__componentOriginalf4f1dfdecf844b69556b9865479b670d = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalf4f1dfdecf844b69556b9865479b670d = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.common.steps','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>

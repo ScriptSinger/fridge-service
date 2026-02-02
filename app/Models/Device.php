@@ -32,27 +32,30 @@ class Device extends Model
         ];
     }
 
-    public function problems()
-    {
-        return $this->hasMany(Problem::class);
-    }
-
     public function brands()
     {
         return $this->belongsToMany(Brand::class)->withPivot(['h1', 'subtitle', 'title', 'description']);
     }
 
-    public function leads()
+    public function problems()
     {
-        return $this->morphMany(Lead::class, 'leadable');
+        return $this->hasMany(Problem::class);
     }
 
+    public function services()
+    {
+        return $this->hasMany(Service::class);
+    }
 
     public function faqs()
     {
         return $this->hasMany(Faq::class);
     }
 
+    public function leads()
+    {
+        return $this->morphMany(Lead::class, 'leadable');
+    }
 
     public function getShortDescriptionAttribute()
     {

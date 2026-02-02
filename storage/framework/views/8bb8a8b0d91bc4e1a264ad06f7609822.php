@@ -68,26 +68,6 @@
 <?php $component = $__componentOriginal38df05f019cbe7712f9a08ba46b3fab0; ?>
 <?php unset($__componentOriginal38df05f019cbe7712f9a08ba46b3fab0); ?>
 <?php endif; ?>
-    <?php if (isset($component)) { $__componentOriginal49c996d1f0208ad5f918311e429079e6 = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal49c996d1f0208ad5f918311e429079e6 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.common.services.index','data' => ['services' => $services]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('sections.common.services.index'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
-<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
-<?php endif; ?>
-<?php $component->withAttributes(['services' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($services)]); ?>
-<?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginal49c996d1f0208ad5f918311e429079e6)): ?>
-<?php $attributes = $__attributesOriginal49c996d1f0208ad5f918311e429079e6; ?>
-<?php unset($__attributesOriginal49c996d1f0208ad5f918311e429079e6); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal49c996d1f0208ad5f918311e429079e6)): ?>
-<?php $component = $__componentOriginal49c996d1f0208ad5f918311e429079e6; ?>
-<?php unset($__componentOriginal49c996d1f0208ad5f918311e429079e6); ?>
-<?php endif; ?>
     <?php if (isset($component)) { $__componentOriginalbd6682a686d18752ee21d4fbbcac6f86 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalbd6682a686d18752ee21d4fbbcac6f86 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.common.problems','data' => ['problems' => $problems,'device' => $device]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
@@ -107,6 +87,26 @@
 <?php if (isset($__componentOriginalbd6682a686d18752ee21d4fbbcac6f86)): ?>
 <?php $component = $__componentOriginalbd6682a686d18752ee21d4fbbcac6f86; ?>
 <?php unset($__componentOriginalbd6682a686d18752ee21d4fbbcac6f86); ?>
+<?php endif; ?>
+    <?php if (isset($component)) { $__componentOriginal49c996d1f0208ad5f918311e429079e6 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal49c996d1f0208ad5f918311e429079e6 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.common.services.index','data' => ['services' => $services]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('sections.common.services.index'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['services' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($services)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal49c996d1f0208ad5f918311e429079e6)): ?>
+<?php $attributes = $__attributesOriginal49c996d1f0208ad5f918311e429079e6; ?>
+<?php unset($__attributesOriginal49c996d1f0208ad5f918311e429079e6); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal49c996d1f0208ad5f918311e429079e6)): ?>
+<?php $component = $__componentOriginal49c996d1f0208ad5f918311e429079e6; ?>
+<?php unset($__componentOriginal49c996d1f0208ad5f918311e429079e6); ?>
 <?php endif; ?>
     <?php if (isset($component)) { $__componentOriginal94f121500a9e13e948e5e55eab3f6814 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal94f121500a9e13e948e5e55eab3f6814 = $attributes; } ?>
