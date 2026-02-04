@@ -7,6 +7,7 @@ use App\Http\Requests\StoreLeadRequest;
 use App\Models\Lead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 
 class LeadController extends Controller
@@ -15,12 +16,13 @@ class LeadController extends Controller
     {
         $lead = Lead::create($request->validated());
 
-        if ($request->leadable_type) {
-            $lead->leadable()->associate(
-                $request->leadable_type::find($request->leadable_id)
-            );
+        if ($request->leadable_type && in_array($request->leadable_type, $request->allowedLeadableTypes(), true)) {
+            $leadable = $request->leadable_type::find($request->leadable_id);
 
-            $lead->save();
+            if ($leadable) {
+                $lead->leadable()->associate($leadable);
+                $lead->save();
+            }
         }
 
         $token = env('TELEGRAM_BOT_TOKEN');
@@ -36,6 +38,7 @@ class LeadController extends Controller
             'chat_id' => $chatId,
             'text' => $message,
         ]);
+
 
 
 
