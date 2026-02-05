@@ -1,6 +1,6 @@
 <div class="flex flex-col w-full mb-12 text-center md:text-left">
     <?php if($title): ?>
-        <h2 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900"><?php echo e($title); ?></h2>
+        <h2 class="text-xl sm:text-2xl lg:text-3xl font-medium title-font mb-4 text-gray-900"><?php echo e($title); ?></h2>
     <?php endif; ?>
 
     <?php if($subtitle): ?>

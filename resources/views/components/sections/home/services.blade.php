@@ -15,8 +15,8 @@
                         @endif
 
                         <div class="text-center relative z-10 w-full">
-                            <h3 class="text-xl text-gray-900 font-medium title-font mb-2">{{ $service->type }}
-
+                            <h3 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">
+                                {{ $service->type }}
                             </h3>
                         </div>
                     </a>
