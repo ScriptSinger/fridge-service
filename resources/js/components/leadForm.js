@@ -9,6 +9,14 @@ export default (payload = {}) => ({
     success: false,
     errors: {},
 
+    init() {
+        window.addEventListener("lead:success", () => {
+            this.loading = false;
+            this.errors = {};
+            this.success = true;
+        });
+    },
+
     async submit() {
         this.loading = true;
         this.errors = {};
@@ -23,6 +31,7 @@ export default (payload = {}) => ({
 
             // Если успешно
             this.success = true;
+            window.dispatchEvent(new CustomEvent("lead:success"));
             // очищаем форму
             this.form.name = "";
             this.form.phone = "";

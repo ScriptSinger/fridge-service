@@ -25,7 +25,7 @@
         </div>
 
         <div class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
-            <x-forms.leads class="w-full" :model="$model" />
+            <x-forms.leads class="w-full" :model="$model" idPrefix="contact" />
         </div>
 
     </div>
