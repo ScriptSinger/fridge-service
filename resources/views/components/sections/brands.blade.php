@@ -6,7 +6,7 @@
         subtitle="Работаем с большинством популярных марок. Ремонтируем бытовые и
             коммерческие {{ Str::lower($device->typeInCase('accusative')) }}." />
 
-    <div class="flex flex-wrap -m-4">
+    <div class="flex flex-wrap -m-4 px-5 md:px-0">
         @foreach ($models as $model)
             @continue(!$model->slug)
             <div class="lg:w-1/4 md:w-1/2 p-4 w-full shadow-sm hover:shadow-lg transition">

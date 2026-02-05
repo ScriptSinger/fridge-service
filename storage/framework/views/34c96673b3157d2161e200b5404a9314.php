@@ -35,7 +35,7 @@
 <?php unset($__componentOriginal0801d0fb74ec05d77bd33020e23b75f8); ?>
 <?php endif; ?>
 
-    <div class="flex flex-wrap -m-4">
+    <div class="flex flex-wrap -m-4 px-5 md:px-0">
         <?php $__currentLoopData = $models; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $model): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <?php if(!$model->slug) continue; ?>
             <div class="lg:w-1/4 md:w-1/2 p-4 w-full shadow-sm hover:shadow-lg transition">
