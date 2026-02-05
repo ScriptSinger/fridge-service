@@ -32,7 +32,7 @@ unset($__defined_vars, $__key, $__value); ?>
     x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
 
-    <div @click.away="closeModal()" class="bg-white rounded-lg p-6 w-full max-w-md relative">
+    <div @click.away="closeModal()" class="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md relative mx-4 sm:mx-0">
         <button @click="closeModal()"
             class="absolute top-2 right-2 text-gray-500 hover:text-gray-900 cursor-pointer">✕</button>
 

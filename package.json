@@ -16,6 +16,6 @@
     },
     "dependencies": {
         "alpinejs": "^3.15.3",
-        "cleave.js": "^1.6.0"
+        "imask": "^7.6.1"
     }
 }

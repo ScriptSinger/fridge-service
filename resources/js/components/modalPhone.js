@@ -1,22 +1,14 @@
 window.modalPhone = function () {
     return {
         open: false,
-        init() {
-            if (this.$refs.phone) {
-                new Cleave(this.$refs.phone, {
-                    phoneRegionCode: "ru",
-                    prefix: "+7",
-                    delimiter: "-",
-                    blocks: [2, 3, 3, 2, 2],
-                    uppercase: true,
-                });
-            }
-        },
+
         openModal() {
             this.open = true;
+            document.body.classList.add("overflow-hidden");
         },
         closeModal() {
             this.open = false;
+            document.body.classList.remove("overflow-hidden");
         },
         submit() {
             console.log("Телефон:", this.$refs.phone.value);
