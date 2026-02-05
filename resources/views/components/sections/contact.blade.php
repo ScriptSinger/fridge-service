@@ -12,7 +12,7 @@
             <div class="bg-white relative flex flex-wrap py-6 rounded shadow-md">
                 <div class="lg:w-1/2 px-6">
                     <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs">Адрес</h2>
-                    <p class="mt-1">ул. Мушникова, 11, Уфа, Респ. Башкортостан, Россия, 450043</p>
+                    <p class="mt-1">{{ config('contacts.address_full') }}</p>
                 </div>
                 <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
                     <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs mt-4">Телефон</h2>

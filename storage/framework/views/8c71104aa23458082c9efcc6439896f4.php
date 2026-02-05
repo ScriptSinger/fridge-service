@@ -1,6 +1,6 @@
 <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">Контакты</h2>
 <address class="not-italic mb-10 text-gray-600">
-    <p class="text-gray-600 hover:text-gray-800">город Уфа</p>
+    <p class="text-gray-600 hover:text-gray-800">город <?php echo e(config('contacts.address_city')); ?></p>
     <p class="text-gray-600 hover:text-gray-800">
         <?php if (isset($component)) { $__componentOriginal068cc96cf51f1c56d971e8c803681b29 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal068cc96cf51f1c56d971e8c803681b29 = $attributes; } ?>
@@ -23,6 +23,6 @@
 <?php unset($__componentOriginal068cc96cf51f1c56d971e8c803681b29); ?>
 <?php endif; ?>
     </p>
-    <p class="text-gray-600 hover:text-gray-800">Пн–Вс 10:00–20:00</p>
+    <p class="text-gray-600 hover:text-gray-800"><?php echo e(config('contacts.opening_hours_display')); ?></p>
 </address>
 <?php /**PATH /var/www/html/resources/views/components/footer/contacts.blade.php ENDPATH**/ ?>

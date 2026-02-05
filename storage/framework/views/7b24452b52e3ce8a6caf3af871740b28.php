@@ -26,9 +26,9 @@
             <a href="#blog" class="mr-5 hover:text-gray-900">Неисправности</a>
             <a href="#contact" class="mr-5 hover:text-gray-900">Контакты</a>
         </nav>
-        <a href="tel:+79196093489"
+        <a href="tel:<?php echo e(config('contacts.phone_tel')); ?>"
             class="inline-flex items-center bg-yellow-500 text-white border-0 py-2 px-4 rounded text-base hover:bg-yellow-600 focus:outline-none mt-4 md:mt-0">
-            <span class="font-semibold"> +7 (919) 609-34-89</span>
+            <span class="font-semibold"> <?php echo e(config('contacts.phone_display')); ?></span>
         </a>
     </div>
 </header>

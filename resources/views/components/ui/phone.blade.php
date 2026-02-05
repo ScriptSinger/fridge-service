@@ -1,1 +1,3 @@
-<a href="tel:+79196093489"><span class="font-semibold">+7 (919) 609-34-89</span></a>
+<a href="tel:{{ config('contacts.phone_tel') }}">
+    <span class="font-semibold">{{ config('contacts.phone_display') }}</span>
+</a>
