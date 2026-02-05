@@ -9,6 +9,7 @@ use App\Models\Page;
 use App\Models\Problem;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class StoreLeadRequest extends FormRequest
 {
@@ -29,7 +30,7 @@ class StoreLeadRequest extends FormRequest
     {
         return [
             'name' => ['nullable', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:30', 'regex:/^[0-9\\s\\-\\+\\(\\)]+$/'],
             'comment' => ['nullable', 'string'],
 
             // morph
@@ -49,6 +50,9 @@ class StoreLeadRequest extends FormRequest
         // можно автоматом привести
         $this->merge([
             'phone' => trim($this->phone),
+            'utm_source' => $this->input('utm_source', session('utm_source')),
+            'utm_medium' => $this->input('utm_medium', session('utm_medium')),
+            'utm_campaign' => $this->input('utm_campaign', session('utm_campaign')),
         ]);
     }
 
@@ -61,5 +65,17 @@ class StoreLeadRequest extends FormRequest
             ErrorCode::class,
             Page::class,
         ];
+    }
+
+    public function withValidator(Validator $validator): void
+    {
+        $validator->after(function (Validator $validator) {
+            $rawPhone = (string) $this->input('phone', '');
+            $digits = preg_replace('/\\D+/', '', $rawPhone ?? '');
+
+            if ($digits !== '' && (strlen($digits) < 10 || strlen($digits) > 15)) {
+                $validator->errors()->add('phone', 'Phone number must contain 10 to 15 digits.');
+            }
+        });
     }
 }

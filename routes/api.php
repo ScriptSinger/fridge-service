@@ -10,4 +10,5 @@ Route::get('/user', function (Request $request) {
 
 
 
-Route::post('/leads', [LeadController::class, 'store']);
+Route::post('/leads', [LeadController::class, 'store'])
+    ->middleware('throttle:10,1');
