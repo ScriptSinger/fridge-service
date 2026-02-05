@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Lead;
 
 use App\Models\Brand;
+use App\Models\Device;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\ErrorCode;
 use App\Models\Lead;
 use App\Models\Page;
-use App\Models\Service;
+use App\Models\Problem;
 use App\MoonShine\Resources\Lead\Pages\LeadIndexPage;
 use App\MoonShine\Resources\Lead\Pages\LeadFormPage;
 use App\MoonShine\Resources\Lead\Pages\LeadDetailPage;
@@ -40,8 +42,10 @@ class LeadResource extends ModelResource
             Textarea::make('Comment', 'comment')->sortable(),
             MorphTo::make('Leadable', 'leadable')
                 ->types([
-                    Service::class => 'title',
-                    Brand::class   => 'name',
+                    Device::class => 'title',
+                    Brand::class => 'name',
+                    Problem::class => 'title',
+                    ErrorCode::class => 'title',
                     Page::class => 'title',
                 ])->sortable(),
 
@@ -85,8 +89,10 @@ class LeadResource extends ModelResource
         return [
             Select::make('Leadable Type', 'leadable_type')
                 ->options([
-                    Service::class => 'Service',
+                    Device::class => 'Device',
                     Brand::class   => 'Brand',
+                    Problem::class => 'Problem',
+                    ErrorCode::class => 'ErrorCode',
                     Page::class    => 'Page',
                 ])
                 ->nullable(),

@@ -31,7 +31,7 @@ class Leads extends Component
     public function render(): View|Closure|string
     {
         return view(
-            'components.forms.leads',
+            'components.ui.forms.leads',
             [
                 'payload' => $this->payload,
             ]

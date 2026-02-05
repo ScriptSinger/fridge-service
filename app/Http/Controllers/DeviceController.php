@@ -7,11 +7,9 @@ use Illuminate\Http\Request;
 
 class DeviceController extends Controller
 {
-    public function show($slug)
+    public function show(Device $device)
     {
-        $device = Device::with('brands', 'problems', 'services', 'faqs')
-            ->where('slug', $slug)
-            ->firstOrFail();
+        $device->load('brands', 'problems', 'services', 'faqs');
 
         return view('pages.device', [
             'device' => $device,
