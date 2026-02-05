@@ -19,7 +19,7 @@
             </div>
 
             <button @click="submit()" :disabled="loading"
-                class="text-white bg-yellow-500 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-lg cursor-pointer w-full">
+                class="text-white bg-yellow-500 border-0 py-2 px-5 md:px-6 focus:outline-none hover:bg-yellow-600 rounded text-base md:text-lg cursor-pointer w-full">
                 <span x-show="!loading">Отправить</span>
                 <span x-show="loading">Отправляем...</span>
             </button>

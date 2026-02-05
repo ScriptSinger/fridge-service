@@ -40,6 +40,8 @@ unset($__defined_vars, $__key, $__value); ?>
     <?php echo $__env->make('components.seo.jsonld', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+
 
 
     <?php echo app('Illuminate\Foundation\Vite')('resources/css/app.css'); ?>
@@ -94,6 +96,26 @@ unset($__defined_vars, $__key, $__value); ?>
 <?php unset($__componentOriginal2851f1e47c9108aacbab05e6d2ec4a68); ?>
 <?php endif; ?>
 
+    <?php if (isset($component)) { $__componentOriginal66797899f28fb20dbe6fbbf9bed6a699 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal66797899f28fb20dbe6fbbf9bed6a699 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.phone-cta','data' => ['variant' => 'fab']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.phone-cta'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['variant' => 'fab']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal66797899f28fb20dbe6fbbf9bed6a699)): ?>
+<?php $attributes = $__attributesOriginal66797899f28fb20dbe6fbbf9bed6a699; ?>
+<?php unset($__attributesOriginal66797899f28fb20dbe6fbbf9bed6a699); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal66797899f28fb20dbe6fbbf9bed6a699)): ?>
+<?php $component = $__componentOriginal66797899f28fb20dbe6fbbf9bed6a699; ?>
+<?php unset($__componentOriginal66797899f28fb20dbe6fbbf9bed6a699); ?>
+<?php endif; ?>
     <?php echo app('Illuminate\Foundation\Vite')('resources/js/app.js'); ?>
 </body>
 

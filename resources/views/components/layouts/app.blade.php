@@ -12,6 +12,8 @@
     @include('components.seo.jsonld')
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
 
     @vite('resources/css/app.css')
@@ -27,6 +29,7 @@
 
     <x-layouts.footer />
 
+    <x-ui.phone-cta variant="fab" />
     @vite('resources/js/app.js')
 </body>
 
