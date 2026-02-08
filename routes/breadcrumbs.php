@@ -19,3 +19,8 @@ Breadcrumbs::for('devices.brands.show', function (BreadcrumbTrail $trail, Brand 
     $trail->parent('devices.show', $device);
     $trail->push($brand->name, route('devices.brands.show', [$device, $brand]));
 });
+
+Breadcrumbs::for('prices.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Цены', route('prices.index'));
+});

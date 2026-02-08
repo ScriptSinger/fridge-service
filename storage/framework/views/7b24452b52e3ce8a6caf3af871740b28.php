@@ -33,12 +33,26 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
         </button>
-        <nav class="hidden md:flex md:ml-auto md:items-center md:text-base md:justify-center">
-            <a href="#services" class="mr-5 hover:text-gray-900">Услуги</a>
-            <a href="#pricing" class="mr-5 hover:text-gray-900">Цены</a>
-            <a href="#blog" class="mr-5 hover:text-gray-900">Неисправности</a>
-            <a href="#contact" class="mr-5 hover:text-gray-900">Контакты</a>
-        </nav>
+        <?php if (isset($component)) { $__componentOriginalb55e525bcf4e336a3dc267e7f66aa1e0 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalb55e525bcf4e336a3dc267e7f66aa1e0 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.nav','data' => ['variant' => 'header']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.nav'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['variant' => 'header']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalb55e525bcf4e336a3dc267e7f66aa1e0)): ?>
+<?php $attributes = $__attributesOriginalb55e525bcf4e336a3dc267e7f66aa1e0; ?>
+<?php unset($__attributesOriginalb55e525bcf4e336a3dc267e7f66aa1e0); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalb55e525bcf4e336a3dc267e7f66aa1e0)): ?>
+<?php $component = $__componentOriginalb55e525bcf4e336a3dc267e7f66aa1e0; ?>
+<?php unset($__componentOriginalb55e525bcf4e336a3dc267e7f66aa1e0); ?>
+<?php endif; ?>
         <?php if (isset($component)) { $__componentOriginal66797899f28fb20dbe6fbbf9bed6a699 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal66797899f28fb20dbe6fbbf9bed6a699 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.phone-cta','data' => ['variant' => 'header']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
@@ -60,13 +74,25 @@
 <?php unset($__componentOriginal66797899f28fb20dbe6fbbf9bed6a699); ?>
 <?php endif; ?>
     </div>
-    <nav class="md:hidden" x-cloak x-show="open" @click.away="open = false">
-        <div class="container mx-auto px-4 pb-4">
-            <a href="#services" class="block py-2 text-base hover:text-gray-900" @click="open = false">Услуги</a>
-            <a href="#pricing" class="block py-2 text-base hover:text-gray-900" @click="open = false">Цены</a>
-            <a href="#blog" class="block py-2 text-base hover:text-gray-900" @click="open = false">Неисправности</a>
-            <a href="#contact" class="block py-2 text-base hover:text-gray-900" @click="open = false">Контакты</a>
-        </div>
-    </nav>
+    <?php if (isset($component)) { $__componentOriginalb55e525bcf4e336a3dc267e7f66aa1e0 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalb55e525bcf4e336a3dc267e7f66aa1e0 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.nav','data' => ['variant' => 'mobile']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.nav'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['variant' => 'mobile']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalb55e525bcf4e336a3dc267e7f66aa1e0)): ?>
+<?php $attributes = $__attributesOriginalb55e525bcf4e336a3dc267e7f66aa1e0; ?>
+<?php unset($__attributesOriginalb55e525bcf4e336a3dc267e7f66aa1e0); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalb55e525bcf4e336a3dc267e7f66aa1e0)): ?>
+<?php $component = $__componentOriginalb55e525bcf4e336a3dc267e7f66aa1e0; ?>
+<?php unset($__componentOriginalb55e525bcf4e336a3dc267e7f66aa1e0); ?>
+<?php endif; ?>
 </header>
 <?php /**PATH /var/www/html/resources/views/components/layouts/header.blade.php ENDPATH**/ ?>
