@@ -12,32 +12,7 @@ class ProblemSeeder extends Seeder
 {
     public function run(): void
     {
-        // Список проблем для каждого типа техники
-        $problemsMap = [
-            'Холодильник' => [
-                'Холодильник не включается',
-                'Холодильник не морозит',
-                'Холодильник не холодит',
-                'Холодильник шумит',
-                'Холодильник течет',
-                'Не работает компрессор холодильника',
-                'Не закрывается дверь холодильника',
-                'Не работает No Frost',
-                'Перемораживает холодильник',
-                'Холодильник выключается сам',
-            ],
-            'Стиральная машина' => [
-                'Стиральная машина не включается',
-                'Не набирается вода',
-                'Не сливает воду',
-                'Не крутится барабан',
-                'Шумит при стирке',
-                'Протекает бак',
-                'Ошибка E01/E02',
-                'Не работает дисплей',
-                'Сильно вибрирует при отжиме',
-            ],
-        ];
+        $problemsMap = config('catalog.problems', []);
 
         foreach ($problemsMap as $type => $problems) {
             $device = Device::where('type', $type)->first();
@@ -47,18 +22,25 @@ class ProblemSeeder extends Seeder
                 continue;
             }
 
-            foreach ($problems as $problemTitle) {
+            foreach ($problems as $problem) {
+                $problemTitle = $problem['title'] ?? null;
+                $problemContent = $problem['content'] ?? null;
+
+                if (!$problemTitle || !$problemContent) {
+                    $this->command->warn("Некорректная запись проблемы для '{$type}'.");
+                    continue;
+                }
                 // Генерация slug вручную через SlugService
                 $slug = SlugService::createSlug(Problem::class, 'slug', $problemTitle);
 
-                Problem::firstOrCreate(
+                Problem::updateOrCreate(
                     [
                         'title' => $problemTitle,
                         'device_id' => $device->id,
                     ],
                     [
                         'h1' => $problemTitle,
-                        'content' => "Причины и способы устранения проблемы: {$problemTitle}",
+                        'content' => $problemContent,
                         'slug' => $slug,
                     ]
                 );
