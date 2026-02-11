@@ -24,3 +24,18 @@ Breadcrumbs::for('prices.index', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Цены', route('prices.index'));
 });
+
+Breadcrumbs::for('problems.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Неисправности', route('problems.index'));
+});
+
+Breadcrumbs::for('contacts.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Контакты', route('contacts.index'));
+});
+
+Breadcrumbs::for('about.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('О компании', route('about.index'));
+});

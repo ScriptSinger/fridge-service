@@ -7,14 +7,14 @@ return [
     ],
     [
         'label' => 'Неисправности',
-        'href' => '#blog',
+        'route' => 'problems.index',
     ],
     [
         'label' => 'Контакты',
-        'href' => '#contact',
+        'route' => 'contacts.index',
     ],
     [
         'label' => 'О нас',
-        'href' => '#about',
+        'route' => 'about.index',
     ],
 ];
