@@ -73,7 +73,7 @@ unset($__defined_vars, $__key, $__value); ?>
             <div class="flex flex-wrap -m-4">
                 <?php $__currentLoopData = $galleries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $gallery): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php if(!$gallery->image) continue; ?>
-                    <div class="lg:w-1/3 sm:w-1/2 p-4" x-show="showAll || <?php echo e($index); ?> < limit" x-cloak>
+                    <div class="w-full sm:w-1/2 lg:w-1/3 p-4" x-show="showAll || <?php echo e($index); ?> < limit" x-cloak>
                         <div class="flex relative h-full aspect-[5/3]">
                             <img alt="<?php echo e($gallery->image_alt ?: $gallery->title); ?>"
                                 class="absolute inset-0 w-full h-full object-cover object-center"

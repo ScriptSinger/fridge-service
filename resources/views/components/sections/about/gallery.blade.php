@@ -9,7 +9,7 @@
             <div class="flex flex-wrap -m-4">
                 @foreach ($galleries as $index => $gallery)
                     @continue(!$gallery->image)
-                    <div class="lg:w-1/3 sm:w-1/2 p-4" x-show="showAll || {{ $index }} < limit" x-cloak>
+                    <div class="w-full sm:w-1/2 lg:w-1/3 p-4" x-show="showAll || {{ $index }} < limit" x-cloak>
                         <div class="flex relative h-full aspect-[5/3]">
                             <img alt="{{ $gallery->image_alt ?: $gallery->title }}"
                                 class="absolute inset-0 w-full h-full object-cover object-center"

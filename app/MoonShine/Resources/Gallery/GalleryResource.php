@@ -62,6 +62,7 @@ class GalleryResource extends ModelResource
                 Image::make('Изображение', 'image')
                     ->disk('public')
                     ->dir('gallery')
+                    ->hint('Рекомендуемый размер: 1200x720 px (соотношение 5:3)')
                     ->removable(),
                 Text::make('Alt для изображения', 'image_alt'),
             ]),

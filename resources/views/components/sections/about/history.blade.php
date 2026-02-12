@@ -16,7 +16,9 @@
                 сохраняя индивидуальный подход к каждому клиенту и строя доверительные отношения с жителями города.
             </p>
         </div>
-        <img class="lg:w-3/5 md:w-1/2 object-cover object-center md:mt-0 mt-12"
-            src="{{ asset('assets/images/advantages.webp') }}" alt="steps">
+        <div class="lg:w-3/5 md:w-1/2 md:mt-0 mt-12 aspect-[5/3]">
+            <img class="w-full h-full object-cover object-center" src="{{ asset('assets/images/advantages.webp') }}"
+                alt="steps">
+        </div>
     </div>
 </x-ui.sections.wrapper>
