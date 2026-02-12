@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Models\Device;
-use App\Models\Service;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -23,26 +22,51 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Передаем devices в футер с кешированием
+        View::composer('components.ui.nav', function ($view) {
+            $view->with([
+                'navItems'    => $this->navItems(),
+                'repairItems' => $this->repairItems(),
+            ]);
+        });
+
         View::composer('components.footer.devices', function ($view) {
-            // Ключ кеша
-            $cacheKey = 'footer_devices';
-
-            // Берем из кеша или выполняем запрос и сохраняем результат
-            $devices = Cache::remember($cacheKey, 3600, function () {
-                return Device::all();
-            });
-
-            $view->with('devices', $devices);
+            $view->with('devices', $this->devices());
         });
 
-        // Сброс кеша при сохранении или удалении Service
-        Device::saved(function () {
-            Cache::forget('footer_devices');
-        });
+        Device::saved(fn() => $this->clearCache());
+        Device::deleted(fn() => $this->clearCache());
+    }
 
-        Device::deleted(function () {
-            Cache::forget('footer_devices');
+    private function navItems()
+    {
+        return collect(config('navigation'))
+            ->map(fn($item) => [
+                'label' => $item['label'],
+                'href'  => route($item['route']),
+            ]);
+    }
+
+    private function devices()
+    {
+        return Cache::remember('devices_active', 3600, function () {
+            return Device::query()
+                ->where('is_active', true)
+                ->orderBy('type')
+                ->get();
         });
+    }
+
+    private function repairItems()
+    {
+        return $this->devices()
+            ->map(fn(Device $device) => [
+                'label' => $device->typeInCase('genitive'),
+                'href'  => route('devices.show', $device),
+            ]);
+    }
+
+    private function clearCache(): void
+    {
+        Cache::forget('devices_active');
     }
 }

@@ -2,26 +2,15 @@
     'variant' => 'header',
 ])
 
-@php
-    $items = config('navigation', []);
-@endphp
-
-@php
-    $resolveHref = function (array $item): string {
-        if (!empty($item['route'])) {
-            return route($item['route']);
-        }
-
-        return $item['href'] ?? '#';
-    };
-@endphp
+@php($navItems = $navItems ?? collect())
+@php($repairItems = $repairItems ?? collect())
 
 @if ($variant === 'footer')
     <nav class="list-none mb-10">
         <ul>
-            @foreach ($items as $item)
+            @foreach ($navItems as $item)
                 <li>
-                    <a href="{{ $resolveHref($item) }}" class="text-gray-600 hover:text-gray-800">
+                    <a href="{{ $item['href'] }}" class="text-gray-600 hover:text-gray-800">
                         {{ $item['label'] }}
                     </a>
                 </li>
@@ -30,18 +19,58 @@
     </nav>
 @elseif ($variant === 'mobile')
     <nav {{ $attributes->merge(['class' => 'md:hidden']) }} x-cloak x-show="open" @click.away="open = false">
-        <div class="container mx-auto px-4 pb-4">
-            @foreach ($items as $item)
-                <a href="{{ $resolveHref($item) }}" class="block py-2 text-base hover:text-gray-900" @click="open = false">
+        <div class="container mx-auto px-4 pb-4" x-data="{ repairOpen: false }">
+            <div class="py-2">
+                <button type="button"
+                    class="w-full text-left text-base hover:text-gray-900 cursor-pointer inline-flex items-center justify-between"
+                    @click="repairOpen = !repairOpen">
+                    <span>Ремонт</span>
+                    <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': repairOpen }" fill="none"
+                        stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="pl-4 mt-1" x-show="repairOpen" x-transition>
+                    @foreach ($repairItems as $repairItem)
+                        <a href="{{ $repairItem['href'] }}" class="block py-2 text-sm hover:text-gray-900"
+                            @click="open = false; repairOpen = false">
+                            {{ $repairItem['label'] }}
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+            @foreach ($navItems as $item)
+                <a href="{{ $item['href'] }}" class="block py-2 text-base hover:text-gray-900" @click="open = false">
                     {{ $item['label'] }}
                 </a>
             @endforeach
         </div>
     </nav>
 @else
-    <nav {{ $attributes->merge(['class' => 'hidden md:flex md:ml-auto md:items-center md:text-base md:justify-center']) }}>
-        @foreach ($items as $item)
-            <a href="{{ $resolveHref($item) }}" class="mr-5 hover:text-gray-900">{{ $item['label'] }}</a>
+    <nav
+        {{ $attributes->merge(['class' => 'hidden md:flex md:ml-auto md:items-center md:text-base md:justify-center']) }}>
+        <div class="relative mr-5" x-data="{ repairOpen: false }" @mouseenter="repairOpen = true"
+            @mouseleave="repairOpen = false">
+            <button type="button" class="hover:text-gray-900 cursor-pointer inline-flex items-center gap-1"
+                @click="repairOpen = !repairOpen">
+                <span>Ремонт</span>
+                <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': repairOpen }" fill="none"
+                    stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+            <div class="absolute left-0 top-full pt-2 w-56 z-50" x-show="repairOpen" x-transition x-cloak>
+                <div class="rounded-md border border-gray-200 bg-white shadow-lg py-2">
+                    @foreach ($repairItems as $repairItem)
+                        <a href="{{ $repairItem['href'] }}" class="block px-4 py-2 hover:text-gray-900">
+                            {{ $repairItem['label'] }}
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        @foreach ($navItems as $item)
+            <a href="{{ $item['href'] }}" class="mr-5 hover:text-gray-900">{{ $item['label'] }}</a>
         @endforeach
     </nav>
 @endif
