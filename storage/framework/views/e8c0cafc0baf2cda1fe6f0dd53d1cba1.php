@@ -31,7 +31,6 @@ unset($__defined_vars, $__key, $__value); ?>
 <section x-data="modalPhone()" class="text-gray-600 body-font">
     <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center <?php echo e($containerClass); ?> ">
         <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
-            
             <img src="<?php echo e(asset('assets/images/hero.png')); ?>" alt="Мастер по ремонту бытовой техники в Уфе">
         </div>
         <div

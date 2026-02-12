@@ -6,7 +6,7 @@
             <p class="leading-relaxed mb-5 text-gray-600">Заполните форму, и мы свяжемся с вами в ближайшее время.</p>
             <div class="relative mb-4">
                 <label for="{{ $idPrefix }}-name" class="leading-7 text-sm text-gray-600">Имя</label>
-                <input id="{{ $idPrefix }}-name" type="text" x-model="form.name" name="name"
+                <input id="{{ $idPrefix }}-name" type="text" x-model="form.name" name="name" autocomplete="name"
                     class="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                 <p x-show="errors.name" x-text="errors.name"></p>
             </div>
@@ -14,6 +14,7 @@
             <div class="relative mb-4">
                 <label for="{{ $idPrefix }}-phone" class="leading-7 text-sm text-gray-600">Телефон</label>
                 <input id="{{ $idPrefix }}-phone" type="text" x-model="form.phone" x-phone name="phone"
+                    autocomplete="tel"
                     class="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                 <p x-show="errors.phone" x-text="errors.phone"></p>
             </div>

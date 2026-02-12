@@ -1,1 +1,0 @@
-components.sections.common.toggle-list<?php /**PATH /var/www/html/storage/framework/views/11c434d4dcaf444b6d171d501976ebb1.blade.php ENDPATH**/ ?>

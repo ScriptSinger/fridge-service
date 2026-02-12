@@ -1,1 +1,0 @@
-components.sections.common.toggle-list
