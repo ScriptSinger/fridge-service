@@ -48,7 +48,6 @@
 <?php $component = $__componentOriginal7d77bb759cf09fb7609ab7d50dcb0764; ?>
 <?php unset($__componentOriginal7d77bb759cf09fb7609ab7d50dcb0764); ?>
 <?php endif; ?>
-
     <?php if (isset($component)) { $__componentOriginal57ac7f3ff7e21e87079f381337146a7c = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal57ac7f3ff7e21e87079f381337146a7c = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.about.statistic','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
@@ -89,25 +88,25 @@
 <?php $component = $__componentOriginal3d8e25faf4e8a9e54a2a425bce1225b1; ?>
 <?php unset($__componentOriginal3d8e25faf4e8a9e54a2a425bce1225b1); ?>
 <?php endif; ?>
-    <?php if (isset($component)) { $__componentOriginal2fa19a740521c399d94377e332db0299 = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal2fa19a740521c399d94377e332db0299 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.about.education','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('sections.about.education'); ?>
+    <?php if (isset($component)) { $__componentOriginal948d26ee49a1d70e4db81d1c220038af = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal948d26ee49a1d70e4db81d1c220038af = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.about.gallery','data' => ['galleries' => $galleries]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('sections.about.gallery'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes([]); ?>
+<?php $component->withAttributes(['galleries' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($galleries)]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__attributesOriginal2fa19a740521c399d94377e332db0299)): ?>
-<?php $attributes = $__attributesOriginal2fa19a740521c399d94377e332db0299; ?>
-<?php unset($__attributesOriginal2fa19a740521c399d94377e332db0299); ?>
+<?php if (isset($__attributesOriginal948d26ee49a1d70e4db81d1c220038af)): ?>
+<?php $attributes = $__attributesOriginal948d26ee49a1d70e4db81d1c220038af; ?>
+<?php unset($__attributesOriginal948d26ee49a1d70e4db81d1c220038af); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal2fa19a740521c399d94377e332db0299)): ?>
-<?php $component = $__componentOriginal2fa19a740521c399d94377e332db0299; ?>
-<?php unset($__componentOriginal2fa19a740521c399d94377e332db0299); ?>
+<?php if (isset($__componentOriginal948d26ee49a1d70e4db81d1c220038af)): ?>
+<?php $component = $__componentOriginal948d26ee49a1d70e4db81d1c220038af; ?>
+<?php unset($__componentOriginal948d26ee49a1d70e4db81d1c220038af); ?>
 <?php endif; ?>
     <?php if (isset($component)) { $__componentOriginal62de9fc3ebe431a0d746cd50eda6c97f = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal62de9fc3ebe431a0d746cd50eda6c97f = $attributes; } ?>
@@ -129,7 +128,6 @@
 <?php $component = $__componentOriginal62de9fc3ebe431a0d746cd50eda6c97f; ?>
 <?php unset($__componentOriginal62de9fc3ebe431a0d746cd50eda6c97f); ?>
 <?php endif; ?>
-
     <?php if (isset($component)) { $__componentOriginal070c0d0a50045cf1b6b6a24423c3ac7c = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal070c0d0a50045cf1b6b6a24423c3ac7c = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.scroll-up','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>

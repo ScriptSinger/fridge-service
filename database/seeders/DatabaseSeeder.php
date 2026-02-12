@@ -30,7 +30,8 @@ class DatabaseSeeder extends Seeder
             DeviceBrandSeeder::class,
             ProblemSeeder::class,
             ErrorCodeSeeder::class,
-            FaqSeeder::class
+            FaqSeeder::class,
+            AboutGallerySeeder::class
         ]);
     }
 }

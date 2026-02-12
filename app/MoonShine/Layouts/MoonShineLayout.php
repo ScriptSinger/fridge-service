@@ -19,6 +19,7 @@ use App\MoonShine\Resources\Problem\ProblemResource;
 use App\MoonShine\Resources\Device\DeviceResource;
 use App\MoonShine\Resources\Faq\FaqResource;
 use App\MoonShine\Resources\Price\PriceResource;
+use App\MoonShine\Resources\Gallery\GalleryResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -48,6 +49,7 @@ final class MoonShineLayout extends AppLayout
             MenuItem::make(PriceResource::class, 'Prices'),
             MenuItem::make(FaqResource::class, 'Faqs'),
 
+            MenuItem::make(GalleryResource::class, 'Galleries'),
         ];
     }
 
