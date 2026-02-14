@@ -68,10 +68,10 @@
 <?php $component = $__componentOriginalf4f1dfdecf844b69556b9865479b670d; ?>
 <?php unset($__componentOriginalf4f1dfdecf844b69556b9865479b670d); ?>
 <?php endif; ?>
-    <?php if (isset($component)) { $__componentOriginal373f381962c3c66943eda474148a283c = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal373f381962c3c66943eda474148a283c = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.home.benefits','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('sections.home.benefits'); ?>
+    <?php if (isset($component)) { $__componentOriginald541718e6240ed110edb500b82847561 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginald541718e6240ed110edb500b82847561 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.common.benefits','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('sections.common.benefits'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
@@ -80,13 +80,13 @@
 <?php $component->withAttributes([]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__attributesOriginal373f381962c3c66943eda474148a283c)): ?>
-<?php $attributes = $__attributesOriginal373f381962c3c66943eda474148a283c; ?>
-<?php unset($__attributesOriginal373f381962c3c66943eda474148a283c); ?>
+<?php if (isset($__attributesOriginald541718e6240ed110edb500b82847561)): ?>
+<?php $attributes = $__attributesOriginald541718e6240ed110edb500b82847561; ?>
+<?php unset($__attributesOriginald541718e6240ed110edb500b82847561); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal373f381962c3c66943eda474148a283c)): ?>
-<?php $component = $__componentOriginal373f381962c3c66943eda474148a283c; ?>
-<?php unset($__componentOriginal373f381962c3c66943eda474148a283c); ?>
+<?php if (isset($__componentOriginald541718e6240ed110edb500b82847561)): ?>
+<?php $component = $__componentOriginald541718e6240ed110edb500b82847561; ?>
+<?php unset($__componentOriginald541718e6240ed110edb500b82847561); ?>
 <?php endif; ?>
     <?php if (isset($component)) { $__componentOriginal94f121500a9e13e948e5e55eab3f6814 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal94f121500a9e13e948e5e55eab3f6814 = $attributes; } ?>

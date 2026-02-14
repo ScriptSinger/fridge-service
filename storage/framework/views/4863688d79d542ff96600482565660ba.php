@@ -1,0 +1,1 @@
+components.sections.home.benefits<?php /**PATH /var/www/html/storage/framework/views/211601137fb2af3e9db58f2ef7f5a793.blade.php ENDPATH**/ ?>

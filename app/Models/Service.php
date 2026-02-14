@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Price;
 
 class Service extends Model
 {
@@ -41,6 +42,24 @@ class Service extends Model
     public function prices()
     {
         return $this->hasMany(Price::class);
+    }
+
+    public function preferredPrice(?int $deviceId = null): ?Price
+    {
+        $prices = $this->relationLoaded('prices') ? $this->prices : $this->prices()->get();
+
+        return $prices
+            ->where('device_id', $deviceId)
+            ->whereNull('brand_id')
+            ->sortByDesc(fn ($item) => !is_null($item->price_from))
+            ->first()
+            ?? $prices
+                ->whereNull('brand_id')
+                ->sortByDesc(fn ($item) => !is_null($item->price_from))
+                ->first()
+            ?? $prices
+                ->sortByDesc(fn ($item) => !is_null($item->price_from))
+                ->first();
     }
 
     /**

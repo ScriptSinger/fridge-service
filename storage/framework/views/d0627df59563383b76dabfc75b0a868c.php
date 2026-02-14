@@ -49,94 +49,48 @@
 <?php unset($__componentOriginal7d77bb759cf09fb7609ab7d50dcb0764); ?>
 <?php endif; ?>
 
-    <?php if (isset($component)) { $__componentOriginalbda7854c2841beaee0e9cbf64d042c0a = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginalbda7854c2841beaee0e9cbf64d042c0a = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.sections.wrapper','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('ui.sections.wrapper'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
-<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
-<?php endif; ?>
-<?php $component->withAttributes([]); ?>
-        <div class="max-w-3xl">
-            <p class="text-gray-700 leading-relaxed">
-                Ниже — ориентировочные цены на ремонт по типам техники. Итоговая стоимость зависит от
-                модели, сложности неисправности и необходимости запчастей. Перед началом работ мастер
-                проводит диагностику и согласует цену.
-            </p>
-            <ul class="mt-4 text-gray-700 list-disc pl-5">
-                <li>Диагностика бесплатна при ремонте</li>
-                <li>Цена фиксируется до начала работ</li>
-                <li>Работаем с оригинальными и качественными аналогами запчастей</li>
-            </ul>
-        </div>
-     <?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginalbda7854c2841beaee0e9cbf64d042c0a)): ?>
-<?php $attributes = $__attributesOriginalbda7854c2841beaee0e9cbf64d042c0a; ?>
-<?php unset($__attributesOriginalbda7854c2841beaee0e9cbf64d042c0a); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginalbda7854c2841beaee0e9cbf64d042c0a)): ?>
-<?php $component = $__componentOriginalbda7854c2841beaee0e9cbf64d042c0a; ?>
-<?php unset($__componentOriginalbda7854c2841beaee0e9cbf64d042c0a); ?>
-<?php endif; ?>
 
-    <?php $__currentLoopData = $devices; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $device): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <?php if (isset($component)) { $__componentOriginalbda7854c2841beaee0e9cbf64d042c0a = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginalbda7854c2841beaee0e9cbf64d042c0a = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.sections.wrapper','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('ui.sections.wrapper'); ?>
+
+    <?php if (isset($component)) { $__componentOriginala8226eca7685da3ed45694136ad5d385 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginala8226eca7685da3ed45694136ad5d385 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.prices.index','data' => ['devices' => $devices]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('sections.prices.index'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes([]); ?>
-            <?php if (isset($component)) { $__componentOriginal0801d0fb74ec05d77bd33020e23b75f8 = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal0801d0fb74ec05d77bd33020e23b75f8 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.sections.header','data' => ['title' => $device->permalink,'subtitle' => $device->subtitle]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('ui.sections.header'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
-<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
-<?php endif; ?>
-<?php $component->withAttributes(['title' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($device->permalink),'subtitle' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($device->subtitle)]); ?>
+<?php $component->withAttributes(['devices' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($devices)]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__attributesOriginal0801d0fb74ec05d77bd33020e23b75f8)): ?>
-<?php $attributes = $__attributesOriginal0801d0fb74ec05d77bd33020e23b75f8; ?>
-<?php unset($__attributesOriginal0801d0fb74ec05d77bd33020e23b75f8); ?>
+<?php if (isset($__attributesOriginala8226eca7685da3ed45694136ad5d385)): ?>
+<?php $attributes = $__attributesOriginala8226eca7685da3ed45694136ad5d385; ?>
+<?php unset($__attributesOriginala8226eca7685da3ed45694136ad5d385); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal0801d0fb74ec05d77bd33020e23b75f8)): ?>
-<?php $component = $__componentOriginal0801d0fb74ec05d77bd33020e23b75f8; ?>
-<?php unset($__componentOriginal0801d0fb74ec05d77bd33020e23b75f8); ?>
+<?php if (isset($__componentOriginala8226eca7685da3ed45694136ad5d385)): ?>
+<?php $component = $__componentOriginala8226eca7685da3ed45694136ad5d385; ?>
+<?php unset($__componentOriginala8226eca7685da3ed45694136ad5d385); ?>
 <?php endif; ?>
-
-            <div class="hidden md:block">
-                <?php echo $__env->make('components.sections.common.services.table', [
-                    'services' => $device->services,
-                ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
-            </div>
-
-            <div class="md:hidden">
-                <?php echo $__env->make('components.sections.common.services.mobile', [
-                    'services' => $device->services,
-                ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
-            </div>
-         <?php echo $__env->renderComponent(); ?>
+    <?php if (isset($component)) { $__componentOriginald541718e6240ed110edb500b82847561 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginald541718e6240ed110edb500b82847561 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.common.benefits','data' => ['devices' => $devices]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('sections.common.benefits'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php if (isset($__attributesOriginalbda7854c2841beaee0e9cbf64d042c0a)): ?>
-<?php $attributes = $__attributesOriginalbda7854c2841beaee0e9cbf64d042c0a; ?>
-<?php unset($__attributesOriginalbda7854c2841beaee0e9cbf64d042c0a); ?>
+<?php $component->withAttributes(['devices' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($devices)]); ?>
+<?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginalbda7854c2841beaee0e9cbf64d042c0a)): ?>
-<?php $component = $__componentOriginalbda7854c2841beaee0e9cbf64d042c0a; ?>
-<?php unset($__componentOriginalbda7854c2841beaee0e9cbf64d042c0a); ?>
+<?php if (isset($__attributesOriginald541718e6240ed110edb500b82847561)): ?>
+<?php $attributes = $__attributesOriginald541718e6240ed110edb500b82847561; ?>
+<?php unset($__attributesOriginald541718e6240ed110edb500b82847561); ?>
 <?php endif; ?>
-    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
+<?php if (isset($__componentOriginald541718e6240ed110edb500b82847561)): ?>
+<?php $component = $__componentOriginald541718e6240ed110edb500b82847561; ?>
+<?php unset($__componentOriginald541718e6240ed110edb500b82847561); ?>
+<?php endif; ?>
 
 
     <?php if (isset($component)) { $__componentOriginal62de9fc3ebe431a0d746cd50eda6c97f = $component; } ?>
