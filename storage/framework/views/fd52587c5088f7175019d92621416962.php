@@ -49,6 +49,26 @@
 <?php unset($__componentOriginal7d77bb759cf09fb7609ab7d50dcb0764); ?>
 <?php endif; ?>
 
+    <?php if (isset($component)) { $__componentOriginal3b9ce314a90a3b240b3a6b8fdb3479bc = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal3b9ce314a90a3b240b3a6b8fdb3479bc = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.contacts.info','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('sections.contacts.info'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal3b9ce314a90a3b240b3a6b8fdb3479bc)): ?>
+<?php $attributes = $__attributesOriginal3b9ce314a90a3b240b3a6b8fdb3479bc; ?>
+<?php unset($__attributesOriginal3b9ce314a90a3b240b3a6b8fdb3479bc); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal3b9ce314a90a3b240b3a6b8fdb3479bc)): ?>
+<?php $component = $__componentOriginal3b9ce314a90a3b240b3a6b8fdb3479bc; ?>
+<?php unset($__componentOriginal3b9ce314a90a3b240b3a6b8fdb3479bc); ?>
+<?php endif; ?>
     <?php if (isset($component)) { $__componentOriginal62de9fc3ebe431a0d746cd50eda6c97f = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal62de9fc3ebe431a0d746cd50eda6c97f = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.contact','data' => ['model' => $page]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>

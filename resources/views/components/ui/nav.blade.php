@@ -32,7 +32,7 @@
                 </button>
                 <div class="pl-4 mt-1" x-show="repairOpen" x-transition>
                     @foreach ($repairItems as $repairItem)
-                        <a href="{{ $repairItem['href'] }}" class="block py-2 text-sm hover:text-gray-900"
+                        <a href="{{ $repairItem['href'] }}" class="block py-2 hover:text-gray-900"
                             @click="open = false; repairOpen = false">
                             {{ $repairItem['label'] }}
                         </a>

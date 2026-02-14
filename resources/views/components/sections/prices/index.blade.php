@@ -6,10 +6,15 @@
 
     <div class="space-y-4">
         @foreach ($devices as $device)
-            <details class="group rounded-lg border border-gray-200 bg-white" @if ($loop->first) open @endif>
+            <details class="group rounded-lg border border-gray-200 bg-white"
+                @if ($loop->first) open @endif>
                 <summary class="cursor-pointer list-none px-4 py-3 flex items-center justify-between">
                     <span class="font-semibold text-gray-900">{{ $device->type }}</span>
-                    <span class="text-gray-500 transition-transform duration-200 group-open:rotate-180">⌄</span>
+                    <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200 group-open:rotate-180"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+
                 </summary>
 
                 <div class="px-4 pb-4">

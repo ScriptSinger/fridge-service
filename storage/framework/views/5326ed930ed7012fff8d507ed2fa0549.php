@@ -63,7 +63,7 @@ unset($__defined_vars, $__key, $__value); ?>
                 </button>
                 <div class="pl-4 mt-1" x-show="repairOpen" x-transition>
                     <?php $__currentLoopData = $repairItems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $repairItem): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <a href="<?php echo e($repairItem['href']); ?>" class="block py-2 text-sm hover:text-gray-900"
+                        <a href="<?php echo e($repairItem['href']); ?>" class="block py-2 hover:text-gray-900"
                             @click="open = false; repairOpen = false">
                             <?php echo e($repairItem['label']); ?>
 
