@@ -36,4 +36,9 @@
             </div>
         </x-ui.sections.wrapper>
     @endforeach
+
+
+
+    <x-sections.contact :model="$page" />
+    <x-ui.scroll-up />
 </x-layouts.app>

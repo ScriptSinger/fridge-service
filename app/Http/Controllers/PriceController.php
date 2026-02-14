@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Device;
+use App\Models\Page;
 
 class PriceController extends Controller
 {
@@ -13,6 +14,7 @@ class PriceController extends Controller
             ->get();
 
         return view('pages.prices', [
+            'page' => Page::where('type', 'home')->firstOrFail(),
             'devices' => $devices,
         ]);
     }

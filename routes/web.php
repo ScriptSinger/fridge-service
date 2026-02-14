@@ -4,7 +4,6 @@ use App\Http\Controllers\DeviceBrandController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PriceController;
-use App\Http\Controllers\ProblemController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AboutController;
 use Illuminate\Support\Facades\Route;
