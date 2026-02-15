@@ -45,8 +45,10 @@
             <div class="border-2 border-gray-200 px-4 py-6 rounded-lg h-full">
                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                     stroke-width="2" class="text-yellow-500 w-12 h-12 mb-3 inline-block" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="M12 6v6l4 2"></path>
+                    <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                    <path d="M16 2v4"></path>
+                    <path d="M8 2v4"></path>
+                    <path d="M3 10h18"></path>
                 </svg>
                 <p class="leading-relaxed">Работаем с 2008 года, обеспечивая качественные услуги</p>
             </div>

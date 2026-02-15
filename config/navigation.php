@@ -11,7 +11,7 @@ return [
         'route' => 'contacts.index',
     ],
     [
-        'label' => 'О нас',
+        'label' => 'О компании',
         'route' => 'about.index',
     ],
 ];
