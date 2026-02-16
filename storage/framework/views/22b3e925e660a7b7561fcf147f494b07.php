@@ -4,6 +4,7 @@ $__newAttributes = [];
 $__propNames = \Illuminate\View\ComponentAttributeBag::extractPropNames(([
     'limit' => 6,
     'count' => 0,
+    'toggleSpacingClass' => 'mt-4',
 ]));
 
 foreach ($attributes->all() as $__key => $__value) {
@@ -22,6 +23,7 @@ unset($__newAttributes);
 foreach (array_filter(([
     'limit' => 6,
     'count' => 0,
+    'toggleSpacingClass' => 'mt-4',
 ]), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
     $$__key = $$__key ?? $__value;
 }
@@ -42,7 +44,7 @@ unset($__defined_vars, $__key, $__value); ?>
 
 
     <?php if($count > $limit): ?>
-        <div class="mt-4">
+        <div class="<?php echo e($toggleSpacingClass); ?>">
             <a @click.prevent="showAll = !showAll" class="text-yellow-500 inline-flex items-center cursor-pointer">
                 <span x-show="!showAll">Показать ещё</span>
                 <span x-show="showAll">Скрыть</span>

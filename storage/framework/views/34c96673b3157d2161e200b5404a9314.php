@@ -35,19 +35,41 @@
 <?php unset($__componentOriginal0801d0fb74ec05d77bd33020e23b75f8); ?>
 <?php endif; ?>
 
-    <div class="flex flex-wrap -m-4 px-5 md:px-0">
-        <?php $__currentLoopData = $models; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $model): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <?php if(!$model->slug) continue; ?>
-            <div class="lg:w-1/4 md:w-1/2 p-4 w-full shadow-sm hover:shadow-lg transition">
-                <a href="<?php echo e(route('devices.brands.show', [$device->slug, $model->slug])); ?>"
-                    class="block relative h-48 rounded overflow-hidden">
-                    <img alt="<?php echo e($model->name); ?>" aria-label="Перейти на страницу бренда <?php echo e($model->name); ?>"
-                        class="object-contain object-center w-full h-full block cursor-pointer"
-                        src="<?php echo e(asset('storage/' . $model->image)); ?>">
-                </a>
-            </div>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-    </div>
+    <?php ($visibleModels = $models->filter(fn($model) => !empty($model->slug))->values()); ?>
+
+    <?php if (isset($component)) { $__componentOriginal263f3aa38afc89c383bd3cbcc88ff560 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal263f3aa38afc89c383bd3cbcc88ff560 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.sections.toggle-list','data' => ['limit' => 8,'count' => $visibleModels->count(),'toggleSpacingClass' => 'mt-8']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.sections.toggle-list'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['limit' => 8,'count' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($visibleModels->count()),'toggleSpacingClass' => 'mt-8']); ?>
+        <div class="flex flex-wrap -m-4 px-5 md:px-0">
+            <?php $__currentLoopData = $visibleModels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $model): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <div class="lg:w-1/4 md:w-1/2 p-4 w-full shadow-sm hover:shadow-lg transition"
+                    x-show="showAll || <?php echo e($index); ?> < limit" x-cloak>
+                    <a href="<?php echo e(route('devices.brands.show', [$device->slug, $model->slug])); ?>"
+                        class="block relative h-48 rounded overflow-hidden">
+                        <img alt="<?php echo e($model->name); ?>" aria-label="Перейти на страницу бренда <?php echo e($model->name); ?>"
+                            class="object-contain object-center w-full h-full block cursor-pointer"
+                            src="<?php echo e(asset('storage/' . $model->image)); ?>">
+                    </a>
+                </div>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </div>
+     <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal263f3aa38afc89c383bd3cbcc88ff560)): ?>
+<?php $attributes = $__attributesOriginal263f3aa38afc89c383bd3cbcc88ff560; ?>
+<?php unset($__attributesOriginal263f3aa38afc89c383bd3cbcc88ff560); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal263f3aa38afc89c383bd3cbcc88ff560)): ?>
+<?php $component = $__componentOriginal263f3aa38afc89c383bd3cbcc88ff560; ?>
+<?php unset($__componentOriginal263f3aa38afc89c383bd3cbcc88ff560); ?>
+<?php endif; ?>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginalbda7854c2841beaee0e9cbf64d042c0a)): ?>

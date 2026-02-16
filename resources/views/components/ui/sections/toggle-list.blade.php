@@ -1,6 +1,7 @@
 @props([
     'limit' => 6,
     'count' => 0,
+    'toggleSpacingClass' => 'mt-4',
 ])
 
 <div x-data="{
@@ -10,7 +11,7 @@
     {{ $slot }}
 
     @if ($count > $limit)
-        <div class="mt-4">
+        <div class="{{ $toggleSpacingClass }}">
             <a @click.prevent="showAll = !showAll" class="text-yellow-500 inline-flex items-center cursor-pointer">
                 <span x-show="!showAll">Показать ещё</span>
                 <span x-show="showAll">Скрыть</span>
