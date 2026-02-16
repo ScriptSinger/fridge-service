@@ -2,6 +2,7 @@ import "./bootstrap";
 
 import "./components/modalPhone";
 import leadForm from "./components/leadForm";
+import aboutGallerySlider from "./components/aboutGallerySlider";
 import collapse from "@alpinejs/collapse";
 
 import phoneMask from "./directives/phoneMask";
@@ -14,6 +15,7 @@ window.Alpine = Alpine;
 Alpine.plugin(collapse);
 document.addEventListener("alpine:init", () => {
     Alpine.data("leadForm", leadForm);
+    Alpine.data("aboutGallerySlider", aboutGallerySlider);
 });
 
 Alpine.start();
