@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             ProblemSeeder::class,
             ErrorCodeSeeder::class,
             FaqSeeder::class,
-            AboutGallerySeeder::class
+            HomeGallerySeeder::class
         ]);
     }
 }

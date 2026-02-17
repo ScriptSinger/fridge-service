@@ -7,35 +7,35 @@ use App\Models\Page;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 
-class AboutGallerySeeder extends Seeder
+class HomeGallerySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $aboutPage = Page::where('type', 'about')->first();
+        $homePage = Page::where('type', 'home')->first();
 
-        if (!$aboutPage) {
-            $this->command?->warn("Page with type 'about' not found. Gallery seeding skipped.");
+        if (!$homePage) {
+            $this->command?->warn("Page with type 'home' not found. Gallery seeding skipped.");
             return;
         }
 
         $images = Storage::disk('public')->files('pages');
 
-        if (empty($images) && !empty($aboutPage->image)) {
-            $images = [$aboutPage->image];
+        if (empty($images) && !empty($homePage->image)) {
+            $images = [$homePage->image];
         }
 
         if (empty($images)) {
-            $this->command?->warn("No images found in storage/public/pages and about page image is empty.");
+            $this->command?->warn("No images found in storage/public/pages and home page image is empty.");
             return;
         }
 
-        $items = config('catalog.galleries.about', []);
+        $items = config('catalog.galleries.home', []);
 
         if (empty($items)) {
-            $this->command?->warn("No gallery items found in config('catalog.galleries.about').");
+            $this->command?->warn("No gallery items found in config('catalog.galleries.home').");
             return;
         }
 
@@ -49,7 +49,7 @@ class AboutGallerySeeder extends Seeder
 
             Gallery::updateOrCreate(
                 [
-                    'page_id' => $aboutPage->id,
+                    'page_id' => $homePage->id,
                     'title' => $item['title'],
                 ],
                 [

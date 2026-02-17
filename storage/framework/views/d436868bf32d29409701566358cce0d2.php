@@ -88,6 +88,27 @@
 <?php $component = $__componentOriginald541718e6240ed110edb500b82847561; ?>
 <?php unset($__componentOriginald541718e6240ed110edb500b82847561); ?>
 <?php endif; ?>
+    <?php if (isset($component)) { $__componentOriginalff48416f8408bb10e11ed666a115ffc5 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalff48416f8408bb10e11ed666a115ffc5 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.common.gallery','data' => ['galleries' => $galleries]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('sections.common.gallery'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['galleries' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($galleries)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalff48416f8408bb10e11ed666a115ffc5)): ?>
+<?php $attributes = $__attributesOriginalff48416f8408bb10e11ed666a115ffc5; ?>
+<?php unset($__attributesOriginalff48416f8408bb10e11ed666a115ffc5); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalff48416f8408bb10e11ed666a115ffc5)): ?>
+<?php $component = $__componentOriginalff48416f8408bb10e11ed666a115ffc5; ?>
+<?php unset($__componentOriginalff48416f8408bb10e11ed666a115ffc5); ?>
+<?php endif; ?>
+
     <?php if (isset($component)) { $__componentOriginal94f121500a9e13e948e5e55eab3f6814 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal94f121500a9e13e948e5e55eab3f6814 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.home.faq','data' => ['faqs' => $faqs]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>

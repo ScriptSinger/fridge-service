@@ -88,10 +88,10 @@
 <?php $component = $__componentOriginal3d8e25faf4e8a9e54a2a425bce1225b1; ?>
 <?php unset($__componentOriginal3d8e25faf4e8a9e54a2a425bce1225b1); ?>
 <?php endif; ?>
-    <?php if (isset($component)) { $__componentOriginal948d26ee49a1d70e4db81d1c220038af = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal948d26ee49a1d70e4db81d1c220038af = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.about.gallery','data' => ['galleries' => $galleries]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('sections.about.gallery'); ?>
+    <?php if (isset($component)) { $__componentOriginalff48416f8408bb10e11ed666a115ffc5 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalff48416f8408bb10e11ed666a115ffc5 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sections.common.gallery','data' => ['galleries' => $galleries]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('sections.common.gallery'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
@@ -100,13 +100,13 @@
 <?php $component->withAttributes(['galleries' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($galleries)]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__attributesOriginal948d26ee49a1d70e4db81d1c220038af)): ?>
-<?php $attributes = $__attributesOriginal948d26ee49a1d70e4db81d1c220038af; ?>
-<?php unset($__attributesOriginal948d26ee49a1d70e4db81d1c220038af); ?>
+<?php if (isset($__attributesOriginalff48416f8408bb10e11ed666a115ffc5)): ?>
+<?php $attributes = $__attributesOriginalff48416f8408bb10e11ed666a115ffc5; ?>
+<?php unset($__attributesOriginalff48416f8408bb10e11ed666a115ffc5); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal948d26ee49a1d70e4db81d1c220038af)): ?>
-<?php $component = $__componentOriginal948d26ee49a1d70e4db81d1c220038af; ?>
-<?php unset($__componentOriginal948d26ee49a1d70e4db81d1c220038af); ?>
+<?php if (isset($__componentOriginalff48416f8408bb10e11ed666a115ffc5)): ?>
+<?php $component = $__componentOriginalff48416f8408bb10e11ed666a115ffc5; ?>
+<?php unset($__componentOriginalff48416f8408bb10e11ed666a115ffc5); ?>
 <?php endif; ?>
     <?php if (isset($component)) { $__componentOriginal62de9fc3ebe431a0d746cd50eda6c97f = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal62de9fc3ebe431a0d746cd50eda6c97f = $attributes; } ?>

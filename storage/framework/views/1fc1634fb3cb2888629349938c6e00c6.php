@@ -1,0 +1,1 @@
+components.sections.about.gallery<?php /**PATH /var/www/html/storage/framework/views/ddaf53bab395cfaa0a55764374e0173e.blade.php ENDPATH**/ ?>

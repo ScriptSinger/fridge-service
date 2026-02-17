@@ -63,7 +63,7 @@ unset($__defined_vars, $__key, $__value); ?>
 <?php endif; ?>
 
         <div class="mx-auto w-full px-4 md:px-0"
-            x-data="aboutGallerySlider(<?php echo \Illuminate\Support\Js::from($slides->map(fn($item) => [
+            x-data="gallerySlider(<?php echo \Illuminate\Support\Js::from($slides->map(fn($item) => [
                 'title' => $item->title,
                 'subtitle' => $item->subtitle,
                 'description' => $item->description,
@@ -171,4 +171,4 @@ unset($__defined_vars, $__key, $__value); ?>
 <?php unset($__componentOriginalbda7854c2841beaee0e9cbf64d042c0a); ?>
 <?php endif; ?>
 <?php endif; ?>
-<?php /**PATH /var/www/html/resources/views/components/sections/about/gallery.blade.php ENDPATH**/ ?>
+<?php /**PATH /var/www/html/resources/views/components/sections/common/gallery.blade.php ENDPATH**/ ?>

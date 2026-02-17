@@ -3,6 +3,8 @@
     <x-sections.home.devices :devices="$devices" />
     <x-sections.common.steps />
     <x-sections.common.benefits />
+    <x-sections.common.gallery :galleries="$galleries" />
+
     <x-sections.home.faq :faqs="$faqs" />
     <x-sections.contact :model="$page" />
     <x-ui.scroll-up />
