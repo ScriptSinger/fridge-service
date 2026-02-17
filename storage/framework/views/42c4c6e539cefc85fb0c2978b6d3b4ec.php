@@ -1,1 +1,0 @@
-<?php /**PATH /var/www/html/resources/views/components/seo/og.blade.php ENDPATH**/ ?>

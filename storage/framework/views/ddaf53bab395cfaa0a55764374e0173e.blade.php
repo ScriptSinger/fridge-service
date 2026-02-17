@@ -1,1 +1,0 @@
-components.sections.about.gallery
