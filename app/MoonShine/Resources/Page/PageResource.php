@@ -34,7 +34,7 @@ class PageResource extends ModelResource
         return [
             ID::make()->sortable(),
             Image::make('Изображение', 'image')
-                ->disk('public'),
+                ->disk(config('filesystems.media')),
             Text::make('Type', 'type'),
             Text::make('Slug', 'slug'),
             Text::make('H1', 'h1'),
@@ -65,7 +65,7 @@ class PageResource extends ModelResource
                     ->hint('105–120 символов'),
 
                 Image::make('Hero image', 'image')
-                    ->disk('public')
+                    ->disk(config('filesystems.media'))
                     ->dir('pages')
                     ->removable()
                     ->hint('720x600'),
@@ -96,7 +96,7 @@ class PageResource extends ModelResource
         return [
             ID::make()->sortable(),
             Image::make('Изображение', 'image')
-                ->disk('public'),
+                ->disk(config('filesystems.media')),
             Text::make('Type', 'type'),
             Text::make('Slug', 'slug'),
             Text::make('H1', 'h1'),

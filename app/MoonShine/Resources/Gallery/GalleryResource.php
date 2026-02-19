@@ -37,7 +37,7 @@ class GalleryResource extends ModelResource
     {
         return [
             ID::make()->sortable(),
-            Image::make('Изображение', 'image')->disk('public'),
+            Image::make('Изображение', 'image')->disk(config('filesystems.media')),
             Text::make('Title', 'title')->sortable(),
             Text::make('Subtitle', 'subtitle')->sortable(),
             Number::make('Порядок', 'sort_order')->sortable(),
@@ -60,8 +60,8 @@ class GalleryResource extends ModelResource
             ]),
             Box::make([
                 Image::make('Изображение', 'image')
-                    ->disk('public')
-                    ->dir('gallery')
+                    ->disk(config('filesystems.media'))
+                    ->dir('galleries')
                     ->hint('Рекомендуемый размер: 1200x720 px (соотношение 5:3)')
                     ->removable(),
                 Text::make('Alt для изображения', 'image_alt'),
@@ -91,7 +91,7 @@ class GalleryResource extends ModelResource
             Text::make('Subtitle', 'subtitle'),
             Textarea::make('Description', 'description'),
             Number::make('Порядок', 'sort_order'),
-            Image::make('Изображение', 'image')->disk('public'),
+            Image::make('Изображение', 'image')->disk(config('filesystems.media')),
             Text::make('Alt для изображения', 'image_alt'),
             BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)->nullable(),
             BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)->nullable(),

@@ -35,7 +35,7 @@ class BrandResource extends ModelResource
         return [
             ID::make()->sortable(),
             Image::make('Изображение', 'image')
-                ->disk('public'),
+                ->disk(config('filesystems.media')),
             Text::make('Name', 'name'),
             Text::make('Slug', 'slug'),
             Switcher::make('Активна', 'is_active'),
@@ -57,8 +57,8 @@ class BrandResource extends ModelResource
 
             Box::make([
                 Image::make('Изображение', 'image')
-                    ->disk('public')
-                    ->dir('services')
+                    ->disk(config('filesystems.media'))
+                    ->dir('brands')
                     ->hint('420x260')
                     ->removable(),
                 Text::make('Alt для изображения', 'image_alt'),
@@ -75,7 +75,7 @@ class BrandResource extends ModelResource
             Text::make('Slug', 'slug'),
             Text::make('Name', 'name'),
             Image::make('Изображение', 'image')
-                ->disk('public'),
+                ->disk(config('filesystems.media')),
             Text::make('Alt для изображения', 'image_alt'),
             Switcher::make('Активна', 'is_active'),
             HasMany::make(

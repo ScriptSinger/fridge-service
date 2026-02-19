@@ -14,6 +14,7 @@ return [
     */
 
     'default' => env('FILESYSTEM_DISK', 'local'),
+    'media' => env('MEDIA_DISK', 'public'),
 
     /*
     |--------------------------------------------------------------------------
@@ -41,7 +42,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
@@ -58,6 +59,16 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
             'report' => false,
+        ],
+
+        'yandex' => [
+            'driver' => 's3',
+            'key' => env('YANDEX_S3_KEY'),
+            'secret' => env('YANDEX_S3_SECRET'),
+            'region' => env('YANDEX_S3_REGION'),
+            'bucket' => env('YANDEX_S3_BUCKET'),
+            'endpoint' => env('YANDEX_S3_ENDPOINT'),
+            'use_path_style_endpoint' => true,
         ],
 
     ],

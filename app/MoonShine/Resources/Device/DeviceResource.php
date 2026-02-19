@@ -39,7 +39,7 @@ class DeviceResource extends ModelResource
         return [
             ID::make()->sortable(),
             Image::make('Изображение', 'image')
-                ->disk('public'),
+                ->disk(config('filesystems.media')),
             Text::make('Slug', 'slug'),
             Text::make('Постоянная ссылка', 'permalink'),
             Text::make('Type', 'type'),
@@ -75,8 +75,8 @@ class DeviceResource extends ModelResource
 
             Box::make([
                 Image::make('Изображение', 'image')
-                    ->disk('public')
-                    ->dir('services')
+                    ->disk(config('filesystems.media'))
+                    ->dir('devices')
                     ->hint('Hero / OG image 720x600'),
                 Text::make('Alt для изображения', 'image_alt'),
             ]),
@@ -115,7 +115,7 @@ class DeviceResource extends ModelResource
         return [
             ID::make()->sortable(),
             Image::make('Изображение', 'image')
-                ->disk('public'),
+                ->disk(config('filesystems.media')),
             Text::make('Slug', 'slug'),
             Text::make('Постоянная ссылка', 'permalink'),
             Text::make('Type', 'type'),

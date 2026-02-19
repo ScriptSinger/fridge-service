@@ -6,7 +6,7 @@
         subtitle="Работаем с большинством популярных марок. Ремонтируем бытовые и
             коммерческие {{ Str::lower($device->typeInCase('accusative')) }}." />
 
-    @php($visibleModels = $models->filter(fn($model) => !empty($model->slug))->values())
+    @php($visibleModels = $models->filter(fn($model) => !empty($model->slug) && !empty($model->image_url))->values())
 
     <x-ui.sections.toggle-list :limit="8" :count="$visibleModels->count()" toggleSpacingClass="mt-8">
         <div class="flex flex-wrap -m-4 px-5 md:px-0">
@@ -17,7 +17,7 @@
                         class="block relative h-48 rounded overflow-hidden">
                         <img alt="{{ $model->name }}" aria-label="Перейти на страницу бренда {{ $model->name }}"
                             class="object-contain object-center w-full h-full block cursor-pointer"
-                            src="{{ asset('storage/' . $model->image) }}">
+                            src="{{ $model->image_url }}">
                     </a>
                 </div>
             @endforeach

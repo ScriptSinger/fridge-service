@@ -12,7 +12,7 @@
                 'title' => $item->title,
                 'subtitle' => $item->subtitle,
                 'description' => $item->description,
-                'image' => asset('storage/' . $item->image),
+                'image' => $item->image_url,
                 'image_alt' => $item->image_alt ?: $item->title,
             ])->all()))">
             <div class="relative overflow-hidden rounded-2xl border border-gray-200 shadow-lg"

@@ -3,39 +3,44 @@
 namespace Database\Seeders;
 
 use App\Models\Page;
+use Database\Seeders\Concerns\InteractsWithMediaMap;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 
 class PageSeeder extends Seeder
 {
+    use InteractsWithMediaMap;
+
     public function run(): void
     {
+        $mappedPages = $this->mediaMap()['pages'] ?? [];
+
         $pages = [
             [
                 'type' => 'home',
-                'h1' => 'Главная страница',
-                'subtitle' => 'Краткий подзаголовок для главной страницы.',
-                'title' => 'Главная | РемБытТехника',
-                'description' => 'Краткое описание для главной страницы.',
-                'content' => '<p>Контент главной страницы.</p>',
+                'h1' => 'Ремонт бытовой техники в Уфе',
+                'subtitle' => 'Выезд мастера в день обращения. Бесплатная диагностика, гарантия на работу и запчасти',
+                'title' => 'Ремонт крупной бытовой техники на дому в Уфе | РемБытТехника',
+                'description' => 'Профессиональный ремонт крупной бытовой техники на дому: стиральные машины, холодильники и посудомоечные машины. Бесплатная диагностика, гарантия на работу и запчасти, скидки при заказе онлайн',
+                'content' => '',
                 'is_active' => true,
             ],
             [
                 'type' => 'about',
                 'h1' => 'О компании',
-                'subtitle' => 'Краткий подзаголовок для страницы о компании.',
+                'subtitle' => 'РемБытТехника — местная компания с историей, командой мастеров и многолетним опытом работы в Уфе',
                 'title' => 'О компании | РемБытТехника',
-                'description' => 'Краткое описание для страницы о компании.',
-                'content' => '<p>Контент страницы о компании.</p>',
+                'description' => 'РемБытТехника — местная компания из Уфы, работающая с 2008 года. Постоянная команда мастеров и многолетний опыт ремонта бытовой техники',
+                'content' => '',
                 'is_active' => true,
             ],
             [
                 'type' => 'contacts',
                 'h1' => 'Контакты',
-                'subtitle' => 'Краткий подзаголовок для страницы контактов.',
+                'subtitle' => 'Мы всегда на связи',
                 'title' => 'Контакты | РемБытТехника',
-                'description' => 'Краткое описание для страницы контактов.',
-                'content' => '<p>Контент страницы контактов.</p>',
+                'description' => 'Контактная информация, карта проезда и форма обратной связи',
+                'content' => '',
                 'is_active' => true,
             ],
             [
@@ -59,6 +64,16 @@ class PageSeeder extends Seeder
         ];
 
         foreach ($pages as $page) {
+            $mapped = $mappedPages[$page['type']] ?? [];
+
+            if (! empty($mapped['image'])) {
+                $page['image'] = $mapped['image'];
+            }
+
+            if (! empty($mapped['image_alt'])) {
+                $page['image_alt'] = $mapped['image_alt'];
+            }
+
             Page::updateOrCreate(['type' => $page['type']], $page);
         }
     }

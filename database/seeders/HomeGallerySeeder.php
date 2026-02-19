@@ -21,7 +21,7 @@ class HomeGallerySeeder extends Seeder
             return;
         }
 
-        $images = Storage::disk('public')->files('pages');
+        $images = Storage::disk(config('filesystems.media'))->files('pages');
 
         if (empty($images) && !empty($homePage->image)) {
             $images = [$homePage->image];

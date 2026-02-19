@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasImageUrl;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Price;
@@ -9,6 +10,7 @@ use App\Models\Price;
 class Service extends Model
 {
     use Sluggable;
+    use HasImageUrl;
 
     protected $fillable = [
         'name',

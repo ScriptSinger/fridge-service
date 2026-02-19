@@ -1,0 +1,23 @@
+{
+    "devices": {
+        "Ремонт холодильников": {
+            "image": "devices/GwBsWpe4Y7sEB52lkj1vxQNjnMaNga9itCMLj50g.webp",
+            "image_alt": null
+        },
+        "Ремонт стиральных машин": {
+            "image": "services/QNLUCZoVksk6eIA22C5PoSMWz7r0e9nSk1zaV0od.webp",
+            "image_alt": null
+        }
+    },
+    "brands": {
+        "Atlant": {
+            "image": "services/0Kn44vrCHgPejZjBm1FMRDR2cSg6XZCejdGOwTog.jpg",
+            "image_alt": null
+        },
+        "LG": {
+            "image": "brands/T4Jg9jsBaoYHDuuw7mgPD0g0JxsVDNbit2lRalgw.png",
+            "image_alt": null
+        }
+    },
+    "pages": []
+}

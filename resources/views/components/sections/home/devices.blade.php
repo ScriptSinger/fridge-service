@@ -11,7 +11,7 @@
                         @if ($device->image)
                             <img alt="gallery"
                                 class="w-full object-cover h-full object-center block opacity-25 hover:opacity-60 transition-opacity duration-300 absolute inset-0"
-                                src="{{ Storage::url($device->image) }}">
+                                src="{{ $device->image_url }}">
                         @endif
 
                         <div class="text-center relative z-10 w-full">
