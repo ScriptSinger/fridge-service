@@ -5,7 +5,7 @@
     <x-sections.common.problems :problems="$problems" :device="$device" />
     <x-sections.common.gallery :galleries="$galleries" />
     <x-sections.common.services.index :services="$services" />
-    <x-sections.home.faq :faqs="$faqs" />
+    <x-sections.common.faq :faqs="$faqs" />
     <x-sections.contact :model="$device" />
     <x-ui.scroll-up />
 </x-layouts.app>

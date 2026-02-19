@@ -4,5 +4,6 @@
         subtitle="{{ $page?->subtitle ?? 'Адрес, телефон и форма для связи.' }}" containerClass="pt-9" />
 
     <x-sections.contacts.info />
+    <x-sections.common.faq :faqs="$faqs" />
     <x-sections.contact :model="$page" />
 </x-layouts.app>

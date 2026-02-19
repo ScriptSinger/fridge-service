@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('faqs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('device_id')->nullable()->constrained()->onDelete('cascade'); // привязка к технике, nullable для общих FAQ
+            $table->foreignId('brand_id')->nullable()->constrained()->nullOnDelete(); // привязка к бренду
+            $table->foreignId('page_id')->nullable()->constrained()->nullOnDelete(); // привязка к странице, nullable для общих FAQ
             $table->string('question');
             $table->text('answer');
             $table->integer('sort_order')->default(0);

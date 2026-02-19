@@ -46,6 +46,11 @@ class Brand extends Model
         return $this->hasMany(ErrorCode::class);
     }
 
+    public function faqs()
+    {
+        return $this->hasMany(Faq::class)->where('is_active', true);
+    }
+
     public function leads()
     {
         return $this->morphMany(Lead::class, 'leadable');

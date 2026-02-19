@@ -49,7 +49,9 @@ class Device extends Model
 
     public function faqs()
     {
-        return $this->hasMany(Faq::class);
+        return $this->hasMany(Faq::class)
+            ->whereNull('brand_id')
+            ->where('is_active', true);
     }
 
     public function leads()

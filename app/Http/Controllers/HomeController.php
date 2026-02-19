@@ -12,12 +12,22 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $faqs = Faq::whereNull('device_id')   // общие FAQ
+        $page = Page::where('type', 'home')->first();
+        $faqs = Faq::query()
+            ->whereNull('device_id')
+            ->whereNull('brand_id')
             ->where('is_active', true)
+            ->when(
+                $page,
+                fn($query) => $query->where(function ($subQuery) use ($page) {
+                    $subQuery->whereNull('page_id')
+                        ->orWhere('page_id', $page->id);
+                }),
+                fn($query) => $query->whereNull('page_id')
+            )
             ->orderBy('sort_order')
             ->get();
 
-        $page = Page::where('type', 'home')->first();
         $galleries = $page
             ? Gallery::where('page_id', $page->id)->orderBy('sort_order')->get()
             : collect();
