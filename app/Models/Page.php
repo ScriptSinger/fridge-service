@@ -16,6 +16,7 @@ class Page extends Model
         'subtitle',
         'title',
         'description',
+        'content',
         'image',
         'image_alt',
         'is_active'

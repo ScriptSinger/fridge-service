@@ -12,12 +12,14 @@ use App\MoonShine\Resources\Page\Pages\PageDetailPage;
 use Leeto\InputExtensionCharCount\InputExtensions\CharCount;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\TinyMce\Fields\TinyMce;
 use MoonShine\UI\Components\Layout\Box;
 
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
+use MoonShine\UI\Fields\Textarea;
 
 /**
  * @extends ModelResource<Page, PageIndexPage, PageFormPage, PageDetailPage>
@@ -39,6 +41,7 @@ class PageResource extends ModelResource
             Text::make('Subtitle', 'subtitle'),
             Text::make('Title', 'title'),
             Text::make('Description', 'description'),
+            Text::make('Content', 'content'),
             Switcher::make('Активна', 'is_active'),
         ];
     }
@@ -73,13 +76,17 @@ class PageResource extends ModelResource
 
             ]),
 
+            Box::make('Контент страницы', [
+                TinyMce::make('Content', 'content')
+                    ->hint('Основной контент страницы (например, текст политики, оферты и др.)'),
+            ]),
+
             Box::make('SEO / Метаданные', [
                 Text::make('Title', 'title')
                     ->extension(new CharCount())
                     ->hint('55–60 (макс 65) символов'),
-                Text::make('Description', 'description')
-                    ->extension(new CharCount())
-                    ->hint('140–160 символов'),
+                Textarea::make('Description', 'description')
+                    ->hint('Для обычных страниц — кратко; для юридических страниц допустим развернутый текст.'),
             ]),
         ];
     }
@@ -96,6 +103,7 @@ class PageResource extends ModelResource
             Text::make('Subtitle', 'subtitle'),
             Text::make('Title', 'title'),
             Text::make('Description', 'description'),
+            Text::make('Content', 'content'),
             Switcher::make('Активна', 'is_active'),
         ];
     }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLeadRequest;
 use App\Models\Lead;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -14,7 +15,9 @@ class LeadController extends Controller
 {
     public function store(StoreLeadRequest $request)
     {
-        $lead = Lead::create($request->validated());
+        $lead = Lead::create(
+            Arr::except($request->validated(), ['privacy_policy'])
+        );
 
         if ($request->leadable_type && in_array($request->leadable_type, $request->allowedLeadableTypes(), true)) {
             $leadable = $request->leadable_type::find($request->leadable_id);

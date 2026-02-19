@@ -19,6 +19,21 @@
                 <p x-show="errors.phone" x-text="errors.phone"></p>
             </div>
 
+            <div class="relative mb-5">
+                <label class="inline-flex items-start gap-2 text-sm text-gray-600 cursor-pointer">
+                    <input id="{{ $idPrefix }}-privacy-policy" type="checkbox" required x-model="form.privacy_policy"
+                        class="mt-1 h-4 w-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-400">
+                    <span>
+                        Я согласен с
+                        <a href="{{ route('legal.privacy-policy') }}" target="_blank" rel="noopener noreferrer"
+                            class="text-gray-900 underline hover:text-yellow-600">
+                            политикой конфиденциальности
+                        </a>
+                    </span>
+                </label>
+                <p x-show="errors.privacy_policy" x-text="errors.privacy_policy"></p>
+            </div>
+
             <button @click="submit()" :disabled="loading"
                 class="text-white bg-yellow-500 border-0 py-2 px-5 md:px-6 focus:outline-none hover:bg-yellow-600 rounded text-base md:text-lg cursor-pointer w-full">
                 <span x-show="!loading">Отправить</span>

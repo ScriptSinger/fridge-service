@@ -3,6 +3,7 @@ export default (payload = {}) => ({
         name: "",
         phone: "",
         comment: "",
+        privacy_policy: false,
     },
 
     loading: false,
@@ -36,6 +37,7 @@ export default (payload = {}) => ({
             this.form.name = "";
             this.form.phone = "";
             this.form.comment = "";
+            this.form.privacy_policy = false;
         } catch (err) {
             // Если валидация не прошла
             if (err.response?.status === 422) {

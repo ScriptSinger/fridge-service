@@ -22,11 +22,11 @@
     @vite('resources/css/app.css')
 </head>
 
-<body>
+<body class="min-h-screen flex flex-col bg-white">
 
     <x-layouts.header />
 
-    <main>
+    <main class="flex-1">
         {{ $slot }}
     </main>
 

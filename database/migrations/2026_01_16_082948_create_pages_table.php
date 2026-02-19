@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('h1')->nullable();
             $table->string('subtitle')->nullable();
             $table->string('title')->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
+            $table->longText('content')->nullable();
             $table->string('image')->nullable();
             $table->string('image_alt')->nullable();
             $table->boolean('is_active')->default(true);

@@ -39,3 +39,13 @@ Breadcrumbs::for('about.index', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('О компании', route('about.index'));
 });
+
+Breadcrumbs::for('legal.privacy-policy', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Политика конфиденциальности', route('legal.privacy-policy'));
+});
+
+Breadcrumbs::for('legal.personal-data-consent', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Согласие на обработку ПДн', route('legal.personal-data-consent'));
+});

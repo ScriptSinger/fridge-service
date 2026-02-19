@@ -32,6 +32,7 @@ class StoreLeadRequest extends FormRequest
             'name' => ['nullable', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:30', 'regex:/^[0-9\\s\\-\\+\\(\\)]+$/'],
             'comment' => ['nullable', 'string'],
+            'privacy_policy' => ['accepted'],
 
             // morph
             'leadable_type' => ['nullable', 'string', Rule::in($this->allowedLeadableTypes())],
@@ -41,6 +42,13 @@ class StoreLeadRequest extends FormRequest
             'utm_source' => ['nullable', 'string', 'max:255'],
             'utm_medium' => ['nullable', 'string', 'max:255'],
             'utm_campaign' => ['nullable', 'string', 'max:255'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'privacy_policy.accepted' => 'Необходимо согласиться с политикой конфиденциальности.',
         ];
     }
 
