@@ -6,36 +6,36 @@ use App\Models\Device;
 use App\Models\Faq;
 use App\Models\Gallery;
 use App\Models\Page;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $page = Page::where('type', 'home')->first();
-        $faqs = Faq::query()
-            ->whereNull('device_id')
-            ->whereNull('brand_id')
-            ->where('is_active', true)
-            ->when(
-                $page,
-                fn($query) => $query->where(function ($subQuery) use ($page) {
+        $ttl = now()->addMinutes(20);
+        $page = Cache::remember('page:type:home', $ttl, fn() => Page::where('type', 'home')->firstOrFail());
+        $faqs = Cache::remember("faqs:page:{$page->id}", $ttl, function () use ($page) {
+            return Faq::query()
+                ->whereNull('device_id')
+                ->whereNull('brand_id')
+                ->where('is_active', true)
+                ->where(function ($subQuery) use ($page) {
                     $subQuery->whereNull('page_id')
                         ->orWhere('page_id', $page->id);
-                }),
-                fn($query) => $query->whereNull('page_id')
-            )
-            ->orderBy('sort_order')
-            ->get();
-
-        $galleries = $page
-            ? Gallery::where('page_id', $page->id)->orderBy('sort_order')->get()
-            : collect();
+                })
+                ->orderBy('sort_order')
+                ->get();
+        });
+        $galleries = Cache::remember("gallery:page:{$page->id}", $ttl, function () use ($page) {
+            return Gallery::where('page_id', $page->id)->orderBy('sort_order')->get();
+        });
+        $devices = Cache::remember('devices:active', $ttl, fn() => Device::where('is_active', true)->get());
 
 
         return view('pages.home', [
-            'page' => Page::where('type', 'home')->firstOrFail(),
-            'devices'   => Device::where('is_active', true)->get(),
+            'page' => $page,
+            'devices'   => $devices,
             'galleries' => $galleries,
             'faqs' => $faqs
         ]);

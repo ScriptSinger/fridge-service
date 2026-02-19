@@ -4,20 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Faq;
 use App\Models\Page;
+use Illuminate\Support\Facades\Cache;
 
 class ContactController extends Controller
 {
     public function index()
     {
-        $page = Page::where('type', 'contacts')->first();
+        $ttl = now()->addMinutes(20);
+        $page = Cache::remember('page:type:contacts', $ttl, fn() => Page::where('type', 'contacts')->first());
         $faqs = $page
-            ? Faq::query()
+            ? Cache::remember("faqs:page:{$page->id}", $ttl, fn() => Faq::query()
                 ->whereNull('device_id')
                 ->whereNull('brand_id')
                 ->where('page_id', $page->id)
                 ->where('is_active', true)
                 ->orderBy('sort_order')
-                ->get()
+                ->get())
             : collect();
 
         return view('pages.contacts', [

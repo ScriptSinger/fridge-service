@@ -1,10 +1,24 @@
-export default (slides = []) => ({
+export default (slides = [], initialLimit = 12, step = 12) => ({
     current: 0,
     perView: 1,
     touchStartX: 0,
-    slides,
+    allSlides: slides,
+    visibleLimit: initialLimit,
+    step,
     isFullscreen: false,
     fullscreenCurrent: 0,
+
+    get slides() {
+        return this.allSlides.slice(0, this.visibleLimit);
+    },
+
+    get hiddenCount() {
+        return Math.max(this.allSlides.length - this.slides.length, 0);
+    },
+
+    get hasHiddenSlides() {
+        return this.hiddenCount > 0;
+    },
 
     get maxIndex() {
         return Math.max(this.slides.length - this.perView, 0);
@@ -38,6 +52,21 @@ export default (slides = []) => ({
 
     goTo(index) {
         this.current = index;
+    },
+
+    showMore() {
+        this.visibleLimit = Math.min(
+            this.visibleLimit + this.step,
+            this.allSlides.length,
+        );
+
+        if (this.current > this.maxIndex) {
+            this.current = this.maxIndex;
+        }
+
+        if (this.fullscreenCurrent > this.fullscreenMaxIndex) {
+            this.fullscreenCurrent = this.fullscreenMaxIndex;
+        }
     },
 
     openFullscreen(index) {
