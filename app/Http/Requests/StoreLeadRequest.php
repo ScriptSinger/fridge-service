@@ -48,6 +48,8 @@ class StoreLeadRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'phone.required' => 'Поле "Телефон" обязательно для заполнения.',
+            'phone.regex' => 'Телефон может содержать только цифры, пробелы, скобки, плюс и дефис.',
             'privacy_policy.accepted' => 'Необходимо согласиться с политикой конфиденциальности.',
         ];
     }

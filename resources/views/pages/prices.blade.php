@@ -3,13 +3,8 @@
     <x-sections.hero :model="null" h1="Стоимость услуг по ремонту"
         subtitle="Цены сгруппированы по типам техники. Точная стоимость определяется после диагностики."
         containerClass="pt-9" />
-
-
-
     <x-sections.prices.index :devices="$devices" />
     <x-sections.common.benefits :devices="$devices" />
-
-
     <x-sections.contact :model="$page" />
     <x-ui.scroll-up />
 </x-layouts.app>

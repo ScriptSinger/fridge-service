@@ -11,10 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('page_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('key')->unique();
+            $table->string('name');
+            $table->timestamps();
+        });
+
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
             $table->string('slug')->unique()->nullable();
-            $table->string('type')->nullable();
+            $table->foreignId('page_type_id')->constrained('page_types')->cascadeOnDelete();
             $table->string('h1')->nullable();
             $table->string('subtitle')->nullable();
             $table->string('title')->nullable();
@@ -33,5 +40,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('pages');
+        Schema::dropIfExists('page_types');
     }
 };
