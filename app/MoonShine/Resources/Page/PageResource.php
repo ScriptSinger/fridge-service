@@ -12,6 +12,7 @@ use App\MoonShine\Resources\Page\Pages\PageDetailPage;
 use Leeto\InputExtensionCharCount\InputExtensions\CharCount;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\TinyMce\Fields\TinyMce;
 use MoonShine\UI\Components\Layout\Box;
 
@@ -53,7 +54,9 @@ class PageResource extends ModelResource
                 Text::make('Slug', 'slug')
                     ->readonly()
                     ->hint('Генерируется автоматически'),
-                Text::make('Type', 'type'),
+
+                BelongsTo::make('Тип страницы', 'pageType', 'name')
+                    ->required(),
 
                 Text::make('H1', 'h1')
                     ->extension(new CharCount())

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Device;
 use App\Models\Faq;
 use App\Models\Gallery;
-use App\Models\Page;
+use App\Models\PageType;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 
@@ -14,7 +14,12 @@ class HomeController extends Controller
     public function index()
     {
         $ttl = now()->addMinutes(20);
-        $page = Cache::remember('page:type:home', $ttl, fn() => Page::where('type', 'home')->firstOrFail());
+        $page = Cache::remember('page:type:home', $ttl, function () {
+            return PageType::where('key', 'home')
+                ->firstOrFail()
+                ->page;
+        });
+
         $faqs = Cache::remember("faqs:page:{$page->id}", $ttl, function () use ($page) {
             return Faq::query()
                 ->whereNull('device_id')

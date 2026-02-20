@@ -11,13 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('page_types', function (Blueprint $table) {
-            $table->id();
-            $table->string('key')->unique();
-            $table->string('name');
-            $table->timestamps();
-        });
-
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
             $table->string('slug')->unique()->nullable();
@@ -29,7 +22,7 @@ return new class extends Migration
             $table->longText('content')->nullable();
             $table->string('image')->nullable();
             $table->string('image_alt')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->default(true)->index();
             $table->timestamps();
         });
     }
@@ -40,6 +33,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('pages');
-        Schema::dropIfExists('page_types');
     }
 };

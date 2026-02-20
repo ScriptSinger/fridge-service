@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
+            PageTypeSeeder::class,
             PageSeeder::class,
             DeviceSeeder::class,
             BrandSeeder::class,

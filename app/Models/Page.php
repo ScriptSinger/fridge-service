@@ -13,7 +13,7 @@ class Page extends Model
 
     protected $fillable = [
         'slug',
-        'type',
+        'page_type_id',
         'h1',
         'subtitle',
         'title',
@@ -33,8 +33,24 @@ class Page extends Model
         ];
     }
 
+    public function pageType()
+    {
+        return $this->belongsTo(PageType::class);
+    }
+
     public function faqs()
     {
         return $this->hasMany(Faq::class);
+    }
+
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    public static function findByType(string $key): self
+    {
+        return self::whereHas('pageType', fn($q) => $q->where('key', $key))->firstOrFail();
     }
 }

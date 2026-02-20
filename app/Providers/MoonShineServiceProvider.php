@@ -20,6 +20,7 @@ use App\MoonShine\Resources\Device\DeviceResource;
 use App\MoonShine\Resources\Price\PriceResource;
 use App\MoonShine\Resources\Faq\FaqResource;
 use App\MoonShine\Resources\Gallery\GalleryResource;
+use App\MoonShine\Resources\PageType\PageTypeResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -42,6 +43,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 PriceResource::class,
                 FaqResource::class,
                 GalleryResource::class,
+                PageTypeResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Faq;
 use App\Models\Page;
+use App\Models\PageType;
 use Illuminate\Support\Facades\Cache;
 
 class ContactController extends Controller
@@ -11,7 +12,11 @@ class ContactController extends Controller
     public function index()
     {
         $ttl = now()->addMinutes(20);
-        $page = Cache::remember('page:type:contacts', $ttl, fn() => Page::where('type', 'contacts')->first());
+        $page = Cache::remember('page:type:contacts', $ttl, function () {
+            PageType::where('key', 'contacts')
+                ->firstOrFail()
+                ->page;
+        });
         $faqs = $page
             ? Cache::remember("faqs:page:{$page->id}", $ttl, fn() => Faq::query()
                 ->whereNull('device_id')

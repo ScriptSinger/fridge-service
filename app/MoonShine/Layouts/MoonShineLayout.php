@@ -20,6 +20,7 @@ use App\MoonShine\Resources\Device\DeviceResource;
 use App\MoonShine\Resources\Faq\FaqResource;
 use App\MoonShine\Resources\Price\PriceResource;
 use App\MoonShine\Resources\Gallery\GalleryResource;
+use App\MoonShine\Resources\PageType\PageTypeResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -40,6 +41,7 @@ final class MoonShineLayout extends AppLayout
         return [
             ...parent::menu(),
             MenuItem::make(PageResource::class, 'Pages'),
+            MenuItem::make(PageTypeResource::class, 'PageTypes'),
             MenuItem::make(DeviceResource::class, 'Devices'),
             MenuItem::make(ProblemResource::class, 'Problems'),
             MenuItem::make(BrandResource::class, 'Brands'),

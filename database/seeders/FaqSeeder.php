@@ -85,11 +85,12 @@ class FaqSeeder extends Seeder
         }
 
         // --- 4. FAQ по странице ---
-        foreach ($pageFaqs as $pageType => $faqs) {
-            $page = Page::query()->where('type', $pageType)->first();
+        foreach ($pageFaqs as $pageTypeKey => $faqs) {
+            // ищем страницу через связанный PageType
+            $page = Page::whereHas('pageType', fn($q) => $q->where('key', $pageTypeKey))->first();
 
             if (! $page) {
-                $this->command?->warn("Page '{$pageType}' not found, skipping FAQ...");
+                $this->command?->warn("Page '{$pageTypeKey}' not found, skipping FAQ...");
                 continue;
             }
 
@@ -105,7 +106,5 @@ class FaqSeeder extends Seeder
                 );
             }
         }
-
-        $this->command->info('FAQ seeding completed!');
     }
 }

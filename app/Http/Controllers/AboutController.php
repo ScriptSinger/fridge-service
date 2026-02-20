@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Faq;
 use App\Models\Gallery;
 use App\Models\Page;
+use App\Models\PageType;
 use Illuminate\Support\Facades\Cache;
 
 class AboutController extends Controller
@@ -12,7 +13,11 @@ class AboutController extends Controller
     public function index()
     {
         $ttl = now()->addMinutes(20);
-        $page = Cache::remember('page:type:about', $ttl, fn() => Page::where('type', 'about')->first());
+        $page = Cache::remember('page:type:about', $ttl, function () {
+            PageType::where('key', 'about')
+                ->firstOrFail()
+                ->page;
+        });
         $galleries = $page
             ? Cache::remember("gallery:page:{$page->id}", $ttl, fn() => Gallery::where('page_id', $page->id)->orderBy('sort_order')->get())
             : collect();

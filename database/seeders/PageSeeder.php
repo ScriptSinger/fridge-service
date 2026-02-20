@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Page;
+use App\Models\PageType;
 use Database\Seeders\Concerns\InteractsWithMediaMap;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
@@ -44,6 +45,15 @@ class PageSeeder extends Seeder
                 'is_active' => true,
             ],
             [
+                'type' => 'prices',
+                'h1' => 'Цены на услуги',
+                'subtitle' => 'Список услуг и стоимость ремонта',
+                'title' => 'Цены | РемБытТехника',
+                'description' => 'Полный прайс-лист на ремонт бытовой техники на дому в Уфе.',
+                'content' => '',
+                'is_active' => true,
+            ],
+            [
                 'type' => 'privacy-policy',
                 'h1' => 'Политика конфиденциальности',
                 'subtitle' => 'Правила обработки и защиты персональных данных.',
@@ -63,25 +73,30 @@ class PageSeeder extends Seeder
             ],
         ];
 
-        foreach ($pages as $page) {
-            $mapped = $mappedPages[$page['type']] ?? [];
+        foreach ($pages as $pageData) {
+            $pageType = PageType::where('key', $pageData['type'])->firstOrFail();
 
+            $mapped = $mappedPages[$pageData['type']] ?? [];
             if (! empty($mapped['image'])) {
-                $page['image'] = $mapped['image'];
+                $pageData['image'] = $mapped['image'];
             }
-
             if (! empty($mapped['image_alt'])) {
-                $page['image_alt'] = $mapped['image_alt'];
+                $pageData['image_alt'] = $mapped['image_alt'];
             }
 
-            Page::updateOrCreate(['type' => $page['type']], $page);
+            $pageData['page_type_id'] = $pageType->id;
+            unset($pageData['type']); // больше не нужно
+
+            Page::updateOrCreate(
+                ['page_type_id' => $pageType->id],
+                $pageData
+            );
         }
     }
 
     private function loadHtmlContent(string $filename): string
     {
         $path = resource_path("content/{$filename}");
-
         return File::exists($path) ? File::get($path) : '';
     }
 }
