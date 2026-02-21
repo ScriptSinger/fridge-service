@@ -1,21 +1,25 @@
-import "./bootstrap";
-
-import "./components/modalPhone";
-import leadForm from "./components/leadForm";
-import gallerySlider from "./components/gallerySlider";
+import Alpine from "alpinejs";
 import collapse from "@alpinejs/collapse";
 
+import "./bootstrap";
+import "./components/modalPhone";
+
+import leadForm from "./components/leadForm";
+import gallerySlider from "./components/gallerySlider";
 import phoneMask from "./directives/phoneMask";
-document.addEventListener("alpine:init", () => {
-    Alpine.directive("phone", (el) => phoneMask(el));
-});
 
-import Alpine from "alpinejs";
+// делаем Alpine глобальным
 window.Alpine = Alpine;
-Alpine.plugin(collapse);
-document.addEventListener("alpine:init", () => {
-    Alpine.data("leadForm", leadForm);
-    Alpine.data("gallerySlider", gallerySlider);
-});
 
+// подключаем плагины
+Alpine.plugin(collapse);
+
+// регистрируем компоненты напрямую (без alpine:init)
+Alpine.data("leadForm", leadForm);
+Alpine.data("gallerySlider", gallerySlider);
+
+// регистрируем директиву
+Alpine.directive("phone", (el) => phoneMask(el));
+
+// запускаем Alpine
 Alpine.start();

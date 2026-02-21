@@ -2,6 +2,7 @@
 
 use App\Models\Brand;
 use App\Models\Device;
+use App\Models\Gallery;
 use App\Models\Page;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
@@ -17,7 +18,7 @@ Artisan::command('media:export-map', function () {
             ->whereNotNull('image')
             ->where('image', '!=', '')
             ->get(['permalink', 'image', 'image_alt'])
-            ->mapWithKeys(fn (Device $device) => [
+            ->mapWithKeys(fn(Device $device) => [
                 $device->permalink => [
                     'image' => $device->image,
                     'image_alt' => $device->image_alt,
@@ -28,7 +29,7 @@ Artisan::command('media:export-map', function () {
             ->whereNotNull('image')
             ->where('image', '!=', '')
             ->get(['name', 'image', 'image_alt'])
-            ->mapWithKeys(fn (Brand $brand) => [
+            ->mapWithKeys(fn(Brand $brand) => [
                 $brand->name => [
                     'image' => $brand->image,
                     'image_alt' => $brand->image_alt,
@@ -38,12 +39,25 @@ Artisan::command('media:export-map', function () {
         'pages' => Page::query()
             ->whereNotNull('image')
             ->where('image', '!=', '')
-            ->get(['type', 'image', 'image_alt'])
-            ->mapWithKeys(fn (Page $page) => [
-                $page->type => [
+            ->with('pageType:id,key')
+            ->get()
+            ->filter(fn($page) => $page->pageType !== null)
+            ->mapWithKeys(fn(Page $page) => [
+                $page->pageType->key => [
                     'image' => $page->image,
                     'image_alt' => $page->image_alt,
                 ],
+            ])
+            ->all(),
+        'gallery' => Gallery::query()
+            ->whereNotNull('image')
+            ->where('image', '!=', '')
+            ->get(['image', 'image_alt'])
+            ->mapWithKeys(fn($item, $index) => [
+                $index => [
+                    'image' => $item->image,
+                    'image_alt' => $item->image_alt,
+                ]
             ])
             ->all(),
     ];
@@ -56,4 +70,5 @@ Artisan::command('media:export-map', function () {
     $this->line('devices: ' . count($payload['devices']));
     $this->line('brands: ' . count($payload['brands']));
     $this->line('pages: ' . count($payload['pages']));
-})->purpose('Export DB image paths to resources/content/media-map.json');
+    $this->line('gallery: ' . count($payload['gallery']));
+})->purpose('Export DB image paths including gallery to resources/content/media-map.json');

@@ -17,7 +17,57 @@
         "LG": {
             "image": "brands/T4Jg9jsBaoYHDuuw7mgPD0g0JxsVDNbit2lRalgw.png",
             "image_alt": null
+        },
+        "Samsung": {
+            "image": "brands/Q6eBU9j6BdRbOYbKxU99LzOWOK5tkYYkcY3FdbWk.png",
+            "image_alt": null
+        },
+        "Bosch": {
+            "image": "brands/n7RE1dTpO0YLU5kcj4Z82yyjLXrtJ6xkUZ0GFx9W.png",
+            "image_alt": null
+        },
+        "Liebherr": {
+            "image": "brands/p4xRVHOxANDeB0j2Cb7kazuhT0BdP3WCPtUVYZyr.png",
+            "image_alt": null
+        },
+        "Indesit": {
+            "image": "brands/gaNPSIxdqdMFeBH3DO8rsgswifXurdQOuuhFtlR0.png",
+            "image_alt": null
+        },
+        "Haier": {
+            "image": "brands/c7guiOJHPjKuhkWk275rmK9GBGbazfauEkeesmXU.png",
+            "image_alt": null
+        },
+        "Beko": {
+            "image": "brands/Jtxa15lWRjdeiekxGOrbgP799janT0EvipiQVpM9.png",
+            "image_alt": null
+        },
+        "Miele": {
+            "image": "brands/QOXRuXsgEhowMchhtfEvWPo3C5R0g8IHvcTsNrqT.png",
+            "image_alt": null
+        },
+        "Stinol": {
+            "image": "brands/MPVNszuJ0yVxlCLWb8UacxnhsAkEGbT29iReFIha.png",
+            "image_alt": null
+        },
+        "Бирюса": {
+            "image": "brands/scgngNrGVPEqBpgDBKW0PkxNV26lyIegjEN1kao1.png",
+            "image_alt": null
+        },
+        "Ariston": {
+            "image": "brands/hlm9RlQ1YyYu2mnrsfJpi31ZbZxhTFkXjIbBZuhf.png",
+            "image_alt": null
         }
     },
-    "pages": []
+    "pages": [],
+    "gallery": [
+        {
+            "image": "galleries/yV9zDZg1ojAwpb9kOyaHOtyibxa0fXH2ewKRPza1.png",
+            "image_alt": "Ремонт системы No Frost"
+        },
+        {
+            "image": "galleries/JMVVuNl2yTY8V5PDXvQdo9Hphv3p7S1Zgruu9Nwf.jpg",
+            "image_alt": "Ремонт модуля управления"
+        }
+    ]
 }

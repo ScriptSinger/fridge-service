@@ -33,7 +33,7 @@ return new class extends Migration
             $table->text('description')->nullable();
 
             // Изображение
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('image_alt');
 
             // Порядок
