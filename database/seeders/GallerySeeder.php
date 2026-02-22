@@ -21,7 +21,7 @@ class GallerySeeder extends Seeder
             return;
         }
 
-        // --- Загружаем медиакарту ---
+        // Загружаем медиакарту
         $mappedGalleries = $this->mediaMap()['gallery'] ?? [];
 
         foreach ($items as $index => $item) {
@@ -30,34 +30,13 @@ class GallerySeeder extends Seeder
                 continue;
             }
 
-            // --- Device ---
-            $deviceId = null;
-            if (!empty($item['device'])) {
-                $device = Device::query()
-                    ->where('type', $item['device'])
-                    ->orWhere('permalink', $item['device'])
-                    ->first();
+            // --- Получаем device_id ---
+            $deviceId = $this->getDeviceId($item['device'], $index);
 
-                if ($device === null) {
-                    $this->command?->warn("Gallery item #{$index}: device '{$item['device']}' not found.");
-                } else {
-                    $deviceId = $device->id;
-                }
-            }
+            // --- Получаем brand_id ---
+            $brandId = $this->getBrandId($item['brand'], $index);
 
-            // --- Brand ---
-            $brandId = null;
-            if (!empty($item['brand'])) {
-                $brand = Brand::query()->where('name', $item['brand'])->first();
-
-                if ($brand === null) {
-                    $this->command?->warn("Gallery item #{$index}: brand '{$item['brand']}' not found.");
-                } else {
-                    $brandId = $brand->id;
-                }
-            }
-
-            // --- Данные для updateOrCreate ---
+            // --- Подготавливаем данные для создания ---
             $data = [
                 'title' => $item['title'],
                 'description' => $item['description'] ?? null,
@@ -70,17 +49,10 @@ class GallerySeeder extends Seeder
                 'sort_order' => $index + 1,
             ];
 
-            // --- Создаём или обновляем запись ---
-            $gallery = Gallery::updateOrCreate(
-                [
-                    'device_id' => $deviceId,
-                    'brand_id' => $brandId,
-                    'subtitle' => $item['subtitle'] ?? null,
-                ],
-                $data
-            );
+            // --- Создаем новую запись (каждый элемент уникален) ---
+            $gallery = Gallery::create($data);
 
-            // --- Назначаем картинку из медиакарты по id ---
+            // --- Назначаем картинку из медиакарты по ID ---
             $mapped = $mappedGalleries[$gallery->id] ?? null;
             if ($mapped) {
                 $gallery->image = $mapped['image'];
@@ -88,5 +60,40 @@ class GallerySeeder extends Seeder
                 $gallery->save();
             }
         }
+    }
+
+    private function getDeviceId(?string $deviceName, int $index): ?int
+    {
+        if (empty($deviceName)) {
+            return null;
+        }
+
+        $device = Device::query()
+            ->where('type', $deviceName)
+            ->orWhere('permalink', $deviceName)
+            ->first();
+
+        if (!$device) {
+            $this->command?->warn("Gallery item #{$index}: device '{$deviceName}' not found.");
+            return null;
+        }
+
+        return $device->id;
+    }
+
+    private function getBrandId(?string $brandName, int $index): ?int
+    {
+        if (empty($brandName)) {
+            return null;
+        }
+
+        $brand = Brand::query()->where('name', $brandName)->first();
+
+        if (!$brand) {
+            $this->command?->warn("Gallery item #{$index}: brand '{$brandName}' not found.");
+            return null;
+        }
+
+        return $brand->id;
     }
 }
