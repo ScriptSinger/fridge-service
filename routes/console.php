@@ -13,6 +13,7 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Artisan::command('media:export-map', function () {
+    // --- Формируем payload ---
     $payload = [
         'devices' => Device::query()
             ->whereNotNull('image')
@@ -25,6 +26,7 @@ Artisan::command('media:export-map', function () {
                 ],
             ])
             ->all(),
+
         'brands' => Brand::query()
             ->whereNotNull('image')
             ->where('image', '!=', '')
@@ -36,6 +38,7 @@ Artisan::command('media:export-map', function () {
                 ],
             ])
             ->all(),
+
         'pages' => Page::query()
             ->whereNotNull('image')
             ->where('image', '!=', '')
@@ -49,12 +52,14 @@ Artisan::command('media:export-map', function () {
                 ],
             ])
             ->all(),
+
+        // --- Галерея по id! ---
         'gallery' => Gallery::query()
             ->whereNotNull('image')
             ->where('image', '!=', '')
-            ->get(['image', 'image_alt'])
-            ->mapWithKeys(fn($item, $index) => [
-                $index => [
+            ->get(['id', 'image', 'image_alt'])
+            ->mapWithKeys(fn($item) => [
+                $item->id => [
                     'image' => $item->image,
                     'image_alt' => $item->image_alt,
                 ]
@@ -62,10 +67,12 @@ Artisan::command('media:export-map', function () {
             ->all(),
     ];
 
+    // --- Сохраняем в файл ---
     $path = resource_path('content/media-map.json');
     File::ensureDirectoryExists(dirname($path));
     File::put($path, json_encode($payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 
+    // --- Информация в консоль ---
     $this->info("Media map exported to {$path}");
     $this->line('devices: ' . count($payload['devices']));
     $this->line('brands: ' . count($payload['brands']));

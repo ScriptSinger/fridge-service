@@ -21,7 +21,8 @@ class GallerySeeder extends Seeder
             return;
         }
 
-        $mappedGalleries = $this->mediaMap()['galleries'] ?? [];
+        // --- Загружаем медиакарту ---
+        $mappedGalleries = $this->mediaMap()['gallery'] ?? [];
 
         foreach ($items as $index => $item) {
             if (empty($item['title'])) {
@@ -31,7 +32,7 @@ class GallerySeeder extends Seeder
 
             // --- Device ---
             $deviceId = null;
-            if (! empty($item['device'])) {
+            if (!empty($item['device'])) {
                 $device = Device::query()
                     ->where('type', $item['device'])
                     ->orWhere('permalink', $item['device'])
@@ -46,7 +47,7 @@ class GallerySeeder extends Seeder
 
             // --- Brand ---
             $brandId = null;
-            if (! empty($item['brand'])) {
+            if (!empty($item['brand'])) {
                 $brand = Brand::query()->where('name', $item['brand'])->first();
 
                 if ($brand === null) {
@@ -56,31 +57,36 @@ class GallerySeeder extends Seeder
                 }
             }
 
-            // --- Media map ---
-            $mapped = $mappedGalleries[$item['title']] ?? [];
-            $image = $mapped['image'] ?? null;
-            $imageAlt = $mapped['image_alt'] ?? $item['title'];
-
-            $gallery = Gallery::firstOrNew([
+            // --- Данные для updateOrCreate ---
+            $data = [
                 'title' => $item['title'],
-            ]);
-
-            $gallery->fill([
                 'description' => $item['description'] ?? null,
                 'subtitle' => $item['subtitle'] ?? null,
                 'device_id' => $deviceId,
                 'brand_id' => $brandId,
                 'page_id' => $item['page'] ?? null,
                 'service_id' => $item['service'] ?? null,
-                'image_alt' => $imageAlt,
+                'image_alt' => $item['title'], // дефолт alt
                 'sort_order' => $index + 1,
-            ]);
+            ];
 
-            if ($image !== null) {
-                $gallery->image = $image;
+            // --- Создаём или обновляем запись ---
+            $gallery = Gallery::updateOrCreate(
+                [
+                    'device_id' => $deviceId,
+                    'brand_id' => $brandId,
+                    'subtitle' => $item['subtitle'] ?? null,
+                ],
+                $data
+            );
+
+            // --- Назначаем картинку из медиакарты по id ---
+            $mapped = $mappedGalleries[$gallery->id] ?? null;
+            if ($mapped) {
+                $gallery->image = $mapped['image'];
+                $gallery->image_alt = $mapped['image_alt'] ?? $gallery->image_alt;
+                $gallery->save();
             }
-
-            $gallery->save();
         }
     }
 }
