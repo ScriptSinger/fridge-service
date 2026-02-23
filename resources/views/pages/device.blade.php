@@ -1,7 +1,8 @@
 <x-layouts.app :title="$device->title" :description="$device->description">
     <x-ui.breadcrumbs :model="$device" route="devices.show" />
     <x-sections.hero :model="$device" />
-    <x-sections.brands :models="$brands" :device="$device" />
+    {{-- <x-sections.brands :models="$brands" :device="$device" /> --}}
+    <x-sections.brand-select :brands="$brands" :device="$device" />
     <x-sections.common.problems :problems="$problems" :device="$device" />
     <x-sections.common.gallery :galleries="$galleries" />
     <x-sections.common.services.index :services="$services" />

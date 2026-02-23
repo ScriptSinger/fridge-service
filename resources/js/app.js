@@ -6,6 +6,7 @@ import "./components/modalPhone";
 
 import leadForm from "./components/leadForm";
 import gallerySlider from "./components/gallerySlider";
+import brandSelect from "./components/brandSelect";
 import phoneMask from "./directives/phoneMask";
 
 // делаем Alpine глобальным
@@ -17,6 +18,7 @@ Alpine.plugin(collapse);
 // регистрируем компоненты напрямую (без alpine:init)
 Alpine.data("leadForm", leadForm);
 Alpine.data("gallerySlider", gallerySlider);
+Alpine.data("brandSelect", brandSelect);
 
 // регистрируем директиву
 Alpine.directive("phone", (el) => phoneMask(el));
