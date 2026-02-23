@@ -1,6 +1,7 @@
 <footer class="text-gray-600 body-font">
     <div
-        class="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
+        class="container px-5 py-10 md:py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
+
         <div
             class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left md:mt-0 mt-10 flex flex-col items-center">
             <x-ui.logo />
@@ -8,19 +9,12 @@
         </div>
 
         <div class="flex-grow flex flex-wrap md:pr-20 -mb-10 md:text-left text-center order-first">
-
-            <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                <x-footer.navigation />
-            </div>
-
-            <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                <x-footer.devices />
-            </div>
-
-            <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                <x-footer.contacts />
-            </div>
+            <x-footer.navigation />
+            <x-footer.devices />
+            <x-footer.contacts />
+            <x-footer.documents />
         </div>
+
     </div>
     <x-footer.legal />
 </footer>
