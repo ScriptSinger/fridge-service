@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('slug')->unique()->nullable();
             $table->string('name');
+            $table->string('name_ru')->nullable(); // русская версия бренда
             $table->string('image')->nullable();
             $table->string('image_alt')->nullable();
             $table->boolean('is_active')->default(true);

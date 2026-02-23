@@ -18,19 +18,18 @@ class BrandSeeder extends Seeder
         $brands = config('catalog.brands', []);
         $mappedBrands = $this->mediaMap()['brands'] ?? [];
 
-        foreach ($brands as $brandName) {
-            $slug = SlugService::createSlug(Brand::class, 'slug', $brandName);
-            $mapped = $mappedBrands[$brandName] ?? [];
+        foreach ($brands as $brand) {
+            $slug = SlugService::createSlug(Brand::class, 'slug', $brand['name']);
+            $mapped = $mappedBrands[$brand['name']] ?? [];
 
-            Brand::updateOrCreate(
-                ['name' => $brandName], // ищем по имени
-                [
-                    'slug'      => $slug,
-                    'image'     => $mapped['image'] ?? null,
-                    'image_alt' => $mapped['image_alt'] ?? null,
-                    'is_active' => true,
-                ]
-            );
+            Brand::create([
+                'name'      => $brand['name'],
+                'name_ru'   => $brand['name_ru'],
+                'slug'      => $slug,
+                'image'     => $mapped['image'] ?? null,
+                'image_alt' => $mapped['image_alt'] ?? null,
+                'is_active' => true,
+            ]);
         }
     }
 }

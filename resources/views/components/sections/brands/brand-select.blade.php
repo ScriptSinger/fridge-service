@@ -1,17 +1,19 @@
 @props(['device', 'brands'])
 
 @php
-    $items = $brands->filter(fn($brand) => !empty($brand->slug))->values()->map(
-        fn($brand) => [
-            'name' => $brand->name,
-            'url' => route('devices.brands.show', [$device->slug, $brand->slug]),
+    // Формируем массив брендов для Alpine
+    $items = collect($brands)->filter(fn($b) => !empty($b['slug']))->values()->map(
+        fn($b) => [
+            'name' => $b['name'],
+            'name_ru' => $b['name_ru'],
+            'url' => route('devices.brands.show', [$device->slug, $b['slug']]),
         ],
     );
 @endphp
 
 <x-ui.sections.wrapper id="brand-select">
     <x-ui.sections.header title="Выберите бренд {{ Str::lower($device->typeInCase('genitive')) }}"
-        subtitle="Начните вводить название бренда или выберите из списка." />
+        subtitle="Начните вводить название бренда или выберите из списка" />
 
     <div class="mx-auto mt-6">
         <div x-data="brandSelect(@js($items))" class="space-y-4">
@@ -29,7 +31,7 @@
                     <div class="max-h-64 overflow-y-auto">
                         <template x-for="brand in filtered" :key="brand.url">
                             <a :href="brand.url" class="block p-4 hover:bg-gray-50 transition text-gray-900"
-                                x-text="brand.name"></a>
+                                x-text="(/[а-яё]/i.test(search) && brand.name_ru) ? brand.name_ru : brand.name"></a>
                         </template>
                     </div>
                 </template>
