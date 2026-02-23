@@ -1,5 +1,5 @@
 <x-layouts.app :title="$page->title" :description="$page->description">
-    <x-sections.hero :model="$page" :h1="$page->h1" :subtitle="$page->subtitle" />
+    <x-sections.hero :model="$page" />
     <x-sections.home.devices :devices="$devices" />
     <x-sections.common.steps />
     <x-sections.common.benefits />
