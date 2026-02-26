@@ -20,11 +20,10 @@ return new class extends Migration
             $table->text('text');
             $table->tinyInteger('rating')->default(5);
             $table->string('avatar')->nullable();
-
+            $table->string('source')->default('google');
             $table->foreignId('device_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('brand_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('service_id')->nullable()->constrained()->nullOnDelete();
-
             $table->boolean('is_featured')->default(false);
             $table->boolean('is_published')->default(true);
             $table->timestamps();

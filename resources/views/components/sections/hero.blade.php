@@ -2,7 +2,7 @@
 
 <section x-data="modalPhone()" class="text-gray-600 body-font">
 
-    <div class="container mx-auto flex lg:flex-row flex-col lg:items-center px-5 py-10 md:py-24">
+    <div class="container mx-auto flex lg:flex-row flex-col lg:items-center px-5 py-10 md:py-24 md:pt-9">
         <div class="lg:max-w-lg lg:w-full mb-10 lg:mb-0">
             <img class="object-cover object-center rounded" src="{{ asset('assets/images/hero.png') }}"
                 alt="Мастер по ремонту бытовой техники в Уфе">

@@ -24,6 +24,9 @@ class ReviewSeeder extends Seeder
                 $data['avatar'] = $mapped[$key]['avatar'];
             }
 
+            // источник по умолчанию
+            $data['source'] = $data['source'] ?? 'google';
+
             // Подставляем device_id по типу техники, если указан
             if (!empty($data['device_type'])) {
                 $device = Device::where('type', $data['device_type'])->first();

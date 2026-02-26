@@ -18,6 +18,7 @@ use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
+use MoonShine\UI\Fields\Select;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 
 /**
@@ -38,6 +39,7 @@ class ReviewResource extends ModelResource
             Text::make('City', 'city')->sortable(),
             Text::make('Title', 'title')->sortable(),
             Number::make('Rating', 'rating')->sortable(),
+            Text::make('Source', 'source')->sortable(),
             Switcher::make('Featured', 'is_featured'),
             Switcher::make('Published', 'is_published'),
 
@@ -56,6 +58,13 @@ class ReviewResource extends ModelResource
             Image::make('Аватар', 'avatar')
                 ->disk(config('filesystems.media'))
                 ->dir('reviews'),
+            Select::make('Источник', 'source')
+                ->options([
+                    'google' => 'Google',
+                    'yandex' => 'Yandex',
+                    'avito' => 'Avito',
+                ])
+                ->default('google'),
 
             BelongsTo::make('Устройство', 'device', fn($item) => $item->type ?? ''),
             BelongsTo::make('Бренд', 'brand', fn($item) => $item->name ?? ''),
@@ -79,6 +88,7 @@ class ReviewResource extends ModelResource
             Image::make('Аватар', 'avatar')
                 ->disk(config('filesystems.media'))
                 ->dir('reviews'),
+            Text::make('Источник', 'source'),
             Text::make('Устройство', 'device.type'),
             Text::make('Бренд', 'brand.name'),
             Text::make('Услуга', 'service.name'),

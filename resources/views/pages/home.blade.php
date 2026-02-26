@@ -1,4 +1,5 @@
 <x-layouts.app :title="$page->title" :description="$page->description">
+    <x-ui.breadcrumbs route="home" :model="null" />
     <x-sections.hero :model="$page" />
     <x-sections.home.devices :devices="$devices" />
     <x-sections.common.benefits />

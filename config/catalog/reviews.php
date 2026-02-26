@@ -9,6 +9,7 @@ return [
         'rating' => 5,
         'device_type' => 'Холодильник',
         'is_featured' => true,
+        'source' => 'google',
     ],
     [
         'name' => 'Мария Л.',
@@ -18,6 +19,7 @@ return [
         'rating' => 5,
         'device_type' => 'Стиральная машина',
         'is_featured' => true,
+        'source' => 'yandex',
     ],
     [
         'name' => 'Рустам Н.',
@@ -26,6 +28,7 @@ return [
         'text' => 'Приехали вовремя, объяснили причину поломки, дали чек. Буду обращаться ещё.',
         'rating' => 4,
         'is_featured' => false,
+        'source' => 'avito',
     ],
     [
         'name' => 'Светлана П.',
@@ -35,5 +38,6 @@ return [
         'rating' => 5,
         'device_type' => 'Посудомоечная машина',
         'is_featured' => false,
+        'source' => 'google',
     ],
 ];

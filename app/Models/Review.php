@@ -12,6 +12,7 @@ class Review extends Model
         'text',
         'rating',
         'avatar',
+        'source',
         'city',
         'device_id',
         'brand_id',

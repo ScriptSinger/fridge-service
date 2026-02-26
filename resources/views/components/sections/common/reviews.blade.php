@@ -27,20 +27,17 @@
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
             <div>
                 <p class="text-xs uppercase tracking-[0.2em] text-yellow-600 font-semibold mb-2">Отзывы клиентов</p>
-                <h3 class="sm:text-3xl text-2xl font-semibold text-gray-900 mb-3">Нас рекомендуют в Уфе</h3>
+                <h3 class="sm:text-3xl text-2xl font-semibold text-gray-900 mb-3">Нас рекомендуют</h3>
                 <div class="flex items-center space-x-3">
                     <div class="flex text-yellow-500 text-xl" aria-label="Средний рейтинг">
                         <span>★★★★★</span>
+
                     </div>
                     <div class="text-gray-900 font-semibold text-lg">{{ $avgRating }} из 5</div>
                     <div class="text-gray-500 text-sm">На основе {{ $total }} отзывов</div>
                 </div>
             </div>
-            <div class="mt-6 lg:mt-0 flex items-center space-x-4">
-                <div class="bg-yellow-50 text-yellow-800 px-4 py-2 rounded-full text-sm font-medium">Гарантия 1 год на
-                    ремонт</div>
-                <div class="text-sm text-gray-600">Работаем с 2008 года</div>
-            </div>
+
         </div>
 
         <div x-data="reviewsSlider(@js($slides->all()), { autoplay: true, interval: 5500 })" x-init="init()" class="relative">
@@ -53,20 +50,20 @@
                 </div>
                 <div class="space-x-2">
                     <button type="button" @click="prev" @mouseenter="stopAutoplay" @mouseleave="startAutoplay"
-                        class="p-2 rounded-full border border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300"
+                        class="p-2 rounded-full border border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300 cursor-pointer"
                         aria-label="Предыдущий отзыв">
                         ‹
                     </button>
                     <button type="button" @click="next" @mouseenter="stopAutoplay" @mouseleave="startAutoplay"
-                        class="p-2 rounded-full border border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300"
+                        class="p-2 rounded-full border border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300 cursor-pointer"
                         aria-label="Следующий отзыв">
                         ›
                     </button>
                 </div>
             </div>
 
-                <div class="overflow-hidden">
-                    <div class="flex transition-transform duration-500 ease-out" x-ref="track" :style="trackStyle()">
+            <div class="overflow-hidden">
+                <div class="flex transition-transform duration-500 ease-out" x-ref="track" :style="trackStyle()">
                     <template x-for="(slide, index) in slides" :key="index">
                         <article
                             class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col h-full mx-2 hover:shadow-md transition-shadow basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4 shrink-0"
@@ -88,8 +85,10 @@
                                     <p class="text-sm text-gray-500" x-text="slide.city"></p>
                                 </div>
                                 <div class="ml-auto">
-                                    <img src="{{ asset('assets/images/svg/icon.svg') }}" alt="Source icon"
-                                        class="h-6 w-6">
+                                    <img :src="`{{ asset('assets/images/svg') }}/${slide.source}.svg`" :alt="slide.source"
+                                        :title="`Опубликовано на ${slide.source.charAt(0).toUpperCase() + slide.source.slice(1)}`"
+                                        class="h-6 w-6"
+                                        onerror="this.onerror=null;this.src='{{ asset('assets/images/svg/google.svg') }}';">
                                 </div>
                             </div>
                             <div class="flex items-center text-xs text-gray-500 mb-2 space-x-2">
@@ -97,13 +96,15 @@
                                     itemtype="https://schema.org/Rating">
                                     <meta itemprop="ratingValue" :content="slide.rating">
                                     <template x-for="i in 5" :key="i">
-                                        <svg viewBox="0 0 24 24" class="w-4 h-4"
+                                        <svg viewBox="0 0 24 24" class="w-5 h-5"
                                             :class="{ 'opacity-30': i > slide.rating }" fill="currentColor">
                                             <path
                                                 d="M12 3.5l2.5 5.1 5.6.8-4 3.9.9 5.6L12 16.8l-5 2.6.9-5.6-4-3.9 5.6-.8Z" />
                                         </svg>
                                     </template>
                                 </div>
+                                <img src="{{ asset('assets/images/svg/verify.svg') }}" alt="Verified"
+                                    class="h-5 w-5 shrink-0">
                             </div>
                             <p class="text-gray-700 leading-relaxed line-clamp-2 mb-3" x-text="slide.text"
                                 itemprop="reviewBody"></p>
@@ -121,11 +122,6 @@
                     Смотреть все отзывы
                     <span class="ml-2">→</span>
                 </a>
-                <div class="flex items-center text-sm text-gray-600 space-x-2">
-                    <span
-                        class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-yellow-100 text-yellow-700 font-semibold">★</span>
-                    <span>Гарантия 1 год на ремонт</span>
-                </div>
             </div>
         </div>
     </x-ui.sections.wrapper>
