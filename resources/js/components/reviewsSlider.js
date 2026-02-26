@@ -8,6 +8,7 @@ export default function reviewsSlider(slides = [], { autoplay = false, interval 
         interval,
         cardStep: 0,
         resizeTimer: null,
+        removeListeners: null,
 
         init() {
             const debouncedResize = () => {
@@ -15,13 +16,26 @@ export default function reviewsSlider(slides = [], { autoplay = false, interval 
                 this.resizeTimer = setTimeout(() => this.updatePerView(), 100);
             };
 
+            const onLoad = () => this.updatePerView();
             this.updatePerView();
             requestAnimationFrame(() => this.updatePerView());
-            window.addEventListener("load", () => this.updatePerView(), { once: true });
+            window.addEventListener("load", onLoad, { once: true });
             window.addEventListener("resize", debouncedResize);
-            if (this.autoplay) {
-                this.startAutoplay();
-            }
+
+            if (this.autoplay) this.startAutoplay();
+
+            this.removeListeners = () => {
+                if (this.resizeTimer) {
+                    clearTimeout(this.resizeTimer);
+                    this.resizeTimer = null;
+                }
+                window.removeEventListener("resize", debouncedResize);
+                this.stopAutoplay();
+            };
+
+            return () => {
+                this.removeListeners && this.removeListeners();
+            };
         },
 
         updatePerView() {
@@ -42,6 +56,13 @@ export default function reviewsSlider(slides = [], { autoplay = false, interval 
             const trackWidth = track.getBoundingClientRect().width;
             this.perView = Math.max(1, Math.floor(trackWidth / this.cardStep));
             this.current = Math.min(this.current, this.maxIndex);
+
+            if (!this.canSlide) {
+                this.current = 0;
+                this.stopAutoplay();
+            } else if (this.autoplay && !this.timer) {
+                this.startAutoplay();
+            }
         },
 
         get maxIndex() {
@@ -50,6 +71,10 @@ export default function reviewsSlider(slides = [], { autoplay = false, interval 
 
         get pages() {
             return Math.max(Math.ceil(this.slides.length / this.perView), 1);
+        },
+
+        get canSlide() {
+            return this.slides.length > this.perView;
         },
 
         next() {
@@ -65,6 +90,7 @@ export default function reviewsSlider(slides = [], { autoplay = false, interval 
         },
 
         startAutoplay() {
+            if (!this.autoplay || !this.canSlide) return;
             this.stopAutoplay();
             this.timer = setInterval(() => this.next(), this.interval);
         },

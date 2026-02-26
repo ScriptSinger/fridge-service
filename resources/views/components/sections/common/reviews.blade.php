@@ -23,7 +23,7 @@
 @endphp
 
 @if ($slides->isNotEmpty())
-    <x-ui.sections.wrapper class="text-gray-600" itemscope itemtype="https://schema.org/Review">
+    <x-ui.sections.wrapper class="text-gray-600">
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
             <div>
                 <p class="text-xs uppercase tracking-[0.2em] text-yellow-600 font-semibold mb-2">Отзывы клиентов</p>
@@ -36,33 +36,43 @@
                     <div class="text-gray-900 font-semibold text-lg">{{ $avgRating }} из 5</div>
                     <div class="text-gray-500 text-sm">На основе {{ $total }} отзывов</div>
                 </div>
+                <div class="sr-only" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+                    <meta itemprop="ratingValue" content="{{ $avgRating }}">
+                    <meta itemprop="reviewCount" content="{{ $total }}">
+                    <meta itemprop="bestRating" content="5">
+                    <meta itemprop="worstRating" content="1">
+                </div>
             </div>
 
         </div>
 
-        <div x-data="reviewsSlider(@js($slides->all()), { autoplay: true, interval: 5500 })" x-init="init()" class="relative">
-            <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center space-x-2">
+        <div x-data="reviewsSlider(@js($slides->all()), { autoplay: true, interval: 5500 })"
+            x-init="init()" class="relative"
+            @mouseenter="stopAutoplay" @mouseleave="startAutoplay"
+            @focusin="stopAutoplay" @focusout="startAutoplay">
+            <div class="flex items-center justify-between mb-4" x-show="canSlide">
+                <div class="flex items-center space-x-2" aria-label="Переход по страницам отзывов">
                     <template x-for="i in pages" :key="i">
                         <button type="button" @click="goToPage(i-1)" :class="dotClass(i - 1)"
-                            class="h-2 w-2 rounded-full"></button>
+                            class="h-2 w-2 rounded-full" :aria-label="`Страница ${i}`"
+                            :aria-pressed="pageIndex === i - 1"></button>
                     </template>
                 </div>
                 <div class="space-x-2">
-                    <button type="button" @click="prev" @mouseenter="stopAutoplay" @mouseleave="startAutoplay"
-                        class="p-2 rounded-full border border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300 cursor-pointer"
-                        aria-label="Предыдущий отзыв">
+                    <button type="button" @click="prev"
+                        class="p-2 rounded-full border border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                        aria-label="Предыдущий отзыв" :disabled="!canSlide">
                         ‹
                     </button>
-                    <button type="button" @click="next" @mouseenter="stopAutoplay" @mouseleave="startAutoplay"
-                        class="p-2 rounded-full border border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300 cursor-pointer"
-                        aria-label="Следующий отзыв">
+                    <button type="button" @click="next"
+                        class="p-2 rounded-full border border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                        aria-label="Следующий отзыв" :disabled="!canSlide">
                         ›
                     </button>
                 </div>
             </div>
 
-            <div class="overflow-hidden">
+            <div class="overflow-hidden" aria-live="polite">
                 <div class="flex transition-transform duration-500 ease-out" x-ref="track" :style="trackStyle()">
                     <template x-for="(slide, index) in slides" :key="index">
                         <article
