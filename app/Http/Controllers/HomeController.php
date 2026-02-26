@@ -6,6 +6,7 @@ use App\Models\Device;
 use App\Models\Faq;
 use App\Models\Gallery;
 use App\Models\PageType;
+use App\Models\Review;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 
@@ -36,13 +37,22 @@ class HomeController extends Controller
             return Gallery::where('page_id', $page->id)->orderBy('sort_order')->get();
         });
         $devices = Cache::remember('devices:active', $ttl, fn() => Device::where('is_active', true)->get());
+        $reviews = Cache::remember('reviews:home', $ttl, function () {
+            return Review::with(['device', 'brand', 'service'])
+                ->published()
+                ->orderByDesc('is_featured')
+                ->orderByDesc('created_at')
+                ->take(10)
+                ->get();
+        });
 
 
         return view('pages.home', [
             'page' => $page,
             'devices'   => $devices,
             'galleries' => $galleries,
-            'faqs' => $faqs
+            'faqs' => $faqs,
+            'reviews' => $reviews,
         ]);
     }
 }

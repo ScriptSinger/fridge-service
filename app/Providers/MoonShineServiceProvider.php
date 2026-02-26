@@ -21,6 +21,7 @@ use App\MoonShine\Resources\Price\PriceResource;
 use App\MoonShine\Resources\Faq\FaqResource;
 use App\MoonShine\Resources\Gallery\GalleryResource;
 use App\MoonShine\Resources\PageType\PageTypeResource;
+use App\MoonShine\Resources\Review\ReviewResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -44,6 +45,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 FaqResource::class,
                 GalleryResource::class,
                 PageTypeResource::class,
+                ReviewResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),

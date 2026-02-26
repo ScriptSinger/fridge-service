@@ -32,7 +32,8 @@ class DatabaseSeeder extends Seeder
             ProblemSeeder::class,
             ErrorCodeSeeder::class,
             FaqSeeder::class,
-            GallerySeeder::class
+            GallerySeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }

@@ -40,6 +40,11 @@ Breadcrumbs::for('about.index', function (BreadcrumbTrail $trail) {
     $trail->push('О компании', route('about.index'));
 });
 
+Breadcrumbs::for('reviews.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Отзывы', route('reviews.index'));
+});
+
 Breadcrumbs::for('legal.privacy-policy', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Политика конфиденциальности', route('legal.privacy-policy'));

@@ -21,6 +21,7 @@ use App\MoonShine\Resources\Faq\FaqResource;
 use App\MoonShine\Resources\Price\PriceResource;
 use App\MoonShine\Resources\Gallery\GalleryResource;
 use App\MoonShine\Resources\PageType\PageTypeResource;
+use App\MoonShine\Resources\Review\ReviewResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -52,6 +53,7 @@ final class MoonShineLayout extends AppLayout
             MenuItem::make(FaqResource::class, 'Faqs'),
 
             MenuItem::make(GalleryResource::class, 'Galleries'),
+            MenuItem::make(ReviewResource::class, 'Reviews'),
         ];
     }
 
