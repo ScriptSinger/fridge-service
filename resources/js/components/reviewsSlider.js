@@ -7,10 +7,18 @@ export default function reviewsSlider(slides = [], { autoplay = false, interval 
         autoplay,
         interval,
         cardStep: 0,
+        resizeTimer: null,
 
         init() {
+            const debouncedResize = () => {
+                if (this.resizeTimer) clearTimeout(this.resizeTimer);
+                this.resizeTimer = setTimeout(() => this.updatePerView(), 100);
+            };
+
             this.updatePerView();
-            window.addEventListener("resize", () => this.updatePerView());
+            requestAnimationFrame(() => this.updatePerView());
+            window.addEventListener("load", () => this.updatePerView(), { once: true });
+            window.addEventListener("resize", debouncedResize);
             if (this.autoplay) {
                 this.startAutoplay();
             }

@@ -8,6 +8,7 @@ export default (slides = [], initialLimit = 12, step = 12) => ({
     isFullscreen: false,
     fullscreenCurrent: 0,
     cardStep: 0,
+    resizeTimer: null,
 
     get slides() {
         return this.allSlides.slice(0, this.visibleLimit);
@@ -126,8 +127,15 @@ export default (slides = [], initialLimit = 12, step = 12) => ({
     },
 
     init() {
+        const debouncedResize = () => {
+            if (this.resizeTimer) clearTimeout(this.resizeTimer);
+            this.resizeTimer = setTimeout(() => this.updatePerView(), 100);
+        };
+
         this.updatePerView();
-        window.addEventListener("resize", () => this.updatePerView());
+        requestAnimationFrame(() => this.updatePerView());
+        window.addEventListener("load", () => this.updatePerView(), { once: true });
+        window.addEventListener("resize", debouncedResize);
         window.addEventListener("keydown", (event) => {
             if (!this.isFullscreen) return;
 
