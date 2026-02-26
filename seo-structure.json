@@ -1,0 +1,171 @@
+{
+  "project": "Repair Center",
+  "generated_at": "2026-02-25",
+  "pages": [
+    {
+      "key": "home",
+      "route": "/",
+      "status": "current",
+      "model": "PageType(key=home)->page",
+      "meta_fields": ["page.title", "page.description", "page.image_url"],
+      "sections": [
+        { "name": "hero", "fields": ["page.h1", "page.subtitle", "page.image_url", "page.description"] },
+        { "name": "trust_badges", "fields": ["Page.content (USPs)", "config.contacts.opening_hours_display"] },
+        { "name": "brand_carousel", "fields": ["Brand.name", "Brand.image_url", "Brand.image_alt"] },
+        { "name": "devices_catalog", "fields": ["Device.type", "Device.permalink", "Device.h1", "Device.subtitle", "Device.image_url", "Device.short_description"] },
+        { "name": "top_services_grid", "fields": ["Service.name", "Service.tags", "Service.preferredPrice().formatted_price", "Service.description"] },
+        { "name": "steps", "fields": ["Page.content (steps list)"] },
+        { "name": "benefits", "fields": ["Page.content (bulleted benefits)"] },
+        { "name": "reviews", "fields": ["Gallery.caption as review", "Gallery.image_url"] },
+        { "name": "gallery", "fields": ["Gallery.image_url", "Gallery.alt", "Gallery.caption"] },
+        { "name": "faq", "fields": ["Faq.question", "Faq.answer"] },
+        { "name": "cta_lead_form", "fields": ["Lead.*", "Lead.utm_*", "StoreLeadRequest.privacy_policy"] }
+      ]
+    },
+    {
+      "key": "prices",
+      "route": "/prices",
+      "status": "current",
+      "model": "PageType(key=prices)->page",
+      "meta_fields": ["page.title", "page.description", "page.image_url"],
+      "sections": [
+        { "name": "hero", "fields": ["page.h1", "page.subtitle"] },
+        { "name": "price_table_by_device", "fields": ["Device.type", "Service.name", "Price.price_from", "Price.price_to", "Price.units", "Price.formatted_price"] },
+        { "name": "promotions", "fields": ["Page.content (promos)", "Price.price_from"] },
+        { "name": "mobile_price_cards", "fields": ["Service.name", "Service.description", "Price.formatted_price"] },
+        { "name": "steps", "fields": ["Page.content (how pricing works)"] },
+        { "name": "faq", "fields": ["Faq.question", "Faq.answer"] },
+        { "name": "cta_lead_form", "fields": ["Lead.*", "StoreLeadRequest.allowedLeadableTypes"] }
+      ]
+    },
+    {
+      "key": "contacts",
+      "route": "/contacts",
+      "status": "current",
+      "model": "PageType(key=contacts)->page",
+      "meta_fields": ["page.title", "page.description", "page.image_url"],
+      "sections": [
+        { "name": "hero", "fields": ["page.h1", "page.subtitle"] },
+        { "name": "contacts_block", "fields": ["config.contacts.phone_display", "config.contacts.phone_tel", "config.contacts.email", "config.contacts.address_full", "config.contacts.opening_hours_display", "config.contacts.area_served"] },
+        { "name": "map", "fields": ["config.contacts.address_full", "config.contacts.address_city"] },
+        { "name": "reviews", "fields": ["Gallery.caption", "Gallery.image_url"] },
+        { "name": "faq", "fields": ["Faq.question", "Faq.answer"] },
+        { "name": "cta_lead_form", "fields": ["Lead.*"] }
+      ]
+    },
+    {
+      "key": "about",
+      "route": "/about",
+      "status": "current",
+      "model": "PageType(key=about)->page",
+      "meta_fields": ["page.title", "page.description", "page.image_url"],
+      "sections": [
+        { "name": "hero", "fields": ["page.h1", "page.subtitle"] },
+        { "name": "history", "fields": ["page.content (history)"] },
+        { "name": "statistics", "fields": ["page.content (metrics)"] },
+        { "name": "team", "fields": ["Gallery.image_url", "Gallery.caption (staff roles)"] },
+        { "name": "certifications", "fields": ["Page.content (licenses/partners)"] },
+        { "name": "gallery", "fields": ["Gallery.image_url", "Gallery.caption"] },
+        { "name": "reviews", "fields": ["Gallery.caption", "Gallery.image_url"] },
+        { "name": "faq", "fields": ["Faq.question", "Faq.answer"] },
+        { "name": "cta_lead_form", "fields": ["Lead.*"] }
+      ]
+    },
+    {
+      "key": "device",
+      "route": "/{device:slug}",
+      "status": "current",
+      "model": "Device",
+      "meta_fields": ["device.title", "device.description", "device.image_url"],
+      "sections": [
+        { "name": "hero", "fields": ["device.h1", "device.subtitle", "device.image_url"] },
+        { "name": "brand_catalog", "fields": ["Brand.name", "Brand.slug", "Brand.image_url", "pivot.h1", "pivot.subtitle", "pivot.description"] },
+        { "name": "symptoms_snippet", "fields": ["Problem.title", "Problem.short_content"] },
+        { "name": "services_with_prices", "fields": ["Service.name", "Service.description", "Service.tags", "Service.preferredPrice(device.id).formatted_price"] },
+        { "name": "steps", "fields": ["Page.content (repair steps for device)"] },
+        { "name": "benefits", "fields": ["Page.content (device-specific USPs)"] },
+        { "name": "gallery", "fields": ["Gallery.image_url", "Gallery.caption"] },
+        { "name": "faq", "fields": ["Faq.question", "Faq.answer"] },
+        { "name": "cta_lead_form", "fields": ["Lead.*", "leadable_type=Device", "leadable_id=device.id"] }
+      ]
+    },
+    {
+      "key": "brand",
+      "route": "/{device:slug}/{brand:slug}",
+      "status": "current",
+      "model": "Device + Brand (pivot)",
+      "meta_fields": ["pivot.title", "pivot.description", "brand.image_url"],
+      "sections": [
+        { "name": "hero", "fields": ["pivot.h1", "pivot.subtitle", "brand.image_url"] },
+        { "name": "brand_benefits", "fields": ["brand.name", "pivot.description", "brand.image_url"] },
+        { "name": "problems_list", "fields": ["Problem.title", "Problem.short_content", "Problem.slug"] },
+        { "name": "error_codes", "fields": ["ErrorCode.code", "ErrorCode.title", "ErrorCode.description"] },
+        { "name": "services_with_prices", "fields": ["Service.name", "Service.description", "Service.tags", "Price.formatted_price (brand/device scoped)"] },
+        { "name": "gallery", "fields": ["Gallery.image_url", "Gallery.caption"] },
+        { "name": "faq", "fields": ["Faq.question", "Faq.answer"] },
+        { "name": "cta_lead_form", "fields": ["Lead.*", "leadable_type=Brand", "leadable_id=brand.id"] }
+      ]
+    },
+    {
+      "key": "problem_detail",
+      "route": "/{device:slug}/{brand:slug}/problems/{problem:slug}",
+      "status": "recommended",
+      "note": "Route not implemented; add for long-tail SEO.",
+      "model": "Problem",
+      "meta_fields": ["problem.title", "problem.content"],
+      "sections": [
+        { "name": "hero", "fields": ["problem.h1", "problem.title", "device.typeInCase()"] },
+        { "name": "symptoms", "fields": ["problem.content (symptoms/explanation)"] },
+        { "name": "related_services", "fields": ["Service.name", "Service.description", "Service.preferredPrice().formatted_price"] },
+        { "name": "error_codes", "fields": ["ErrorCode.code", "ErrorCode.title", "ErrorCode.description"] },
+        { "name": "faq", "fields": ["Faq.question", "Faq.answer"] },
+        { "name": "cta_lead_form", "fields": ["Lead.*", "leadable_type=Problem", "leadable_id=problem.id"] }
+      ]
+    },
+    {
+      "key": "service_detail",
+      "route": "/services/{service:slug}",
+      "status": "recommended",
+      "model": "Service",
+      "meta_fields": ["service.name", "service.description", "service.tags"],
+      "sections": [
+        { "name": "hero", "fields": ["service.name", "service.description"] },
+        { "name": "pricing", "fields": ["Price.formatted_price", "Price.units"] },
+        { "name": "devices_supported", "fields": ["Device.type", "Device.slug"] },
+        { "name": "brand_compatibility", "fields": ["Brand.name", "Brand.slug"] },
+        { "name": "benefits", "fields": ["Service.tags"] },
+        { "name": "gallery", "fields": ["Gallery.image_url"] },
+        { "name": "faq", "fields": ["Faq.question", "Faq.answer"] },
+        { "name": "cta_lead_form", "fields": ["Lead.*", "leadable_type=Service", "leadable_id=service.id"] }
+      ]
+    },
+    {
+      "key": "error_code_detail",
+      "route": "/brands/{brand:slug}/errors/{errorCode:slug}",
+      "status": "recommended",
+      "model": "ErrorCode",
+      "meta_fields": ["errorCode.title", "errorCode.code", "errorCode.description"],
+      "sections": [
+        { "name": "hero", "fields": ["errorCode.code", "errorCode.title", "brand.name"] },
+        { "name": "meaning", "fields": ["errorCode.description"] },
+        { "name": "possible_causes", "fields": ["Problem.title", "Problem.short_content"] },
+        { "name": "recommended_services", "fields": ["Service.name", "Service.preferredPrice().formatted_price"] },
+        { "name": "cta_lead_form", "fields": ["Lead.*", "leadable_type=ErrorCode", "leadable_id=errorCode.id"] }
+      ]
+    },
+    {
+      "key": "blog_article",
+      "route": "/blog/{slug}",
+      "status": "recommended",
+      "model": "Page (template=blog)",
+      "meta_fields": ["page.title", "page.description", "page.image_url"],
+      "sections": [
+        { "name": "hero", "fields": ["page.h1", "page.subtitle", "page.image_url"] },
+        { "name": "body", "fields": ["page.content (rich text)"] },
+        { "name": "faq", "fields": ["Faq.question", "Faq.answer"] },
+        { "name": "related_devices", "fields": ["Device.type", "Device.slug"] },
+        { "name": "cta_lead_form", "fields": ["Lead.*", "leadable_type=Page", "leadable_id=page.id"] }
+      ]
+    }
+  ]
+}

@@ -13,7 +13,7 @@ class ContactController extends Controller
     {
         $ttl = now()->addMinutes(20);
         $page = Cache::remember('page:type:contacts', $ttl, function () {
-            PageType::where('key', 'contacts')
+            return PageType::where('key', 'contacts')
                 ->firstOrFail()
                 ->page;
         });

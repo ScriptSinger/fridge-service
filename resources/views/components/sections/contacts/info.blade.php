@@ -4,11 +4,10 @@
     <div class="flex flex-wrap -m-4 text-center">
         <div class="p-4 md:w-1/4 sm:w-1/2 w-full">
             <div class="border-2 border-gray-200 px-4 py-6 rounded-lg h-full">
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="1.8"
-                    class="text-yellow-500 w-12 h-12 mb-3 inline-block" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M10.5 1.5h3m-4.5 0h6a2.25 2.25 0 0 1 2.25 2.25v16.5A2.25 2.25 0 0 1 15 22.5H9a2.25 2.25 0 0 1-2.25-2.25V3.75A2.25 2.25 0 0 1 9 1.5z" />
-                    <path d="M11.25 18.75h1.5" />
+                <svg viewBox="0 0 24 24" class="w-12 h-12 mb-3 inline-block text-yellow-500" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="6" y="2.5" width="12" height="19" rx="3"></rect>
+                    <line x1="11" y1="18" x2="13" y2="18"></line>
                 </svg>
                 <p class="text-sm text-gray-500">Телефон</p>
                 <div class="mt-1">
@@ -19,12 +18,10 @@
 
         <div class="p-4 md:w-1/4 sm:w-1/2 w-full">
             <div class="border-2 border-gray-200 px-4 py-6 rounded-lg h-full">
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="1.8"
-                    class="text-yellow-500 w-12 h-12 mb-3 inline-block" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M21.75 6.75v10.5A2.25 2.25 0 0 1 19.5 19.5h-15a2.25 2.25 0 0 1-2.25-2.25V6.75" />
-                    <path d="M21.75 6.75A2.25 2.25 0 0 0 19.5 4.5h-15A2.25 2.25 0 0 0 2.25 6.75" />
-                    <path d="M21.75 6.75v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91A2.25 2.25 0 0 1 2.25 6.993V6.75" />
+                <svg viewBox="0 0 24 24" class="w-12 h-12 mb-3 inline-block text-yellow-500" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="5" width="18" height="14" rx="2" />
+                    <path d="M4.5 7.5 12 12.5 19.5 7.5" />
                 </svg>
                 <p class="text-sm text-gray-500">Email</p>
                 <a href="mailto:{{ config('contacts.email') }}"
@@ -36,11 +33,10 @@
 
         <div class="p-4 md:w-1/4 sm:w-1/2 w-full">
             <div class="border-2 border-gray-200 px-4 py-6 rounded-lg h-full">
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="1.8"
-                    class="text-yellow-500 w-12 h-12 mb-3 inline-block" viewBox="0 0 24 24" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="M12 6v6l4 2"></path>
+                <svg viewBox="0 0 24 24" class="w-12 h-12 mb-3 inline-block text-yellow-500" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 7v5l3 2" />
                 </svg>
                 <p class="text-sm text-gray-500">График работы</p>
                 <p class="leading-relaxed text-gray-900 mt-1">{{ config('contacts.opening_hours_display') }}</p>
@@ -49,11 +45,10 @@
 
         <div class="p-4 md:w-1/4 sm:w-1/2 w-full">
             <div class="border-2 border-gray-200 px-4 py-6 rounded-lg h-full">
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="1.8"
-                    class="text-yellow-500 w-12 h-12 mb-3 inline-block" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 22s8-4 8-10a8 8 0 10-16 0c0 6 8 10 8 10z"></path>
-                    <circle cx="12" cy="12" r="3"></circle>
+                <svg viewBox="0 0 24 24" class="w-12 h-12 mb-3 inline-block text-yellow-500" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 21.5s8-4.5 8-10.5a8 8 0 1 0-16 0c0 6 8 10.5 8 10.5Z" />
+                    <circle cx="12" cy="11.5" r="3" />
                 </svg>
                 <p class="text-sm text-gray-500">Зона выезда</p>
                 <p class="leading-relaxed text-gray-900 mt-1">{{ config('contacts.area_served') }}</p>

@@ -14,7 +14,7 @@ class AboutController extends Controller
     {
         $ttl = now()->addMinutes(20);
         $page = Cache::remember('page:type:about', $ttl, function () {
-            PageType::where('key', 'about')
+            return PageType::where('key', 'about')
                 ->firstOrFail()
                 ->page;
         });

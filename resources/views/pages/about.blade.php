@@ -1,6 +1,6 @@
 <x-layouts.app :title="$page?->title ?? 'О компании'" :description="$page?->description ?? 'Информация о сервисе ремонта бытовой техники.'">
     <x-ui.breadcrumbs route="about.index" :model="null" />
-    <x-sections.hero :model="$page" h1="" subtitle="" containerClass="pt-9" />
+    <x-sections.hero :model="$page" :h1="$page?->h1" :subtitle="$page?->subtitle" />
     <x-sections.about.statistic />
     <x-sections.about.history />
     <x-sections.common.gallery :galleries="$galleries" />

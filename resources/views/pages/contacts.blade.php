@@ -1,7 +1,6 @@
-<x-layouts.app :title="$page?->title ?? 'Контакты'" :description="$page?->description ?? 'Контакты сервиса ремонта бытовой техники.'">
+<x-layouts.app :title="$page?->title" :description="$page?->description">
     <x-ui.breadcrumbs route="contacts.index" :model="null" />
-    <x-sections.hero :model="$page" h1="{{ $page?->h1 ?? 'Контакты' }}"
-        subtitle="{{ $page?->subtitle ?? 'Адрес, телефон и форма для связи.' }}" containerClass="pt-9" />
+    <x-sections.hero :model="$page" :h1="$page?->h1" :subtitle="$page?->subtitle" />
 
     <x-sections.contacts.info />
     <x-sections.common.faq :faqs="$faqs" />

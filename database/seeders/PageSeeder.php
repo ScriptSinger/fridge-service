@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Page;
 use App\Models\PageType;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Database\Seeders\Concerns\InteractsWithMediaMap;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
@@ -75,6 +76,9 @@ class PageSeeder extends Seeder
 
         foreach ($pages as $pageData) {
             $pageType = PageType::where('key', $pageData['type'])->firstOrFail();
+
+            // Генерируем slug из H1, если его нет
+            $pageData['slug'] = SlugService::createSlug(Page::class, 'slug', $pageData['h1']);
 
             $mapped = $mappedPages[$pageData['type']] ?? [];
             if (! empty($mapped['image'])) {
