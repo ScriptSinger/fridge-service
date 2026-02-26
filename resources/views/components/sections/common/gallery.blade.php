@@ -19,15 +19,18 @@
             ],
         )
         ->all(),
-))">
+))" x-init="init()">
             <div class="relative overflow-hidden rounded-2xl border border-gray-200 shadow-lg"
                 @touchstart="onTouchStart($event)" @touchend="onTouchEnd($event)">
                 <div class="flex transition-transform duration-500 ease-out"
-                    :style="`width: ${(slides.length / perView) * 100}%; transform: translateX(-${current * (100 / slides.length)}%);`">
+                    x-ref="track"
+                    :style="cardStep ? `transform: translateX(-${current * cardStep}px);` : ''">
 
                     <template x-for="(slide, index) in slides" :key="index">
-                        <article class="relative shrink-0 border-r border-gray-200 last:border-r-0 cursor-zoom-in"
-                            :style="`width: ${100 / slides.length}%`" @click="openFullscreen(index)">
+                        <article
+                            class="relative shrink-0 border-r border-gray-200 last:border-r-0 cursor-zoom-in basis-full md:basis-1/2 lg:basis-1/3"
+                            data-card
+                            @click="openFullscreen(index)">
 
                             <img :src="slide.image" :alt="slide.image_alt" :loading="index < 3 ? 'eager' : 'lazy'"
                                 decoding="async" :fetchpriority="index === 0 ? 'high' : 'low'" width="1200"

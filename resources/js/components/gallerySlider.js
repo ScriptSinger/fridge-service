@@ -7,6 +7,7 @@ export default (slides = [], initialLimit = 12, step = 12) => ({
     step,
     isFullscreen: false,
     fullscreenCurrent: 0,
+    cardStep: 0,
 
     get slides() {
         return this.allSlides.slice(0, this.visibleLimit);
@@ -29,13 +30,22 @@ export default (slides = [], initialLimit = 12, step = 12) => ({
     },
 
     updatePerView() {
-        if (window.innerWidth >= 1024) {
-            this.perView = 3;
-        } else if (window.innerWidth >= 768) {
-            this.perView = 2;
-        } else {
+        const track = this.$refs.track;
+        const card = track?.querySelector("[data-card]");
+        if (!track || !card) {
             this.perView = 1;
+            this.cardStep = 0;
+            return;
         }
+
+        const rect = card.getBoundingClientRect();
+        const style = getComputedStyle(card);
+        const margin =
+            parseFloat(style.marginLeft || "0") + parseFloat(style.marginRight || "0");
+        this.cardStep = rect.width + margin;
+
+        const trackWidth = track.getBoundingClientRect().width;
+        this.perView = Math.max(1, Math.floor(trackWidth / this.cardStep));
 
         if (this.current > this.maxIndex) {
             this.current = this.maxIndex;
