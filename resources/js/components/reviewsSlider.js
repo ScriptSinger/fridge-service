@@ -1,41 +1,21 @@
-export default function reviewsSlider(slides = [], { autoplay = false, interval = 5500 } = {}) {
+export default function reviewsSlider(slides = [], { autoplay = true, interval = 5500 } = {}) {
     return {
         slides,
-        perView: 1,
         current: 0,
+        perView: 1,
+        touchStartX: 0,
+        cardStep: 0,
+        resizeTimer: null,
         timer: null,
         autoplay,
         interval,
-        cardStep: 0,
-        resizeTimer: null,
-        removeListeners: null,
 
-        init() {
-            const debouncedResize = () => {
-                if (this.resizeTimer) clearTimeout(this.resizeTimer);
-                this.resizeTimer = setTimeout(() => this.updatePerView(), 100);
-            };
+        get maxIndex() {
+            return Math.max(this.slides.length - this.perView, 0);
+        },
 
-            const onLoad = () => this.updatePerView();
-            this.updatePerView();
-            requestAnimationFrame(() => this.updatePerView());
-            window.addEventListener("load", onLoad, { once: true });
-            window.addEventListener("resize", debouncedResize);
-
-            if (this.autoplay) this.startAutoplay();
-
-            this.removeListeners = () => {
-                if (this.resizeTimer) {
-                    clearTimeout(this.resizeTimer);
-                    this.resizeTimer = null;
-                }
-                window.removeEventListener("resize", debouncedResize);
-                this.stopAutoplay();
-            };
-
-            return () => {
-                this.removeListeners && this.removeListeners();
-            };
+        get canSlide() {
+            return this.slides.length > this.perView;
         },
 
         updatePerView() {
@@ -55,26 +35,14 @@ export default function reviewsSlider(slides = [], { autoplay = false, interval 
 
             const trackWidth = track.getBoundingClientRect().width;
             this.perView = Math.max(1, Math.floor(trackWidth / this.cardStep));
-            this.current = Math.min(this.current, this.maxIndex);
+
+            if (this.current > this.maxIndex) this.current = this.maxIndex;
 
             if (!this.canSlide) {
-                this.current = 0;
                 this.stopAutoplay();
             } else if (this.autoplay && !this.timer) {
                 this.startAutoplay();
             }
-        },
-
-        get maxIndex() {
-            return Math.max(this.slides.length - this.perView, 0);
-        },
-
-        get pages() {
-            return Math.max(Math.ceil(this.slides.length / this.perView), 1);
-        },
-
-        get canSlide() {
-            return this.slides.length > this.perView;
         },
 
         next() {
@@ -87,6 +55,17 @@ export default function reviewsSlider(slides = [], { autoplay = false, interval 
 
         goTo(index) {
             this.current = Math.min(Math.max(index, 0), this.maxIndex);
+        },
+
+        onTouchStart(event) {
+            this.touchStartX = event.changedTouches[0].screenX;
+        },
+
+        onTouchEnd(event) {
+            const touchEndX = event.changedTouches[0].screenX;
+            const delta = this.touchStartX - touchEndX;
+            if (Math.abs(delta) < 40) return;
+            delta > 0 ? this.next() : this.prev();
         },
 
         startAutoplay() {
@@ -111,16 +90,22 @@ export default function reviewsSlider(slides = [], { autoplay = false, interval 
         dotClass(i) {
             return [
                 "h-2 w-2 rounded-full transition",
-                i === this.pageIndex ? "bg-yellow-500" : "bg-gray-300 hover:bg-gray-400",
+                i === this.current ? "w-7 bg-yellow-500" : "w-2.5 bg-gray-300 hover:bg-gray-400",
             ].join(" ");
         },
 
-        get pageIndex() {
-            return Math.floor(this.current / this.perView);
-        },
+        init() {
+            const debouncedResize = () => {
+                if (this.resizeTimer) clearTimeout(this.resizeTimer);
+                this.resizeTimer = setTimeout(() => this.updatePerView(), 100);
+            };
 
-        goToPage(i) {
-            this.goTo(i * this.perView);
+            this.updatePerView();
+            requestAnimationFrame(() => this.updatePerView());
+            window.addEventListener("load", () => this.updatePerView(), { once: true });
+            window.addEventListener("resize", debouncedResize);
+
+            if (this.autoplay) this.startAutoplay();
         },
     };
 }

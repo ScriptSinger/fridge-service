@@ -46,37 +46,38 @@
 
         </div>
 
-        <div x-data="reviewsSlider(@js($slides->all()), { autoplay: true, interval: 5500 })"
-            x-init="init()" class="relative"
-            @mouseenter="stopAutoplay" @mouseleave="startAutoplay"
-            @focusin="stopAutoplay" @focusout="startAutoplay">
-            <div class="flex items-center justify-between mb-4" x-show="canSlide">
+        <div x-data="reviewsSlider(@js($slides->all()))" x-init="init()" class="relative" @mouseenter="stopAutoplay"
+            @mouseleave="startAutoplay" @focusin="stopAutoplay" @focusout="startAutoplay">
+            <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center space-x-2" aria-label="Переход по страницам отзывов">
-                    <template x-for="i in pages" :key="i">
-                        <button type="button" @click="goToPage(i-1)" :class="dotClass(i - 1)"
-                            class="h-2 w-2 rounded-full" :aria-label="`Страница ${i}`"
-                            :aria-pressed="pageIndex === i - 1"></button>
+                    <template x-for="dotIndex in maxIndex + 1" :key="`dot-${dotIndex}`">
+                        <button type="button" class="h-2.5 cursor-pointer rounded-full transition-all"
+                            :class="current === (dotIndex - 1) ? 'w-7 bg-yellow-500' : 'w-2.5 bg-gray-300 hover:bg-gray-400'"
+                            @click="goTo(dotIndex - 1)" :aria-label="`Перейти к слайду ${dotIndex}`"></button>
                     </template>
                 </div>
                 <div class="space-x-2">
-                    <button type="button" @click="prev"
-                        class="p-2 rounded-full border border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-                        aria-label="Предыдущий отзыв" :disabled="!canSlide">
+                    <button type="button"
+                        class="p-2 rounded-full border border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300 cursor-pointer"
+                        aria-label="Предыдущий отзыв" @click="prev()">
                         ‹
                     </button>
-                    <button type="button" @click="next"
-                        class="p-2 rounded-full border border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-                        aria-label="Следующий отзыв" :disabled="!canSlide">
+                    <button type="button"
+                        class="p-2 rounded-full border border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300 cursor-pointer"
+                        aria-label="Следующий отзыв" @click="next()">
                         ›
                     </button>
                 </div>
             </div>
 
-            <div class="overflow-hidden" aria-live="polite">
-                <div class="flex transition-transform duration-500 ease-out" x-ref="track" :style="trackStyle()">
+            <div class="relative overflow-hidden rounded-2xl border border-gray-200 shadow-lg"
+                @touchstart="onTouchStart($event)" @touchend="onTouchEnd($event)">
+                <div class="flex items-stretch transition-transform duration-500 ease-out" x-ref="track"
+                    :style="trackStyle()">
+
                     <template x-for="(slide, index) in slides" :key="index">
                         <article
-                            class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col h-full mx-2 hover:shadow-md transition-shadow basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4 shrink-0"
+                            class="relative shrink-0 border-r border-gray-200 last:border-r-0 cursor-pointer basis-full md:basis-1/2 lg:basis-1/3 bg-white p-6"
                             data-card itemprop="review" itemscope itemtype="https://schema.org/Review">
                             <meta itemprop="datePublished" :content="slide.date">
                             <div class="flex items-center mb-4">
@@ -95,13 +96,14 @@
                                     <p class="text-sm text-gray-500" x-text="slide.city"></p>
                                 </div>
                                 <div class="ml-auto">
-                                    <img :src="`{{ asset('assets/images/svg') }}/${slide.source}.svg`" :alt="slide.source"
+                                    <img :src="`{{ asset('assets/images/svg') }}/${slide.source}.svg`"
+                                        :alt="slide.source"
                                         :title="`Опубликовано на ${slide.source.charAt(0).toUpperCase() + slide.source.slice(1)}`"
                                         class="h-6 w-6"
                                         onerror="this.onerror=null;this.src='{{ asset('assets/images/svg/google.svg') }}';">
                                 </div>
                             </div>
-                            <div class="flex items-center text-xs text-gray-500 mb-2 space-x-2">
+                            <div class="flex items-center text-xs text-gray-500 mb-2 space-x-2 pt-2">
                                 <div class="flex text-yellow-500" aria-label="Рейтинг" itemprop="reviewRating" itemscope
                                     itemtype="https://schema.org/Rating">
                                     <meta itemprop="ratingValue" :content="slide.rating">
@@ -116,11 +118,11 @@
                                 <img src="{{ asset('assets/images/svg/verify.svg') }}" alt="Verified"
                                     class="h-5 w-5 shrink-0">
                             </div>
-                            <p class="text-gray-700 leading-relaxed line-clamp-2 mb-3" x-text="slide.text"
-                                itemprop="reviewBody"></p>
-                            <span
-                                class="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-gray-100 text-gray-700"
-                                x-text="slide.meta || 'Ремонт бытовой техники'"></span>
+                            <div class="pb-4">
+                                <p class="text-gray-700 leading-6 line-clamp-3 min-h-[4.5rem]" x-text="slide.text"
+                                    itemprop="reviewBody"></p>
+                            </div>
+
                         </article>
                     </template>
                 </div>
