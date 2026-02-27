@@ -41,8 +41,8 @@ class HomeController extends Controller
             return Review::with(['device', 'brand', 'service'])
                 ->published()
                 ->orderByDesc('is_featured')
+                ->orderByDesc('published_at')
                 ->orderByDesc('created_at')
-                ->take(10)
                 ->get();
         });
 

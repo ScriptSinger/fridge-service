@@ -26,6 +26,7 @@ return new class extends Migration
             $table->foreignId('service_id')->nullable()->constrained()->nullOnDelete();
             $table->boolean('is_featured')->default(false);
             $table->boolean('is_published')->default(true);
+            $table->timestamp('published_at')->nullable()->index();
             $table->timestamps();
         });
     }

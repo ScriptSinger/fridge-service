@@ -1,6 +1,24 @@
 @props(['reviews'])
 
+@php
+    $avgRating = round($reviews->avg('rating'), 1) ?: 5.0;
+    $total = $reviews->count();
+@endphp
+
 <x-ui.sections.wrapper class="text-gray-700">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
+        <div>
+            <p class="text-xs uppercase tracking-[0.2em] text-yellow-600 font-semibold mb-2">Отзывы клиентов</p>
+            <h3 class="sm:text-3xl text-2xl font-semibold text-gray-900 mb-3">Нас рекомендуют</h3>
+            <div class="flex items-center space-x-3">
+                <div class="flex text-yellow-500 text-xl" aria-label="Средний рейтинг">
+                    <span>★★★★★</span>
+                </div>
+                <div class="text-gray-900 font-semibold text-lg">{{ $avgRating }} из 5</div>
+                <div class="text-gray-500 text-sm">На основе {{ $total }} отзывов</div>
+            </div>
+        </div>
+    </div>
     <div class="-my-8 divide-y-2 divide-gray-100">
         @foreach ($reviews as $review)
             @php
@@ -57,8 +75,13 @@
                                 </div>
                             @endif
                         </div>
-                        @if ($review->created_at)
-                            <span class="text-sm text-gray-500">{{ $review->created_at->format('d.m.Y') }}</span>
+                        @php
+                            $reviewDate = $review->published_date;
+                        @endphp
+                        @if ($reviewDate)
+                            <span class="text-sm text-gray-500">
+                                {{ $review->published_date_formatted }}
+                            </span>
                         @endif
                     </div>
                     <p class="leading-relaxed whitespace-pre-line text-gray-700">

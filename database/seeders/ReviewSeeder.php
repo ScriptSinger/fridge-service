@@ -17,6 +17,10 @@ class ReviewSeeder extends Seeder
         $mapped = $this->mediaMap()['reviews'] ?? [];
 
         foreach ($reviews as $data) {
+            if (empty($data['name'])) {
+                continue;
+            }
+
             $key = $data['name'] . '|' . ($data['title'] ?? '');
 
             // Аватар из media-map
@@ -28,16 +32,19 @@ class ReviewSeeder extends Seeder
             $data['source'] = $data['source'] ?? 'google';
 
             // Подставляем device_id по типу техники, если указан
-            if (!empty($data['device_type'])) {
-                $device = Device::where('type', $data['device_type'])->first();
-                if ($device) {
-                    $data['device_id'] = $device->id;
+            if (array_key_exists('device_type', $data)) {
+                if (!empty($data['device_type'])) {
+                    $device = Device::where('type', $data['device_type'])->first();
+                    if ($device) {
+                        $data['device_id'] = $device->id;
+                    }
                 }
-                unset($data['device_type']);
+                unset($data['device_type']); // не храним в таблице
             }
 
             $data['is_published'] = $data['is_published'] ?? true;
             $data['is_featured'] = $data['is_featured'] ?? false;
+            $data['published_at'] = $data['published_at'] ?? now();
 
             Review::updateOrCreate(
                 ['name' => $data['name'], 'title' => $data['title']],
