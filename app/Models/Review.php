@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Review extends Model
 {
@@ -21,6 +22,8 @@ class Review extends Model
         'is_published',
         'published_at',
     ];
+
+    protected $dates = ['published_at'];
 
     protected $casts = [
         'is_featured'  => 'boolean',
@@ -90,10 +93,37 @@ class Review extends Model
         return $this->published_at ?? $this->created_at;
     }
 
-    public function getPublishedDateFormattedAttribute(): ?string
+
+
+
+
+
+    // Полная дата в формате «15 ноября 2025»
+    public function getPublishedDateFormattedAttribute()
     {
-        return $this->published_date
-            ? $this->published_date->locale('ru')->translatedFormat('j F Y')
-            : null;
+        return $this->published_at?->locale('ru')->translatedFormat('j F Y');
+    }
+
+    // Метаданные устройства/бренда/услуги
+    public function getMetaStringAttribute()
+    {
+        return collect([$this->device?->type, $this->brand?->name, $this->service?->name])
+            ->filter()
+            ->implode(' • ');
+    }
+
+    // Аватарка или первая буква имени
+    public function getAvatarUrlAttribute()
+    {
+        if ($this->avatar) {
+            return Storage::disk(config('filesystems.media'))->url($this->avatar);
+        }
+        return null;
+    }
+
+    // Рейтинг по умолчанию
+    public function getRatingValueAttribute()
+    {
+        return $this->rating ?: 0;
     }
 }

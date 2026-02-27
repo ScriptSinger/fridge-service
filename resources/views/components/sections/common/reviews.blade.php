@@ -122,7 +122,6 @@
                                 <p class="text-gray-700 leading-6 line-clamp-3 min-h-[4.5rem]" x-text="slide.text"
                                     itemprop="reviewBody"></p>
                             </div>
-
                         </article>
                     </template>
                 </div>

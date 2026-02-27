@@ -1,94 +1,58 @@
 @props(['reviews'])
 
 @php
-    $avgRating = round($reviews->avg('rating'), 1) ?: 5.0;
+    $avgRating = round($reviews->avg('rating_value'), 1) ?: 0;
     $total = $reviews->count();
 @endphp
 
-<x-ui.sections.wrapper class="text-gray-700">
-    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
-        <div>
-            <p class="text-xs uppercase tracking-[0.2em] text-yellow-600 font-semibold mb-2">Отзывы клиентов</p>
-            <h3 class="sm:text-3xl text-2xl font-semibold text-gray-900 mb-3">Нас рекомендуют</h3>
-            <div class="flex items-center space-x-3">
-                <div class="flex text-yellow-500 text-xl" aria-label="Средний рейтинг">
-                    <span>★★★★★</span>
+<x-ui.sections.wrapper class="bg-gray-50">
+    <div class="py-16 md:py-24">
+        {{-- HEADER --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start mb-14">
+            <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-yellow-600 font-semibold mb-3">
+                    Отзывы клиентов
+                </p>
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Нам доверяют</h3>
+
+                <div class="flex items-start gap-6">
+                    <div>
+                        <div class="text-5xl font-bold text-gray-900 leading-none">{{ number_format($avgRating, 1) }}
+                        </div>
+                        @php $starPrefix = 'avg-star'; @endphp
+                        <div class="flex text-yellow-500 gap-1 mt-2" aria-label="Средний рейтинг">
+                            @for ($i = 1; $i <= 5; $i++)
+                                @php
+                                    $fill = max(min($avgRating - ($i - 1), 1), 0);
+                                    $percent = (int) round($fill * 100);
+                                @endphp
+                                <svg viewBox="0 0 24 24" class="w-5 h-5" aria-hidden="true">
+                                    <defs>
+                                        <clipPath id="{{ $starPrefix }}-clip-{{ $i }}">
+                                            <rect width="{{ $percent }}%" height="24" />
+                                        </clipPath>
+                                    </defs>
+                                    <path fill="#E5E7EB"
+                                        d="M12 3.5l2.5 5.1 5.6.8-4 3.9.9 5.6L12 16.8l-5 2.6.9-5.6-4-3.9 5.6-.8Z" />
+                                    <path fill="currentColor"
+                                        clip-path="url(#{{ $starPrefix }}-clip-{{ $i }})"
+                                        d="M12 3.5l2.5 5.1 5.6.8-4 3.9.9 5.6L12 16.8l-5 2.6.9-5.6-4-3.9 5.6-.8Z" />
+                                </svg>
+                            @endfor
+                        </div>
+                        <div class="text-sm text-gray-500 mt-2">
+                            На основе {{ $total }} отзывов
+                        </div>
+                    </div>
                 </div>
-                <div class="text-gray-900 font-semibold text-lg">{{ $avgRating }} из 5</div>
-                <div class="text-gray-500 text-sm">На основе {{ $total }} отзывов</div>
             </div>
         </div>
-    </div>
-    <div class="-my-8 divide-y-2 divide-gray-100">
-        @foreach ($reviews as $review)
-            @php
-                $meta = collect([$review->device?->type, $review->brand?->name, $review->service?->name])
-                    ->filter()
-                    ->implode(' • ');
-                $source = $review->source ?? 'google';
-            @endphp
 
-            <div class="py-8 flex flex-wrap md:flex-nowrap items-stretch">
-                <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col h-full">
-                    <div class="flex items-center gap-3 mb-3">
-                        <div
-                            class="w-12 h-12 rounded-full bg-yellow-100 text-yellow-800 flex items-center justify-center overflow-hidden">
-                            @if ($review->avatar)
-                                <img src="{{ \Illuminate\Support\Facades\Storage::disk(config('filesystems.media'))->url($review->avatar) }}"
-                                    alt="{{ $review->name }}" class="w-full h-full object-cover">
-                            @else
-                                <span class="font-semibold">{{ mb_substr($review->name, 0, 1) }}</span>
-                            @endif
-                        </div>
-                        <div class="min-w-0">
-                            <span
-                                class="font-semibold title-font text-gray-700 block truncate">{{ $review->name }}</span>
-                            @if ($review->city)
-                                <span class="text-sm text-gray-500 block truncate">{{ $review->city }}</span>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-                <div class="md:flex-grow h-full flex flex-col">
-                    <div class="flex items-center justify-between gap-3 mb-3">
-                        <div class="flex items-center gap-3">
-                            @if ($source !== 'yandex')
-                                <img src="{{ asset('assets/images/svg') }}/{{ $source }}.svg"
-                                    alt="{{ $source }}" class="h-6 w-6"
-                                    onerror="this.onerror=null;this.src='{{ asset('assets/images/svg/google.svg') }}';">
-                            @endif
-                            @if ($review->rating)
-                                <div class="flex items-center gap-2 text-yellow-500">
-                                    <div class="flex">
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            <svg viewBox="0 0 24 24"
-                                                class="w-5 h-5 {{ $i > $review->rating ? 'opacity-30' : '' }}"
-                                                fill="currentColor">
-                                                <path
-                                                    d="M12 3.5l2.5 5.1 5.6.8-4 3.9.9 5.6L12 16.8l-5 2.6.9-5.6-4-3.9 5.6-.8Z" />
-                                            </svg>
-                                        @endfor
-                                    </div>
-                                    <span class="text-sm font-semibold text-gray-900">
-                                        {{ number_format($review->rating, 1) }}/5
-                                    </span>
-                                </div>
-                            @endif
-                        </div>
-                        @php
-                            $reviewDate = $review->published_date;
-                        @endphp
-                        @if ($reviewDate)
-                            <span class="text-sm text-gray-500">
-                                {{ $review->published_date_formatted }}
-                            </span>
-                        @endif
-                    </div>
-                    <p class="leading-relaxed whitespace-pre-line text-gray-700">
-                        {{ $review->text }}
-                    </p>
-                </div>
-            </div>
-        @endforeach
+        {{-- REVIEWS GRID --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            @foreach ($reviews as $review)
+                <x-sections.reviews.review-card :review="$review" :clamp="true" />
+            @endforeach
+        </div>
     </div>
 </x-ui.sections.wrapper>

@@ -1,0 +1,74 @@
+Refactor the reviews section again.
+
+Current problems:
+- Cards have different heights and break visual balance.
+- Layout feels too narrow and compressed.
+- Too much gray color, low contrast.
+- Rating block looks weak and not premium.
+
+GOAL:
+Make it look like a high-quality service company website.
+
+IMPROVEMENTS REQUIRED:
+
+1. Layout:
+- Use max-w-6xl instead of narrow container.
+- Use grid:
+    grid-cols-1
+    md:grid-cols-2
+    xl:grid-cols-3
+- Use gap-8.
+- Make cards equal height using:
+    h-full flex flex-col justify-between
+
+2. Card Design:
+- bg-white
+- rounded-2xl
+- shadow-sm
+- hover:shadow-lg transition duration-300
+- border border-gray-100
+
+3. Header Section Redesign:
+
+Left:
+- Large rating number (text-5xl font-bold text-gray-900)
+- Stars under it
+- “На основе X отзывов” smaller
+
+Right:
+- Trust list in vertical stack with icons
+- Slightly muted gray text
+
+Make header grid:
+grid-cols-1 md:grid-cols-2 gap-10
+
+4. Improve typography:
+- Review text: text-gray-800
+- Increase line height
+- Add mt-4
+- Limit preview to 4 lines using line-clamp-4
+
+5. Improve visual hierarchy inside card:
+Top row:
+Avatar + name
+Right aligned rating + date
+
+Use justify-between
+
+6. Improve contrast:
+- Section background bg-gray-50
+- Cards pure white
+- Increase text contrast
+
+7. Add CTA block at bottom:
+Centered box with:
+"Нужен ремонт? Оставьте заявку — перезвоним за 5 минут"
+Button in yellow.
+
+8. Make design look modern, clean, trustworthy.
+Not blog-like.
+Not minimal startup.
+Commercial repair service.
+
+Do not touch backend logic.
+Only refactor markup and Tailwind classes.
