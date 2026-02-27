@@ -49,9 +49,11 @@
         </div>
 
         {{-- REVIEWS GRID --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+        <div class="columns-1 md:columns-2 xl:columns-3 gap-8 space-y-8">
             @foreach ($reviews as $review)
-                <x-sections.reviews.review-card :review="$review" :clamp="true" />
+                <div class="break-inside-avoid">
+                    <x-sections.reviews.review-card :review="$review" />
+                </div>
             @endforeach
         </div>
     </div>
