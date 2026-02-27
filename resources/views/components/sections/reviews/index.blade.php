@@ -6,55 +6,36 @@
 @endphp
 
 <x-ui.sections.wrapper class="bg-gray-50">
-    <div class="py-16 md:py-24">
-        {{-- HEADER --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start mb-14">
-            <div>
-                <p class="text-xs uppercase tracking-[0.2em] text-yellow-600 font-semibold mb-3">
-                    Отзывы клиентов
-                </p>
-                <h3 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Нам доверяют</h3>
 
-                <div class="flex items-start gap-6">
-                    <div>
-                        <div class="text-5xl font-bold text-gray-900 leading-none">{{ number_format($avgRating, 1) }}
-                        </div>
-                        @php $starPrefix = 'avg-star'; @endphp
-                        <div class="flex text-yellow-500 gap-1 mt-2" aria-label="Средний рейтинг">
-                            @for ($i = 1; $i <= 5; $i++)
-                                @php
-                                    $fill = max(min($avgRating - ($i - 1), 1), 0);
-                                    $percent = (int) round($fill * 100);
-                                @endphp
-                                <svg viewBox="0 0 24 24" class="w-5 h-5" aria-hidden="true">
-                                    <defs>
-                                        <clipPath id="{{ $starPrefix }}-clip-{{ $i }}">
-                                            <rect width="{{ $percent }}%" height="24" />
-                                        </clipPath>
-                                    </defs>
-                                    <path fill="#E5E7EB"
-                                        d="M12 3.5l2.5 5.1 5.6.8-4 3.9.9 5.6L12 16.8l-5 2.6.9-5.6-4-3.9 5.6-.8Z" />
-                                    <path fill="currentColor"
-                                        clip-path="url(#{{ $starPrefix }}-clip-{{ $i }})"
-                                        d="M12 3.5l2.5 5.1 5.6.8-4 3.9.9 5.6L12 16.8l-5 2.6.9-5.6-4-3.9 5.6-.8Z" />
-                                </svg>
-                            @endfor
-                        </div>
-                        <div class="text-sm text-gray-500 mt-2">
-                            На основе {{ $total }} отзывов
-                        </div>
-                    </div>
-                </div>
+    <x-ui.sections.header suptitle="Отзывы клиентов" title="Нас рекомендуют">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-3 space-y-2 sm:space-y-0">
+            <div class="text-yellow-500 text-xl" aria-label="Средний рейтинг">
+                <span>★★★★★</span>
+            </div>
+
+            <div class="text-gray-900 font-semibold text-lg">
+                {{ $avgRating }} из 5
+            </div>
+
+            <div class="text-gray-500 text-sm">
+                На основе {{ $total }} отзывов
             </div>
         </div>
 
-        {{-- REVIEWS GRID --}}
-        <div class="columns-1 md:columns-2 xl:columns-3 gap-8 space-y-8">
-            @foreach ($reviews as $review)
-                <div class="break-inside-avoid">
-                    <x-sections.reviews.review-card :review="$review" />
-                </div>
-            @endforeach
+        <div class="sr-only" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+            <meta itemprop="ratingValue" content="{{ $avgRating }}">
+            <meta itemprop="reviewCount" content="{{ $total }}">
+            <meta itemprop="bestRating" content="5">
+            <meta itemprop="worstRating" content="1">
         </div>
+    </x-ui.sections.header>
+
+    <div class="columns-1 md:columns-2 xl:columns-3 gap-8 space-y-8">
+        @foreach ($reviews as $review)
+            <div class="break-inside-avoid">
+                <x-sections.reviews.review-card :review="$review" />
+            </div>
+        @endforeach
     </div>
+
 </x-ui.sections.wrapper>

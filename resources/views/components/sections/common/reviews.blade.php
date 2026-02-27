@@ -24,38 +24,33 @@
 
 @if ($slides->isNotEmpty())
     <x-ui.sections.wrapper class="text-gray-600">
-        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
-            <div>
-                <p class="text-xs uppercase tracking-[0.2em] text-yellow-600 font-semibold mb-2">Отзывы клиентов</p>
-                <h3 class="sm:text-3xl text-2xl font-semibold text-gray-900 mb-3">Нас рекомендуют</h3>
-                <div class="flex items-center space-x-3">
-                    <div class="flex text-yellow-500 text-xl" aria-label="Средний рейтинг">
-                        <span>★★★★★</span>
-
-                    </div>
-                    <div class="text-gray-900 font-semibold text-lg">{{ $avgRating }} из 5</div>
-                    <div class="text-gray-500 text-sm">На основе {{ $total }} отзывов</div>
+        <x-ui.sections.header suptitle="Отзывы клиентов" title="Нас рекомендуют">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-3 space-y-2 sm:space-y-0">
+                <div class="text-yellow-500 text-xl" aria-label="Средний рейтинг">
+                    <span>★★★★★</span>
                 </div>
-                <div class="sr-only" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
-                    <meta itemprop="ratingValue" content="{{ $avgRating }}">
-                    <meta itemprop="reviewCount" content="{{ $total }}">
-                    <meta itemprop="bestRating" content="5">
-                    <meta itemprop="worstRating" content="1">
+
+                <div class="text-gray-900 font-semibold text-lg">
+                    {{ $avgRating }} из 5
+                </div>
+
+                <div class="text-gray-500 text-sm">
+                    На основе {{ $total }} отзывов
                 </div>
             </div>
 
-        </div>
+            <div class="sr-only" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+                <meta itemprop="ratingValue" content="{{ $avgRating }}">
+                <meta itemprop="reviewCount" content="{{ $total }}">
+                <meta itemprop="bestRating" content="5">
+                <meta itemprop="worstRating" content="1">
+            </div>
+        </x-ui.sections.header>
 
         <div x-data="reviewsSlider(@js($slides->all()))" x-init="init()" class="relative" @mouseenter="stopAutoplay"
             @mouseleave="startAutoplay" @focusin="stopAutoplay" @focusout="startAutoplay">
-            <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center space-x-2" aria-label="Переход по страницам отзывов">
-                    <template x-for="dotIndex in maxIndex + 1" :key="`dot-${dotIndex}`">
-                        <button type="button" class="h-2.5 cursor-pointer rounded-full transition-all"
-                            :class="current === (dotIndex - 1) ? 'w-7 bg-yellow-500' : 'w-2.5 bg-gray-300 hover:bg-gray-400'"
-                            @click="goTo(dotIndex - 1)" :aria-label="`Перейти к слайду ${dotIndex}`"></button>
-                    </template>
-                </div>
+            <div class="flex items-center justify-end mb-4">
+
                 <div class="space-x-2">
                     <button type="button"
                         class="p-2 rounded-full border border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300 cursor-pointer"
@@ -77,7 +72,7 @@
 
                     <template x-for="(slide, index) in slides" :key="index">
                         <article
-                            class="relative shrink-0 border-r border-gray-200 last:border-r-0 cursor-pointer basis-full md:basis-1/2 lg:basis-1/3 bg-white p-6"
+                            class="relative shrink-0 border-r border-gray-200 last:border-r-0 basis-full md:basis-1/2 lg:basis-1/3 bg-white p-6"
                             data-card itemprop="review" itemscope itemtype="https://schema.org/Review">
                             <meta itemprop="datePublished" :content="slide.date">
                             <div class="flex items-center mb-4">
