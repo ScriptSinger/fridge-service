@@ -41,4 +41,9 @@ class Gallery extends Model
     {
         return $this->belongsTo(Page::class);
     }
+
+    public function getPublishedDateFormattedAttribute(): ?string
+    {
+        return $this->created_at?->locale('ru')->translatedFormat('j F Y');
+    }
 }

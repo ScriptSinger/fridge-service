@@ -22,15 +22,13 @@
 ))" x-init="init()">
             <div class="relative overflow-hidden rounded-2xl border border-gray-200 shadow-lg"
                 @touchstart="onTouchStart($event)" @touchend="onTouchEnd($event)">
-                <div class="flex transition-transform duration-500 ease-out"
-                    x-ref="track"
+                <div class="flex transition-transform duration-500 ease-out" x-ref="track"
                     :style="cardStep ? `transform: translateX(-${current * cardStep}px);` : ''">
 
                     <template x-for="(slide, index) in slides" :key="index">
                         <article
                             class="relative shrink-0 border-r border-gray-200 last:border-r-0 cursor-zoom-in basis-full md:basis-1/2 lg:basis-1/3"
-                            data-card
-                            @click="openFullscreen(index)">
+                            data-card @click="openFullscreen(index)">
 
                             <img :src="slide.image" :alt="slide.image_alt" :loading="index < 3 ? 'eager' : 'lazy'"
                                 decoding="async" :fetchpriority="index === 0 ? 'high' : 'low'" width="1200"
@@ -66,12 +64,8 @@
                 </button>
             </div>
 
-            <div class="mt-4 flex items-center justify-center gap-2">
-                <template x-for="dotIndex in maxIndex + 1" :key="`dot-${dotIndex}`">
-                    <button type="button" class="h-2.5 cursor-pointer rounded-full transition-all"
-                        :class="current === (dotIndex - 1) ? 'w-7 bg-yellow-500' : 'w-2.5 bg-gray-300 hover:bg-gray-400'"
-                        @click="goTo(dotIndex - 1)" :aria-label="`Перейти к слайду ${dotIndex}`"></button>
-                </template>
+            <div class="mt-4 flex items-center">
+                <x-ui.buttons.section-link :href="route('gallery.index')" label="Смотреть все работы" />
             </div>
 
             <div class="mt-6 flex justify-center" x-show="hasHiddenSlides" x-cloak>

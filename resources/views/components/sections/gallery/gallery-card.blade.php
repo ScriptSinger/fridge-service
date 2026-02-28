@@ -6,7 +6,7 @@
     $description = $gallery->description;
     $image = $gallery->image_url;
     $imageAlt = $gallery->image_alt ?: $title;
-    $dateLabel = optional($gallery->created_at)->format('d.m.Y');
+    $dateLabel = $gallery->published_date_formatted;
     $metaItems = collect([$gallery->device?->type, $gallery->brand?->name, $gallery->service?->name])->filter()->values();
 @endphp
 

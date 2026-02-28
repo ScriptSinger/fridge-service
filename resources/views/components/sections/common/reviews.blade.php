@@ -123,11 +123,7 @@
             </div>
 
             <div class="mt-8 flex items-center justify-between">
-                <a href="{{ route('reviews.index') }}"
-                    class="inline-flex items-center px-4 py-2 border border-gray-200 rounded-full text-sm font-semibold text-gray-800 hover:border-gray-300 hover:text-gray-900">
-                    Смотреть все отзывы
-                    <span class="ml-2">→</span>
-                </a>
+                <x-ui.buttons.section-link :href="route('reviews.index')" label="Смотреть все отзывы" />
             </div>
         </div>
     </x-ui.sections.wrapper>
