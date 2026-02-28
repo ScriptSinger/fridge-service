@@ -1,171 +1,202 @@
 {
-  "project": "Repair Center",
-  "generated_at": "2026-02-25",
+  "project": "fridge-service",
+  "generated_at": "2026-02-28",
+  "source_of_truth": {
+    "routes": ["routes/web.php", "routes/api.php"],
+    "controllers": [
+      "app/Http/Controllers/HomeController.php",
+      "app/Http/Controllers/PriceController.php",
+      "app/Http/Controllers/ContactController.php",
+      "app/Http/Controllers/AboutController.php",
+      "app/Http/Controllers/ReviewController.php",
+      "app/Http/Controllers/DeviceController.php",
+      "app/Http/Controllers/DeviceBrandController.php",
+      "app/Http/Controllers/PageController.php"
+    ],
+    "views": "resources/views/pages/*.blade.php"
+  },
   "pages": [
     {
       "key": "home",
       "route": "/",
       "status": "current",
+      "controller": "HomeController@index",
+      "view": "pages.home",
       "model": "PageType(key=home)->page",
-      "meta_fields": ["page.title", "page.description", "page.image_url"],
+      "meta_fields": ["page.title", "page.description"],
       "sections": [
-        { "name": "hero", "fields": ["page.h1", "page.subtitle", "page.image_url", "page.description"] },
-        { "name": "trust_badges", "fields": ["Page.content (USPs)", "config.contacts.opening_hours_display"] },
-        { "name": "brand_carousel", "fields": ["Brand.name", "Brand.image_url", "Brand.image_alt"] },
-        { "name": "devices_catalog", "fields": ["Device.type", "Device.permalink", "Device.h1", "Device.subtitle", "Device.image_url", "Device.short_description"] },
-        { "name": "top_services_grid", "fields": ["Service.name", "Service.tags", "Service.preferredPrice().formatted_price", "Service.description"] },
-        { "name": "steps", "fields": ["Page.content (steps list)"] },
-        { "name": "benefits", "fields": ["Page.content (bulleted benefits)"] },
-        { "name": "reviews", "fields": ["Gallery.caption as review", "Gallery.image_url"] },
-        { "name": "gallery", "fields": ["Gallery.image_url", "Gallery.alt", "Gallery.caption"] },
-        { "name": "faq", "fields": ["Faq.question", "Faq.answer"] },
-        { "name": "cta_lead_form", "fields": ["Lead.*", "Lead.utm_*", "StoreLeadRequest.privacy_policy"] }
+        { "name": "breadcrumbs", "component": "x-ui.breadcrumbs", "data": ["route=home"] },
+        { "name": "hero", "component": "x-sections.hero", "data": ["page.*"] },
+        { "name": "devices", "component": "x-sections.home.devices", "data": ["Device.*"] },
+        { "name": "benefits", "component": "x-sections.common.benefits", "data": [] },
+        { "name": "steps", "component": "x-sections.common.steps", "data": [] },
+        { "name": "gallery", "component": "x-sections.common.gallery", "data": ["Gallery.*"] },
+        { "name": "reviews_slider", "component": "x-sections.common.reviews", "data": ["Review.*", "Review.device", "Review.brand", "Review.service"] },
+        { "name": "faq", "component": "x-sections.common.faq", "data": ["Faq.*"] },
+        { "name": "contact", "component": "x-sections.contact", "data": ["page.*"] }
       ]
     },
     {
       "key": "prices",
       "route": "/prices",
       "status": "current",
-      "model": "PageType(key=prices)->page",
-      "meta_fields": ["page.title", "page.description", "page.image_url"],
+      "controller": "PriceController@index",
+      "view": "pages.prices",
+      "model": "PageType(key=prices)->page + Device->services->prices",
+      "meta_fields": ["static.title", "static.description"],
       "sections": [
-        { "name": "hero", "fields": ["page.h1", "page.subtitle"] },
-        { "name": "price_table_by_device", "fields": ["Device.type", "Service.name", "Price.price_from", "Price.price_to", "Price.units", "Price.formatted_price"] },
-        { "name": "promotions", "fields": ["Page.content (promos)", "Price.price_from"] },
-        { "name": "mobile_price_cards", "fields": ["Service.name", "Service.description", "Price.formatted_price"] },
-        { "name": "steps", "fields": ["Page.content (how pricing works)"] },
-        { "name": "faq", "fields": ["Faq.question", "Faq.answer"] },
-        { "name": "cta_lead_form", "fields": ["Lead.*", "StoreLeadRequest.allowedLeadableTypes"] }
+        { "name": "breadcrumbs", "component": "x-ui.breadcrumbs", "data": ["route=prices.index"] },
+        { "name": "hero", "component": "x-sections.hero", "data": ["static.h1", "static.subtitle"] },
+        { "name": "prices_index", "component": "x-sections.prices.index", "data": ["Device.*", "Service.*", "Price.*"] },
+        { "name": "benefits", "component": "x-sections.common.benefits", "data": ["Device.*"] },
+        { "name": "contact", "component": "x-sections.contact", "data": ["page.*"] }
       ]
     },
     {
       "key": "contacts",
       "route": "/contacts",
       "status": "current",
+      "controller": "ContactController@index",
+      "view": "pages.contacts",
       "model": "PageType(key=contacts)->page",
-      "meta_fields": ["page.title", "page.description", "page.image_url"],
+      "meta_fields": ["page.title", "page.description"],
       "sections": [
-        { "name": "hero", "fields": ["page.h1", "page.subtitle"] },
-        { "name": "contacts_block", "fields": ["config.contacts.phone_display", "config.contacts.phone_tel", "config.contacts.email", "config.contacts.address_full", "config.contacts.opening_hours_display", "config.contacts.area_served"] },
-        { "name": "map", "fields": ["config.contacts.address_full", "config.contacts.address_city"] },
-        { "name": "reviews", "fields": ["Gallery.caption", "Gallery.image_url"] },
-        { "name": "faq", "fields": ["Faq.question", "Faq.answer"] },
-        { "name": "cta_lead_form", "fields": ["Lead.*"] }
+        { "name": "breadcrumbs", "component": "x-ui.breadcrumbs", "data": ["route=contacts.index"] },
+        { "name": "hero", "component": "x-sections.hero", "data": ["page.h1", "page.subtitle"] },
+        { "name": "contacts_info", "component": "x-sections.contacts.info", "data": ["config.contacts.*"] },
+        { "name": "faq", "component": "x-sections.common.faq", "data": ["Faq.*"] },
+        { "name": "contact", "component": "x-sections.contact", "data": ["page.*"] }
       ]
     },
     {
       "key": "about",
       "route": "/about",
       "status": "current",
+      "controller": "AboutController@index",
+      "view": "pages.about",
       "model": "PageType(key=about)->page",
-      "meta_fields": ["page.title", "page.description", "page.image_url"],
+      "meta_fields": ["page.title", "page.description"],
       "sections": [
-        { "name": "hero", "fields": ["page.h1", "page.subtitle"] },
-        { "name": "history", "fields": ["page.content (history)"] },
-        { "name": "statistics", "fields": ["page.content (metrics)"] },
-        { "name": "team", "fields": ["Gallery.image_url", "Gallery.caption (staff roles)"] },
-        { "name": "certifications", "fields": ["Page.content (licenses/partners)"] },
-        { "name": "gallery", "fields": ["Gallery.image_url", "Gallery.caption"] },
-        { "name": "reviews", "fields": ["Gallery.caption", "Gallery.image_url"] },
-        { "name": "faq", "fields": ["Faq.question", "Faq.answer"] },
-        { "name": "cta_lead_form", "fields": ["Lead.*"] }
+        { "name": "breadcrumbs", "component": "x-ui.breadcrumbs", "data": ["route=about.index"] },
+        { "name": "hero", "component": "x-sections.hero", "data": ["page.h1", "page.subtitle"] },
+        { "name": "statistic", "component": "x-sections.about.statistic", "data": [] },
+        { "name": "history", "component": "x-sections.about.history", "data": [] },
+        { "name": "gallery", "component": "x-sections.common.gallery", "data": ["Gallery.*"] },
+        { "name": "faq", "component": "x-sections.common.faq", "data": ["Faq.*"] },
+        { "name": "contact", "component": "x-sections.contact", "data": ["page.*"] }
+      ]
+    },
+    {
+      "key": "reviews",
+      "route": "/reviews",
+      "status": "current",
+      "controller": "ReviewController@index",
+      "view": "pages.reviews",
+      "model": "Review",
+      "meta_fields": ["static.title=Отзывы клиентов", "static.description=Отзывы о ремонте бытовой техники в Уфе"],
+      "query_params": {
+        "sort": ["newest", "oldest", "positive", "negative"],
+        "with_photo": "boolean (client-side state support)",
+        "source": "string (client-side state support)"
+      },
+      "sections": [
+        { "name": "breadcrumbs", "component": "x-ui.breadcrumbs", "data": ["route=reviews.index"] },
+        { "name": "hero", "component": "x-sections.hero", "data": ["static.h1", "static.subtitle"] },
+        { "name": "reviews_index", "component": "x-sections.reviews.index", "data": ["Review.*", "Review.device", "Review.brand", "Review.service"] },
+        { "name": "contact", "component": "x-sections.contact", "data": [] }
       ]
     },
     {
       "key": "device",
       "route": "/{device:slug}",
       "status": "current",
+      "controller": "DeviceController@show",
+      "view": "pages.device",
       "model": "Device",
-      "meta_fields": ["device.title", "device.description", "device.image_url"],
+      "meta_fields": ["device.title", "device.description"],
       "sections": [
-        { "name": "hero", "fields": ["device.h1", "device.subtitle", "device.image_url"] },
-        { "name": "brand_catalog", "fields": ["Brand.name", "Brand.slug", "Brand.image_url", "pivot.h1", "pivot.subtitle", "pivot.description"] },
-        { "name": "symptoms_snippet", "fields": ["Problem.title", "Problem.short_content"] },
-        { "name": "services_with_prices", "fields": ["Service.name", "Service.description", "Service.tags", "Service.preferredPrice(device.id).formatted_price"] },
-        { "name": "steps", "fields": ["Page.content (repair steps for device)"] },
-        { "name": "benefits", "fields": ["Page.content (device-specific USPs)"] },
-        { "name": "gallery", "fields": ["Gallery.image_url", "Gallery.caption"] },
-        { "name": "faq", "fields": ["Faq.question", "Faq.answer"] },
-        { "name": "cta_lead_form", "fields": ["Lead.*", "leadable_type=Device", "leadable_id=device.id"] }
+        { "name": "breadcrumbs", "component": "x-ui.breadcrumbs", "data": ["route=devices.show", "device.*"] },
+        { "name": "hero", "component": "x-sections.hero", "data": ["device.*"] },
+        { "name": "brand_select", "component": "x-sections.brands.brand-select", "data": ["Brand.*"] },
+        { "name": "problems", "component": "x-sections.common.problems", "data": ["Problem.*"] },
+        { "name": "gallery", "component": "x-sections.common.gallery", "data": ["Gallery.*"] },
+        { "name": "services", "component": "x-sections.common.services.index", "data": ["Service.*"] },
+        { "name": "faq", "component": "x-sections.common.faq", "data": ["Faq.*"] },
+        { "name": "contact", "component": "x-sections.contact", "data": ["device.*"] },
+        { "name": "brand_carousel", "component": "x-sections.brands.brand-carousel", "data": ["Brand.*"] }
       ]
     },
     {
       "key": "brand",
       "route": "/{device:slug}/{brand:slug}",
       "status": "current",
+      "controller": "DeviceBrandController@show",
+      "view": "pages.brand",
       "model": "Device + Brand (pivot)",
-      "meta_fields": ["pivot.title", "pivot.description", "brand.image_url"],
+      "meta_fields": ["device.title", "device.description"],
       "sections": [
-        { "name": "hero", "fields": ["pivot.h1", "pivot.subtitle", "brand.image_url"] },
-        { "name": "brand_benefits", "fields": ["brand.name", "pivot.description", "brand.image_url"] },
-        { "name": "problems_list", "fields": ["Problem.title", "Problem.short_content", "Problem.slug"] },
-        { "name": "error_codes", "fields": ["ErrorCode.code", "ErrorCode.title", "ErrorCode.description"] },
-        { "name": "services_with_prices", "fields": ["Service.name", "Service.description", "Service.tags", "Price.formatted_price (brand/device scoped)"] },
-        { "name": "gallery", "fields": ["Gallery.image_url", "Gallery.caption"] },
-        { "name": "faq", "fields": ["Faq.question", "Faq.answer"] },
-        { "name": "cta_lead_form", "fields": ["Lead.*", "leadable_type=Brand", "leadable_id=brand.id"] }
+        { "name": "breadcrumbs", "component": "x-ui.breadcrumbs", "data": ["route=devices.brands.show", "brand.*"] },
+        { "name": "hero", "component": "x-sections.hero", "data": ["brand.pivot.h1", "brand.pivot.subtitle"] },
+        { "name": "brand_problems", "component": "x-sections.brands.problems", "data": ["Problem.*"] },
+        { "name": "gallery", "component": "x-sections.common.gallery", "data": ["Gallery.*"] },
+        { "name": "services", "component": "x-sections.common.services.index", "data": ["Service.*"] },
+        { "name": "faq", "component": "x-sections.common.faq", "data": ["Faq.*"] },
+        { "name": "contact", "component": "x-sections.contact", "data": ["brand.*"] }
       ]
     },
     {
-      "key": "problem_detail",
-      "route": "/{device:slug}/{brand:slug}/problems/{problem:slug}",
-      "status": "recommended",
-      "note": "Route not implemented; add for long-tail SEO.",
-      "model": "Problem",
-      "meta_fields": ["problem.title", "problem.content"],
+      "key": "gallery",
+      "route": "/gallery",
+      "status": "current",
+      "controller": "GalleryController@index",
+      "view": "pages.gallery",
+      "model": "Gallery",
+      "meta_fields": ["static.title=Галерея работ", "static.description=Фото до и после ремонта бытовой техники"],
       "sections": [
-        { "name": "hero", "fields": ["problem.h1", "problem.title", "device.typeInCase()"] },
-        { "name": "symptoms", "fields": ["problem.content (symptoms/explanation)"] },
-        { "name": "related_services", "fields": ["Service.name", "Service.description", "Service.preferredPrice().formatted_price"] },
-        { "name": "error_codes", "fields": ["ErrorCode.code", "ErrorCode.title", "ErrorCode.description"] },
-        { "name": "faq", "fields": ["Faq.question", "Faq.answer"] },
-        { "name": "cta_lead_form", "fields": ["Lead.*", "leadable_type=Problem", "leadable_id=problem.id"] }
+        { "name": "breadcrumbs", "component": "x-ui.breadcrumbs", "data": ["route=gallery.index"] },
+        { "name": "hero", "component": "x-sections.hero", "data": ["static.h1", "static.subtitle"] },
+        { "name": "gallery_index", "component": "x-sections.gallery.index", "data": ["Gallery.image_url", "Gallery.image_alt", "Gallery.title", "Gallery.subtitle", "Gallery.description", "Gallery.device", "Gallery.brand", "Gallery.service", "Gallery.created_at"] },
+        { "name": "filters", "component": "x-ui.buttons.filter + galleryIndexSort", "data": ["sort=newest|oldest"] },
+        { "name": "contact", "component": "x-sections.contact", "data": [] }
       ]
     },
     {
-      "key": "service_detail",
-      "route": "/services/{service:slug}",
-      "status": "recommended",
-      "model": "Service",
-      "meta_fields": ["service.name", "service.description", "service.tags"],
+      "key": "legal_privacy_policy",
+      "route": "/privacy-policy",
+      "status": "current",
+      "controller": "PageController@showLegal(type=privacy-policy)",
+      "view": "pages.legal",
+      "model": "PageType(key=privacy-policy)->page",
+      "meta_fields": ["page.title", "page.description"],
       "sections": [
-        { "name": "hero", "fields": ["service.name", "service.description"] },
-        { "name": "pricing", "fields": ["Price.formatted_price", "Price.units"] },
-        { "name": "devices_supported", "fields": ["Device.type", "Device.slug"] },
-        { "name": "brand_compatibility", "fields": ["Brand.name", "Brand.slug"] },
-        { "name": "benefits", "fields": ["Service.tags"] },
-        { "name": "gallery", "fields": ["Gallery.image_url"] },
-        { "name": "faq", "fields": ["Faq.question", "Faq.answer"] },
-        { "name": "cta_lead_form", "fields": ["Lead.*", "leadable_type=Service", "leadable_id=service.id"] }
+        { "name": "breadcrumbs", "component": "x-ui.breadcrumbs", "data": ["route=legal.privacy-policy"] },
+        { "name": "legal_content", "component": "inline section in pages.legal", "data": ["page.h1", "page.subtitle", "page.content", "page.updated_at"] }
       ]
     },
     {
-      "key": "error_code_detail",
-      "route": "/brands/{brand:slug}/errors/{errorCode:slug}",
-      "status": "recommended",
-      "model": "ErrorCode",
-      "meta_fields": ["errorCode.title", "errorCode.code", "errorCode.description"],
+      "key": "legal_personal_data_consent",
+      "route": "/personal-data-consent",
+      "status": "current",
+      "controller": "PageController@showLegal(type=personal-data-consent)",
+      "view": "pages.legal",
+      "model": "PageType(key=personal-data-consent)->page",
+      "meta_fields": ["page.title", "page.description"],
       "sections": [
-        { "name": "hero", "fields": ["errorCode.code", "errorCode.title", "brand.name"] },
-        { "name": "meaning", "fields": ["errorCode.description"] },
-        { "name": "possible_causes", "fields": ["Problem.title", "Problem.short_content"] },
-        { "name": "recommended_services", "fields": ["Service.name", "Service.preferredPrice().formatted_price"] },
-        { "name": "cta_lead_form", "fields": ["Lead.*", "leadable_type=ErrorCode", "leadable_id=errorCode.id"] }
-      ]
-    },
-    {
-      "key": "blog_article",
-      "route": "/blog/{slug}",
-      "status": "recommended",
-      "model": "Page (template=blog)",
-      "meta_fields": ["page.title", "page.description", "page.image_url"],
-      "sections": [
-        { "name": "hero", "fields": ["page.h1", "page.subtitle", "page.image_url"] },
-        { "name": "body", "fields": ["page.content (rich text)"] },
-        { "name": "faq", "fields": ["Faq.question", "Faq.answer"] },
-        { "name": "related_devices", "fields": ["Device.type", "Device.slug"] },
-        { "name": "cta_lead_form", "fields": ["Lead.*", "leadable_type=Page", "leadable_id=page.id"] }
+        { "name": "breadcrumbs", "component": "x-ui.breadcrumbs", "data": ["route=legal.personal-data-consent"] },
+        { "name": "legal_content", "component": "inline section in pages.legal", "data": ["page.h1", "page.subtitle", "page.content", "page.updated_at"] }
       ]
     }
+  ],
+  "api_endpoints": [
+    {
+      "method": "POST",
+      "route": "/api/leads",
+      "controller": "Api\\LeadController@store",
+      "seo": "not_indexable"
+    }
+  ],
+  "notes": [
+    "Previous recommended/placeholder pages were removed from this file because they are not present in current routes.",
+    "For /reviews, sort is server-side; with_photo and source are currently applied client-side in Alpine component resources/js/components/reviewsIndexSort.js."
   ]
 }

@@ -1,24 +1,28 @@
 @props([
     'value' => request('sort', 'newest'),
     'clientSort' => false,
+    'options' => null,
+    'eventName' => 'reviews-sort-change',
 ])
 
 @php
-    $options = [
+    $defaultOptions = [
         'newest' => 'Сначала новые',
         'oldest' => 'Сначала старые',
         'positive' => 'Сначала положительные',
         'negative' => 'Сначала отрицательные',
     ];
+    $options = is_array($options) && !empty($options) ? $options : $defaultOptions;
+    $defaultKey = array_key_first($options) ?? 'newest';
 
-    $currentLabel = $options[$value] ?? $options['newest'];
+    $currentLabel = $options[$value] ?? ($options[$defaultKey] ?? 'Фильтр');
 @endphp
 
 <div x-data="{ open: false, selected: '{{ $value }}', options: @js($options) }" class="relative inline-block text-left">
     <button type="button" @click="open = !open"
         class="inline-flex items-center justify-between gap-2 px-4 py-2 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:border-gray-300 hover:bg-gray-50 transition cursor-pointer"
         aria-haspopup="true" :aria-expanded="open">
-        <span x-text="options[selected] ?? options.newest">{{ $currentLabel }}</span>
+        <span x-text="options[selected] ?? options['{{ $defaultKey }}']">{{ $currentLabel }}</span>
 
         <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': open }" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd"
@@ -33,7 +37,7 @@
             @foreach ($options as $key => $label)
                 @if ($clientSort)
                     <button type="button"
-                        @click="selected = '{{ $key }}'; open = false; $dispatch('reviews-sort-change', { sort: '{{ $key }}' })"
+                        @click="selected = '{{ $key }}'; open = false; $dispatch('{{ $eventName }}', { sort: '{{ $key }}' })"
                         :class="selected === '{{ $key }}' ? 'bg-gray-50 font-semibold text-gray-900' : 'text-gray-700'"
                         class="block w-full text-left px-4 py-2 hover:bg-gray-100 transition cursor-pointer">
                         {{ $label }}

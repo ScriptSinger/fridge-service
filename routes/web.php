@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DeviceBrandController;
 use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ContactController;
@@ -16,6 +17,7 @@ Route::get('/prices', [PriceController::class, 'index'])->name('prices.index');
 Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
 Route::get('/about', [AboutController::class, 'index'])->name('about.index');
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
 Route::get('/privacy-policy', [PageController::class, 'showLegal'])
     ->defaults('type', 'privacy-policy')
     ->name('legal.privacy-policy');
