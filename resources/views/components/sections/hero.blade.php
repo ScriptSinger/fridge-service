@@ -4,7 +4,7 @@
 
     <div class="container mx-auto flex lg:flex-row flex-col lg:items-center px-5 py-10 md:py-24 md:pt-9">
         <div class="lg:max-w-lg lg:w-full mb-10 lg:mb-0">
-            <img class="object-cover object-center rounded" src="{{ asset('assets/images/hero.png') }}"
+            <img class="object-cover object-center rounded" src="{{ asset('assets/images/hero.webp') }}"
                 alt="Мастер по ремонту бытовой техники в Уфе">
         </div>
         <div class="lg:flex-grow lg:pl-24 flex flex-col md:text-left text-center">
