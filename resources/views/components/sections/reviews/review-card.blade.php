@@ -37,8 +37,8 @@
         </div>
         <div>
             <p class="font-semibold text-gray-900" itemprop="author">{{ $name }}</p>
-            @if ($city)
-                <p class="text-sm text-gray-500">{{ $city }}</p>
+            @if ($date)
+                <p class="text-sm text-gray-500">{{ $dateLabel }}</p>
             @endif
         </div>
         <div class="ml-auto">
@@ -71,6 +71,4 @@
             {{ $meta }}
         </span>
     @endif
-
-
 </article>

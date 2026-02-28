@@ -30,12 +30,20 @@
         </div>
     </x-ui.sections.header>
 
-    <div class="columns-1 md:columns-2 xl:columns-3 gap-8 space-y-8">
-        @foreach ($reviews as $review)
-            <div class="break-inside-avoid">
-                <x-sections.reviews.review-card :review="$review" />
-            </div>
-        @endforeach
+    <div x-data="reviewsIndexSort(@js(request('sort', 'newest')))"
+        x-init="init()">
+        <div class="mb-8 flex justify-end">
+            <x-ui.buttons.filter :value="request('sort', 'newest')" :client-sort="true" />
+        </div>
+
+        <div x-ref="grid" class="columns-1 md:columns-2 xl:columns-3 gap-8 space-y-8">
+            @foreach ($reviews as $review)
+                <div class="break-inside-avoid" data-rating="{{ (float) $review->rating_value }}"
+                    data-published-ts="{{ $review->published_date?->timestamp ?? 0 }}">
+                    <x-sections.reviews.review-card :review="$review" />
+                </div>
+            @endforeach
+        </div>
     </div>
 
 </x-ui.sections.wrapper>
