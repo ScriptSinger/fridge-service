@@ -1,14 +1,32 @@
-export default function reviewsIndexSort(initialSort = "newest") {
+export default function reviewsIndexSort(
+    initialSort = "newest",
+    initialOnlyWithPhoto = false,
+    initialSource = "all"
+) {
     return {
         sort: initialSort || "newest",
+        onlyWithPhoto: Boolean(initialOnlyWithPhoto),
+        source: initialSource || "all",
 
         init() {
             this.sortCards(this.sort);
+            this.applyFilters();
 
             window.addEventListener("reviews-sort-change", (event) => {
                 this.sort = event.detail?.sort ?? "newest";
                 this.sortCards(this.sort);
+                this.applyFilters();
             });
+
+            window.addEventListener("reviews-source-change", (event) => {
+                this.source = event.detail?.source ?? "all";
+                this.applyFilters();
+            });
+        },
+
+        toggleOnlyWithPhoto() {
+            this.onlyWithPhoto = !this.onlyWithPhoto;
+            this.applyFilters();
         },
 
         sortCards(sort) {
@@ -42,6 +60,21 @@ export default function reviewsIndexSort(initialSort = "newest") {
             });
 
             cards.forEach((card) => container.appendChild(card));
+        },
+
+        applyFilters() {
+            const container = this.$refs.grid;
+            if (!container) return;
+
+            const cards = Array.from(container.children);
+
+            cards.forEach((card) => {
+                const hasPhoto = card.dataset.hasPhoto === "1";
+                const cardSource = card.dataset.source || "google";
+                const sourceMatch = this.source === "all" || cardSource === this.source;
+                const shouldShow = sourceMatch && (!this.onlyWithPhoto || hasPhoto);
+                card.style.display = shouldShow ? "" : "none";
+            });
         },
     };
 }

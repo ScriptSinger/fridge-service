@@ -56,10 +56,22 @@ class ReviewResource extends ModelResource
             Text::make('Город', 'city'),
             Text::make('Заголовок', 'title'),
             Textarea::make('Текст', 'text')->required(),
-            Number::make('Оценка', 'rating')->min(1)->max(5)->default(5),
+            Select::make('Оценка', 'rating')
+                ->options([
+                    1 => '★☆☆☆☆',
+                    2 => '★★☆☆☆',
+                    3 => '★★★☆☆',
+                    4 => '★★★★☆',
+                    5 => '★★★★★',
+                ])
+                ->default(5)
+                ->required(),
             Image::make('Аватар', 'avatar')
                 ->disk(config('filesystems.media'))
-                ->dir('reviews'),
+                ->dir('reviews/avatars'),
+            Image::make('Image', 'image')
+                ->disk(config('filesystems.media'))
+                ->dir('reviews/images'),
             Select::make('Источник', 'source')
                 ->options([
                     'google' => 'Google',
@@ -94,7 +106,10 @@ class ReviewResource extends ModelResource
             Number::make('Оценка', 'rating'),
             Image::make('Аватар', 'avatar')
                 ->disk(config('filesystems.media'))
-                ->dir('reviews'),
+                ->dir('reviews/avatars'),
+            Image::make('Image', 'image')
+                ->disk(config('filesystems.media'))
+                ->dir('reviews/images'),
             Text::make('Источник', 'source'),
             Text::make('Устройство', 'device.type'),
             Text::make('Бренд', 'brand.name'),

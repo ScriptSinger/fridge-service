@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('text');
             $table->tinyInteger('rating')->default(5);
             $table->string('avatar')->nullable();
+            $table->string('image')->nullable();
             $table->string('source')->default('google');
             $table->foreignId('device_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('brand_id')->nullable()->constrained()->nullOnDelete();

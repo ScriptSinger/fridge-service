@@ -16,7 +16,7 @@
 
 <div x-data="{ open: false, selected: '{{ $value }}', options: @js($options) }" class="relative inline-block text-left">
     <button type="button" @click="open = !open"
-        class="inline-flex items-center justify-between gap-2 px-4 py-2 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:border-gray-300 hover:bg-gray-50 transition"
+        class="inline-flex items-center justify-between gap-2 px-4 py-2 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:border-gray-300 hover:bg-gray-50 transition cursor-pointer"
         aria-haspopup="true" :aria-expanded="open">
         <span x-text="options[selected] ?? options.newest">{{ $currentLabel }}</span>
 
@@ -35,7 +35,7 @@
                     <button type="button"
                         @click="selected = '{{ $key }}'; open = false; $dispatch('reviews-sort-change', { sort: '{{ $key }}' })"
                         :class="selected === '{{ $key }}' ? 'bg-gray-50 font-semibold text-gray-900' : 'text-gray-700'"
-                        class="block w-full text-left px-4 py-2 hover:bg-gray-100 transition">
+                        class="block w-full text-left px-4 py-2 hover:bg-gray-100 transition cursor-pointer">
                         {{ $label }}
                     </button>
                 @else

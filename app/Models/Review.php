@@ -13,6 +13,7 @@ class Review extends Model
         'text',
         'rating',
         'avatar',
+        'image',
         'source',
         'city',
         'device_id',
@@ -93,11 +94,6 @@ class Review extends Model
         return $this->published_at ?? $this->created_at;
     }
 
-
-
-
-
-
     // Полная дата в формате «15 ноября 2025»
     public function getPublishedDateFormattedAttribute()
     {
@@ -117,6 +113,14 @@ class Review extends Model
     {
         if ($this->avatar) {
             return Storage::disk(config('filesystems.media'))->url($this->avatar);
+        }
+        return null;
+    }
+
+    public function getImageUrlAttribute()
+    {
+        if ($this->image) {
+            return Storage::disk(config('filesystems.media'))->url($this->image);
         }
         return null;
     }
