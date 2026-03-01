@@ -37,13 +37,14 @@ class AboutController extends Controller
                 ->orderBy('id')
                 ->get();
         });
-        // В контроллере
+
+
         $certSlides = $masters
             ->flatMap(
                 fn($master) => $master->certificates
                     ->filter(fn($cert) => !empty($cert->image))
             )
-            ->values(); // это всё ещё коллекция Eloquent моделей
+            ->values();
 
         return view('pages.about', [
             'page' => $page,

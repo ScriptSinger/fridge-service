@@ -33,7 +33,7 @@ class MasterResource extends ModelResource
             Text::make('Name', 'name')->sortable(),
             Text::make('Role', 'role')->sortable(),
             Text::make('Description', 'description')->sortable(),
-            Image::make('Photo', 'photo'),
+            Image::make('Photo', 'photo')->disk(config('filesystems.media')),
         ];
     }
 
@@ -61,7 +61,7 @@ class MasterResource extends ModelResource
             Text::make('Name', 'name')->sortable(),
             Text::make('Role', 'role')->sortable(),
             Text::make('Description', 'description')->sortable(),
-            Image::make('Photo', 'photo'),
+            Image::make('Photo', 'photo')->disk(config('filesystems.media')),
         ];
     }
 
