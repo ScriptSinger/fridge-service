@@ -17,13 +17,9 @@
 
 @if ($slides->isNotEmpty())
     <x-ui.sections.wrapper>
-        <x-ui.sections.header title="Примеры выполненных работ"
-            subtitle="Реальные кейсы и типовые задачи, которые мы решаем" />
+        {{-- <x-ui.sections.header title="Примеры выполненных работ"
+            subtitle="Реальные кейсы и типовые задачи, которые мы решаем" /> --}}
 
         <x-sections.gallery.slider :slides="$slides->all()" />
-
-        <div class="mt-4 flex items-center">
-            <x-ui.buttons.section-link :href="route('gallery.index')" label="Смотреть все работы" />
-        </div>
     </x-ui.sections.wrapper>
 @endif

@@ -20,10 +20,6 @@
         </button>
     </div>
 
-    <div class="mt-4 flex items-center">
-        <x-ui.buttons.section-link :href="route('gallery.index')" label="Смотреть все работы" />
-    </div>
-
     <div class="mt-6 flex justify-center" x-show="hasHiddenSlides" x-cloak>
         <button type="button"
             class="inline-flex items-center rounded-lg bg-yellow-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-yellow-600 cursor-pointer"

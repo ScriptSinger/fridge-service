@@ -22,6 +22,8 @@ use App\MoonShine\Resources\Faq\FaqResource;
 use App\MoonShine\Resources\Gallery\GalleryResource;
 use App\MoonShine\Resources\PageType\PageTypeResource;
 use App\MoonShine\Resources\Review\ReviewResource;
+use App\MoonShine\Resources\Master\MasterResource;
+use App\MoonShine\Resources\Certificate\CertificateResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -46,6 +48,8 @@ class MoonShineServiceProvider extends ServiceProvider
                 GalleryResource::class,
                 PageTypeResource::class,
                 ReviewResource::class,
+                MasterResource::class,
+                CertificateResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),

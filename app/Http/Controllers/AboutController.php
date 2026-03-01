@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Faq;
 use App\Models\Gallery;
+use App\Models\Master;
 use App\Models\Page;
 use App\Models\PageType;
 use Illuminate\Support\Facades\Cache;
@@ -31,10 +32,25 @@ class AboutController extends Controller
                 ->get())
             : collect();
 
+        $masters = Cache::remember('masters:with-certificates', $ttl, function () {
+            return Master::with('certificates')
+                ->orderBy('id')
+                ->get();
+        });
+        // В контроллере
+        $certSlides = $masters
+            ->flatMap(
+                fn($master) => $master->certificates
+                    ->filter(fn($cert) => !empty($cert->image))
+            )
+            ->values(); // это всё ещё коллекция Eloquent моделей
+
         return view('pages.about', [
             'page' => $page,
             'galleries' => $galleries,
             'faqs' => $faqs,
+            'masters' => $masters,
+            'certSlides' => $certSlides,
         ]);
     }
 }

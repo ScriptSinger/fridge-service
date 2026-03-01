@@ -12,6 +12,7 @@ use MoonShine\Contracts\ColorManager\PaletteContract;
 use MoonShine\MenuManager\MenuItem;
 use App\MoonShine\Resources\Service\ServiceResource;
 use App\MoonShine\Resources\Brand\BrandResource;
+use App\MoonShine\Resources\Certificate\CertificateResource;
 use App\MoonShine\Resources\ErrorCode\ErrorCodeResource;
 use App\MoonShine\Resources\Lead\LeadResource;
 use App\MoonShine\Resources\Page\PageResource;
@@ -20,6 +21,7 @@ use App\MoonShine\Resources\Device\DeviceResource;
 use App\MoonShine\Resources\Faq\FaqResource;
 use App\MoonShine\Resources\Price\PriceResource;
 use App\MoonShine\Resources\Gallery\GalleryResource;
+use App\MoonShine\Resources\Master\MasterResource;
 use App\MoonShine\Resources\PageType\PageTypeResource;
 use App\MoonShine\Resources\Review\ReviewResource;
 
@@ -54,6 +56,8 @@ final class MoonShineLayout extends AppLayout
 
             MenuItem::make(GalleryResource::class, 'Galleries'),
             MenuItem::make(ReviewResource::class, 'Reviews'),
+            MenuItem::make(MasterResource::class, 'Masters'),
+            MenuItem::make(CertificateResource::class, 'Certitficates'),
         ];
     }
 

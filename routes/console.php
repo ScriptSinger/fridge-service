@@ -1,8 +1,10 @@
 <?php
 
 use App\Models\Brand;
+use App\Models\Certificate;
 use App\Models\Device;
 use App\Models\Gallery;
+use App\Models\Master;
 use App\Models\Page;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
@@ -63,6 +65,27 @@ Artisan::command('media:export-map', function () {
                     'image' => $item->image,
                     'image_alt' => $item->image_alt,
                 ]
+            ])
+            ->all(),
+        'master_photos' => Master::query()
+            ->whereNotNull('photo')
+            ->where('photo', '!=', '')
+            ->get(['name', 'photo'])
+            ->mapWithKeys(fn(Master $master) => [
+                $master->name => [
+                    'photo' => $master->photo,
+                ],
+            ])
+            ->all(),
+
+        'certificates' => Certificate::query()
+            ->whereNotNull('image')
+            ->where('image', '!=', '')
+            ->get(['title', 'image'])
+            ->mapWithKeys(fn(Certificate $certificate) => [
+                $certificate->title => [
+                    'image' => $certificate->image,
+                ],
             ])
             ->all(),
     ];

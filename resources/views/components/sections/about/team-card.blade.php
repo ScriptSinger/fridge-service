@@ -1,6 +1,4 @@
-@props([
-    'member',
-])
+@props(['member'])
 
 <article class="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-sm">
     <div class="flex flex-col sm:flex-row sm:items-start items-center gap-6">

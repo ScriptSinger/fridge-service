@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
             FaqSeeder::class,
             GallerySeeder::class,
             ReviewSeeder::class,
+            MasterSeeder::class,
         ]);
     }
 }
