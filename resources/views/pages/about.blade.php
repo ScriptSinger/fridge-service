@@ -3,6 +3,7 @@
     <x-sections.hero :model="$page" :h1="$page?->h1" :subtitle="$page?->subtitle" />
     <x-sections.about.statistic />
     <x-sections.about.history />
+    <x-sections.about.team />
     <x-sections.common.gallery :galleries="$galleries" />
     <x-sections.common.faq :faqs="$faqs" />
     <x-sections.contact :model="$page" />

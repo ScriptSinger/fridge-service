@@ -4,13 +4,13 @@
         subtitle="Точная стоимость определяется после диагностики" />
 
     <div class="hidden md:block">
-        @include('components.sections.common.services.table', [
+        @include('components.sections.services.table', [
             'services' => $services,
         ])
     </div>
 
     <div class="md:hidden">
-        @include('components.sections.common.services.mobile', [
+        @include('components.sections.services.mobile', [
             'services' => $services,
         ])
     </div>

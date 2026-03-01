@@ -4,7 +4,7 @@
     <x-sections.brands.brand-select :brands="$brands" :device="$device" />
     <x-sections.common.problems :problems="$problems" :device="$device" />
     <x-sections.common.gallery :galleries="$galleries" />
-    <x-sections.common.services.index :services="$services" />
+    <x-sections.services.index :services="$services" />
     <x-sections.common.faq :faqs="$faqs" />
     <x-sections.contact :model="$device" />
     <x-sections.brands.brand-carousel :brands="$brands" />

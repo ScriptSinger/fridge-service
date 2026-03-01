@@ -20,7 +20,7 @@
         </button>
     </div>
 
-    <div class="mt-4 flex items-center justify-center">
+    <div class="mt-4 flex items-center">
         <x-ui.buttons.section-link :href="route('gallery.index')" label="Смотреть все работы" />
     </div>
 
