@@ -13,6 +13,10 @@ class DeviceBrandController extends Controller
 {
     public function show(Device $device, Brand $brand)
     {
+        $brand = $device->brands()
+            ->whereKey($brand->id)
+            ->firstOrFail();
+
         $ttl = now()->addMinutes(20);
         $problems = Cache::remember("problems:device:{$device->id}:brand:{$brand->id}", $ttl, fn() => $brand->problems()
             ->where('device_id', $device->id)
@@ -37,6 +41,8 @@ class DeviceBrandController extends Controller
             'services' => $services,
             'galleries' => $galleries,
             'faqs' => $brandFaqs,
+            'title' => $brand->pivot->title ?: $device->title,
+            'description' => $brand->pivot->description ?: $device->description,
         ]);
     }
 }

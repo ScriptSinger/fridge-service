@@ -1,4 +1,4 @@
-<x-layouts.app :title="$device->title" :description="$device->description">
+<x-layouts.app :title="$title" :description="$description">
     <x-ui.breadcrumbs :model="$brand" route="devices.brands.show" />
     <x-sections.hero :model="$brand" :h1="$brand->pivot->h1" :subtitle="$brand->pivot->subtitle" />
     <x-sections.brands.problems :problems="$problems" :device="$device" :brand="$brand" />

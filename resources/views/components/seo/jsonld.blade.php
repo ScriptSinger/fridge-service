@@ -3,7 +3,7 @@
          '@context' => 'https://schema.org',
          '@type' => 'LocalBusiness',
          'name' => config('app.name'),
-         'image' => rtrim(config('app.url'), '/') . '/assets/images/hero.png',
+         'image' => rtrim(config('app.url'), '/') . '/assets/images/hero.webp',
          'url' => config('app.url'),
 
          // ВАЖНО: только tel-формат

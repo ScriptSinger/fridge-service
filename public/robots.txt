@@ -1,2 +1,3 @@
 User-agent: *
 Disallow:
+Sitemap: https://service.ufamasters.ru/sitemap.xml
