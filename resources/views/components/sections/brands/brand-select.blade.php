@@ -55,5 +55,19 @@
             </div>
 
         </div>
+
+        @if ($items->isNotEmpty())
+            <nav class="sr-only" aria-label="Ссылки на страницы брендов">
+                <ul>
+                    @foreach ($items as $item)
+                        <li>
+                            <a href="{{ $item['url'] }}">
+                                {{ $item['name_ru'] ?: $item['name'] }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </nav>
+        @endif
     </div>
 </x-ui.sections.wrapper>
