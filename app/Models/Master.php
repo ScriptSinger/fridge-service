@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Concerns\HasImageUrl;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,7 +10,7 @@ use Illuminate\Support\Str;
 
 class Master extends Model
 {
-    use Sluggable, HasImageUrl;
+    use Sluggable;
 
     public function sluggable(): array
     {
@@ -28,8 +27,6 @@ class Master extends Model
         'photo',
         'description'
     ];
-
-
 
     public function certificates(): HasMany
     {

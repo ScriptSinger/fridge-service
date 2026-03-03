@@ -73,5 +73,24 @@
             "image": "galleries/45dfYMBY8D6dzUoHT8IyZG133MTkqzpltblSpH4y.jpg",
             "image_alt": "Ремонт холодильника Bosch KGV36XK2AR/02"
         }
+    },
+    "master_photos": {
+        "Алексей Смирнов": {
+            "photo": "masters/avatars/4BU1mZ7FqRHyOQIedECLX7THrOHSfeO2ZlKUUlxl.png"
+        },
+        "Алексей Евгеньевич": {
+            "photo": "masters/avatars/68QQmz9WZqtGVLfo2jdbE0GJfWHKlN9XqSUcCcEw.webp"
+        },
+        "Рустам Ахметов": {
+            "photo": "masters/avatars/HutaYiSgiOf7uyXvWaGIvpecioUi8p7gGuqYj2zT.png"
+        },
+        "Урал Салаватович": {
+            "photo": "masters/avatars/32tFuiQAdbdlLMMHFewj0JT9Ltksmzi8FA37fvBD.png"
+        }
+    },
+    "certificates": {
+        "Сертификат Bosch": {
+            "image": "masters/certificates/hUaibNVBNFIaByT5JzDXAtBrUNKwYPGg7ndfgpts.jpg"
+        }
     }
 }
