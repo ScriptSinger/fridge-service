@@ -2,22 +2,9 @@
     <x-ui.breadcrumbs :route="$breadcrumbRoute" :model="null" />
 
     <x-ui.sections.wrapper>
-        <div class="rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm md:p-8">
-            <div class="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-4">
-                <div>
+        <div class="mx-auto max-w-5xl rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm md:p-8">
 
-                    <h1 class="mt-2 text-2xl font-bold text-slate-900 md:text-3xl">{{ $page->h1 }}</h1>
-                    @if (!empty($page->subtitle))
-                        <p class="mt-2 text-sm text-slate-600 md:text-base">{{ $page->subtitle }}</p>
-                    @endif
-                </div>
-
-                <span
-                    class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
-                    Обновлено: {{ optional($page->updated_at)->format('d.m.Y') }}
-                </span>
-            </div>
-
+            <x-ui.sections.header title="{{ $page->h1 }}" subtitle="{{ $page->subtitle }}" />
             @php
                 $content = trim((string) ($page->content ?? ''));
                 $content = html_entity_decode($content, ENT_QUOTES | ENT_HTML5, 'UTF-8');
@@ -35,4 +22,5 @@
     </x-ui.sections.wrapper>
 
     <x-ui.scroll-up />
+
 </x-layouts.app>
