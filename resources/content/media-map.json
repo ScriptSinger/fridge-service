@@ -92,5 +92,71 @@
         "Сертификат Bosch": {
             "image": "masters/certificates/hUaibNVBNFIaByT5JzDXAtBrUNKwYPGg7ndfgpts.jpg"
         }
+    },
+    "reviews": {
+        "рустам|Ремонт холодильника Haier": {
+            "avatar": "reviews/avatars/67cFqNca8714fUOM8J6xmfD2ggEHBLc9Z5expQjB.webp",
+            "image": null
+        },
+        "Лера|Холодильник перестал морозить": {
+            "avatar": null,
+            "image": "reviews/images/xW39t4neUwCp8m4kWLuTnoclkluUX8jmEYQLiC71.webp"
+        },
+        "Александр|Починил два холодильника": {
+            "avatar": "reviews/avatars/9HgmWB9msujCTrSeYaSXfdF5bmsNkcetpj2XWNTp.webp",
+            "image": null
+        },
+        "Марта Давлетшина|Быстро и качественно": {
+            "avatar": "reviews/avatars/07Par9MXDjzhaf5Z4PJsgx9z7Ufa1NM4l9uEZspy.webp",
+            "image": null
+        },
+        "Айдар Айратович|Ремонт стиральной машины": {
+            "avatar": "reviews/avatars/pHh3uIX09zgNpkOeOQf7xrpQX9VkRGrCpfaszTEW.webp",
+            "image": null
+        },
+        "ComfortWood|Все быстро и четко": {
+            "avatar": "reviews/avatars/xQZNRJGAfskwPcB6YJNIWburR0jixFtNAk8AJhZB.webp",
+            "image": null
+        },
+        "Иван Толстов|Приехал без опозданий": {
+            "avatar": "reviews/avatars/5y3bai45mfn0PWcz8KhRfUYZv3nbTHjLVQPXCDMX.webp",
+            "image": null
+        },
+        "Белые Двери Уфа|Отличная работа с гарантией": {
+            "avatar": "reviews/avatars/MluyazEwMktIyYXw9YUxecIa9uUIxmwQ0oahlxN4.webp",
+            "image": null
+        },
+        "Раушания Латыпова|Мастер своего дела": {
+            "avatar": "reviews/avatars/GdpWIgNui2rlt3Zlln4g6Lqf7XlwX7WOCe5pleDv.webp",
+            "image": null
+        },
+        "Лилия Шуктуева|Чётко и быстро": {
+            "avatar": "reviews/avatars/juycGw6p8gBkOBU1Ccy7vzeDqQ71Ln4wTtHvcTuY.webp",
+            "image": null
+        },
+        "Илина|Приехал даже в район": {
+            "avatar": null,
+            "image": "reviews/images/jNHy2eudSoTBFeVEGfa4iY0qnM96Ym1zeNipt3Or.webp"
+        },
+        "ROMAN|Работа выполнена в срок": {
+            "avatar": "reviews/avatars/2AvuoxGpC1ZYPBXhdLOSSKuRfLZsoVF4XmPLErkU.webp",
+            "image": null
+        },
+        "СЕРГЕЙ МИНДИБАЕВ|Отличная работа": {
+            "avatar": "reviews/avatars/y57r4so8W1PRFPa2x2xrxfnzfNGh5fa7q9kazCVi.webp",
+            "image": null
+        },
+        "Роберт|Все отлично": {
+            "avatar": "reviews/avatars/VZxJNP0zg1ro1ozMxOa0wWBLjlWmPbpeUcTuXA6B.webp",
+            "image": null
+        },
+        "Динарочка|Ремонт стиральной машинки": {
+            "avatar": "reviews/avatars/TEVfywHQtyUoKqEG7PJkLZUiH4YBpHTHimMbtGh0.webp",
+            "image": null
+        },
+        "Пользователь|Отремонтировали Хотпоинт Аристон": {
+            "avatar": "reviews/avatars/JWwD8DRPbPIiLYWQ0lzQpCfx4Av9y2JSBRmtjQHZ.webp",
+            "image": null
+        }
     }
 }

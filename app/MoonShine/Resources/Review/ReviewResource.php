@@ -35,7 +35,12 @@ class ReviewResource extends ModelResource
     {
         return [
             ID::make()->sortable(),
-
+            Image::make('Аватар', 'avatar')
+                ->disk(config('filesystems.media'))
+                ->dir('reviews/avatars'),
+            Image::make('Image', 'image')
+                ->disk(config('filesystems.media'))
+                ->dir('reviews/images'),
             Text::make('Name', 'name')->sortable(),
             Text::make('City', 'city')->sortable(),
             Text::make('Title', 'title')->sortable(),
@@ -68,10 +73,12 @@ class ReviewResource extends ModelResource
                 ->required(),
             Image::make('Аватар', 'avatar')
                 ->disk(config('filesystems.media'))
-                ->dir('reviews/avatars'),
+                ->dir('reviews/avatars')
+                ->removable(),
             Image::make('Image', 'image')
                 ->disk(config('filesystems.media'))
-                ->dir('reviews/images'),
+                ->dir('reviews/images')
+                ->removable(),
             Select::make('Источник', 'source')
                 ->options([
                     'google' => 'Google',
@@ -80,9 +87,9 @@ class ReviewResource extends ModelResource
                 ])
                 ->default('google'),
 
-            BelongsTo::make('Устройство', 'device', fn($item) => $item->type ?? ''),
-            BelongsTo::make('Бренд', 'brand', fn($item) => $item->name ?? ''),
-            BelongsTo::make('Услуга', 'service', fn($item) => $item->name ?? ''),
+            BelongsTo::make('Устройство', 'device', fn($item) => $item->type ?? '')->nullable(),
+            BelongsTo::make('Бренд', 'brand', fn($item) => $item->name ?? '')->nullable(),
+            BelongsTo::make('Услуга', 'service', fn($item) => $item->name ?? '')->nullable(),
 
             Date::make('Дата публикации', 'published_at')
                 ->format('d.m.Y')

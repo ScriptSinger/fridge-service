@@ -8,6 +8,7 @@ use App\Models\Device;
 use App\Models\Gallery;
 use App\Models\Master;
 use App\Models\Page;
+use App\Models\Review;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
@@ -15,7 +16,7 @@ class ExportMediaMap extends Command
 {
     protected $signature = 'media:export-map';
 
-    protected $description = 'Export DB image paths including gallery to resources/content/media-map.json';
+    protected $description = 'Export DB media paths (including gallery and reviews) to resources/content/media-map.json';
 
     public function handle(): int
     {
@@ -91,6 +92,17 @@ class ExportMediaMap extends Command
                     ],
                 ])
                 ->all(),
+
+            'reviews' => Review::query()
+                ->get(['name', 'title', 'avatar', 'image'])
+                ->filter(fn(Review $review) => filled(trim((string) $review->avatar)) || filled(trim((string) $review->image)))
+                ->mapWithKeys(fn(Review $review) => [
+                    $review->name . '|' . ((string) $review->title) => [
+                        'avatar' => filled(trim((string) $review->avatar)) ? $review->avatar : null,
+                        'image' => filled(trim((string) $review->image)) ? $review->image : null,
+                    ],
+                ])
+                ->all(),
         ];
 
         $path = resource_path('content/media-map.json');
@@ -102,6 +114,7 @@ class ExportMediaMap extends Command
         $this->line('brands: ' . count($payload['brands']));
         $this->line('pages: ' . count($payload['pages']));
         $this->line('gallery: ' . count($payload['gallery']));
+        $this->line('reviews: ' . count($payload['reviews']));
 
         return self::SUCCESS;
     }

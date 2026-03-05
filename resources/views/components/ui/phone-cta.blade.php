@@ -2,7 +2,7 @@
 
 @if ($variant === 'fab')
     <a href="tel:{{ config('contacts.phone_tel') }}"
-        class="fixed bottom-4 right-3 p-4 bg-yellow-500 text-white rounded-full shadow-lg hover:bg-yellow-600 hover:scale-110 transition transform duration-300 cursor-pointer md:hidden"
+        class="fixed bottom-4 right-4 p-4 bg-yellow-500 text-white rounded-full shadow-lg hover:bg-yellow-600 hover:scale-110 transition transform duration-300 cursor-pointer md:hidden"
         aria-label="Позвонить">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
             stroke-width="2">

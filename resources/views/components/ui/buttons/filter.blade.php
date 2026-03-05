@@ -1,6 +1,9 @@
 @props([
     'value' => request('sort', 'newest'),
+    'queryKey' => 'sort',
     'clientSort' => false,
+    'scrollOnNavigate' => false,
+    'fullWidthMobile' => false,
     'options' => null,
     'eventName' => 'reviews-sort-change',
 ])
@@ -18,9 +21,17 @@
     $currentLabel = $options[$value] ?? ($options[$defaultKey] ?? 'Фильтр');
 @endphp
 
-<div x-data="{ open: false, selected: '{{ $value }}', options: @js($options) }" class="relative inline-block text-left">
+<div x-data="{ open: false, selected: '{{ $value }}', options: @js($options) }"
+    {{ $attributes->class([
+        'relative text-left',
+        'inline-block' => ! $fullWidthMobile,
+        'w-full sm:w-auto' => $fullWidthMobile,
+    ]) }}>
     <button type="button" @click="open = !open"
-        class="inline-flex items-center justify-between gap-2 px-4 py-2 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:border-gray-300 hover:bg-gray-50 transition cursor-pointer"
+        @class([
+            'inline-flex items-center justify-between gap-2 px-4 py-2 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:border-gray-300 hover:bg-gray-50 transition cursor-pointer',
+            'w-full sm:w-auto' => $fullWidthMobile,
+        ])
         aria-haspopup="true" :aria-expanded="open">
         <span x-text="options[selected] ?? options['{{ $defaultKey }}']">{{ $currentLabel }}</span>
 
@@ -43,7 +54,8 @@
                         {{ $label }}
                     </button>
                 @else
-                    <a href="{{ request()->fullUrlWithQuery(['sort' => $key]) }}"
+                    <a href="{{ request()->fullUrlWithQuery([$queryKey => $key, 'page' => null]) }}"
+                        @if ($scrollOnNavigate) onclick="try { sessionStorage.setItem('reviews:scrollAfterNav', '1'); } catch (e) {}" @endif
                         class="block px-4 py-2 hover:bg-gray-100 transition {{ $value === $key ? 'bg-gray-50 font-semibold text-gray-900' : 'text-gray-700' }}">
                         {{ $label }}
                     </a>

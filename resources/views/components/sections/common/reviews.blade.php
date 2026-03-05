@@ -21,9 +21,9 @@
 @if ($slides->isNotEmpty())
     <x-ui.sections.wrapper class="text-gray-600">
         <x-ui.sections.header suptitle="Отзывы клиентов" title="Нас рекомендуют">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-3 space-y-2 sm:space-y-0">
+            <div class="flex flex-col items-center gap-2 text-center sm:flex-row sm:gap-3 sm:text-left">
                 <div class="text-yellow-500 text-xl" aria-label="Средний рейтинг">
-                    <span>★★★★★</span>
+                    <x-ui.rating :rating="$avgRating" />
                 </div>
 
                 <div class="text-gray-900 font-semibold text-lg">
