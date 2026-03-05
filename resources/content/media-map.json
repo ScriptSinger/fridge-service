@@ -61,23 +61,52 @@
     },
     "pages": [],
     "gallery": {
+        "11": {
+            "image": "galleries/6SasgwUD93XhUWRhQYmUQeFYSpBnnA9torFtRFtd.webp",
+            "image_alt": "Устранение утечки фреона холодильника Atlant"
+        },
         "12": {
             "image": "galleries/IFlO4HAOu7kiDYCbiLmApCNnDEyPKn8ovyzSHUTV.png",
             "image_alt": "Ремонт холодильника Samsung"
+        },
+        "13": {
+            "image": "galleries/lFesZxxmO6d8bUaxX9i3F6wNu5w10trQb8Ki4h1f.webp",
+            "image_alt": "Замена пускового реле холодильника Indesit"
+        },
+        "14": {
+            "image": "galleries/9yk9KM8a6xs8swGASNaECruashbQGurnjx6O7LcX.webp",
+            "image_alt": "Замена компрессора холодильника CENTEK CT-1704"
+        },
+        "15": {
+            "image": "galleries/kVcXz9UkgTKvvy4HKUL5ehbq6o5MkX1uPvJjw74A.webp",
+            "image_alt": "Замена вентилятора холодильника Liebherr"
         },
         "16": {
             "image": "galleries/4RncbzM9Rm0POYbtAgp62TH1NVk7SfgXXH1ZZegT.jpg",
             "image_alt": "Ремонт холодильника Samsung RL44QEUS"
         },
+        "17": {
+            "image": "galleries/CCGgxhYKbh0H0tqKjdL9ObGvWjDPAtwjgmOkWUth.jpg",
+            "image_alt": "Заправка фреона холодильника Atlant"
+        },
         "18": {
             "image": "galleries/45dfYMBY8D6dzUoHT8IyZG133MTkqzpltblSpH4y.jpg",
             "image_alt": "Ремонт холодильника Bosch KGV36XK2AR/02"
+        },
+        "19": {
+            "image": "galleries/L1M52zNfpOv9oTK2h2VCZ4IxdXuoYtXtORQYb5v2.webp",
+            "image_alt": "Чистка дренажной системы холодильника Indesit"
+        },
+        "20": {
+            "image": "galleries/TJ4M6mftANGo2jxQkERALC9l9GQXtgRKwuPzXBkT.webp",
+            "image_alt": "Замена уплотнителя двери холодильника Atlant"
+        },
+        "21": {
+            "image": "galleries/LlkycugInsQmZF47r2zhHcttZq1XIb8SPIGcKqlf.jpg",
+            "image_alt": "Ремонт холодильника Haier C2F536CFMG"
         }
     },
     "master_photos": {
-        "Алексей Смирнов": {
-            "photo": "masters/avatars/4BU1mZ7FqRHyOQIedECLX7THrOHSfeO2ZlKUUlxl.png"
-        },
         "Алексей Евгеньевич": {
             "photo": "masters/avatars/68QQmz9WZqtGVLfo2jdbE0GJfWHKlN9XqSUcCcEw.webp"
         },

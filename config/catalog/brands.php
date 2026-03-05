@@ -13,6 +13,9 @@ return [
     ['name' => 'Stinol',       'name_ru' => 'Стинол'],
     ['name' => 'Бирюса',       'name_ru' => 'Бирюса'],
     ['name' => 'Ariston',      'name_ru' => 'Аристон'],
+    ['name' => 'Hotpoint Ariston',      'name_ru' => 'Хотпоинт Аристон'],
     ['name' => 'Siemens',      'name_ru' => 'Сименс'],
     ['name' => 'Electrolux',   'name_ru' => 'Электролюкс'],
+    ['name' => 'Centek',   'name_ru' => 'Centek'],
+    ['name' => 'Candy',   'name_ru' => 'Канди'],
 ];

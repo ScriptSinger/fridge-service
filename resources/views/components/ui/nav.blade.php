@@ -4,8 +4,8 @@
 
 @php($navItems = $navItems ?? collect())
 @php($repairItems = $repairItems ?? collect())
-@php($primaryNavItems = $navItems->take(2))
-@php($extraNavItems = $navItems->slice(2)->values())
+@php($primaryNavItems = $navItems->take(3))
+@php($extraNavItems = $navItems->slice(3)->values())
 
 @if ($variant === 'footer')
     <nav class="list-none mb-10">

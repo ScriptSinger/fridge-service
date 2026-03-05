@@ -27,6 +27,10 @@ class ReviewSeeder extends Seeder
             if (!empty($mapped[$key]['avatar'])) {
                 $data['avatar'] = $mapped[$key]['avatar'];
             }
+            // Фото отзыва из media-map
+            if (!empty($mapped[$key]['image'])) {
+                $data['image'] = $mapped[$key]['image'];
+            }
 
             // источник по умолчанию
             $data['source'] = $data['source'] ?? 'google';
