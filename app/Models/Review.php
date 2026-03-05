@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Review extends Model
 {
+    use Sluggable;
+
     protected $fillable = [
         'name',
         'title',
@@ -23,8 +27,6 @@ class Review extends Model
         'is_published',
         'published_at',
     ];
-
-    protected $dates = ['published_at'];
 
     protected $casts = [
         'is_featured'  => 'boolean',
@@ -43,11 +45,6 @@ class Review extends Model
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relationships
-    |--------------------------------------------------------------------------
-    */
 
     public function device()
     {
@@ -89,7 +86,7 @@ class Review extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function getPublishedDateAttribute(): ?\Illuminate\Support\Carbon
+    public function getPublishedDateAttribute(): ?Carbon
     {
         return $this->published_at ?? $this->created_at;
     }
@@ -97,7 +94,7 @@ class Review extends Model
     // Полная дата в формате «15 ноября 2025»
     public function getPublishedDateFormattedAttribute()
     {
-        return $this->published_at?->locale('ru')->translatedFormat('j F Y');
+        return $this->published_date?->locale('ru')->translatedFormat('j F Y');
     }
 
     // Метаданные устройства/бренда/услуги

@@ -32,11 +32,14 @@
             </div>
         </div>
 
-        <div class="sr-only" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
-            <meta itemprop="ratingValue" content="{{ $avgRating }}">
-            <meta itemprop="reviewCount" content="{{ $total }}">
-            <meta itemprop="bestRating" content="5">
-            <meta itemprop="worstRating" content="1">
+        <div class="sr-only" itemscope itemtype="https://schema.org/LocalBusiness">
+            <meta itemprop="name" content="{{ config('app.name') }}">
+            <div itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+                <meta itemprop="ratingValue" content="{{ $avgRating }}">
+                <meta itemprop="reviewCount" content="{{ $total }}">
+                <meta itemprop="bestRating" content="5">
+                <meta itemprop="worstRating" content="1">
+            </div>
         </div>
     </x-ui.sections.header>
 
@@ -56,7 +59,7 @@
                     </svg>
                 </button>
 
-                <div x-show="open" @click.outside="open = false" x-transition
+                <div x-cloak x-show="open" @click.outside="open = false" x-transition
                     class="absolute right-0 mt-2 w-56 rounded-xl bg-white shadow-lg ring-1 ring-black/5 z-20">
                     <div class="py-1 text-sm">
                         @foreach ($sourceLabels as $sourceKey => $sourceLabel)

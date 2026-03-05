@@ -5,16 +5,12 @@
         return [
             'name' => $review->name,
             'city' => $review->city,
-            'date' => optional($review->created_at)->format('d.m.Y'),
+            'date' => optional($review->published_date)->toDateString(),
             'text' => $review->text,
             'rating' => $review->rating,
-            'avatar' => $review->avatar
-                ? \Illuminate\Support\Facades\Storage::disk(config('filesystems.media'))->url($review->avatar)
-                : null,
+            'avatar' => $review->avatar_url,
             'source' => $review->source ?? 'google',
-            'meta' => collect([$review->device?->type, $review->brand?->name, $review->service?->name])
-                ->filter()
-                ->implode(' • '),
+            'meta' => $review->meta_string,
         ];
     });
 
@@ -70,55 +66,59 @@
                 <div class="flex items-stretch transition-transform duration-500 ease-out" x-ref="track"
                     :style="trackStyle()">
 
-                    <template x-for="(slide, index) in slides" :key="index">
+                    @foreach ($slides as $slide)
+                        @php
+                            $rating = (int) ($slide['rating'] ?? 0);
+                            $name = $slide['name'] ?? '';
+                            $source = (string) ($slide['source'] ?? 'google');
+                            $sourceLabel = mb_strtoupper(mb_substr($source, 0, 1)) . mb_substr($source, 1);
+                        @endphp
                         <article
                             class="relative shrink-0 border-r border-gray-200 last:border-r-0 basis-full md:basis-1/2 lg:basis-1/3 bg-white p-6"
                             data-card itemprop="review" itemscope itemtype="https://schema.org/Review">
-                            <meta itemprop="datePublished" :content="slide.date">
+                            <meta itemprop="datePublished" content="{{ $slide['date'] ?? '' }}">
                             <div class="flex items-center mb-4">
                                 <div
                                     class="w-12 h-12 rounded-full bg-yellow-100 text-yellow-800 flex items-center justify-center overflow-hidden mr-3">
-                                    <template x-if="slide.avatar">
-                                        <img :src="slide.avatar" alt="" class="w-full h-full object-cover"
+                                    @if (!empty($slide['avatar']))
+                                        <img src="{{ $slide['avatar'] }}" alt="{{ $name }}" class="w-full h-full object-cover"
                                             itemprop="image" />
-                                    </template>
-                                    <template x-if="!slide.avatar">
-                                        <span class="font-semibold" x-text="slide.name.substring(0, 1)"></span>
-                                    </template>
+                                    @else
+                                        <span class="font-semibold">{{ mb_substr($name, 0, 1) }}</span>
+                                    @endif
                                 </div>
                                 <div>
-                                    <p class="font-semibold text-gray-900" x-text="slide.name" itemprop="author"></p>
-                                    <p class="text-sm text-gray-500" x-text="slide.city"></p>
+                                    <p class="font-semibold text-gray-900" itemprop="author">{{ $name }}</p>
+                                    <p class="text-sm text-gray-500">{{ $slide['city'] ?? '' }}</p>
                                 </div>
                                 <div class="ml-auto">
-                                    <img :src="`{{ asset('assets/images/svg') }}/${slide.source}.svg`"
-                                        :alt="slide.source"
-                                        :title="`Опубликовано на ${slide.source.charAt(0).toUpperCase() + slide.source.slice(1)}`"
-                                        class="h-6 w-6"
+                                    <img src="{{ asset("assets/images/svg/{$source}.svg") }}" alt="{{ $source }}"
+                                        title="Опубликовано на {{ $sourceLabel }}" class="h-6 w-6"
                                         onerror="this.onerror=null;this.src='{{ asset('assets/images/svg/google.svg') }}';">
                                 </div>
                             </div>
                             <div class="flex items-center text-xs text-gray-500 mb-2 space-x-2 pt-2">
                                 <div class="flex text-yellow-500" aria-label="Рейтинг" itemprop="reviewRating" itemscope
                                     itemtype="https://schema.org/Rating">
-                                    <meta itemprop="ratingValue" :content="slide.rating">
-                                    <template x-for="i in 5" :key="i">
-                                        <svg viewBox="0 0 24 24" class="w-5 h-5"
-                                            :class="{ 'opacity-30': i > slide.rating }" fill="currentColor">
+                                    <meta itemprop="ratingValue" content="{{ $rating }}">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        <svg viewBox="0 0 24 24" class="w-5 h-5 {{ $i > $rating ? 'opacity-30' : '' }}"
+                                            fill="currentColor">
                                             <path
                                                 d="M12 3.5l2.5 5.1 5.6.8-4 3.9.9 5.6L12 16.8l-5 2.6.9-5.6-4-3.9 5.6-.8Z" />
                                         </svg>
-                                    </template>
+                                    @endfor
                                 </div>
                                 <img src="{{ asset('assets/images/svg/verify.svg') }}" alt="Verified"
                                     class="h-5 w-5 shrink-0">
                             </div>
                             <div class="pb-4">
-                                <p class="text-gray-700 leading-6 line-clamp-3 min-h-[4.5rem]" x-text="slide.text"
-                                    itemprop="reviewBody"></p>
+                                <p class="text-gray-700 leading-6 line-clamp-3 min-h-[4.5rem]" itemprop="reviewBody">
+                                    {{ $slide['text'] ?? '' }}
+                                </p>
                             </div>
                         </article>
-                    </template>
+                    @endforeach
                 </div>
             </div>
 

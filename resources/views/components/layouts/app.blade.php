@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html lang="ru">
 
-@props(['title' => null, 'description' => null])
+@props([
+    'title' => null,
+    'description' => null,
+    'canonical' => null,
+    'ogImage' => null,
+    'ogType' => 'website',
+    'noindex' => false,
+])
 
 <head>
     <meta charset="UTF-8">
     @include('components.seo.base', ['title' => $title ?? null, 'description' => $description ?? null])
-    @include('components.seo.canonical')
-    @include('components.seo.og')
-    @include('components.seo.robots')
+    @include('components.seo.canonical', ['canonical' => $canonical])
+    @include('components.seo.og', ['title' => $title, 'description' => $description, 'ogImage' => $ogImage, 'ogType' => $ogType, 'canonical' => $canonical])
+    @include('components.seo.robots', ['noindex' => $noindex])
     @include('components.seo.jsonld')
 
     <meta name="viewport" content="width=device-width, initial-scale=1">

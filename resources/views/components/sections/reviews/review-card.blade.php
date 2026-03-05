@@ -35,7 +35,9 @@
             @endif
         </div>
         <div>
-            <p class="font-semibold text-gray-900" itemprop="author">{{ $name }}</p>
+            <p class="font-semibold text-gray-900" itemprop="author" itemscope itemtype="https://schema.org/Person">
+                <span itemprop="name">{{ $name }}</span>
+            </p>
             @if ($date)
                 <p class="text-sm text-gray-500">{{ $dateLabel }}</p>
             @endif

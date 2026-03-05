@@ -31,7 +31,7 @@
         </svg>
     </button>
 
-    <div x-show="open" @click.outside="open = false" x-transition
+    <div x-cloak x-show="open" @click.outside="open = false" x-transition
         class="absolute right-0 mt-2 w-56 rounded-xl bg-white shadow-lg ring-1 ring-black/5 z-20">
         <div class="py-1 text-sm">
             @foreach ($options as $key => $label)
