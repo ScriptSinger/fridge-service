@@ -38,6 +38,7 @@ return new class extends Migration
 
             // Порядок
             $table->unsignedInteger('sort_order')->default(0);
+            $table->timestamp('published_at')->nullable()->index();
 
             // Индексы для выборок
             $table->index('page_id');

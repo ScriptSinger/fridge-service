@@ -19,7 +19,12 @@ class Gallery extends Model
         'description',
         'image',
         'image_alt',
-        'sort_order'
+        'sort_order',
+        'published_at',
+    ];
+
+    protected $casts = [
+        'published_at' => 'datetime',
     ];
 
     public function device()
@@ -44,6 +49,11 @@ class Gallery extends Model
 
     public function getPublishedDateFormattedAttribute(): ?string
     {
-        return $this->created_at?->locale('ru')->translatedFormat('j F Y');
+        return $this->published_date?->locale('ru')->translatedFormat('j F Y');
+    }
+
+    public function getPublishedDateAttribute()
+    {
+        return $this->published_at ?? $this->created_at;
     }
 }

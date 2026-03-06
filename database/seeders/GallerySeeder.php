@@ -47,6 +47,7 @@ class GallerySeeder extends Seeder
                 'service_id' => $item['service'] ?? null,
                 'image_alt' => $item['title'], // дефолт alt
                 'sort_order' => $index + 1,
+                'published_at' => $item['published_at'] ?? now(),
             ];
 
             // --- Создаем новую запись (каждый элемент уникален) ---

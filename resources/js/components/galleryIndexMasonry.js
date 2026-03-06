@@ -1,14 +1,10 @@
-export default function reviewsIndexSort() {
+export default function galleryIndexMasonry() {
     return {
-        onlyWithPhoto: false,
-        visibleCardsCount: 0,
-        totalCardsCount: 0,
         resizeTimer: null,
         layoutTimer: null,
         onResize: null,
 
         init() {
-            this.applyFilters();
             this.bindImageListeners();
             this.scheduleLayout();
             window.addEventListener("load", () => this.scheduleLayout(), { once: true });
@@ -27,34 +23,6 @@ export default function reviewsIndexSort() {
             window.addEventListener("resize", this.onResize);
         },
 
-        toggleOnlyWithPhoto() {
-            this.onlyWithPhoto = !this.onlyWithPhoto;
-            this.applyFilters();
-            this.scrollToResults();
-        },
-
-        applyFilters() {
-            const container = this.$refs.grid;
-            if (!container) return;
-
-            const cards = Array.from(container.children);
-            this.totalCardsCount = cards.length;
-            let visible = 0;
-
-            cards.forEach((card) => {
-                const hasPhoto = card.dataset.hasPhoto === "1";
-                const shouldShow = !this.onlyWithPhoto || hasPhoto;
-                card.style.display = shouldShow ? "" : "none";
-                if (shouldShow) {
-                    visible += 1;
-                }
-            });
-            this.visibleCardsCount = visible;
-
-            this.bindImageListeners();
-            this.scheduleLayout();
-        },
-
         getColumns() {
             if (window.innerWidth >= 1280) return 3;
             if (window.innerWidth >= 768) return 2;
@@ -63,7 +31,7 @@ export default function reviewsIndexSort() {
 
         getGap(container) {
             const computed = getComputedStyle(container);
-            const raw = (computed.getPropertyValue("--reviews-masonry-gap") || "32px").trim();
+            const raw = (computed.getPropertyValue("--gallery-masonry-gap") || "32px").trim();
 
             if (raw.endsWith("rem")) {
                 const rem = parseFloat(raw);
@@ -99,10 +67,10 @@ export default function reviewsIndexSort() {
 
         scrollAfterNavigationIfNeeded() {
             try {
-                if (sessionStorage.getItem("reviews:scrollAfterNav") !== "1") {
+                if (sessionStorage.getItem("gallery:scrollAfterNav") !== "1") {
                     return;
                 }
-                sessionStorage.removeItem("reviews:scrollAfterNav");
+                sessionStorage.removeItem("gallery:scrollAfterNav");
             } catch (e) {
                 return;
             }
@@ -137,8 +105,6 @@ export default function reviewsIndexSort() {
                 return;
             }
 
-            // On mobile (single column) keep normal document flow.
-            // This avoids unnecessary absolute positioning on small screens.
             if (columns === 1) {
                 cards.forEach((card) => {
                     this.resetCardStyle(card);
@@ -155,12 +121,6 @@ export default function reviewsIndexSort() {
 
             const cardWidth = (containerWidth - gap * (columns - 1)) / columns;
             const columnHeights = Array.from({ length: columns }, () => 0);
-
-            cards.forEach((card) => {
-                if (card.style.display === "none") {
-                    this.resetCardStyle(card);
-                }
-            });
 
             visibleCards.forEach((card) => {
                 card.style.position = "absolute";

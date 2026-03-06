@@ -21,6 +21,7 @@ use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Number;
+use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 
@@ -41,6 +42,7 @@ class GalleryResource extends ModelResource
             Text::make('Title', 'title')->sortable(),
             Text::make('Subtitle', 'subtitle')->sortable(),
             Number::make('Порядок', 'sort_order')->sortable(),
+            Date::make('Дата публикации', 'published_at')->format('d.m.Y')->sortable(),
             BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)->nullable(),
             BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)->nullable(),
             BelongsTo::make('Service', 'service', fn($item) => $item->name, ServiceResource::class)->nullable(),
@@ -57,6 +59,10 @@ class GalleryResource extends ModelResource
                 Text::make('Subtitle', 'subtitle'),
                 Textarea::make('Description', 'description'),
                 Number::make('Порядок', 'sort_order')->default(0),
+                Date::make('Дата публикации', 'published_at')
+                    ->format('d.m.Y')
+                    ->default(now())
+                    ->required(),
             ]),
             Box::make([
                 Image::make('Изображение', 'image')
@@ -91,6 +97,7 @@ class GalleryResource extends ModelResource
             Text::make('Subtitle', 'subtitle'),
             Textarea::make('Description', 'description'),
             Number::make('Порядок', 'sort_order'),
+            Date::make('Дата публикации', 'published_at')->format('d.m.Y'),
             Image::make('Изображение', 'image')->disk(config('filesystems.media')),
             Text::make('Alt для изображения', 'image_alt'),
             BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)->nullable(),

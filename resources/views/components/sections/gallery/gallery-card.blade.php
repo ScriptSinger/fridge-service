@@ -51,16 +51,18 @@
         </div>
     @endif
 
-    <div x-cloak x-show="imageModalOpen" x-transition.opacity @keydown.escape.window="imageModalOpen = false"
-        @click="imageModalOpen = false" class="fixed inset-0 z-50 bg-black/80 p-4 sm:p-6">
-        <div class="relative mx-auto flex h-full max-w-6xl items-center justify-center" @click.stop>
-            <button type="button" @click="imageModalOpen = false"
-                class="fixed top-4 right-4 sm:top-6 sm:right-6 h-12 w-12 rounded-full bg-white/95 text-gray-900 shadow-lg hover:bg-white z-[60]"
-                aria-label="Закрыть">
-                <span class="text-2xl leading-none">&times;</span>
-            </button>
+    <template x-teleport="body">
+        <div x-cloak x-show="imageModalOpen" x-transition.opacity @keydown.escape.window="imageModalOpen = false"
+            @click="imageModalOpen = false" class="fixed inset-0 z-[100] bg-black/80 p-4 sm:p-6">
+            <div class="relative mx-auto flex h-full max-w-6xl items-center justify-center" @click.stop>
+                <button type="button" @click="imageModalOpen = false"
+                    class="fixed top-4 right-4 sm:top-6 sm:right-6 h-12 w-12 rounded-full bg-white/95 text-gray-900 shadow-lg hover:bg-white z-[110]"
+                    aria-label="Закрыть">
+                    <span class="text-2xl leading-none">&times;</span>
+                </button>
 
-            <img src="{{ $image }}" alt="{{ $imageAlt }}" class="max-h-full w-auto max-w-full rounded-xl object-contain">
+                <img src="{{ $image }}" alt="{{ $imageAlt }}" class="max-h-full w-auto max-w-full rounded-xl object-contain">
+            </div>
         </div>
-    </div>
+    </template>
 </article>

@@ -6,7 +6,7 @@
     }
 @endphp
 
-<x-ui.sections.wrapper class="bg-gray-50">
+<x-ui.sections.wrapper class="bg-gray-50" x-data="reviewsIndexSort()" x-init="init()" x-ref="section">
 
     <x-ui.sections.header suptitle="Средний рейтинг" title="Нас рекомендуют">
             <div class="flex flex-col items-center gap-2 text-center md:flex-row md:gap-3 md:text-left">
@@ -34,7 +34,7 @@
         </div>
     </x-ui.sections.header>
 
-    <div x-data="reviewsIndexSort()" x-init="init()">
+    <div>
         <div class="mb-8 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
             <x-ui.buttons.filter :value="$activeSource" :options="$sourceLabels" :query-key="'source'" :scroll-on-navigate="true"
                 :full-width-mobile="true" />

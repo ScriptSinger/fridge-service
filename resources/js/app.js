@@ -11,7 +11,7 @@ import brandCarousel from "./components/brandCarousel";
 import phoneMask from "./directives/phoneMask";
 import reviewsSlider from "./components/reviewsSlider";
 import reviewsIndexSort from "./components/reviewsIndexSort";
-import galleryIndexSort from "./components/galleryIndexSort";
+import galleryIndexMasonry from "./components/galleryIndexMasonry";
 
 // делаем Alpine глобальным
 window.Alpine = Alpine;
@@ -26,7 +26,7 @@ Alpine.data("brandSelect", brandSelect);
 Alpine.data("brandCarousel", brandCarousel);
 Alpine.data("reviewsSlider", reviewsSlider);
 Alpine.data("reviewsIndexSort", reviewsIndexSort);
-Alpine.data("galleryIndexSort", galleryIndexSort);
+Alpine.data("galleryIndexMasonry", galleryIndexMasonry);
 
 // регистрируем директиву
 Alpine.directive("phone", (el) => phoneMask(el));

@@ -3,6 +3,7 @@
     'queryKey' => 'sort',
     'clientSort' => false,
     'scrollOnNavigate' => false,
+    'scrollStorageKey' => 'reviews:scrollAfterNav',
     'fullWidthMobile' => false,
     'options' => null,
     'eventName' => 'reviews-sort-change',
@@ -55,7 +56,7 @@
                     </button>
                 @else
                     <a href="{{ request()->fullUrlWithQuery([$queryKey => $key, 'page' => null]) }}"
-                        @if ($scrollOnNavigate) onclick="try { sessionStorage.setItem('reviews:scrollAfterNav', '1'); } catch (e) {}" @endif
+                        @if ($scrollOnNavigate) onclick="try { sessionStorage.setItem('{{ $scrollStorageKey }}', '1'); } catch (e) {}" @endif
                         class="block px-4 py-2 hover:bg-gray-100 transition {{ $value === $key ? 'bg-gray-50 font-semibold text-gray-900' : 'text-gray-700' }}">
                         {{ $label }}
                     </a>
