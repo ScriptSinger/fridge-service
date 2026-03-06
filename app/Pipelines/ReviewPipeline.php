@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Pipelines;
+
+use App\Filters\Review\SortFilter;
+use App\Filters\Review\SourceFilter;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pipeline\Pipeline;
+
+class ReviewPipeline
+{
+    public static function apply(Builder $query, array $filters): Builder
+    {
+        $result = app(Pipeline::class)
+            ->send([
+                'query' => $query,
+                'filters' => $filters,
+            ])
+            ->through([
+                SourceFilter::class,
+                SortFilter::class,
+            ])
+            ->thenReturn();
+
+        return $result['query'];
+    }
+}
+

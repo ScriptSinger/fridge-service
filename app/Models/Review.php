@@ -80,6 +80,22 @@ class Review extends Model
         return $query->where('is_featured', true);
     }
 
+    public function scopeHasSource($query)
+    {
+        return $query
+            ->whereNotNull('source')
+            ->where('source', '!=', '');
+    }
+
+    public function scopeForSource($query, string $source)
+    {
+        if ($source === 'all') {
+            return $query;
+        }
+
+        return $query->whereRaw('LOWER(source) = ?', [$source]);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Accessors

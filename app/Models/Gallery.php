@@ -27,6 +27,15 @@ class Gallery extends Model
         'published_at' => 'datetime',
     ];
 
+    public function scopeHasImage($query)
+    {
+        $imageColumn = $query->getModel()->qualifyColumn('image');
+
+        return $query
+            ->whereNotNull($imageColumn)
+            ->where($imageColumn, '!=', '');
+    }
+
     public function device()
     {
         return $this->belongsTo(Device::class);

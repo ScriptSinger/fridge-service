@@ -2,81 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GalleryIndexRequest;
 use App\Models\Gallery;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Collection;
+use App\Pipelines\GalleryPipeline;
+use App\Services\GalleryFilterOptionsService;
 
 class GalleryController extends Controller
 {
-    public function index(Request $request)
+    public function index(GalleryIndexRequest $request, GalleryFilterOptionsService $filterOptionsService)
     {
         $ttl = now()->addMinutes(20);
-        $allowedSorts = ['newest', 'oldest'];
-        $sort = strtolower((string) $request->query('sort', 'newest'));
-        if (! in_array($sort, $allowedSorts, true)) {
-            $sort = 'newest';
-        }
+        $sort = $request->sort();
+        $activeBrand = $request->brand();
+        $activeDevice = $request->device();
 
-        $activeBrand = strtolower((string) $request->query('brand', 'all'));
-        $activeDevice = strtolower((string) $request->query('device', 'all'));
-
-        $brandOptions = Cache::remember('gallery:brands', $ttl, function (): Collection {
-            return Gallery::query()
-                ->join('brands', 'galleries.brand_id', '=', 'brands.id')
-                ->whereNotNull('galleries.image')
-                ->where('galleries.image', '!=', '')
-                ->selectRaw('LOWER(brands.name) as option_key, brands.name as option_label')
-                ->distinct()
-                ->orderBy('brands.name')
-                ->get()
-                ->mapWithKeys(fn($row) => [(string) $row->option_key => (string) $row->option_label]);
-        });
-
-        $deviceOptions = Cache::remember('gallery:devices', $ttl, function (): Collection {
-            return Gallery::query()
-                ->join('devices', 'galleries.device_id', '=', 'devices.id')
-                ->whereNotNull('galleries.image')
-                ->where('galleries.image', '!=', '')
-                ->selectRaw('LOWER(devices.type) as option_key, devices.type as option_label')
-                ->distinct()
-                ->orderBy('devices.type')
-                ->get()
-                ->mapWithKeys(fn($row) => [(string) $row->option_key => (string) $row->option_label]);
-        });
-
-        if ($activeBrand !== 'all' && ! $brandOptions->has($activeBrand)) {
-            $activeBrand = 'all';
-        }
-        if ($activeDevice !== 'all' && ! $deviceOptions->has($activeDevice)) {
-            $activeDevice = 'all';
-        }
+        $brandOptions = $filterOptionsService->getBrandOptions($ttl);
+        $deviceOptions = $filterOptionsService->getDeviceOptions($ttl);
+        $activeBrand = $filterOptionsService->normalizeActiveOption($activeBrand, $brandOptions);
+        $activeDevice = $filterOptionsService->normalizeActiveOption($activeDevice, $deviceOptions);
 
         $galleriesQuery = Gallery::query()
             ->with(['device', 'brand', 'service'])
-            ->whereNotNull('image')
-            ->where('image', '!=', '');
+            ->hasImage();
 
-        if ($activeBrand !== 'all') {
-            $galleriesQuery->whereHas('brand', function ($query) use ($activeBrand) {
-                $query->whereRaw('LOWER(name) = ?', [$activeBrand]);
-            });
-        }
-
-        if ($activeDevice !== 'all') {
-            $galleriesQuery->whereHas('device', function ($query) use ($activeDevice) {
-                $query->whereRaw('LOWER(type) = ?', [$activeDevice]);
-            });
-        }
-
-        $galleriesQuery = match ($sort) {
-            'oldest' => $galleriesQuery
-                ->orderByRaw('COALESCE(published_at, created_at) ASC')
-                ->orderBy('created_at'),
-            default => $galleriesQuery
-                ->orderByRaw('COALESCE(published_at, created_at) DESC')
-                ->orderByDesc('created_at'),
-        };
+        $galleriesQuery = GalleryPipeline::apply($galleriesQuery, [
+            'brand' => $activeBrand,
+            'device' => $activeDevice,
+            'sort' => $sort,
+        ]);
 
         $galleries = $galleriesQuery
             ->paginate(24)
