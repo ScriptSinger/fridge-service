@@ -32,12 +32,15 @@ class ReviewFilterOptionsService
         return $activeSource;
     }
 
-    public function getStats(string $activeSource, DateTimeInterface $ttl): object
+    public function getStats(string $activeSource, bool $withPhoto, DateTimeInterface $ttl): object
     {
-        return Cache::remember("reviews:stats:{$activeSource}", $ttl, function () use ($activeSource) {
+        $suffix = $withPhoto ? 'with_photo' : 'all';
+
+        return Cache::remember("reviews:stats:{$activeSource}:{$suffix}", $ttl, function () use ($activeSource, $withPhoto) {
             return Review::query()
                 ->published()
                 ->forSource($activeSource)
+                ->when($withPhoto, fn($query) => $query->hasImage())
                 ->selectRaw('ROUND(AVG(rating), 1) as avg_rating, COUNT(*) as total')
                 ->first();
         });
@@ -54,4 +57,3 @@ class ReviewFilterOptionsService
         return $sourceLabels;
     }
 }
-

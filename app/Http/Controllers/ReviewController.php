@@ -14,6 +14,7 @@ class ReviewController extends Controller
         $ttl = now()->addMinutes(20);
         $sort = $request->sort();
         $activeSource = $request->source();
+        $withPhoto = $request->withPhoto();
 
         $sourceOptions = $filterOptionsService->getSourceOptions($ttl);
         $activeSource = $filterOptionsService->normalizeActiveSource($activeSource, $sourceOptions);
@@ -24,6 +25,7 @@ class ReviewController extends Controller
 
         $reviewsQuery = ReviewPipeline::apply($reviewsQuery, [
             'source' => $activeSource,
+            'with_photo' => $withPhoto,
             'sort' => $sort,
         ]);
 
@@ -31,7 +33,7 @@ class ReviewController extends Controller
             ->paginate(24)
             ->withQueryString();
 
-        $stats = $filterOptionsService->getStats($activeSource, $ttl);
+        $stats = $filterOptionsService->getStats($activeSource, $withPhoto, $ttl);
         $sourceLabels = $filterOptionsService->buildSourceLabels($sourceOptions);
 
         return view('pages.reviews', [
@@ -40,6 +42,7 @@ class ReviewController extends Controller
             'totalReviews' => (int) ($stats?->total ?? 0),
             'sourceLabels' => $sourceLabels,
             'activeSource' => $activeSource,
+            'activeWithPhoto' => $withPhoto,
         ]);
     }
 }

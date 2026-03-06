@@ -96,6 +96,13 @@ class Review extends Model
         return $query->whereRaw('LOWER(source) = ?', [$source]);
     }
 
+    public function scopeHasImage($query)
+    {
+        return $query
+            ->whereNotNull('image')
+            ->where('image', '!=', '');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Accessors

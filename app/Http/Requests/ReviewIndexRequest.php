@@ -16,6 +16,7 @@ class ReviewIndexRequest extends FormRequest
         return [
             'sort' => ['nullable', 'string', 'max:32'],
             'source' => ['nullable', 'string', 'max:120'],
+            'with_photo' => ['nullable', 'boolean'],
         ];
     }
 
@@ -24,6 +25,7 @@ class ReviewIndexRequest extends FormRequest
         $this->merge([
             'sort' => strtolower(trim((string) $this->query('sort', 'newest'))),
             'source' => strtolower(trim((string) $this->query('source', 'all'))),
+            'with_photo' => $this->boolean('with_photo'),
         ]);
     }
 
@@ -40,5 +42,9 @@ class ReviewIndexRequest extends FormRequest
 
         return $source !== '' ? $source : 'all';
     }
-}
 
+    public function withPhoto(): bool
+    {
+        return (bool) $this->input('with_photo', false);
+    }
+}

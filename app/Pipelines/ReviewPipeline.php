@@ -4,6 +4,7 @@ namespace App\Pipelines;
 
 use App\Filters\Review\SortFilter;
 use App\Filters\Review\SourceFilter;
+use App\Filters\Review\WithPhotoFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pipeline\Pipeline;
 
@@ -18,6 +19,7 @@ class ReviewPipeline
             ])
             ->through([
                 SourceFilter::class,
+                WithPhotoFilter::class,
                 SortFilter::class,
             ])
             ->thenReturn();
@@ -25,4 +27,3 @@ class ReviewPipeline
         return $result['query'];
     }
 }
-

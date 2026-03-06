@@ -6,6 +6,7 @@ export default function galleryIndexMasonry() {
 
         init() {
             this.bindImageListeners();
+            this.bindPaginationLinks();
             this.scheduleLayout();
             window.addEventListener("load", () => this.scheduleLayout(), { once: true });
             this.scrollAfterNavigationIfNeeded();
@@ -170,6 +171,26 @@ export default function galleryIndexMasonry() {
                     img.addEventListener("load", () => this.scheduleLayout(), { once: true });
                     img.addEventListener("error", () => this.scheduleLayout(), { once: true });
                 }
+            });
+        },
+
+        bindPaginationLinks() {
+            const section = this.$refs.section;
+            if (!section) return;
+
+            section.querySelectorAll('nav[role="navigation"] a[href]').forEach((link) => {
+                if (link.dataset.scrollBound === "1") {
+                    return;
+                }
+
+                link.dataset.scrollBound = "1";
+                link.addEventListener("click", () => {
+                    try {
+                        sessionStorage.setItem("gallery:scrollAfterNav", "1");
+                    } catch (e) {
+                        // ignore storage issues
+                    }
+                });
             });
         },
 

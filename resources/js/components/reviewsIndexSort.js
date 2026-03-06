@@ -1,15 +1,12 @@
 export default function reviewsIndexSort() {
     return {
-        onlyWithPhoto: false,
-        visibleCardsCount: 0,
-        totalCardsCount: 0,
         resizeTimer: null,
         layoutTimer: null,
         onResize: null,
 
         init() {
-            this.applyFilters();
             this.bindImageListeners();
+            this.bindPaginationLinks();
             this.scheduleLayout();
             window.addEventListener("load", () => this.scheduleLayout(), { once: true });
             this.scrollAfterNavigationIfNeeded();
@@ -25,34 +22,6 @@ export default function reviewsIndexSort() {
             };
 
             window.addEventListener("resize", this.onResize);
-        },
-
-        toggleOnlyWithPhoto() {
-            this.onlyWithPhoto = !this.onlyWithPhoto;
-            this.applyFilters();
-            this.scrollToResults();
-        },
-
-        applyFilters() {
-            const container = this.$refs.grid;
-            if (!container) return;
-
-            const cards = Array.from(container.children);
-            this.totalCardsCount = cards.length;
-            let visible = 0;
-
-            cards.forEach((card) => {
-                const hasPhoto = card.dataset.hasPhoto === "1";
-                const shouldShow = !this.onlyWithPhoto || hasPhoto;
-                card.style.display = shouldShow ? "" : "none";
-                if (shouldShow) {
-                    visible += 1;
-                }
-            });
-            this.visibleCardsCount = visible;
-
-            this.bindImageListeners();
-            this.scheduleLayout();
         },
 
         getColumns() {
@@ -210,6 +179,26 @@ export default function reviewsIndexSort() {
                     img.addEventListener("load", () => this.scheduleLayout(), { once: true });
                     img.addEventListener("error", () => this.scheduleLayout(), { once: true });
                 }
+            });
+        },
+
+        bindPaginationLinks() {
+            const section = this.$refs.section;
+            if (!section) return;
+
+            section.querySelectorAll('nav[role="navigation"] a[href]').forEach((link) => {
+                if (link.dataset.scrollBound === "1") {
+                    return;
+                }
+
+                link.dataset.scrollBound = "1";
+                link.addEventListener("click", () => {
+                    try {
+                        sessionStorage.setItem("reviews:scrollAfterNav", "1");
+                    } catch (e) {
+                        // ignore storage issues
+                    }
+                });
             });
         },
 

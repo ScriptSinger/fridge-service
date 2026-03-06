@@ -1,4 +1,4 @@
-@props(['reviews', 'avgRating' => 0, 'total' => 0, 'sourceLabels' => [], 'activeSource' => 'all'])
+@props(['reviews', 'avgRating' => 0, 'total' => 0, 'sourceLabels' => [], 'activeSource' => 'all', 'activeWithPhoto' => false])
 
 @php
     if (empty($sourceLabels)) {
@@ -39,12 +39,11 @@
             <x-ui.buttons.filter :value="$activeSource" :options="$sourceLabels" :query-key="'source'" :scroll-on-navigate="true"
                 :full-width-mobile="true" />
 
-            <button type="button" @click="toggleOnlyWithPhoto()"
-                :class="onlyWithPhoto ? 'bg-yellow-500 border-yellow-500 text-white' :
-                    'bg-white border-gray-200 text-gray-700 hover:border-gray-300 hover:bg-gray-50'"
-                class="inline-flex w-full items-center justify-start gap-2 px-4 py-2 text-left rounded-xl border text-sm font-medium transition cursor-pointer sm:w-auto sm:justify-center sm:text-center">
+            <a href="{{ request()->fullUrlWithQuery(['with_photo' => $activeWithPhoto ? null : 1, 'page' => null]) }}"
+                onclick="try { sessionStorage.setItem('reviews:scrollAfterNav', '1'); } catch (e) {}"
+                class="inline-flex w-full items-center justify-start gap-2 px-4 py-2 text-left rounded-xl border text-sm font-medium transition cursor-pointer sm:w-auto sm:justify-center sm:text-center {{ $activeWithPhoto ? 'bg-yellow-500 border-yellow-500 text-white' : 'bg-white border-gray-200 text-gray-700 hover:border-gray-300 hover:bg-gray-50' }}">
                 Только с фото
-            </button>
+            </a>
             <x-ui.buttons.filter :value="request('sort', 'newest')" :query-key="'sort'" :scroll-on-navigate="true" :full-width-mobile="true" />
         </div>
 
@@ -61,13 +60,7 @@
 
         @if ($reviews->isEmpty())
             <div class="rounded-2xl border border-gray-200 bg-white px-6 py-10 text-center text-gray-600">
-                По выбранному фильтру пока нет отзывов.
-            </div>
-        @else
-            <div x-cloak
-                x-show="($data.onlyWithPhoto ?? false) && (($data.visibleCardsCount ?? 0) === 0) && (($data.totalCardsCount ?? 0) > 0)"
-                class="rounded-2xl border border-gray-200 bg-white px-6 py-10 text-center text-gray-600">
-                Нет отзывов с фото на этой странице.
+                {{ $activeWithPhoto ? 'Нет отзывов с фото по выбранным параметрам.' : 'По выбранному фильтру пока нет отзывов.' }}
             </div>
         @endif
 

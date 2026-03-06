@@ -7,7 +7,8 @@
         :avg-rating="$avgRating"
         :total="$totalReviews"
         :source-labels="$sourceLabels"
-        :active-source="$activeSource" />
+        :active-source="$activeSource"
+        :active-with-photo="$activeWithPhoto" />
     <x-sections.contact :model="null" />
     <x-ui.scroll-up />
 </x-layouts.app>
