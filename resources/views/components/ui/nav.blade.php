@@ -27,10 +27,9 @@
                     class="w-full text-left text-base hover:text-gray-900 cursor-pointer inline-flex items-center justify-between"
                     @click="repairOpen = !repairOpen">
                     <span>Ремонт</span>
-                    <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': repairOpen }" fill="none"
-                        stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
+                    <span class="inline-flex transition-transform" :class="{ 'rotate-180': repairOpen }">
+                        <x-heroicon-o-chevron-down class="w-4 h-4" />
+                    </span>
                 </button>
                 <div class="pl-4 mt-1" x-show="repairOpen" x-transition>
                     @foreach ($repairItems as $repairItem)
@@ -53,10 +52,9 @@
                         class="w-full text-left text-base hover:text-gray-900 cursor-pointer inline-flex items-center justify-between"
                         @click="moreOpen = !moreOpen">
                         <span>Ещё</span>
-                        <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': moreOpen }" fill="none"
-                            stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
+                        <span class="inline-flex transition-transform" :class="{ 'rotate-180': moreOpen }">
+                            <x-heroicon-o-chevron-down class="w-4 h-4" />
+                        </span>
                     </button>
                     <div class="pl-4 mt-1" x-show="moreOpen" x-transition>
                         @foreach ($extraNavItems as $item)
@@ -78,10 +76,9 @@
             <button type="button" class="hover:text-gray-900 cursor-pointer inline-flex items-center gap-1"
                 @click="repairOpen = !repairOpen">
                 <span>Ремонт</span>
-                <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': repairOpen }" fill="none"
-                    stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
+                <span class="inline-flex transition-transform" :class="{ 'rotate-180': repairOpen }">
+                    <x-heroicon-o-chevron-down class="w-4 h-4" />
+                </span>
             </button>
             <div class="absolute left-0 top-full pt-4 w-56 z-50" x-show="repairOpen" x-transition x-cloak>
                 <div class="rounded-md border border-gray-200 bg-white shadow-lg py-2">
@@ -103,10 +100,9 @@
                 <button type="button" class="hover:text-gray-900 cursor-pointer inline-flex items-center gap-1"
                     @click="moreOpen = !moreOpen">
                     <span>Ещё</span>
-                    <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': moreOpen }" fill="none"
-                        stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
+                    <span class="inline-flex transition-transform" :class="{ 'rotate-180': moreOpen }">
+                        <x-heroicon-o-chevron-down class="w-4 h-4" />
+                    </span>
                 </button>
                 <div class="absolute left-0 top-full pt-4 w-56 z-50" x-show="moreOpen" x-transition x-cloak>
                     <div class="rounded-md border border-gray-200 bg-white shadow-lg py-2">

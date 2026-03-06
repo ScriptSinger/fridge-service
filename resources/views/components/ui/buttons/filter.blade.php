@@ -36,11 +36,9 @@
         aria-haspopup="true" :aria-expanded="open">
         <span x-text="options[selected] ?? options['{{ $defaultKey }}']">{{ $currentLabel }}</span>
 
-        <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': open }" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd"
-                d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.7a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
-                clip-rule="evenodd" />
-        </svg>
+        <span class="inline-flex transition-transform" :class="{ 'rotate-180': open }">
+            <x-heroicon-o-chevron-down class="w-4 h-4" />
+        </span>
     </button>
 
     <div x-cloak x-show="open" @click.outside="open = false" x-transition

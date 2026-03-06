@@ -5,8 +5,10 @@
     x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
 
     <div @click.away="closeModal()" class="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md relative mx-4 sm:mx-0">
-        <button @click="closeModal()"
-            class="absolute top-2 right-2 text-gray-500 hover:text-gray-900 cursor-pointer">✕</button>
+        <button type="button" @click="closeModal()" aria-label="Закрыть"
+            class="absolute top-2 right-2 text-gray-500 hover:text-gray-900 cursor-pointer">
+            <x-heroicon-o-x-mark class="h-5 w-5" />
+        </button>
 
         <x-forms.leads class="w-full" :model="$model" idPrefix="modal" />
     </div>

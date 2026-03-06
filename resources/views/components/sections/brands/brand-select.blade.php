@@ -25,10 +25,9 @@
 
                 <!-- Arrow -->
                 <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-                    <svg :class="{ 'rotate-180': open }" class="w-5 h-5 transform transition-transform" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
+                    <span :class="{ 'rotate-180': open }" class="inline-flex transform transition-transform">
+                        <x-heroicon-o-chevron-down class="w-5 h-5" />
+                    </span>
                 </div>
             </div>
 
