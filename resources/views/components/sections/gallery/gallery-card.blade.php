@@ -29,8 +29,8 @@
             itemprop="contentUrl">
     </button>
 
-    <div class="mb-3 flex items-start justify-between gap-4">
-        <h3 class="text-gray-900 text-lg font-semibold leading-6">{{ $title }}</h3>
+    <div class="mb-3 flex min-w-0 items-start justify-between gap-4">
+        <h3 class="min-w-0 break-words text-gray-900 text-lg font-semibold leading-6">{{ $title }}</h3>
         @if ($dateLabel)
             <span class="text-xs text-gray-500 shrink-0">{{ $dateLabel }}</span>
         @endif
