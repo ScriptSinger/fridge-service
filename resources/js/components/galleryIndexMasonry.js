@@ -3,6 +3,7 @@ export default function galleryIndexMasonry() {
         resizeTimer: null,
         layoutTimer: null,
         onResize: null,
+        onPaginationClick: null,
 
         init() {
             this.bindImageListeners();
@@ -82,7 +83,10 @@ export default function galleryIndexMasonry() {
         },
 
         scrollToResults() {
-            const section = this.$refs.section || this.$refs.grid;
+            const section =
+                document.getElementById("gallery-index-section") ||
+                this.$refs.section ||
+                this.$refs.grid;
             if (!section) return;
 
             section.scrollIntoView({
@@ -178,20 +182,21 @@ export default function galleryIndexMasonry() {
             const section = this.$refs.section;
             if (!section) return;
 
-            section.querySelectorAll('nav[role="navigation"] a[href]').forEach((link) => {
-                if (link.dataset.scrollBound === "1") {
-                    return;
-                }
+            this.onPaginationClick = (event) => {
+                const target = event.target;
+                if (!(target instanceof Element)) return;
 
-                link.dataset.scrollBound = "1";
-                link.addEventListener("click", () => {
-                    try {
-                        sessionStorage.setItem("gallery:scrollAfterNav", "1");
-                    } catch (e) {
-                        // ignore storage issues
-                    }
-                });
-            });
+                const link = target.closest('nav[role="navigation"] a[href]');
+                if (!link) return;
+
+                try {
+                    sessionStorage.setItem("gallery:scrollAfterNav", "1");
+                } catch (e) {
+                    // ignore storage issues
+                }
+            };
+
+            section.addEventListener("click", this.onPaginationClick, true);
         },
 
         resetCardStyle(card) {
@@ -207,6 +212,10 @@ export default function galleryIndexMasonry() {
         destroy() {
             if (this.onResize) {
                 window.removeEventListener("resize", this.onResize);
+            }
+
+            if (this.onPaginationClick && this.$refs.section) {
+                this.$refs.section.removeEventListener("click", this.onPaginationClick, true);
             }
 
             if (this.resizeTimer) {

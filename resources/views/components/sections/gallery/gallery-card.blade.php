@@ -6,6 +6,7 @@
     $description = $gallery->description;
     $image = $gallery->image_url;
     $imageAlt = $gallery->image_alt ?: $title;
+    $date = optional($gallery->published_date)->toDateString();
     $dateLabel = $gallery->published_date_formatted;
     $metaItems = collect([$gallery->device?->type, $gallery->brand?->name, $gallery->service?->name])->filter()->values();
 @endphp
@@ -15,6 +16,9 @@
     class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 h-full flex flex-col" itemscope
     itemtype="https://schema.org/ImageObject">
     <meta itemprop="name" content="{{ $title }}">
+    @if ($date)
+        <meta itemprop="datePublished" content="{{ $date }}">
+    @endif
     @if ($description)
         <meta itemprop="description" content="{{ $description }}">
     @endif

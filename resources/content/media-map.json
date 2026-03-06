@@ -61,6 +61,46 @@
     },
     "pages": [],
     "gallery": {
+        "1": {
+            "image": "galleries/0MBVuFB45rQlsEDBlvpTVfh9FyqUWge5WjQmzTVj.webp",
+            "image_alt": "Замена подшипников стиральной машины LG"
+        },
+        "2": {
+            "image": "galleries/Z6zyRoHhfITr4uRCS1DXyh90GfOLQT7eUL9hnFmi.webp",
+            "image_alt": "Замена манжеты люка стиральной машины Samsung"
+        },
+        "3": {
+            "image": "galleries/UO6S1unhZisY1m6x0fExyJTqYf5SsNta5JlTkpbq.webp",
+            "image_alt": "Ремонт модуля управления стиральной машины Bosch"
+        },
+        "4": {
+            "image": "galleries/CuZiLMhu4yLt8qrMzXQPsNcjTH4t3rdURreWDjrx.webp",
+            "image_alt": "Замена сливного насоса стиральной машины LG"
+        },
+        "5": {
+            "image": "galleries/aZci39RXheuA9ZEYZyp0zQYh54DHfQHfMIpgFxxK.jpg",
+            "image_alt": "Замена ТЭНа стиральной машины Samsung"
+        },
+        "6": {
+            "image": "galleries/uczIVroYOQPmAJ0qoQyee4ZruX6Gs0mwtarbBmQi.webp",
+            "image_alt": "Замена УБЛ стиральной машины Bosch"
+        },
+        "7": {
+            "image": "galleries/Mg6X7Mw4AjEkpJ7Pnlm6Gswg81FjgR70GjyvrDxw.webp",
+            "image_alt": "Замена амортизаторов стиральной машины LG"
+        },
+        "8": {
+            "image": "galleries/jgSGBWZ3xh6LC6rApYmaQR5tlSXmEeTmpdZjMocy.webp",
+            "image_alt": "Замена прессостата стиральной машины Samsung"
+        },
+        "9": {
+            "image": "galleries/TgF0kZDWlvNH5RERDRcfeFSZ12b7AcX5QvT8LefE.webp",
+            "image_alt": "Замена ремня привода стиральной машины Bosch"
+        },
+        "10": {
+            "image": "galleries/Te4cJoW7H96HS4aALRFxSJQJvh9z1lrQDe2MGboG.webp",
+            "image_alt": "Чистка сливной системы стиральной машины LG"
+        },
         "11": {
             "image": "galleries/6SasgwUD93XhUWRhQYmUQeFYSpBnnA9torFtRFtd.webp",
             "image_alt": "Устранение утечки фреона холодильника Atlant"
