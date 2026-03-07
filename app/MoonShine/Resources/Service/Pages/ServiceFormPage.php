@@ -46,7 +46,14 @@ class ServiceFormPage extends FormPage
 
     protected function rules(DataWrapperContract $item): array
     {
-        return [];
+        return [
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'device_id' => ['required', 'exists:devices,id'],
+            'slug' => ['nullable', 'string', 'max:255'],
+            'tags' => ['nullable', 'array'],
+            'is_active' => ['sometimes', 'boolean'],
+        ];
     }
 
     /**

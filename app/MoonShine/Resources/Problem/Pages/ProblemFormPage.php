@@ -46,7 +46,13 @@ class ProblemFormPage extends FormPage
 
     protected function rules(DataWrapperContract $item): array
     {
-        return [];
+        return [
+            'device_id' => ['required', 'exists:devices,id'],
+            'title' => ['required', 'string', 'max:255'],
+            'h1' => ['required', 'string', 'max:255'],
+            'content' => ['nullable', 'string'],
+            'is_active' => ['sometimes', 'boolean'],
+        ];
     }
 
     /**

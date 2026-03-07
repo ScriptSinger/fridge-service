@@ -46,7 +46,15 @@ class FaqFormPage extends FormPage
 
     protected function rules(DataWrapperContract $item): array
     {
-        return [];
+        return [
+            'question' => ['required', 'string', 'max:255'],
+            'answer' => ['required', 'string'],
+            'sort_order' => ['nullable', 'integer', 'min:0'],
+            'is_active' => ['sometimes', 'boolean'],
+            'device_id' => ['nullable', 'exists:devices,id'],
+            'brand_id' => ['nullable', 'exists:brands,id'],
+            'page_id' => ['nullable', 'exists:pages,id'],
+        ];
     }
 
     /**

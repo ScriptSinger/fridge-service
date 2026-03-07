@@ -46,7 +46,14 @@ class PriceFormPage extends FormPage
 
     protected function rules(DataWrapperContract $item): array
     {
-        return [];
+        return [
+            'service_id' => ['required', 'exists:services,id'],
+            'device_id' => ['nullable', 'exists:devices,id'],
+            'brand_id' => ['nullable', 'exists:brands,id'],
+            'price_from' => ['nullable', 'integer', 'min:0'],
+            'price_to' => ['nullable', 'integer', 'min:0', 'gte:price_from'],
+            'units' => ['nullable', 'string', 'max:8'],
+        ];
     }
 
     /**

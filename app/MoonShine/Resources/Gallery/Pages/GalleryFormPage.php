@@ -46,7 +46,19 @@ class GalleryFormPage extends FormPage
 
     protected function rules(DataWrapperContract $item): array
     {
-        return [];
+        return [
+            'title' => ['required', 'string', 'max:255'],
+            'subtitle' => ['nullable', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'sort_order' => ['nullable', 'integer', 'min:0'],
+            'published_at' => ['required', 'date'],
+            'image' => ['nullable', 'string', 'max:255'],
+            'image_alt' => ['nullable', 'string', 'max:255'],
+            'device_id' => ['nullable', 'exists:devices,id'],
+            'brand_id' => ['nullable', 'exists:brands,id'],
+            'service_id' => ['nullable', 'exists:services,id'],
+            'page_id' => ['nullable', 'exists:pages,id'],
+        ];
     }
 
     /**

@@ -14,7 +14,7 @@ use App\MoonShine\Resources\Problem\ProblemResource;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
-use MoonShine\Laravel\Fields\Relationships\HasMany;
+use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Text;
@@ -34,7 +34,7 @@ class ErrorCodeResource extends ModelResource
         return [
             ID::make()->sortable(),
             Text::make('Slug', 'slug'),
-            Text::make('Title', 'code'),
+            Text::make('Title', 'title'),
             Text::make('Code', 'code'),
             Textarea::make('Description', 'description'),
         ];
@@ -70,17 +70,17 @@ class ErrorCodeResource extends ModelResource
         return [
             ID::make()->sortable(),
             Text::make('Slug', 'slug'),
-            Text::make('Title', 'code'),
+            Text::make('Title', 'title'),
             Text::make('Code', 'code'),
             Textarea::make('Description', 'description'),
 
-            HasMany::make(
+            BelongsToMany::make(
                 'Problems',
                 'problems',
                 ProblemResource::class
             )->readonly(),
 
-            HasMany::make(
+            BelongsTo::make(
                 'Brand',
                 'brand',
                 BrandResource::class

@@ -46,7 +46,13 @@ class CertificateFormPage extends FormPage
 
     protected function rules(DataWrapperContract $item): array
     {
-        return [];
+        return [
+            'master_id' => ['required', 'exists:masters,id'],
+            'title' => ['required', 'string', 'max:255'],
+            'subtitle' => ['nullable', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'image' => ['nullable', 'string', 'max:255'],
+        ];
     }
 
     /**

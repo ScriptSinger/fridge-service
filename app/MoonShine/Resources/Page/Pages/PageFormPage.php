@@ -46,7 +46,17 @@ class PageFormPage extends FormPage
 
     protected function rules(DataWrapperContract $item): array
     {
-        return [];
+        return [
+            'page_type_id' => ['required', 'exists:page_types,id'],
+            'h1' => ['required', 'string', 'max:255'],
+            'subtitle' => ['nullable', 'string', 'max:255'],
+            'title' => ['nullable', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'content' => ['nullable', 'string'],
+            'image' => ['nullable', 'string', 'max:255'],
+            'image_alt' => ['nullable', 'string', 'max:255'],
+            'is_active' => ['sometimes', 'boolean'],
+        ];
     }
 
     /**

@@ -36,7 +36,7 @@ class PageResource extends ModelResource
             ID::make()->sortable(),
             Image::make('Изображение', 'image')
                 ->disk(config('filesystems.media')),
-            Text::make('Type', 'type'),
+            BelongsTo::make('Type', 'pageType', 'name'),
             Text::make('Slug', 'slug'),
             Text::make('H1', 'h1'),
             Text::make('Subtitle', 'subtitle'),
@@ -100,7 +100,7 @@ class PageResource extends ModelResource
             ID::make()->sortable(),
             Image::make('Изображение', 'image')
                 ->disk(config('filesystems.media')),
-            Text::make('Type', 'type'),
+            BelongsTo::make('Type', 'pageType', 'name'),
             Text::make('Slug', 'slug'),
             Text::make('H1', 'h1'),
             Text::make('Subtitle', 'subtitle'),

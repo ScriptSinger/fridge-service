@@ -6,7 +6,7 @@
         <button type="button" class="md:hidden inline-flex items-center justify-center p-2 rounded text-gray-700 hover:text-gray-900"
             aria-label="Открыть меню" @click="open = !open">
             <x-heroicon-o-bars-3 x-show="!open" class="h-6 w-6" />
-            <x-heroicon-o-x-mark x-show="open" class="h-6 w-6" />
+            <x-heroicon-o-x-mark x-cloak x-show="open" class="h-6 w-6" />
         </button>
         <x-ui.nav variant="header" />
         <x-ui.phone-cta variant="header" />

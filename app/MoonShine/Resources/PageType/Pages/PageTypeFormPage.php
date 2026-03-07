@@ -46,7 +46,12 @@ class PageTypeFormPage extends FormPage
 
     protected function rules(DataWrapperContract $item): array
     {
-        return [];
+        return [
+            'key' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
+            'template' => ['required', 'string', 'max:255'],
+            'is_system' => ['sometimes', 'boolean'],
+        ];
     }
 
     /**

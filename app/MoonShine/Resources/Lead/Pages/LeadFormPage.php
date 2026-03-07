@@ -46,7 +46,16 @@ class LeadFormPage extends FormPage
 
     protected function rules(DataWrapperContract $item): array
     {
-        return [];
+        return [
+            'name' => ['nullable', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:255'],
+            'comment' => ['nullable', 'string'],
+            'utm_source' => ['nullable', 'string', 'max:255'],
+            'utm_medium' => ['nullable', 'string', 'max:255'],
+            'utm_campaign' => ['nullable', 'string', 'max:255'],
+            'leadable_type' => ['nullable', 'string', 'max:255'],
+            'leadable_id' => ['nullable', 'integer'],
+        ];
     }
 
     /**

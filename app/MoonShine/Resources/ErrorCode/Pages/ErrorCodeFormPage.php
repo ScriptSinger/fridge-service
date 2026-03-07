@@ -46,7 +46,12 @@ class ErrorCodeFormPage extends FormPage
 
     protected function rules(DataWrapperContract $item): array
     {
-        return [];
+        return [
+            'brand_id' => ['required', 'exists:brands,id'],
+            'title' => ['required', 'string', 'max:255'],
+            'code' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+        ];
     }
 
     /**

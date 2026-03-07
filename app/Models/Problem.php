@@ -11,10 +11,12 @@ class Problem extends Model
     use Sluggable;
 
     protected $fillable = [
+        'device_id',
         'slug',
         'title',
         'h1',
-        'content'
+        'content',
+        'is_active',
     ];
 
     public function sluggable(): array

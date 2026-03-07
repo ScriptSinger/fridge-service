@@ -46,7 +46,7 @@ class GalleryResource extends ModelResource
             BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)->nullable(),
             BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)->nullable(),
             BelongsTo::make('Service', 'service', fn($item) => $item->name, ServiceResource::class)->nullable(),
-            BelongsTo::make('Page', 'page', fn($item) => $item->type, PageResource::class)->nullable(),
+            BelongsTo::make('Page', 'page', fn($item) => $item->h1, PageResource::class)->nullable(),
         ];
     }
 
@@ -82,7 +82,7 @@ class GalleryResource extends ModelResource
                 BelongsTo::make('Service', 'service', fn($item) => $item->name, ServiceResource::class)
                     ->nullable()
                     ->searchable(),
-                BelongsTo::make('Page', 'page', fn($item) => $item->type, PageResource::class)
+                BelongsTo::make('Page', 'page', fn($item) => $item->h1, PageResource::class)
                     ->nullable()
                     ->searchable(),
             ]),
@@ -103,7 +103,7 @@ class GalleryResource extends ModelResource
             BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)->nullable(),
             BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)->nullable(),
             BelongsTo::make('Service', 'service', fn($item) => $item->name, ServiceResource::class)->nullable(),
-            BelongsTo::make('Page', 'page', fn($item) => $item->type, PageResource::class)->nullable(),
+            BelongsTo::make('Page', 'page', fn($item) => $item->h1, PageResource::class)->nullable(),
         ];
     }
 

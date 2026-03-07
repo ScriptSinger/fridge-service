@@ -16,16 +16,16 @@ class Service extends Model
         'name',
         'description',
         'device_id',
-        'brand_id',
         'slug',
         'tags',
+        'is_active',
     ];
 
     public function sluggable(): array
     {
         return [
             'slug' => [
-                'source' => 'permalink'
+                'source' => 'name'
             ]
         ];
     }

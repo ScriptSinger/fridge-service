@@ -7,6 +7,7 @@ namespace App\MoonShine\Resources\Problem;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Problem;
 use App\MoonShine\Resources\Brand\BrandResource;
+use App\MoonShine\Resources\Device\DeviceResource;
 use App\MoonShine\Resources\ErrorCode\ErrorCodeResource;
 use App\MoonShine\Resources\Problem\Pages\ProblemIndexPage;
 use App\MoonShine\Resources\Problem\Pages\ProblemFormPage;
@@ -14,8 +15,8 @@ use App\MoonShine\Resources\Problem\Pages\ProblemDetailPage;
 
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
-use MoonShine\Laravel\Fields\Relationships\HasMany;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Switcher;
@@ -64,6 +65,15 @@ class ProblemResource extends ModelResource
 
                 Switcher::make('Активна', 'is_active'),
 
+                BelongsTo::make(
+                    'Device',
+                    'device',
+                    fn($item) => $item->type,
+                    DeviceResource::class
+                )
+                    ->required()
+                    ->searchable(),
+
                 BelongsToMany::make(
                     'Brands',
                     'brands',
@@ -89,14 +99,20 @@ class ProblemResource extends ModelResource
             Text::make('Title', 'title'),
             Text::make('H1', 'h1'),
             Textarea::make('Content', 'content'),
+            BelongsTo::make(
+                'Device',
+                'device',
+                fn($item) => $item->type,
+                DeviceResource::class
+            )->readonly(),
 
-            HasMany::make(
+            BelongsToMany::make(
                 'Brands',
                 'brands',
                 BrandResource::class
             )->readonly(),
 
-            HasMany::make(
+            BelongsToMany::make(
                 'Error Codes',
                 'errorCodes',
                 ErrorCodeResource::class

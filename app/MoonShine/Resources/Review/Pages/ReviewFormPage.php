@@ -46,7 +46,22 @@ class ReviewFormPage extends FormPage
 
     protected function rules(DataWrapperContract $item): array
     {
-        return [];
+        return [
+            'name' => ['required', 'string', 'max:255'],
+            'city' => ['nullable', 'string', 'max:255'],
+            'title' => ['nullable', 'string', 'max:255'],
+            'text' => ['required', 'string'],
+            'rating' => ['required', 'integer', 'between:1,5'],
+            'avatar' => ['nullable', 'string', 'max:255'],
+            'image' => ['nullable', 'string', 'max:255'],
+            'source' => ['nullable', 'in:google,yandex,avito'],
+            'device_id' => ['nullable', 'exists:devices,id'],
+            'brand_id' => ['nullable', 'exists:brands,id'],
+            'service_id' => ['nullable', 'exists:services,id'],
+            'published_at' => ['required', 'date'],
+            'is_featured' => ['sometimes', 'boolean'],
+            'is_published' => ['sometimes', 'boolean'],
+        ];
     }
 
     /**

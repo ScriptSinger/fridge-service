@@ -41,7 +41,7 @@ class FaqResource extends ModelResource
             Switcher::make('Активна', 'is_active')->sortable(),
             BelongsTo::make('Тип техники', 'device', fn($item) => $item->type, DeviceResource::class),
             BelongsTo::make('Бренд', 'brand', fn($item) => $item->name, BrandResource::class),
-            BelongsTo::make('Страница', 'page', fn($item) => $item->type, PageResource::class),
+            BelongsTo::make('Страница', 'page', fn($item) => $item->h1, PageResource::class),
         ];
     }
 
@@ -60,7 +60,7 @@ class FaqResource extends ModelResource
                 BelongsTo::make('Бренд', 'brand', fn($item) => $item->name, BrandResource::class)
                     ->nullable()
                     ->searchable(),
-                BelongsTo::make('Страница', 'page', fn($item) => $item->type, PageResource::class)
+                BelongsTo::make('Страница', 'page', fn($item) => $item->h1, PageResource::class)
                     ->nullable()
                     ->searchable(),
             ]),
@@ -77,7 +77,7 @@ class FaqResource extends ModelResource
             Switcher::make('Активна', 'is_active')->sortable(),
             BelongsTo::make('Тип техники', 'device', fn($item) => $item->type, DeviceResource::class),
             BelongsTo::make('Бренд', 'brand', fn($item) => $item->name, BrandResource::class),
-            BelongsTo::make('Страница', 'page', fn($item) => $item->type, PageResource::class),
+            BelongsTo::make('Страница', 'page', fn($item) => $item->h1, PageResource::class),
         ];
     }
 

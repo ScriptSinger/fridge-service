@@ -14,6 +14,7 @@ use App\MoonShine\Resources\ErrorCode\ErrorCodeResource;
 use App\MoonShine\Resources\Problem\ProblemResource;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\Laravel\Fields\Relationships\HasMany;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\ID;
@@ -78,7 +79,7 @@ class BrandResource extends ModelResource
                 ->disk(config('filesystems.media')),
             Text::make('Alt для изображения', 'image_alt'),
             Switcher::make('Активна', 'is_active'),
-            HasMany::make(
+            BelongsToMany::make(
                 'Problems',
                 'problems',
                 ProblemResource::class
