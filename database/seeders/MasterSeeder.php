@@ -2,10 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Certificate;
 use App\Models\Master;
 use Cviebrock\EloquentSluggable\Services\SlugService;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 
@@ -25,46 +23,62 @@ class MasterSeeder extends Seeder
             : [];
 
         foreach ($masters as $data) {
+            $lastName = trim((string) ($data['last_name'] ?? ''));
+            $firstName = trim((string) ($data['first_name'] ?? ''));
+            $middleName = trim((string) ($data['middle_name'] ?? ''));
+
+            $fullName = trim(implode(' ', array_filter([
+                $lastName !== '' ? $lastName : null,
+                $firstName !== '' ? $firstName : null,
+                $middleName !== '' ? $middleName : null,
+            ])));
 
             $slug = SlugService::createSlug(
                 Master::class,
                 'slug',
-                $data['name']
+                $fullName
             );
 
-            $photo = $mediaMap['master_photos'][$data['name']]['photo'] ?? null;
+            $photo = $this->resolveMasterPhoto($mediaMap, $lastName, $firstName, $middleName, $fullName);
 
             $master = Master::updateOrCreate(
                 ['slug' => $slug],
                 [
-                    'name' => $data['name'],
+                    'last_name' => $data['last_name'] ?? null,
+                    'first_name' => $data['first_name'] ?? '',
+                    'middle_name' => $data['middle_name'] ?? null,
                     'slug' => $slug,
                     'role' => $data['role'] ?? null,
                     'photo' => $photo,
                     'description' => $data['description'] ?? null,
                 ]
             );
+        }
+    }
 
-            foreach ($data['certificates'] ?? [] as $certificateData) {
+    private function resolveMasterPhoto(
+        array $mediaMap,
+        string $lastName,
+        string $firstName,
+        string $middleName,
+        string $fullName
+    ): ?string {
+        $keys = array_filter([
+            $fullName,
+            trim("$firstName $middleName"),
+            trim("$firstName $lastName"),
+            trim("$lastName $firstName"),
+            $firstName,
+        ]);
 
-                $certificate = Certificate::updateOrCreate(
-                    [
-                        'master_id' => $master->id,
-                        'title' => $certificateData['title'],
-                    ],
-                    [
-                        'subtitle' => $certificateData['subtitle'] ?? null,
-                        'description' => $certificateData['description'] ?? null,
-                    ]
-                );
+        foreach ($keys as $key) {
+            $photo = $mediaMap['master_photos'][$key]['photo'] ?? null;
 
-                // Подставляем изображение из media-map если есть
-                if (isset($mediaMap['certificates'][$certificateData['title']]['image'])) {
-                    $certificate->update([
-                        'image' => $mediaMap['certificates'][$certificateData['title']]['image'],
-                    ]);
-                }
+            if (\is_string($photo) && $photo !== '') {
+                return $photo;
             }
         }
+
+        return null;
     }
 }

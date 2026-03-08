@@ -43,8 +43,8 @@ class GalleryResource extends ModelResource
             Text::make('Subtitle', 'subtitle')->sortable(),
             Number::make('Порядок', 'sort_order')->sortable(),
             Date::make('Дата публикации', 'published_at')->format('d.m.Y')->sortable(),
-            BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)->nullable(),
-            BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)->nullable(),
+            BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)->nullable()->sortable(),
+            BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)->nullable()->sortable(),
             BelongsTo::make('Service', 'service', fn($item) => $item->name, ServiceResource::class)->nullable(),
             BelongsTo::make('Page', 'page', fn($item) => $item->h1, PageResource::class)->nullable(),
         ];

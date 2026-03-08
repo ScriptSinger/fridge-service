@@ -16,13 +16,15 @@ class Master extends Model
     {
         return [
             'slug' => [
-                'source' => 'name',
+                'source' => ['last_name', 'first_name', 'middle_name'],
             ],
         ];
     }
 
     protected $fillable = [
-        'name',
+        'last_name',
+        'first_name',
+        'middle_name',
         'role',
         'photo',
         'description'
@@ -31,6 +33,20 @@ class Master extends Model
     public function certificates(): HasMany
     {
         return $this->hasMany(Certificate::class);
+    }
+
+    public function getNameAttribute(): string
+    {
+        return trim(implode(' ', array_filter([
+            $this->last_name,
+            $this->first_name,
+            $this->middle_name,
+        ])));
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return $this->name;
     }
 
     public function getPhotoUrlAttribute(): ?string

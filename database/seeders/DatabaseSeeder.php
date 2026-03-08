@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
             GallerySeeder::class,
             ReviewSeeder::class,
             MasterSeeder::class,
+            CertificateSeeder::class,
         ]);
     }
 }

@@ -74,7 +74,7 @@ class ExportMediaMap extends Command
             'master_photos' => Master::query()
                 ->whereNotNull('photo')
                 ->where('photo', '!=', '')
-                ->get(['name', 'photo'])
+                ->get(['last_name', 'first_name', 'middle_name', 'photo'])
                 ->mapWithKeys(fn(Master $master) => [
                     $master->name => [
                         'photo' => $master->photo,

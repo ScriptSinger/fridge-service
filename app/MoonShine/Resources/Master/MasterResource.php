@@ -9,10 +9,13 @@ use App\Models\Master;
 use App\MoonShine\Resources\Master\Pages\MasterIndexPage;
 use App\MoonShine\Resources\Master\Pages\MasterFormPage;
 use App\MoonShine\Resources\Master\Pages\MasterDetailPage;
+use App\MoonShine\Resources\Certificate\CertificateResource;
 
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Laravel\Fields\Relationships\HasMany;
 use MoonShine\UI\Components\Layout\Box;
+use MoonShine\UI\Components\Layout\Flex;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Text;
@@ -30,7 +33,7 @@ class MasterResource extends ModelResource
     {
         return [
             ID::make()->readonly(),
-            Text::make('Name', 'name')->sortable(),
+            Text::make('ФИО', 'full_name')->sortable(),
             Text::make('Role', 'role')->sortable(),
             Text::make('Description', 'description')->sortable(),
             Image::make('Photo', 'photo')->disk(config('filesystems.media')),
@@ -42,7 +45,11 @@ class MasterResource extends ModelResource
         return [
             Box::make([
                 ID::make()->readonly(),
-                Text::make('Name', 'name')->sortable(),
+                Flex::make([
+                    Text::make('Фамилия', 'last_name')->sortable(),
+                    Text::make('Имя', 'first_name')->sortable(),
+                    Text::make('Отчество', 'middle_name')->sortable(),
+                ]),
                 Text::make('Role', 'role')->sortable(),
                 Image::make('Photo', 'photo')
                     ->disk(config('filesystems.media'))
@@ -51,6 +58,10 @@ class MasterResource extends ModelResource
                 Text::make('Description', 'description')->sortable(),
 
             ]),
+            Box::make([
+                HasMany::make('Certificates', 'certificates', CertificateResource::class)
+                    ->creatable(),
+            ]),
         ];
     }
 
@@ -58,10 +69,11 @@ class MasterResource extends ModelResource
     {
         return [
             ID::make()->readonly(),
-            Text::make('Name', 'name')->sortable(),
+            Text::make('ФИО', 'full_name')->sortable(),
             Text::make('Role', 'role')->sortable(),
             Text::make('Description', 'description')->sortable(),
             Image::make('Photo', 'photo')->disk(config('filesystems.media')),
+            HasMany::make('Certificates', 'certificates', CertificateResource::class)->readonly(),
         ];
     }
 

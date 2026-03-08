@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('masters', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('last_name')->nullable();
+            $table->string('first_name');
+            $table->string('middle_name')->nullable();
             $table->string('slug')->unique();
             $table->string('role')->nullable();
             $table->string('photo')->nullable();

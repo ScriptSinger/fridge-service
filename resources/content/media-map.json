@@ -62,7 +62,7 @@
     "pages": [],
     "gallery": {
         "1": {
-            "image": "galleries/0MBVuFB45rQlsEDBlvpTVfh9FyqUWge5WjQmzTVj.webp",
+            "image": "galleries/PeOIWfN54NRroQwWaKLQtZK2zKyVPzlXT9mwG3Tt.webp",
             "image_alt": "Замена подшипников стиральной машины LG"
         },
         "2": {
@@ -98,7 +98,7 @@
             "image_alt": "Замена ремня привода стиральной машины Bosch"
         },
         "10": {
-            "image": "galleries/Te4cJoW7H96HS4aALRFxSJQJvh9z1lrQDe2MGboG.webp",
+            "image": "galleries/znedtu7OdPexTXikOumxvTjKpyPMfDpuYR7LLb2E.webp",
             "image_alt": "Чистка сливной системы стиральной машины LG"
         },
         "11": {
@@ -147,21 +147,20 @@
         }
     },
     "master_photos": {
-        "Алексей Евгеньевич": {
+        "Кузнецов Алексей Евгеньевич": {
             "photo": "masters/avatars/68QQmz9WZqtGVLfo2jdbE0GJfWHKlN9XqSUcCcEw.webp"
         },
-        "Рустам Ахметов": {
+        "Морозов Сергей Юрьевич": {
+            "photo": "masters/avatars/NPqAdBZCn2ymLNZUt9rPj1l0eKGWHoqwVRrTgyP5.png"
+        },
+        "Ахметов Рустам Ильдарович": {
             "photo": "masters/avatars/HutaYiSgiOf7uyXvWaGIvpecioUi8p7gGuqYj2zT.png"
         },
-        "Урал Салаватович": {
+        "Нурисламов Урал Салаватович": {
             "photo": "masters/avatars/tQXICpIvMBRvxbNbY1I5iw5VgK6gYRYCRSY4sy2r.webp"
         }
     },
-    "certificates": {
-        "Сертификат Bosch": {
-            "image": "masters/certificates/hUaibNVBNFIaByT5JzDXAtBrUNKwYPGg7ndfgpts.jpg"
-        }
-    },
+    "certificates": [],
     "reviews": {
         "рустам|Ремонт холодильника Haier": {
             "avatar": "reviews/avatars/67cFqNca8714fUOM8J6xmfD2ggEHBLc9Z5expQjB.webp",

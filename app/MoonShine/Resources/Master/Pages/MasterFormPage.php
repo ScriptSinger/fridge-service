@@ -47,7 +47,9 @@ class MasterFormPage extends FormPage
     protected function rules(DataWrapperContract $item): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['nullable', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'middle_name' => ['nullable', 'string', 'max:255'],
             'role' => ['nullable', 'string', 'max:255'],
             'photo' => ['sometimes', 'nullable', 'image', 'mimes:jpeg,jpg,png,gif,webp', 'max:5120'],
             'description' => ['nullable', 'string'],
