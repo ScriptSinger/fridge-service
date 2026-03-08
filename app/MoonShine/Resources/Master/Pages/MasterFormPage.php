@@ -49,7 +49,7 @@ class MasterFormPage extends FormPage
         return [
             'name' => ['required', 'string', 'max:255'],
             'role' => ['nullable', 'string', 'max:255'],
-            'photo' => ['nullable', 'string', 'max:255'],
+            'photo' => ['sometimes', 'nullable', 'image', 'mimes:jpeg,jpg,png,gif,webp', 'max:5120'],
             'description' => ['nullable', 'string'],
         ];
     }

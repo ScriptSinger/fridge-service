@@ -57,7 +57,7 @@ final class MoonShineLayout extends AppLayout
             MenuItem::make(GalleryResource::class, 'Galleries'),
             MenuItem::make(ReviewResource::class, 'Reviews'),
             MenuItem::make(MasterResource::class, 'Masters'),
-            MenuItem::make(CertificateResource::class, 'Certitficates'),
+            MenuItem::make(CertificateResource::class, 'Certificates'),
         ];
     }
 

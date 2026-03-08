@@ -52,7 +52,7 @@ class GalleryFormPage extends FormPage
             'description' => ['nullable', 'string'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'published_at' => ['required', 'date'],
-            'image' => ['nullable', 'string', 'max:255'],
+            'image' => ['sometimes', 'nullable', 'image', 'mimes:jpeg,jpg,png,gif,webp', 'max:5120'],
             'image_alt' => ['nullable', 'string', 'max:255'],
             'device_id' => ['nullable', 'exists:devices,id'],
             'brand_id' => ['nullable', 'exists:brands,id'],

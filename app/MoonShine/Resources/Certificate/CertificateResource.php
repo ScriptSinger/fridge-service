@@ -31,7 +31,6 @@ class CertificateResource extends ModelResource
     {
         return [
             ID::make()->readonly(),
-            BelongsTo::make('Master', 'master', MasterResource::class),
             Text::make('Title', 'title')->sortable(),
             Text::make('Subtitle', 'subtitle')->sortable(),
             Text::make('Description', 'description')->sortable(),

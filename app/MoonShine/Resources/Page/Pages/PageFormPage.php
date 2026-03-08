@@ -53,7 +53,7 @@ class PageFormPage extends FormPage
             'title' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'content' => ['nullable', 'string'],
-            'image' => ['nullable', 'string', 'max:255'],
+            'image' => ['sometimes', 'nullable', 'image', 'mimes:jpeg,jpg,png,gif,webp', 'max:5120'],
             'image_alt' => ['nullable', 'string', 'max:255'],
             'is_active' => ['sometimes', 'boolean'],
         ];
