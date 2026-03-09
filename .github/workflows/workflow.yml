@@ -81,6 +81,13 @@ jobs:
           chmod 600 ~/.ssh/id_appliance_repair
           ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
 
+      - name: Debug SSH Key
+        run: |
+          mkdir -p ~/.ssh
+           echo "${{ secrets.DEPLOY_KEY }}" | head -n 5
+           ls -la ~/.ssh
+        shell: bash
+
       - name: Upload Release to Server
         run: |
           scp -i ~/.ssh/id_appliance_repair release.tar.gz \
