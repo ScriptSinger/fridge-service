@@ -81,10 +81,11 @@ jobs:
         with:
           name: release
           path: .
-      - name: Test SSH Connection
+      - name: Debug DEPLOY_KEY
         run: |
-          ssh -i ~/.ssh/id_appliance_repair -o StrictHostKeyChecking=no \
-          ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'echo SSH OK'
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_KEY }}" | head -n 3
+          ls -la ~/.ssh
 
       - name: Setup SSH Key
         run: |
