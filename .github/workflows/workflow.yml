@@ -81,10 +81,6 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
 
-      - name: Test SSH connection
-        run: |
-          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo Connected!"
-
       - name: Upload Release to Server
         run: |
           scp -i ~/.ssh/id_ed25519 release.tar.gz \
@@ -92,14 +88,14 @@ jobs:
 
       - name: Deploy on Server
         run: |
-          ssh -o BatchMode=yes -o IdentitiesOnly=yes -i ~/.ssh/id_appliance_repair ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+          ssh -i ~/.ssh/id_ed25519 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             set -e
 
-            cd ~/appliance_repair
+            cd ~/archivarius
 
-            tar -xzf /tmp/release-appliance-repair.tar.gz -C .
+            tar -xzf /tmp/release.tar.gz -C .
 
-            printf '%s\n' "${{ secrets.ENV_FILE }}" | tr -d '\r' > .env
+            echo "${{ secrets.ENV_FILE }}" > .env
 
             docker compose up -d --build --remove-orphans
             docker compose exec php php artisan storage:link
