@@ -4,7 +4,7 @@
     <div class="flex flex-col sm:flex-row sm:items-start items-center gap-6">
             <div class="w-40 h-40 sm:w-44 sm:h-44 lg:w-48 lg:h-48 shrink-0 overflow-hidden rounded-2xl bg-gray-100">
             <img src="{{ $member->photo_url }}" alt="{{ trim(($member->first_name ?? '') . ' ' . ($member->middle_name ?? '')) }}" class="w-full h-full object-cover" loading="lazy"
-                decoding="async">
+                decoding="async" draggable="false" oncontextmenu="return false" ondragstart="return false">
         </div>
 
             <div class="flex-1 min-w-0 text-center sm:text-left">

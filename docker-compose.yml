@@ -1,8 +1,6 @@
 services:
   nginx:
     image: nginx:1.25-alpine
-    ports:
-      - "80:80"
     volumes:
       - ./:/var/www/html
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
@@ -10,6 +8,19 @@ services:
       - php
     networks:
       - laravel
+      - ufamasters_laravel
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=ufamasters_laravel"
+      - "traefik.http.routers.archivarius.rule=Host(`service.ufamasters.ru`)"
+      - "traefik.http.routers.archivarius.entrypoints=websecure"
+      - "traefik.http.routers.archivarius.tls.certresolver=myresolver"
+
+      - "traefik.http.routers.archivarius-insecure.rule=Host(`service.ufamasters.ru`)"
+      - "traefik.http.routers.archivarius-insecure.entrypoints=web"
+      - "traefik.http.routers.archivarius-insecure.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
 
   php:
     build:
@@ -23,6 +34,8 @@ services:
 
     networks:
       - laravel
+    # - ufamasters_laravel
+
   mysql:
     image: mysql:8.0.38-debian
     environment:
@@ -32,8 +45,7 @@ services:
       MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
     volumes:
       - db_data:/var/lib/mysql
-    ports:
-      - "3306:3306"
+
     networks:
       - laravel
 
@@ -50,5 +62,8 @@ volumes:
   db_data:
 
 networks:
+  ufamasters_laravel:
+    external: true
+
   laravel:
     driver: bridge
