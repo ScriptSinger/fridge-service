@@ -6,13 +6,6 @@ on:
       - main
       - test
 
-concurrency:
-  group: deploy-${{ github.ref }}
-  cancel-in-progress: true
-
-permissions:
-  contents: read
-
 jobs:
   build:
     name: Build Release
