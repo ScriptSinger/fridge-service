@@ -81,12 +81,10 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
 
-      - name: Debug SSH Key
+      - name: Debug Known Hosts
         run: |
-          echo "Listing ~/.ssh directory:"
-          ls -l ~/.ssh
-          echo "First 5 lines of private key:"
-          head -n 5 ~/.ssh/id_ed25519
+          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+          cat ~/.ssh/known_hosts
 
       - name: Upload Release to Server
         run: |
