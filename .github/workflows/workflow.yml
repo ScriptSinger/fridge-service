@@ -81,6 +81,10 @@ jobs:
         with:
           name: release
           path: .
+      - name: Test SSH Connection
+        run: |
+          ssh -i ~/.ssh/id_appliance_repair -o StrictHostKeyChecking=no \
+          ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'echo SSH OK'
 
       - name: Setup SSH Key
         run: |
