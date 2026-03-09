@@ -82,29 +82,30 @@ jobs:
           name: release
           path: .
 
-      - name: Setup SSH key and agent
-        uses: webfactory/ssh-agent@v0.9.1
-        with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-
-      - name: Add SSH known_hosts
+      - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_appliance_repair
+          chmod 600 ~/.ssh/id_appliance_repair
           ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
 
       - name: Upload Release to Server
         run: |
-          scp -o BatchMode=yes release.tar.gz ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/release-appliance-repair.tar.gz
+          scp -i ~/.ssh/id_appliance_repair release.tar.gz \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/release-appliance-repair.tar.gz
 
       - name: Deploy on Server
         run: |
-          ssh -o BatchMode=yes ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+          ssh -i ~/.ssh/id_appliance_repair ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             set -e
 
             cd ~/appliance_repair
 
             tar -xzf /tmp/release-appliance-repair.tar.gz -C .
-            printf '%s\n' "${{ secrets.ENV_FILE }}" | tr -d '\r' > .env
+
+            cat > .env << 'ENVFILE'
+            ${{ secrets.ENV_FILE }}
+            ENVFILE
 
             docker compose up -d --build --remove-orphans
             docker compose exec php php artisan storage:link
