@@ -81,23 +81,15 @@ jobs:
         with:
           name: release
           path: .
-      - name: Debug DEPLOY_KEY
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.DEPLOY_KEY }}" | head -n 3
-          ls -la ~/.ssh
 
-      - name: Setup SSH Key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_appliance_repair
-          chmod 600 ~/.ssh/id_appliance_repair
-          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+      - name: Setup SSH key and agent
+        uses: webfactory/ssh-agent@v0.8.1
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Upload Release to Server
         run: |
-          scp -i ~/.ssh/id_appliance_repair release.tar.gz \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/release-appliance-repair.tar.gz
+          scp -o StrictHostKeyChecking=no release.tar.gz ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/release-appliance-repair.tar.gz
 
       - name: Deploy on Server
         run: |
