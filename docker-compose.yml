@@ -8,11 +8,11 @@ services:
       - php
     networks:
       - laravel
-      - ufamasters_laravel
+      - appliance_repair
 
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=ufamasters_laravel"
+      - "traefik.docker.network=appliance_repair"
       - "traefik.http.routers.archivarius.rule=Host(`service.ufamasters.ru`)"
       - "traefik.http.routers.archivarius.entrypoints=websecure"
       - "traefik.http.routers.archivarius.tls.certresolver=myresolver"
@@ -34,7 +34,7 @@ services:
 
     networks:
       - laravel
-    # - ufamasters_laravel
+    # - appliance_repair
 
   mysql:
     image: mysql:8.0.38-debian
@@ -62,7 +62,7 @@ volumes:
   db_data:
 
 networks:
-  ufamasters_laravel:
+  appliance_repair:
     external: true
 
   laravel:
