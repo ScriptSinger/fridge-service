@@ -12,14 +12,13 @@ services:
 
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=appliance_repair_net"
-      - "traefik.http.routers.archivarius.rule=Host(`service.ufamasters.ru`)"
-      - "traefik.http.routers.archivarius.entrypoints=websecure"
-      - "traefik.http.routers.archivarius.tls.certresolver=myresolver"
+      - "traefik.http.routers.appliance_repair.rule=Host(`service.ufamasters.ru`)"
+      - "traefik.http.routers.appliance_repair.entrypoints=websecure"
+      - "traefik.http.routers.appliance_repair.tls.certresolver=myresolver"
 
-      - "traefik.http.routers.archivarius-insecure.rule=Host(`service.ufamasters.ru`)"
-      - "traefik.http.routers.archivarius-insecure.entrypoints=web"
-      - "traefik.http.routers.archivarius-insecure.middlewares=redirect-to-https"
+      - "traefik.http.routers.appliance_repair-insecure.rule=Host(`service.ufamasters.ru`)"
+      - "traefik.http.routers.appliance_repair-insecure.entrypoints=web"
+      - "traefik.http.routers.appliance_repair-insecure.middlewares=redirect-to-https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
 
   php:
