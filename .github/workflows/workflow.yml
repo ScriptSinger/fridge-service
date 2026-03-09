@@ -85,23 +85,23 @@ jobs:
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
+          echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_appliance_repair
+          chmod 600 ~/.ssh/id_appliance_repair
           ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
 
       - name: Upload Release to Server
         run: |
-          scp -i ~/.ssh/id_ed25519 release.tar.gz \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/release.tar.gz
+          scp -i ~/.ssh/id_appliance_repair release.tar.gz \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/release-appliance-repair.tar.gz
 
       - name: Deploy on Server
         run: |
-          ssh -i ~/.ssh/id_ed25519 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+          ssh -i ~/.ssh/id_appliance_repair ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             set -e
 
             cd ~/appliance_repair
 
-            tar -xzf /tmp/release.tar.gz -C .
+            tar -xzf /tmp/release-appliance-repair.tar.gz -C .
 
             cat > .env << 'ENVFILE'
             ${{ secrets.ENV_FILE }}
