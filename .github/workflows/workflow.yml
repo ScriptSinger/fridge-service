@@ -83,7 +83,7 @@ jobs:
           path: .
 
       - name: Setup SSH key and agent
-        uses: webfactory/ssh-agent@v0.8.1
+        uses: webfactory/ssh-agent@v0.9.1
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
