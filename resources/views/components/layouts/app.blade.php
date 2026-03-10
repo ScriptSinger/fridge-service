@@ -9,6 +9,7 @@
     'ogType' => 'website',
     'noindex' => false,
 ])
+@php($yandexCounterId = env('YANDEX_METRIKA_ID'))
 
 <head>
     <meta charset="UTF-8">
@@ -27,9 +28,17 @@
     <link rel="manifest" href="/site.webmanifest">
 
     @vite('resources/css/app.css')
+    @includeWhen(app()->environment('production'), 'components.analytics.metrika')
 </head>
 
 <body class="min-h-screen flex flex-col bg-white">
+    @if($yandexCounterId)
+        <noscript>
+            <div>
+                <img src="https://mc.yandex.ru/watch/{{ $yandexCounterId }}" style="position:absolute; left:-9999px;" alt="" />
+            </div>
+        </noscript>
+    @endif
 
     <x-layouts.header />
 
