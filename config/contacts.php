@@ -8,7 +8,7 @@ return [
 
     'address_full' => env(
         'CONTACT_ADDRESS_FULL',
-        'ул. Мушникова, 11'
+        'ул. Рихарда Зорге, 63'
     ),
 
     'address_city' => env('CONTACT_ADDRESS_CITY', 'Уфа'),

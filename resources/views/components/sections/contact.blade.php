@@ -5,7 +5,7 @@
 
              <iframe class="absolute inset-0 w-full h-full" frameborder="0" title="map" marginheight="0" marginwidth="0"
                  scrolling="no"
-                 src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1540.771020021799!2d56.115043209886295!3d54.77974630766362!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sru!2suk!4v1767811688709!5m2!1sru!2suk"
+                 src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d1172.3155538371814!2d56.010745175163244!3d54.76957903861371!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sru!2sus!4v1773232165192!5m2!1sru!2sus"
                  allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
                  style="filter: grayscale(1) contrast(1.2) opacity(0.4);">
              </iframe>

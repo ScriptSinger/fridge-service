@@ -100,6 +100,7 @@ jobs:
             docker compose up -d --build --remove-orphans
             docker compose exec php php artisan storage:link
             docker compose exec php php artisan optimize:clear
+            docker compose exec php php artisan config:clear
             docker compose exec php php artisan config:cache
             docker compose exec php php artisan route:cache
             docker compose exec php php artisan view:cache
