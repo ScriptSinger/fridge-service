@@ -1,4 +1,4 @@
-<x-layouts.app :title="$page->title" :description="$page->description">
+<x-layouts.app :title="$page->title" :description="$page->description" :noindex="true">
     <x-ui.breadcrumbs :route="$breadcrumbRoute" :model="null" />
 
     <x-ui.sections.wrapper>
