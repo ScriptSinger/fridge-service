@@ -2,17 +2,21 @@
     'limit' => 6,
     'count' => 0,
     'toggleSpacingClass' => 'mt-4',
+    'xData' => null,
 ])
 
-<div x-data="{
-    showAll: false,
-    limit: {{ $limit }},
-}">
+@php
+    $baseData = "{ showAll: false, limit: {$limit} }";
+    $dataExpression = $xData ? "Object.assign({$baseData}, {$xData})" : $baseData;
+@endphp
+
+<div x-data="{{ $dataExpression }}" x-init="typeof init === 'function' && init()">
     {{ $slot }}
 
     @if ($count > $limit)
         <div class="{{ $toggleSpacingClass }}">
-            <a @click.prevent="showAll = !showAll" class="text-yellow-500 inline-flex items-center cursor-pointer">
+            <a @click.prevent="showAll = !showAll; $nextTick(() => $dispatch('masonry:refresh'))"
+                class="text-yellow-500 inline-flex items-center cursor-pointer">
                 <span x-show="!showAll">Показать ещё</span>
                 <span x-show="showAll">Скрыть</span>
 

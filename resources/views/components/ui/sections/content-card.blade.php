@@ -1,7 +1,7 @@
-<div {{ $attributes->merge(['class' => 'xl:w-1/3 md:w-1/2 p-4']) }}>
-    <div class="border border-gray-200 p-6 rounded-lg h-full">
-        <h2 class="text-lg text-gray-900 font-medium title-font mb-2">{{ $problem->h1 }}</h2>
-        <p class="leading-relaxed text-base">
+<div {{ $attributes }}>
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 h-full flex flex-col justify-between">
+        <h2 class="text-lg text-gray-900 font-medium title-font mb-3">{{ $problem->h1 }}</h2>
+        <p class="text-gray-700 leading-6">
             {{ strip_tags($problem->content) }}
         </p>
     </div>

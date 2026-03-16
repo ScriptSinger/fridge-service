@@ -7,8 +7,8 @@
         <x-ui.sections.header title="Частые неисправности {{ Str::lower($device->typeInCase('genitive')) }}"
             subtitle="Мы собрали самые распространённые поломки {{ Str::lower($device->typeInCase('genitive')) }}" />
 
-        <x-ui.sections.toggle-list :limit="6" :count="$items->count()">
-            <div class="flex flex-wrap -m-4">
+        <x-ui.sections.toggle-list :limit="6" :count="$items->count()" x-data="problemsMasonry()">
+            <div x-ref="grid" class="relative space-y-4 md:space-y-0">
                 @foreach ($items as $index => $problem)
                     <x-ui.sections.content-card :problem="$problem" x-show="showAll || {{ $index }} < limit" x-cloak />
                 @endforeach
