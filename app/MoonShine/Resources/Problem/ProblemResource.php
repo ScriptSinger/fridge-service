@@ -37,11 +37,17 @@ class ProblemResource extends ModelResource
     {
         return [
             ID::make()->sortable(),
-            Text::make('Slug', 'slug'),
-            Text::make('Title', 'title'),
-            Text::make('H1', 'h1'),
+            Text::make('Slug', 'slug')->sortable(),
+            Text::make('Title', 'title')->sortable(),
+            Text::make('H1', 'h1')->sortable(),
+            BelongsTo::make(
+                'Device',
+                'device',
+                fn($item) => $item->type,
+                DeviceResource::class
+            )->sortable(),
             Textarea::make('Content', 'content'),
-            Switcher::make('Активна', 'is_active'),
+            Switcher::make('Активна', 'is_active')->sortable(),
         ];
     }
 
