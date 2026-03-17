@@ -6,6 +6,7 @@ use App\Http\Middleware\TrackUTM;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,6 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->trustProxies(at: '*', headers: Request::HEADER_X_FORWARDED_ALL);
+
         $middleware->web(append: [
             TrackUTM::class,
             RequestIdMiddleware::class,
