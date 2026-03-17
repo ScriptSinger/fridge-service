@@ -6,6 +6,7 @@ namespace App\MoonShine\Pages;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Carbon;
 use MoonShine\Laravel\Pages\Page;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Layout\Box;
@@ -119,7 +120,7 @@ class AccessLogs extends Page
             }
 
             $entries[] = [
-                'time' => Arr::get($decoded, 'datetime'),
+                'time' => $this->formatDateTime(Arr::get($decoded, 'datetime')),
                 'method' => Arr::get($context, 'method'),
                 'path' => Arr::get($context, 'path'),
                 'status' => $status,
@@ -136,6 +137,21 @@ class AccessLogs extends Page
         }
 
         return $entries;
+    }
+
+    private function formatDateTime(?string $value): ?string
+    {
+        if (! $value) {
+            return null;
+        }
+
+        try {
+            return Carbon::parse($value)
+                ->timezone(config('app.timezone'))
+                ->format('d.m.Y H:i:s');
+        } catch (\Throwable) {
+            return $value;
+        }
     }
 
     private function getLatestLogFile(): ?string

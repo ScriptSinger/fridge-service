@@ -20,6 +20,7 @@ use MoonShine\Laravel\Fields\Relationships\MorphTo;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\DateRange;
 use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
@@ -87,6 +88,8 @@ class LeadResource extends ModelResource
     protected function filters(): array
     {
         return [
+            Text::make('Name', 'name'),
+            Text::make('Phone', 'phone'),
             Select::make('Leadable Type', 'leadable_type')
                 ->options([
                     Device::class => 'Device',
@@ -96,6 +99,22 @@ class LeadResource extends ModelResource
                     Page::class    => 'Page',
                 ])
                 ->nullable(),
+            Switcher::make('Has Comment', 'has_comment')
+                ->onApply(function ($query, $value) {
+                    if (! $value) {
+                        return $query;
+                    }
+
+                    return $query->whereNotNull('comment')->where('comment', '!=', '');
+                }),
+            Switcher::make('Has Leadable', 'has_leadable')
+                ->onApply(function ($query, $value) {
+                    if (! $value) {
+                        return $query;
+                    }
+
+                    return $query->whereNotNull('leadable_type')->whereNotNull('leadable_id');
+                }),
             DateRange::make('Created between', 'created_at'),
             Text::make('UTM Source', 'utm_source'),
             Text::make('UTM Medium', 'utm_medium'),
