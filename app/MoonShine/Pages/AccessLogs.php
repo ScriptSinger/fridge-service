@@ -49,7 +49,6 @@ class AccessLogs extends Page
 
         $filters = $this->getFilters($statusFilter);
         $entriesPayload = $this->loadEntries($filters);
-
         return [
             Box::make('Filters', [
                 $this->buildStatusFilters($statusFilter),
@@ -127,6 +126,7 @@ class AccessLogs extends Page
 
         return Flex::make($links)->class('gap-2 mt-4');
     }
+
 
     private function buildTable(array $entries): TableBuilder
     {
@@ -327,4 +327,5 @@ class AccessLogs extends Page
 
         return '&' . http_build_query($params);
     }
+
 }
