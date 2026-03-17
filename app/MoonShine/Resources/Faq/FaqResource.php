@@ -39,9 +39,9 @@ class FaqResource extends ModelResource
             Text::make('Answer', 'answer')->sortable(),
             Number::make('Порядок', 'sort_order')->sortable(),
             Switcher::make('Активна', 'is_active')->sortable(),
-            BelongsTo::make('Тип техники', 'device', fn($item) => $item->type, DeviceResource::class),
-            BelongsTo::make('Бренд', 'brand', fn($item) => $item->name, BrandResource::class),
-            BelongsTo::make('Страница', 'page', fn($item) => $item->h1, PageResource::class),
+            BelongsTo::make('Тип техники', 'device', fn($item) => $item->type, DeviceResource::class)->sortable(),
+            BelongsTo::make('Бренд', 'brand', fn($item) => $item->name, BrandResource::class)->sortable(),
+            BelongsTo::make('Страница', 'page', fn($item) => $item->h1, PageResource::class)->sortable(),
         ];
     }
 

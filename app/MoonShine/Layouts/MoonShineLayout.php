@@ -10,6 +10,7 @@ use MoonShine\ColorManager\ColorManager;
 use MoonShine\Contracts\ColorManager\ColorManagerContract;
 use MoonShine\Contracts\ColorManager\PaletteContract;
 use MoonShine\MenuManager\MenuItem;
+use MoonShine\MenuManager\MenuGroup;
 use App\MoonShine\Resources\Service\ServiceResource;
 use App\MoonShine\Resources\Brand\BrandResource;
 use App\MoonShine\Resources\Certificate\CertificateResource;
@@ -44,21 +45,28 @@ final class MoonShineLayout extends AppLayout
     {
         return [
             ...parent::menu(),
-            MenuItem::make(PageResource::class, 'Pages'),
-            MenuItem::make(PageTypeResource::class, 'PageTypes'),
-            MenuItem::make(DeviceResource::class, 'Devices'),
-            MenuItem::make(ProblemResource::class, 'Problems'),
-            MenuItem::make(BrandResource::class, 'Brands'),
-            MenuItem::make(ErrorCodeResource::class, 'ErrorCodes'),
-            MenuItem::make(LeadResource::class, 'Leads'),
-            MenuItem::make(ServiceResource::class, 'Services'),
-            MenuItem::make(PriceResource::class, 'Prices'),
-            MenuItem::make(FaqResource::class, 'Faqs'),
-
-            MenuItem::make(GalleryResource::class, 'Galleries'),
-            MenuItem::make(ReviewResource::class, 'Reviews'),
-            MenuItem::make(MasterResource::class, 'Masters'),
-            MenuItem::make(CertificateResource::class, 'Certificates'),
+            MenuGroup::make('Content', [
+                MenuItem::make(PageResource::class, 'Pages'),
+                MenuItem::make(PageTypeResource::class, 'PageTypes'),
+                MenuItem::make(FaqResource::class, 'Faqs'),
+                MenuItem::make(ReviewResource::class, 'Reviews'),
+                MenuItem::make(GalleryResource::class, 'Galleries'),
+            ]),
+            MenuGroup::make('Catalog', [
+                MenuItem::make(DeviceResource::class, 'Devices'),
+                MenuItem::make(BrandResource::class, 'Brands'),
+                MenuItem::make(ProblemResource::class, 'Problems'),
+                MenuItem::make(ServiceResource::class, 'Services'),
+                MenuItem::make(PriceResource::class, 'Prices'),
+                MenuItem::make(ErrorCodeResource::class, 'ErrorCodes'),
+            ]),
+            MenuGroup::make('Team', [
+                MenuItem::make(MasterResource::class, 'Masters'),
+                MenuItem::make(CertificateResource::class, 'Certificates'),
+            ]),
+            MenuGroup::make('Leads', [
+                MenuItem::make(LeadResource::class, 'Leads'),
+            ]),
             MenuItem::make(AccessLogs::class, 'Access Logs'),
         ];
     }

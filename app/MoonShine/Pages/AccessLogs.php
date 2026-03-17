@@ -13,7 +13,13 @@ use MoonShine\UI\Components\Layout\Flex;
 use MoonShine\UI\Components\Link;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\Text;
+use MoonShine\MenuManager\Attributes\Group;
+use MoonShine\MenuManager\Attributes\Order;
+use MoonShine\Support\Attributes\Icon;
 
+#[Icon('users')]
+#[Group('moonshine::ui.resource.system', 'users', translatable: true)]
+#[Order(3)]
 class AccessLogs extends Page
 {
     private const int MAX_ENTRIES = 100;
@@ -71,15 +77,15 @@ class AccessLogs extends Page
     private function buildTable(array $entries): TableBuilder
     {
         return TableBuilder::make([
-            Text::make('Time', 'time'),
-            Text::make('Method', 'method'),
-            Text::make('Path', 'path'),
-            Text::make('Status', 'status'),
-            Text::make('Duration ms', 'duration_ms'),
-            Text::make('Resp size', 'response_size'),
-            Text::make('IP', 'ip'),
-            Text::make('Bot', 'is_bot'),
-            Text::make('Suspicious', 'is_suspicious'),
+            Text::make('Time', 'time')->sortable(),
+            Text::make('Method', 'method')->sortable(),
+            Text::make('Path', 'path')->sortable(),
+            Text::make('Status', 'status')->sortable(),
+            Text::make('Duration ms', 'duration_ms')->sortable(),
+            Text::make('Resp size', 'response_size')->sortable(),
+            Text::make('IP', 'ip')->sortable(),
+            Text::make('Bot', 'is_bot')->sortable(),
+            Text::make('Suspicious', 'is_suspicious')->sortable(),
         ], $entries)->withoutKey();
     }
 
