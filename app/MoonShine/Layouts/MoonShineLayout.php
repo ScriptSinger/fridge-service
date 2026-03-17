@@ -24,6 +24,7 @@ use App\MoonShine\Resources\Gallery\GalleryResource;
 use App\MoonShine\Resources\Master\MasterResource;
 use App\MoonShine\Resources\PageType\PageTypeResource;
 use App\MoonShine\Resources\Review\ReviewResource;
+use App\MoonShine\Pages\AccessLogs;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -58,6 +59,7 @@ final class MoonShineLayout extends AppLayout
             MenuItem::make(ReviewResource::class, 'Reviews'),
             MenuItem::make(MasterResource::class, 'Masters'),
             MenuItem::make(CertificateResource::class, 'Certificates'),
+            MenuItem::make(AccessLogs::class, 'Access Logs'),
         ];
     }
 

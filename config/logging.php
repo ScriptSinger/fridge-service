@@ -73,6 +73,15 @@ return [
             'replace_placeholders' => true,
         ],
 
+        'access' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/access.log'),
+            'level' => env('LOG_ACCESS_LEVEL', 'info'),
+            'days' => env('LOG_ACCESS_DAYS', 14),
+            'replace_placeholders' => true,
+            'tap' => [App\Logging\JsonFormatter::class],
+        ],
+
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
