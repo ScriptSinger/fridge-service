@@ -1,5 +1,12 @@
 @php
-    $metaTitle = $title ?? 'Ремонт бытовой техники на дому в Уфе — Сервисный центр «РемБытТехника»';
+    $appName = (string) config('app.name');
+    $defaultTitle = 'Ремонт бытовой техники на дому в Уфе — Сервисный центр «РемБытТехника»';
+    $rawTitle = trim((string) ($title ?? ''));
+    $hasTitle = $rawTitle !== '';
+    $alreadyHasBrand = $hasTitle && mb_stripos($rawTitle, $appName) !== false;
+    $metaTitle = $hasTitle
+        ? ($alreadyHasBrand ? $rawTitle : $rawTitle . ' | ' . $appName)
+        : $defaultTitle;
     $metaDescription = $description ?? 'Профессиональный ремонт бытовой техники в Уфе: выезд мастера, гарантия, диагностика.';
     $metaUrl = $ogUrl ?? $canonical ?? url()->current();
     $metaType = $ogType ?? 'website';
