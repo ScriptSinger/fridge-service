@@ -42,12 +42,6 @@ class ServiceResource extends ModelResource
                 DeviceResource::class
             )->sortable(),
 
-            HasMany::make(
-                'Prices',
-                'prices',
-                fn($item) => $item->type,
-                PriceResource::class
-            )->sortable(),
             Switcher::make('Активна', 'is_active'),
         ];
     }

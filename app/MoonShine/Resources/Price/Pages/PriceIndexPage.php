@@ -58,7 +58,8 @@ class PriceIndexPage extends IndexPage
                 'service',
                 fn($item) => $item->name,
                 ServiceResource::class
-            )->searchable(),
+            )->searchable()
+                ->nullable(),
             BelongsTo::make(
                 'Device',
                 'device',
