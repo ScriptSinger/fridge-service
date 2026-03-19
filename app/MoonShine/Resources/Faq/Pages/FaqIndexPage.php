@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Faq\Pages;
 
-use App\Models\Brand;
-use App\Models\Device;
-use App\Models\Page;
+use App\MoonShine\Resources\Brand\BrandResource;
+use App\MoonShine\Resources\Device\DeviceResource;
+use App\MoonShine\Resources\Page\PageResource;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
+use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Number;
-use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 use App\MoonShine\Resources\Faq\FaqResource;
@@ -56,14 +56,26 @@ class FaqIndexPage extends IndexPage
         return [
             Text::make('Question', 'question'),
             Text::make('Answer', 'answer'),
-            Select::make('Device', 'device_id')
-                ->options(Device::pluck('type', 'id')->toArray())
+            BelongsTo::make(
+                'Device',
+                'device',
+                fn($item) => $item->type,
+                DeviceResource::class
+            )->searchable()
                 ->nullable(),
-            Select::make('Brand', 'brand_id')
-                ->options(Brand::pluck('name', 'id')->toArray())
+            BelongsTo::make(
+                'Brand',
+                'brand',
+                fn($item) => $item->name,
+                BrandResource::class
+            )->searchable()
                 ->nullable(),
-            Select::make('Page', 'page_id')
-                ->options(Page::pluck('h1', 'id')->toArray())
+            BelongsTo::make(
+                'Page',
+                'page',
+                fn($item) => $item->h1,
+                PageResource::class
+            )->searchable()
                 ->nullable(),
             Number::make('Sort Order', 'sort_order'),
             Switcher::make('Активна', 'is_active'),

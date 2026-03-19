@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Gallery\Pages;
 
-use App\Models\Brand;
-use App\Models\Device;
-use App\Models\Service;
+use App\MoonShine\Resources\Brand\BrandResource;
+use App\MoonShine\Resources\Device\DeviceResource;
+use App\MoonShine\Resources\Service\ServiceResource;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
+use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\DateRange;
-use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Switcher;
 use App\MoonShine\Resources\Gallery\GalleryResource;
 use MoonShine\Support\ListOf;
@@ -53,14 +53,26 @@ class GalleryIndexPage extends IndexPage
     protected function filters(): iterable
     {
         return [
-            Select::make('Device', 'device_id')
-                ->options(Device::pluck('type', 'id')->toArray())
+            BelongsTo::make(
+                'Device',
+                'device',
+                fn($item) => $item->type,
+                DeviceResource::class
+            )->searchable()
                 ->nullable(),
-            Select::make('Brand', 'brand_id')
-                ->options(Brand::pluck('name', 'id')->toArray())
+            BelongsTo::make(
+                'Brand',
+                'brand',
+                fn($item) => $item->name,
+                BrandResource::class
+            )->searchable()
                 ->nullable(),
-            Select::make('Service', 'service_id')
-                ->options(Service::pluck('name', 'id')->toArray())
+            BelongsTo::make(
+                'Service',
+                'service',
+                fn($item) => $item->name,
+                ServiceResource::class
+            )->searchable()
                 ->nullable(),
             DateRange::make('Published between', 'published_at'),
             Switcher::make('Has Image', 'has_image')

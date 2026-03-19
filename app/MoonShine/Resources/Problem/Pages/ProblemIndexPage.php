@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Problem\Pages;
 
-use App\Models\Brand;
-use App\Models\Device;
+use App\MoonShine\Resources\Brand\BrandResource;
+use App\MoonShine\Resources\Device\DeviceResource;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
+use MoonShine\Laravel\Fields\Relationships\BelongsTo;
+use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 use App\MoonShine\Resources\Problem\ProblemResource;
@@ -54,19 +55,29 @@ class ProblemIndexPage extends IndexPage
         return [
             Text::make('Title', 'title'),
             Text::make('Slug', 'slug'),
-            Select::make('Device', 'device_id')
-                ->options(Device::pluck('type', 'id')->toArray())
+            BelongsTo::make(
+                'Device',
+                'device',
+                fn($item) => $item->type,
+                DeviceResource::class
+            )->searchable()
                 ->nullable(),
             Switcher::make('Активна', 'is_active'),
-            Select::make('Brand', 'brand_id')
-                ->options(Brand::pluck('name', 'id')->toArray())
+            BelongsToMany::make(
+                'Brand',
+                'brands',
+                fn($item) => $item->name,
+                BrandResource::class
+            )->searchable()
                 ->nullable()
                 ->onApply(function ($query, $value) {
-                    if ($value === null || $value === '') {
+                    if ($value === null || $value === '' || $value === []) {
                         return $query;
                     }
 
-                    return $query->whereHas('brands', fn($brandQuery) => $brandQuery->whereKey($value));
+                    $ids = is_array($value) ? $value : [$value];
+
+                    return $query->whereHas('brands', fn($brandQuery) => $brandQuery->whereIn('brands.id', $ids));
                 }),
         ];
     }

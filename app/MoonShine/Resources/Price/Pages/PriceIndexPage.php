@@ -4,13 +4,19 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Price\Pages;
 
+use App\MoonShine\Resources\Service\ServiceResource;
+use App\MoonShine\Resources\Device\DeviceResource;
+use App\MoonShine\Resources\Brand\BrandResource;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
+use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Number;
+use MoonShine\UI\Fields\Text;
 use App\MoonShine\Resources\Price\PriceResource;
 use MoonShine\Support\ListOf;
 use Throwable;
@@ -46,7 +52,31 @@ class PriceIndexPage extends IndexPage
      */
     protected function filters(): iterable
     {
-        return [];
+        return [
+            BelongsTo::make(
+                'Service',
+                'service',
+                fn($item) => $item->name,
+                ServiceResource::class
+            )->searchable(),
+            BelongsTo::make(
+                'Device',
+                'device',
+                fn($item) => $item->type,
+                DeviceResource::class
+            )->searchable()
+                ->nullable(),
+            BelongsTo::make(
+                'Brand',
+                'brand',
+                fn($item) => $item->name,
+                BrandResource::class
+            )->searchable()
+                ->nullable(),
+            Number::make('Price From', 'price_from'),
+            Number::make('Price To', 'price_to'),
+            Text::make('Units', 'units')->default('₽'),
+        ];
     }
 
     /**
