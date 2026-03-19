@@ -49,11 +49,15 @@ class PageResource extends ModelResource
 
     protected function formFields(): iterable
     {
+        $brandSuffixLen = mb_strlen(' | ' . config('app.name'));
+        $titleMax = max(0, 65 - $brandSuffixLen);
+        $titleHint = "55–60 (макс 65). Бренд добавится автоматически (+{$brandSuffixLen} симв.), лимит для ввода: {$titleMax}";
+
         return [
             Box::make('SEO / Метаданные', [
                 Text::make('Title', 'title')
-                    ->extension(new CharCount(65))
-                    ->hint('55–60 (макс 65) символов'),
+                    ->extension(new CharCount($titleMax))
+                    ->hint($titleHint),
                 Textarea::make('Description', 'description')
                     ->hint('Для обычных страниц — кратко; для юридических страниц допустим развернутый текст.'),
             ]),
