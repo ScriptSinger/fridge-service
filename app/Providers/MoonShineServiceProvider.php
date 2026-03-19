@@ -12,6 +12,7 @@ use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
 use App\MoonShine\Resources\MoonShineUserRole\MoonShineUserRoleResource;
 use App\MoonShine\Resources\Service\ServiceResource;
 use App\MoonShine\Resources\Brand\BrandResource;
+use App\MoonShine\Resources\BrandDevice\BrandDeviceResource;
 use App\MoonShine\Resources\ErrorCode\ErrorCodeResource;
 use App\MoonShine\Resources\Lead\LeadResource;
 use App\MoonShine\Resources\Problem\ProblemResource;
@@ -38,6 +39,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 MoonShineUserRoleResource::class,
                 ServiceResource::class,
                 BrandResource::class,
+                BrandDeviceResource::class,
                 ErrorCodeResource::class,
                 LeadResource::class,
                 ProblemResource::class,

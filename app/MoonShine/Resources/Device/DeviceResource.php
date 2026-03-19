@@ -19,7 +19,6 @@ use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
-use MoonShine\UI\Fields\Textarea;
 
 /**
  * @extends ModelResource<Device, DeviceIndexPage, DeviceFormPage, DeviceDetailPage>
@@ -63,11 +62,11 @@ class DeviceResource extends ModelResource
                 Text::make('Постоянная ссылка', 'permalink'),
                 Text::make('Type', 'type'),
                 Text::make('H1', 'h1')
-                    ->extension(new CharCount())
+                    ->extension(new CharCount(60))
                     ->hint('30–60 символов')
                     ->required(),
                 Text::make('Subtitle', 'subtitle')
-                    ->extension(new CharCount())
+                    ->extension(new CharCount(120))
                     ->hint('105–120 символов'),
                 Switcher::make('Активна', 'is_active')
                     ->default(true),
@@ -83,10 +82,10 @@ class DeviceResource extends ModelResource
 
             Box::make('SEO / Метаданные', [
                 Text::make('Title', 'title')
-                    ->extension(new CharCount())
+                    ->extension(new CharCount(65))
                     ->hint('55–60 (макс 65) символов'),
                 Text::make('Description', 'description')
-                    ->extension(new CharCount())
+                    ->extension(new CharCount(160))
                     ->hint('140–160 симоволов'),
             ]),
 
@@ -96,16 +95,7 @@ class DeviceResource extends ModelResource
                     'brands',
                     fn($item) => $item->name,
                     BrandResource::class
-                )
-                    ->fields([
-                        Text::make('H1', 'h1')->extension(new CharCount()),
-                        Text::make('Subtitle', 'subtitle')
-                            ->extension(new CharCount()),
-                        Text::make('Title', 'title')
-                            ->extension(new CharCount()),
-                        Text::make('Description', 'description')
-                            ->extension(new CharCount()),
-                    ]),
+                ),
             ]),
         ];
     }
@@ -130,12 +120,7 @@ class DeviceResource extends ModelResource
                 'brands',
                 fn($item) => $item->name,
                 BrandResource::class
-            )->fields([
-                Text::make('H1', 'h1'),
-                Textarea::make('Subtitle', 'subtitle'),
-                Text::make('Title', 'title'),
-                Textarea::make('Description', 'description'),
-            ]),
+            )->readonly(),
         ];
     }
 

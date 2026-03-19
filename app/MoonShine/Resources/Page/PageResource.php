@@ -50,22 +50,32 @@ class PageResource extends ModelResource
     protected function formFields(): iterable
     {
         return [
-            Box::make([
+            Box::make('SEO / Метаданные', [
+                Text::make('Title', 'title')
+                    ->extension(new CharCount(65))
+                    ->hint('55–60 (макс 65) символов'),
+                Textarea::make('Description', 'description')
+                    ->hint('Для обычных страниц — кратко; для юридических страниц допустим развернутый текст.'),
+            ]),
+
+            Box::make('Заголовки', [
+                Text::make('H1', 'h1')
+                    ->extension(new CharCount(60))
+                    ->hint('30–60 символов')
+                    ->required(),
+
+                Text::make('Subtitle', 'subtitle')
+                    ->extension(new CharCount(120))
+                    ->hint('105–120 символов'),
+            ]),
+
+            Box::make('Страница', [
                 Text::make('Slug', 'slug')
                     ->readonly()
                     ->hint('Генерируется автоматически'),
 
                 BelongsTo::make('Тип страницы', 'pageType', 'name')
                     ->required(),
-
-                Text::make('H1', 'h1')
-                    ->extension(new CharCount())
-                    ->hint('30–60 символов')
-                    ->required(),
-
-                Text::make('Subtitle', 'subtitle')
-                    ->extension(new CharCount())
-                    ->hint('105–120 символов'),
 
                 Image::make('Hero image', 'image')
                     ->disk(config('filesystems.media'))
@@ -76,20 +86,11 @@ class PageResource extends ModelResource
                 Text::make('Alt для изображения', 'image_alt'),
                 Switcher::make('Активна', 'is_active')
                     ->default(true),
-
             ]),
 
             Box::make('Контент страницы', [
                 TinyMce::make('Content', 'content')
                     ->hint('Основной контент страницы (например, текст политики, оферты и др.)'),
-            ]),
-
-            Box::make('SEO / Метаданные', [
-                Text::make('Title', 'title')
-                    ->extension(new CharCount())
-                    ->hint('55–60 (макс 65) символов'),
-                Textarea::make('Description', 'description')
-                    ->hint('Для обычных страниц — кратко; для юридических страниц допустим развернутый текст.'),
             ]),
         ];
     }

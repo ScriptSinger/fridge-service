@@ -13,6 +13,7 @@ use MoonShine\MenuManager\MenuItem;
 use MoonShine\MenuManager\MenuGroup;
 use App\MoonShine\Resources\Service\ServiceResource;
 use App\MoonShine\Resources\Brand\BrandResource;
+use App\MoonShine\Resources\BrandDevice\BrandDeviceResource;
 use App\MoonShine\Resources\Certificate\CertificateResource;
 use App\MoonShine\Resources\ErrorCode\ErrorCodeResource;
 use App\MoonShine\Resources\Lead\LeadResource;
@@ -55,6 +56,7 @@ final class MoonShineLayout extends AppLayout
             MenuGroup::make('Catalog', [
                 MenuItem::make(DeviceResource::class, 'Devices'),
                 MenuItem::make(BrandResource::class, 'Brands'),
+                MenuItem::make(BrandDeviceResource::class, 'Device Brands'),
                 MenuItem::make(ProblemResource::class, 'Problems'),
                 MenuItem::make(ServiceResource::class, 'Services'),
                 MenuItem::make(PriceResource::class, 'Prices'),
