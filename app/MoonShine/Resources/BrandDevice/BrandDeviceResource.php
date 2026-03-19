@@ -62,7 +62,8 @@ class BrandDeviceResource extends ModelResource
                 Text::make('Title', 'title')
                     ->extension(new CharCount($titleMax))
                     ->hint($titleHint),
-                Textarea::make('Description', 'description')
+                Text::make('Description', 'description')
+                    ->extension(new CharCount(160))
                     ->hint('140–160 символов'),
             ]),
             Box::make('Заголовки', [
