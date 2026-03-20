@@ -157,10 +157,8 @@ class AccessLogs extends Page
 
         $page = max((int) request()->query('page', self::DEFAULT_PAGE), 1);
         $limit = self::MAX_ENTRIES;
-        $needed = $page * $limit;
-
         $totalMatches = 0;
-        $buffer = [];
+        $items = [];
 
         $fileObject = new \SplFileObject($file, 'r');
         $fileObject->setFlags(\SplFileObject::DROP_NEW_LINE | \SplFileObject::SKIP_EMPTY);
@@ -186,7 +184,8 @@ class AccessLogs extends Page
 
             $totalMatches++;
 
-            $buffer[] = [
+            $items[] = [
+                'time_raw' => Arr::get($decoded, 'datetime'),
                 'time' => $this->formatDateTime(Arr::get($decoded, 'datetime')),
                 'method' => Arr::get($context, 'method'),
                 'path' => Arr::get($context, 'path'),
@@ -198,28 +197,70 @@ class AccessLogs extends Page
                 'is_suspicious' => Arr::get($context, 'is_suspicious') ? 'yes' : 'no',
             ];
 
-            if (count($buffer) > $needed) {
-                array_shift($buffer);
-            }
+        }
+
+        $sort = (string) request()->query('sort', '');
+        if ($sort === '') {
+            $items = array_reverse($items);
+        } else {
+            $items = $this->applySort($items);
         }
 
         $pages = max((int) ceil($totalMatches / $limit), 1);
         $page = min($page, $pages);
-
-        $bufferCount = count($buffer);
-        $bufferStartIndex = $totalMatches - $bufferCount;
-        $pageStartIndex = max(0, $totalMatches - ($page * $limit));
-        $pageCount = min($limit, max(0, $totalMatches - (($page - 1) * $limit)));
-        $startInBuffer = max(0, $pageStartIndex - $bufferStartIndex);
-
-        $items = array_slice($buffer, $startInBuffer, $pageCount);
-        $items = array_reverse($items);
+        $offset = ($page - 1) * $limit;
+        $items = array_slice($items, $offset, $limit);
 
         return [
             'items' => $items,
             'page' => $page,
             'pages' => $pages,
         ];
+    }
+
+    private function applySort(array $items): array
+    {
+        $sort = (string) request()->query('sort', '');
+        if ($sort === '') {
+            return $items;
+        }
+
+        $direction = str_starts_with($sort, '-') ? 'desc' : 'asc';
+        $column = ltrim($sort, '-');
+
+        $allowed = [
+            'time',
+            'method',
+            'path',
+            'status',
+            'duration_ms',
+            'response_size',
+            'ip',
+            'is_bot',
+            'is_suspicious',
+        ];
+
+        if (! in_array($column, $allowed, true)) {
+            return $items;
+        }
+
+        usort($items, function (array $a, array $b) use ($column, $direction) {
+            $valueA = $column === 'time' ? ($a['time_raw'] ?? null) : ($a[$column] ?? null);
+            $valueB = $column === 'time' ? ($b['time_raw'] ?? null) : ($b[$column] ?? null);
+
+            if (in_array($column, ['status', 'duration_ms', 'response_size'], true)) {
+                $valueA = (int) $valueA;
+                $valueB = (int) $valueB;
+            } else {
+                $valueA = (string) $valueA;
+                $valueB = (string) $valueB;
+            }
+
+            $cmp = $valueA <=> $valueB;
+            return $direction === 'desc' ? -$cmp : $cmp;
+        });
+
+        return $items;
     }
 
     private function formatDateTime(?string $value): ?string
