@@ -87,6 +87,7 @@ class AccessLogs extends Page
         $fields = [
             Text::make('Path contains', 'path'),
             Text::make('IP contains', 'ip'),
+            Text::make('User Agent contains', 'user_agent'),
             Switcher::make('Only bots', 'only_bots'),
             Switcher::make('Only suspicious', 'only_suspicious'),
         ];
@@ -100,11 +101,12 @@ class AccessLogs extends Page
             method: FormMethod::GET,
             fields: $fields,
             values: [
-                'path' => $filters['path'],
-                'ip' => $filters['ip'],
-                'only_bots' => $filters['only_bots'] ? 1 : 0,
-                'only_suspicious' => $filters['only_suspicious'] ? 1 : 0,
-            ],
+            'path' => $filters['path'],
+            'ip' => $filters['ip'],
+            'user_agent' => $filters['user_agent'],
+            'only_bots' => $filters['only_bots'] ? 1 : 0,
+            'only_suspicious' => $filters['only_suspicious'] ? 1 : 0,
+        ],
         );
     }
 
@@ -138,6 +140,7 @@ class AccessLogs extends Page
             Text::make('Duration ms', 'duration_ms')->sortable(),
             Text::make('Resp size', 'response_size')->sortable(),
             Text::make('IP', 'ip')->sortable(),
+            Text::make('User Agent', 'user_agent')->sortable(),
             Text::make('Bot', 'is_bot')->sortable(),
             Text::make('Suspicious', 'is_suspicious')->sortable(),
         ], $entries)->withoutKey()
@@ -193,6 +196,7 @@ class AccessLogs extends Page
                 'duration_ms' => Arr::get($context, 'duration_ms'),
                 'response_size' => Arr::get($context, 'response_size'),
                 'ip' => Arr::get($context, 'ip'),
+                'user_agent' => Arr::get($context, 'user_agent'),
                 'is_bot' => Arr::get($context, 'is_bot') ? 'yes' : 'no',
                 'is_suspicious' => Arr::get($context, 'is_suspicious') ? 'yes' : 'no',
             ];
@@ -236,6 +240,7 @@ class AccessLogs extends Page
             'duration_ms',
             'response_size',
             'ip',
+            'user_agent',
             'is_bot',
             'is_suspicious',
         ];
@@ -303,6 +308,7 @@ class AccessLogs extends Page
             'status' => $status,
             'path' => (string) request()->query('path', ''),
             'ip' => (string) request()->query('ip', ''),
+            'user_agent' => (string) request()->query('user_agent', ''),
             'only_bots' => (bool) request()->query('only_bots', false),
             'only_suspicious' => (bool) request()->query('only_suspicious', false),
         ];
@@ -322,6 +328,11 @@ class AccessLogs extends Page
 
         $ipNeedle = trim($filters['ip']);
         if ($ipNeedle !== '' && ! str_contains((string) Arr::get($context, 'ip', ''), $ipNeedle)) {
+            return false;
+        }
+
+        $uaNeedle = trim($filters['user_agent']);
+        if ($uaNeedle !== '' && ! str_contains((string) Arr::get($context, 'user_agent', ''), $uaNeedle)) {
             return false;
         }
 
@@ -352,6 +363,11 @@ class AccessLogs extends Page
         $ip = (string) request()->query('ip', '');
         if ($ip !== '') {
             $params['ip'] = $ip;
+        }
+
+        $userAgent = (string) request()->query('user_agent', '');
+        if ($userAgent !== '') {
+            $params['user_agent'] = $userAgent;
         }
 
         if (request()->query('only_bots')) {
