@@ -28,8 +28,9 @@ class LeadController extends Controller
             }
         }
 
-        $token = env('TELEGRAM_BOT_TOKEN');
-        $chatId = env('TELEGRAM_MASTER_CHAT');
+        $token = config('services.telegram.bot_token');
+        $chatId = config('services.telegram.chat_id');
+        $proxy = config('services.telegram.proxy');
 
         $message = "Новый лид!\n";
         $message .= "Имя: " . ($lead->name ?? '—') . "\n";
@@ -37,7 +38,8 @@ class LeadController extends Controller
         $message .= "Бренд: " . ($lead->leadable_type ?? '—') . "\n";
         // $message .= "Комментарий: " . ($lead->comment ?? '—');
 
-        Http::post("https://api.telegram.org/bot{$token}/sendMessage", [
+        $http = Http::withOptions($proxy ? ['proxy' => $proxy] : []);
+        $http->post("https://api.telegram.org/bot{$token}/sendMessage", [
             'chat_id' => $chatId,
             'text' => $message,
         ]);

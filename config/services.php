@@ -37,6 +37,8 @@ return [
 
     'telegram' => [
         'bot_token' => env('TELEGRAM_BOT_TOKEN'),
+        'chat_id' => env('TELEGRAM_MASTER_CHAT'),
+        'proxy' => env('TELEGRAM_PROXY'),
     ],
 
 ];
