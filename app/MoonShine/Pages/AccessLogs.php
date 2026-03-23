@@ -11,7 +11,9 @@ use MoonShine\Laravel\Pages\Page;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Layout\Flex;
+use MoonShine\UI\Components\OffCanvas;
 use MoonShine\UI\Components\FormBuilder;
+use MoonShine\UI\Components\Heading;
 use MoonShine\UI\Components\Link;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\Hidden;
@@ -58,6 +60,9 @@ class AccessLogs extends Page
                 $this->buildTable($entriesPayload['items']),
                 $this->buildPagination($entriesPayload['page'], $entriesPayload['pages'], $filters['status']),
             ]),
+            $this->buildEntryComponent()
+                ->name('access-log-entry')
+                ->canSee(fn() => $this->isEntryComponentRequest()),
         ];
     }
 
@@ -143,6 +148,7 @@ class AccessLogs extends Page
             Text::make('User Agent', 'user_agent')->sortable(),
             Text::make('Bot', 'is_bot')->sortable(),
             Text::make('Suspicious', 'is_suspicious')->sortable(),
+            Text::make('Details', 'details')->unescape(),
         ], $entries)->withoutKey()
             ->withNotFound('No log entries found for current filters.');
     }
@@ -162,6 +168,7 @@ class AccessLogs extends Page
         $limit = self::MAX_ENTRIES;
         $totalMatches = 0;
         $items = [];
+        $fileBasename = basename($file);
 
         $fileObject = new \SplFileObject($file, 'r');
         $fileObject->setFlags(\SplFileObject::DROP_NEW_LINE | \SplFileObject::SKIP_EMPTY);
@@ -187,7 +194,10 @@ class AccessLogs extends Page
 
             $totalMatches++;
 
+            $lineNumber = $fileObject->key();
+
             $items[] = [
+                'line' => $lineNumber,
                 'time_raw' => Arr::get($decoded, 'datetime'),
                 'time' => $this->formatDateTime(Arr::get($decoded, 'datetime')),
                 'method' => Arr::get($context, 'method'),
@@ -199,6 +209,7 @@ class AccessLogs extends Page
                 'user_agent' => Arr::get($context, 'user_agent'),
                 'is_bot' => Arr::get($context, 'is_bot') ? 'yes' : 'no',
                 'is_suspicious' => Arr::get($context, 'is_suspicious') ? 'yes' : 'no',
+                'details' => $this->buildDetailsDrawer($fileBasename, $lineNumber, $context),
             ];
 
         }
@@ -220,6 +231,33 @@ class AccessLogs extends Page
             'page' => $page,
             'pages' => $pages,
         ];
+    }
+
+    private function buildDetailsDrawer(string $fileBasename, int $lineNumber, array $context): string
+    {
+        $title = trim((string) Arr::get($context, 'method') . ' ' . (string) Arr::get($context, 'path'));
+        if ($title === '') {
+            $title = 'Access Log Entry';
+        }
+
+        $params = [
+            '_component_name' => 'access-log-entry',
+            'file' => $fileBasename,
+            'line' => $lineNumber,
+        ];
+
+        $asyncUrl = route('moonshine.component', ['pageUri' => 'access-logs']) . '?' . http_build_query($params);
+
+        $drawer = OffCanvas::make(
+            title: $title,
+            content: '',
+            toggler: 'Open',
+            asyncUrl: $asyncUrl,
+        )
+            ->name('access-log-entry-' . $lineNumber)
+            ->wide();
+
+        return (string) $drawer->render();
     }
 
     private function applySort(array $items): array
@@ -383,6 +421,130 @@ class AccessLogs extends Page
         }
 
         return '&' . http_build_query($params);
+    }
+
+    private function isEntryComponentRequest(): bool
+    {
+        return request()->routeIs('moonshine.component')
+            && request()->query('_component_name') === 'access-log-entry';
+    }
+
+    private function buildEntryComponent(): Box
+    {
+        $file = $this->resolveLogFile((string) request()->query('file', ''));
+        $line = max((int) request()->query('line', -1), -1);
+
+        $entry = $this->loadEntry($file, $line);
+
+        $components = [
+            \MoonShine\UI\Fields\Textarea::make('Raw', 'raw')
+                ->setValue($entry ? $entry['raw'] : ''),
+        ];
+
+        $components = array_merge(
+            $components,
+            $entry ? $this->buildSummaryFields($entry) : [Heading::make('Entry not found.', 6)]
+        );
+
+        return Box::make('Access Log Entry', $components);
+    }
+
+    /**
+     * @return array<string, Text>
+     */
+    private function buildSummaryFields(array $entry): array
+    {
+        return [
+            Text::make('Time', 'time')->setValue($entry['time'])->readonly(),
+            Text::make('Request ID', 'request_id')->setValue($entry['request_id'])->readonly(),
+            Text::make('Method', 'method')->setValue($entry['method'])->readonly(),
+            Text::make('Path', 'path')->setValue($entry['path'])->readonly(),
+            Text::make('Status', 'status')->setValue((string) $entry['status'])->readonly(),
+            Text::make('Duration ms', 'duration_ms')->setValue((string) $entry['duration_ms'])->readonly(),
+            Text::make('Response Size', 'response_size')->setValue((string) $entry['response_size'])->readonly(),
+            Text::make('IP', 'ip')->setValue($entry['ip'])->readonly(),
+            Text::make('User Agent', 'user_agent')->setValue($entry['user_agent'])->readonly(),
+            Text::make('Referer', 'referer')->setValue($entry['referer'])->readonly(),
+            Text::make('Slow', 'slow_request')->setValue($entry['slow_request'])->readonly(),
+            Text::make('Bot', 'is_bot')->setValue($entry['is_bot'])->readonly(),
+            Text::make('Suspicious', 'is_suspicious')->setValue($entry['is_suspicious'])->readonly(),
+        ];
+    }
+
+    private function resolveLogFile(string $fileBasename): ?string
+    {
+        $dir = storage_path('logs');
+        $candidates = glob($dir . '/access-*.log') ?: [];
+
+        $single = $dir . '/access.log';
+        if (File::exists($single)) {
+            $candidates[] = $single;
+        }
+
+        if ($fileBasename !== '') {
+            $fileBasename = basename($fileBasename);
+            foreach ($candidates as $candidate) {
+                if (basename($candidate) === $fileBasename) {
+                    return $candidate;
+                }
+            }
+        }
+
+        if (empty($candidates)) {
+            return null;
+        }
+
+        usort($candidates, fn(string $a, string $b) => filemtime($b) <=> filemtime($a));
+
+        return $candidates[0] ?? null;
+    }
+
+    private function loadEntry(?string $file, int $line): ?array
+    {
+        if (! $file || $line < 0) {
+            return null;
+        }
+
+        $fileObject = new \SplFileObject($file, 'r');
+        $fileObject->setFlags(\SplFileObject::DROP_NEW_LINE);
+
+        try {
+            $fileObject->seek($line);
+        } catch (\Throwable) {
+            return null;
+        }
+
+        $raw = $fileObject->current();
+        if (! is_string($raw) || $raw === '') {
+            return null;
+        }
+
+        $decoded = json_decode($raw, true);
+        if (! is_array($decoded)) {
+            return null;
+        }
+
+        $context = Arr::get($decoded, 'context', []);
+        if (! is_array($context)) {
+            $context = [];
+        }
+
+        return [
+            'time' => $this->formatDateTime(Arr::get($decoded, 'datetime')),
+            'request_id' => (string) Arr::get($context, 'request_id'),
+            'method' => (string) Arr::get($context, 'method'),
+            'path' => (string) Arr::get($context, 'path'),
+            'status' => Arr::get($context, 'status'),
+            'duration_ms' => Arr::get($context, 'duration_ms'),
+            'response_size' => Arr::get($context, 'response_size'),
+            'ip' => (string) Arr::get($context, 'ip'),
+            'user_agent' => (string) Arr::get($context, 'user_agent'),
+            'referer' => (string) Arr::get($context, 'referer'),
+            'slow_request' => Arr::get($context, 'slow_request') ? 'yes' : 'no',
+            'is_bot' => Arr::get($context, 'is_bot') ? 'yes' : 'no',
+            'is_suspicious' => Arr::get($context, 'is_suspicious') ? 'yes' : 'no',
+            'raw' => json_encode($decoded, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+        ];
     }
 
 }
