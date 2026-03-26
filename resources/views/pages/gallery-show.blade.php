@@ -29,7 +29,7 @@
 
                 @if ($gallery->description)
                     <div class="prose prose-gray max-w-none mt-6">
-                        <p>{{ $gallery->description }}</p>
+                        {!! $gallery->description !!}
                     </div>
                 @endif
 

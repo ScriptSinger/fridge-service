@@ -13,6 +13,7 @@ use App\MoonShine\Resources\Gallery\Pages\GalleryFormPage;
 use App\MoonShine\Resources\Gallery\Pages\GalleryDetailPage;
 use App\MoonShine\Resources\Page\PageResource;
 use App\MoonShine\Resources\Service\ServiceResource;
+use MoonShine\TinyMce\Fields\TinyMce;
 
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
@@ -61,7 +62,7 @@ class GalleryResource extends ModelResource
                     ->hint('Генерируется автоматически из Title'),
                 Text::make('Title', 'title')->required(),
                 Text::make('Subtitle', 'subtitle'),
-                Textarea::make('Description', 'description'),
+                TinyMce::make('Description', 'description'),
                 Number::make('Порядок', 'sort_order')->default(0),
                 Date::make('Дата публикации', 'published_at')
                     ->format('d.m.Y')
@@ -99,7 +100,7 @@ class GalleryResource extends ModelResource
             ID::make()->sortable(),
             Text::make('Title', 'title'),
             Text::make('Subtitle', 'subtitle'),
-            Textarea::make('Description', 'description'),
+            TinyMce::make('Description', 'description'),
             Number::make('Порядок', 'sort_order'),
             Date::make('Дата публикации', 'published_at')->format('d.m.Y'),
             Image::make('Изображение', 'image')->disk(config('filesystems.media')),
