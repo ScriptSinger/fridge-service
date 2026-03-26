@@ -3,17 +3,20 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasImageUrl;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
 class Gallery extends Model
 {
     use HasImageUrl;
+    use Sluggable;
 
     protected $fillable = [
         'device_id',
         'brand_id',
         'service_id',
         'page_id',
+        'slug',
         'title',
         'subtitle',
         'description',
@@ -26,6 +29,20 @@ class Gallery extends Model
     protected $casts = [
         'published_at' => 'datetime',
     ];
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 
     public function scopeHasImage($query)
     {

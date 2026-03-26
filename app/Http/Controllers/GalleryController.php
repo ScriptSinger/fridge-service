@@ -44,4 +44,18 @@ class GalleryController extends Controller
             'activeDevice' => $activeDevice,
         ]);
     }
+
+    public function show(Gallery $gallery)
+    {
+        $gallery->load(['device', 'brand', 'service']);
+
+        $title = $gallery->title ?: 'Выполненный ремонт';
+        $description = $gallery->subtitle ?: 'Фото выполненных работ по ремонту бытовой техники.';
+
+        return view('pages.gallery-show', [
+            'gallery' => $gallery,
+            'title' => $title,
+            'description' => $description,
+        ]);
+    }
 }

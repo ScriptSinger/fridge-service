@@ -206,6 +206,21 @@ class GenerateSitemap extends Command
                         $tag->setLastModificationDate($type->page->updated_at);
                     }
                 });
+
+            Gallery::query()
+                ->whereNotNull('slug')
+                ->hasImage()
+                ->orderBy('id')
+                ->chunk(200, function ($galleries) use ($sitemap) {
+                    foreach ($galleries as $gallery) {
+                        $sitemap->add(
+                            Url::create(route('gallery.show', $gallery))
+                                ->setLastModificationDate($gallery->updated_at)
+                                ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+                                ->setPriority(0.6)
+                        );
+                    }
+                });
         } catch (\Throwable $e) {
             $this->warn('Database is unavailable. Generated sitemap with static routes only.');
         }

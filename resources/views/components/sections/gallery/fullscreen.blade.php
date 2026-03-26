@@ -22,11 +22,15 @@
 
                         <!-- Текст под изображением -->
                         <figcaption class="w-full p-3 md:p-6 text-white">
-                            <p class="mb-1 text-xs font-medium tracking-widest text-yellow-400 md:text-sm"
-                                x-text="slide.subtitle"></p>
                             <h3 class="text-sm font-semibold md:text-base lg:text-lg text-yellow-400"
                                 x-text="slide.title"></h3>
-                            <p class="mb-1 text-sm text-white/90 md:text-base" x-text="slide.description"></p>
+                            <p class="mt-2 text-sm text-white/80 md:text-base" x-text="slide.subtitle"></p>
+                            <a :href="slide.url"
+                                class="mt-4 inline-flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-xs font-semibold text-gray-900 hover:bg-white"
+                                x-show="slide.url">
+                                Подробнее
+                                <span aria-hidden="true">→</span>
+                            </a>
                         </figcaption>
                     </figure>
                 </template>

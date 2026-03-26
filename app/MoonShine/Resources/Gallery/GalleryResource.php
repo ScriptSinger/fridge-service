@@ -39,6 +39,7 @@ class GalleryResource extends ModelResource
         return [
             ID::make()->sortable(),
             Image::make('Изображение', 'image')->disk(config('filesystems.media')),
+            Text::make('Slug', 'slug')->sortable(),
             Text::make('Title', 'title')->sortable(),
             Text::make('Subtitle', 'subtitle')->sortable(),
             Number::make('Порядок', 'sort_order')->sortable(),
@@ -55,6 +56,9 @@ class GalleryResource extends ModelResource
         return [
             Box::make([
                 ID::make()->readonly(),
+                Text::make('Slug', 'slug')
+                    ->readonly()
+                    ->hint('Генерируется автоматически'),
                 Text::make('Title', 'title')->required(),
                 Text::make('Subtitle', 'subtitle'),
                 Textarea::make('Description', 'description'),

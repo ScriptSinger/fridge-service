@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Brand;
+use App\Models\Gallery;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 
@@ -48,6 +49,11 @@ Breadcrumbs::for('reviews.index', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('gallery.index', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Галерея', route('gallery.index'));
+});
+
+Breadcrumbs::for('gallery.show', function (BreadcrumbTrail $trail, Gallery $gallery) {
+    $trail->parent('gallery.index');
+    $trail->push($gallery->title ?: 'Выполненный ремонт', route('gallery.show', $gallery));
 });
 
 Breadcrumbs::for('legal.privacy-policy', function (BreadcrumbTrail $trail) {

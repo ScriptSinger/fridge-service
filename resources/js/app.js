@@ -13,6 +13,7 @@ import reviewsSlider from "./components/reviewsSlider";
 import reviewsIndexSort from "./components/reviewsIndexSort";
 import galleryIndexMasonry from "./components/galleryIndexMasonry";
 import problemsMasonry from "./components/problemsMasonry";
+import galleryCard from "./components/galleryCard";
 
 // делаем Alpine глобальным
 window.Alpine = Alpine;
@@ -29,6 +30,7 @@ Alpine.data("reviewsSlider", reviewsSlider);
 Alpine.data("reviewsIndexSort", reviewsIndexSort);
 Alpine.data("galleryIndexMasonry", galleryIndexMasonry);
 Alpine.data("problemsMasonry", problemsMasonry);
+Alpine.data("galleryCard", galleryCard);
 
 // регистрируем директиву
 Alpine.directive("phone", (el) => phoneMask(el));

@@ -18,6 +18,7 @@ Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.ind
 Route::get('/about', [AboutController::class, 'index'])->name('about.index');
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
+Route::get('/gallery/{gallery:slug}', [GalleryController::class, 'show'])->name('gallery.show');
 Route::get('/privacy-policy', [PageController::class, 'showLegal'])
     ->defaults('type', 'privacy-policy')
     ->name('legal.privacy-policy');

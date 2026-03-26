@@ -8,7 +8,7 @@
 ])
 
 <x-ui.sections.wrapper id="gallery-index-section" class="bg-gray-50" x-data="galleryIndexMasonry()" x-init="init()" x-ref="section">
-    <x-ui.sections.header suptitle="Галерея работ" title="Реальные кейсы"
+    <x-ui.sections.header suptitle="Галерея работ" title="Примеры работ"
         subtitle="На странице {{ $total }} фото выполненных ремонтов">
     </x-ui.sections.header>
 
