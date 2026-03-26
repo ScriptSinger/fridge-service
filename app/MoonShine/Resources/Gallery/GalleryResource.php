@@ -104,11 +104,7 @@ class GalleryResource extends ModelResource
             ID::make()->sortable(),
             Text::make('Title', 'title'),
             Text::make('Subtitle', 'subtitle'),
-            TinyMce::make('Description', 'description')
-                ->addOption('forced_root_block', 'p')
-                ->addOption('force_p_newlines', true)
-                ->addOption('force_br_newlines', false)
-                ->addOption('convert_newlines_to_brs', false),
+            TinyMce::make('Description', 'description'),
             Number::make('Порядок', 'sort_order'),
             Date::make('Дата публикации', 'published_at')->format('d.m.Y'),
             Image::make('Изображение', 'image')->disk(config('filesystems.media')),
