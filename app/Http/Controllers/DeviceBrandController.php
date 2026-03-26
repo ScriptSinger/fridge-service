@@ -20,6 +20,7 @@ class DeviceBrandController extends Controller
         $ttl = now()->addMinutes(20);
         $problems = Cache::remember("problems:device:{$device->id}:brand:{$brand->id}", $ttl, fn() => $brand->problems()
             ->where('device_id', $device->id)
+            ->where('is_active', true)
             ->get());
         $galleries = Cache::remember("gallery:device:{$device->id}:brand:{$brand->id}", $ttl, fn() => Gallery::query()
             ->where('device_id', $device->id)

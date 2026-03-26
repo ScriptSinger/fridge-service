@@ -14,7 +14,9 @@ class DeviceController extends Controller
     {
         $ttl = now()->addMinutes(20);
         $brands = Cache::remember("device:{$device->id}:brands", $ttl, fn() => $device->brands()->get());
-        $problems = Cache::remember("device:{$device->id}:problems", $ttl, fn() => $device->problems()->get());
+        $problems = Cache::remember("device:{$device->id}:problems", $ttl, fn() => $device->problems()
+            ->where('is_active', true)
+            ->get());
         $services = Cache::remember("device:{$device->id}:services", $ttl, fn() => $device->services()->get());
         $faqs = Cache::remember("faqs:device:{$device->id}", $ttl, fn() => Faq::query()
             ->where('device_id', $device->id)
