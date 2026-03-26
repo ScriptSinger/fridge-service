@@ -58,7 +58,7 @@ class GalleryResource extends ModelResource
                 ID::make()->readonly(),
                 Text::make('Slug', 'slug')
                     ->readonly()
-                    ->hint('Генерируется автоматически'),
+                    ->hint('Генерируется автоматически из Title'),
                 Text::make('Title', 'title')->required(),
                 Text::make('Subtitle', 'subtitle'),
                 Textarea::make('Description', 'description'),
