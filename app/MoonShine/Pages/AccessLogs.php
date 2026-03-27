@@ -19,6 +19,8 @@ use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\Hidden;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Switcher;
+use MoonShine\UI\Fields\Select;
+use MoonShine\UI\Fields\Date;
 use MoonShine\Support\Enums\FormMethod;
 use MoonShine\MenuManager\Attributes\Group;
 use MoonShine\MenuManager\Attributes\Order;
@@ -58,7 +60,12 @@ class AccessLogs extends Page
             ]),
             Box::make('Latest entries', [
                 $this->buildTable($entriesPayload['items']),
-                $this->buildPagination($entriesPayload['page'], $entriesPayload['pages'], $filters['status']),
+                $this->buildPagination(
+                    $entriesPayload['page'],
+                    $entriesPayload['pages'],
+                    $entriesPayload['total'],
+                    $filters['status']
+                ),
             ]),
             $this->buildEntryComponent()
                 ->name('access-log-entry')
@@ -90,6 +97,11 @@ class AccessLogs extends Page
     private function buildSearchFilters(array $filters): FormBuilder
     {
         $fields = [
+            Select::make('Log file', 'file')
+                ->options($this->buildFileOptions())
+                ->nullable(),
+            Date::make('Date from', 'date_from')->format('d.m.Y'),
+            Date::make('Date to', 'date_to')->format('d.m.Y'),
             Text::make('Path contains', 'path'),
             Text::make('IP contains', 'ip'),
             Text::make('User Agent contains', 'user_agent'),
@@ -109,13 +121,16 @@ class AccessLogs extends Page
             'path' => $filters['path'],
             'ip' => $filters['ip'],
             'user_agent' => $filters['user_agent'],
+            'file' => $filters['file'],
+            'date_from' => $filters['date_from'],
+            'date_to' => $filters['date_to'],
             'only_bots' => $filters['only_bots'] ? 1 : 0,
             'only_suspicious' => $filters['only_suspicious'] ? 1 : 0,
         ],
         );
     }
 
-    private function buildPagination(int $page, int $pages, string $status): Flex
+    private function buildPagination(int $page, int $pages, int $total, string $status): Flex
     {
         $links = [];
         $base = $this->getUrl();
@@ -125,13 +140,54 @@ class AccessLogs extends Page
             $links[] = Link::make($base . '?page=' . ($page - 1) . $query, 'Prev')->button();
         }
 
+        foreach ($this->buildPageWindow($page, $pages, 2) as $pageNumber) {
+            if ($pageNumber === null) {
+                $links[] = Text::make('', 'ellipsis_' . count($links))->setValue('...');
+                continue;
+            }
+
+            $link = Link::make($base . '?page=' . $pageNumber . $query, (string) $pageNumber)->button();
+            if ($pageNumber === $page) {
+                $link->filled();
+            }
+            $links[] = $link;
+        }
+
         if ($page < $pages) {
             $links[] = Link::make($base . '?page=' . ($page + 1) . $query, 'Next')->button();
         }
 
-        $links[] = Text::make('', 'page_info')->setValue("Page {$page} / {$pages}");
-
         return Flex::make($links)->class('gap-2 mt-4');
+    }
+
+    /**
+     * @return array<int, int|null>
+     */
+    private function buildPageWindow(int $page, int $pages, int $radius): array
+    {
+        if ($pages <= 7) {
+            return range(1, $pages);
+        }
+
+        $result = [1];
+        $start = max(2, $page - $radius);
+        $end = min($pages - 1, $page + $radius);
+
+        if ($start > 2) {
+            $result[] = null;
+        }
+
+        for ($i = $start; $i <= $end; $i++) {
+            $result[] = $i;
+        }
+
+        if ($end < $pages - 1) {
+            $result[] = null;
+        }
+
+        $result[] = $pages;
+
+        return $result;
     }
 
 
@@ -139,6 +195,7 @@ class AccessLogs extends Page
     {
         return TableBuilder::make([
             Text::make('Time', 'time')->sortable(),
+            Text::make('File', 'file')->sortable(),
             Text::make('Method', 'method')->sortable(),
             Text::make('Path', 'path')->sortable(),
             Text::make('Status', 'status')->sortable(),
@@ -155,68 +212,92 @@ class AccessLogs extends Page
 
     private function loadEntries(array $filters): array
     {
-        $file = $this->getLatestLogFile();
-        if (! $file) {
+        $files = $this->getLogFiles();
+        if (empty($files)) {
             return [
                 'items' => [],
                 'page' => self::DEFAULT_PAGE,
                 'pages' => self::DEFAULT_PAGE,
+                'total' => 0,
             ];
+        }
+
+        if ($filters['file'] !== '' && $filters['file'] !== 'all') {
+            $files = array_values(array_filter($files, fn(string $path) => basename($path) === $filters['file']));
+            if (empty($files)) {
+                return [
+                    'items' => [],
+                    'page' => self::DEFAULT_PAGE,
+                    'pages' => self::DEFAULT_PAGE,
+                    'total' => 0,
+                ];
+            }
         }
 
         $page = max((int) request()->query('page', self::DEFAULT_PAGE), 1);
         $limit = self::MAX_ENTRIES;
         $totalMatches = 0;
         $items = [];
-        $fileBasename = basename($file);
+        $dateFrom = $this->parseFilterDate($filters['date_from'], true);
+        $dateTo = $this->parseFilterDate($filters['date_to'], false);
 
-        $fileObject = new \SplFileObject($file, 'r');
-        $fileObject->setFlags(\SplFileObject::DROP_NEW_LINE | \SplFileObject::SKIP_EMPTY);
+        foreach ($files as $file) {
+            $fileBasename = basename($file);
+            $fileObject = new \SplFileObject($file, 'r');
+            $fileObject->setFlags(\SplFileObject::DROP_NEW_LINE | \SplFileObject::SKIP_EMPTY);
 
-        foreach ($fileObject as $line) {
-            if (! is_string($line) || $line === '') {
-                continue;
+            foreach ($fileObject as $line) {
+                if (! is_string($line) || $line === '') {
+                    continue;
+                }
+
+                $decoded = json_decode($line, true);
+                if (! is_array($decoded)) {
+                    continue;
+                }
+
+                $context = Arr::get($decoded, 'context', []);
+                if (! is_array($context)) {
+                    $context = [];
+                }
+
+                $timeRaw = Arr::get($decoded, 'datetime');
+                $entryTime = $this->parseEntryDateTime($timeRaw);
+
+                if (! $this->matchFilters($context, $filters, $entryTime, $dateFrom, $dateTo)) {
+                    continue;
+                }
+
+                $totalMatches++;
+
+                $lineNumber = $fileObject->key();
+
+                $items[] = [
+                    'line' => $lineNumber,
+                    'time_raw' => $timeRaw,
+                    'time' => $this->formatDateTime($timeRaw),
+                    'file' => $fileBasename,
+                    'method' => Arr::get($context, 'method'),
+                    'path' => Arr::get($context, 'path'),
+                    'status' => Arr::get($context, 'status'),
+                    'duration_ms' => Arr::get($context, 'duration_ms'),
+                    'response_size' => Arr::get($context, 'response_size'),
+                    'ip' => Arr::get($context, 'ip'),
+                    'user_agent' => Arr::get($context, 'user_agent'),
+                    'is_bot' => Arr::get($context, 'is_bot') ? 'yes' : 'no',
+                    'is_suspicious' => Arr::get($context, 'is_suspicious') ? 'yes' : 'no',
+                    'details' => $this->buildDetailsDrawer($fileBasename, $lineNumber, $context),
+                ];
             }
-
-            $decoded = json_decode($line, true);
-            if (! is_array($decoded)) {
-                continue;
-            }
-
-            $context = Arr::get($decoded, 'context', []);
-            if (! is_array($context)) {
-                $context = [];
-            }
-
-            if (! $this->matchFilters($context, $filters)) {
-                continue;
-            }
-
-            $totalMatches++;
-
-            $lineNumber = $fileObject->key();
-
-            $items[] = [
-                'line' => $lineNumber,
-                'time_raw' => Arr::get($decoded, 'datetime'),
-                'time' => $this->formatDateTime(Arr::get($decoded, 'datetime')),
-                'method' => Arr::get($context, 'method'),
-                'path' => Arr::get($context, 'path'),
-                'status' => Arr::get($context, 'status'),
-                'duration_ms' => Arr::get($context, 'duration_ms'),
-                'response_size' => Arr::get($context, 'response_size'),
-                'ip' => Arr::get($context, 'ip'),
-                'user_agent' => Arr::get($context, 'user_agent'),
-                'is_bot' => Arr::get($context, 'is_bot') ? 'yes' : 'no',
-                'is_suspicious' => Arr::get($context, 'is_suspicious') ? 'yes' : 'no',
-                'details' => $this->buildDetailsDrawer($fileBasename, $lineNumber, $context),
-            ];
-
         }
 
         $sort = (string) request()->query('sort', '');
         if ($sort === '') {
-            $items = array_reverse($items);
+            usort($items, function (array $a, array $b) {
+                $valueA = $a['time_raw'] ?? null;
+                $valueB = $b['time_raw'] ?? null;
+                return ($valueB ?? '') <=> ($valueA ?? '');
+            });
         } else {
             $items = $this->applySort($items);
         }
@@ -230,6 +311,7 @@ class AccessLogs extends Page
             'items' => $items,
             'page' => $page,
             'pages' => $pages,
+            'total' => $totalMatches,
         ];
     }
 
@@ -248,13 +330,14 @@ class AccessLogs extends Page
 
         $asyncUrl = route('moonshine.component', ['pageUri' => 'access-logs']) . '?' . http_build_query($params);
 
+        $safeFile = str_replace(['.', '-'], '_', $fileBasename);
         $drawer = OffCanvas::make(
             title: $title,
             content: '',
             toggler: 'Open',
             asyncUrl: $asyncUrl,
         )
-            ->name('access-log-entry-' . $lineNumber)
+            ->name('access-log-entry-' . $safeFile . '-' . $lineNumber)
             ->wide();
 
         return (string) $drawer->render();
@@ -272,6 +355,7 @@ class AccessLogs extends Page
 
         $allowed = [
             'time',
+            'file',
             'method',
             'path',
             'status',
@@ -321,7 +405,7 @@ class AccessLogs extends Page
         }
     }
 
-    private function getLatestLogFile(): ?string
+    private function getLogFiles(): array
     {
         $dir = storage_path('logs');
         $candidates = glob($dir . '/access-*.log') ?: [];
@@ -331,19 +415,20 @@ class AccessLogs extends Page
             $candidates[] = $single;
         }
 
-        if (empty($candidates)) {
-            return null;
-        }
+        $candidates = array_values(array_unique($candidates));
 
         usort($candidates, fn(string $a, string $b) => filemtime($b) <=> filemtime($a));
 
-        return $candidates[0] ?? null;
+        return $candidates;
     }
 
     private function getFilters(string $status): array
     {
         return [
             'status' => $status,
+            'file' => (string) request()->query('file', ''),
+            'date_from' => (string) request()->query('date_from', ''),
+            'date_to' => (string) request()->query('date_to', ''),
             'path' => (string) request()->query('path', ''),
             'ip' => (string) request()->query('ip', ''),
             'user_agent' => (string) request()->query('user_agent', ''),
@@ -352,7 +437,13 @@ class AccessLogs extends Page
         ];
     }
 
-    private function matchFilters(array $context, array $filters): bool
+    private function matchFilters(
+        array $context,
+        array $filters,
+        ?Carbon $entryTime,
+        ?Carbon $dateFrom,
+        ?Carbon $dateTo
+    ): bool
     {
         $status = (int) Arr::get($context, 'status', 0);
         if ($filters['status'] !== 'all' && $status !== (int) $filters['status']) {
@@ -382,6 +473,20 @@ class AccessLogs extends Page
             return false;
         }
 
+        if ($dateFrom || $dateTo) {
+            if (! $entryTime) {
+                return false;
+            }
+
+            if ($dateFrom && $entryTime->lt($dateFrom)) {
+                return false;
+            }
+
+            if ($dateTo && $entryTime->gt($dateTo)) {
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -406,6 +511,21 @@ class AccessLogs extends Page
         $userAgent = (string) request()->query('user_agent', '');
         if ($userAgent !== '') {
             $params['user_agent'] = $userAgent;
+        }
+
+        $file = (string) request()->query('file', '');
+        if ($file !== '') {
+            $params['file'] = $file;
+        }
+
+        $dateFrom = (string) request()->query('date_from', '');
+        if ($dateFrom !== '') {
+            $params['date_from'] = $dateFrom;
+        }
+
+        $dateTo = (string) request()->query('date_to', '');
+        if ($dateTo !== '') {
+            $params['date_to'] = $dateTo;
         }
 
         if (request()->query('only_bots')) {
@@ -473,13 +593,7 @@ class AccessLogs extends Page
 
     private function resolveLogFile(string $fileBasename): ?string
     {
-        $dir = storage_path('logs');
-        $candidates = glob($dir . '/access-*.log') ?: [];
-
-        $single = $dir . '/access.log';
-        if (File::exists($single)) {
-            $candidates[] = $single;
-        }
+        $candidates = $this->getLogFiles();
 
         if ($fileBasename !== '') {
             $fileBasename = basename($fileBasename);
@@ -490,14 +604,49 @@ class AccessLogs extends Page
             }
         }
 
-        if (empty($candidates)) {
+        return $candidates[0] ?? null;
+    }
+
+    private function buildFileOptions(): array
+    {
+        $options = ['all' => 'All files'];
+        foreach ($this->getLogFiles() as $path) {
+            $basename = basename($path);
+            $options[$basename] = $basename;
+        }
+
+        return $options;
+    }
+
+    private function parseEntryDateTime(mixed $value): ?Carbon
+    {
+        if (! is_string($value) || $value === '') {
             return null;
         }
 
-        usort($candidates, fn(string $a, string $b) => filemtime($b) <=> filemtime($a));
-
-        return $candidates[0] ?? null;
+        try {
+            return Carbon::parse($value)->timezone(config('app.timezone'));
+        } catch (\Throwable) {
+            return null;
+        }
     }
+
+    private function parseFilterDate(string $value, bool $startOfDay): ?Carbon
+    {
+        $value = trim($value);
+        if ($value === '') {
+            return null;
+        }
+
+        try {
+            $date = Carbon::parse($value)->timezone(config('app.timezone'));
+        } catch (\Throwable) {
+            return null;
+        }
+
+        return $startOfDay ? $date->startOfDay() : $date->endOfDay();
+    }
+
 
     private function loadEntry(?string $file, int $line): ?array
     {
