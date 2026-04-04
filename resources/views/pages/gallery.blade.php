@@ -1,9 +1,9 @@
 <x-layouts.app
-    title="Галерея работ"
-    description="Фотографии выполненных работ по ремонту бытовой техники в Уфе"
+    :title="$page?->title ?? 'Галерея работ'"
+    :description="$page?->description ?? 'Фотографии выполненных работ и отдельных этапов ремонта.'"
     :noindex="request()->query() !== []">
     <x-ui.breadcrumbs route="gallery.index" :model="null" />
-    <x-sections.hero :model="null" :h1="'Галерея работ'" :subtitle="'Фото выполненных ремонтов и реальных кейсов'" />
+    <x-sections.hero :model="$page" :h1="$page?->h1" :subtitle="$page?->subtitle" />
 
     <x-sections.gallery.index
         :galleries="$galleries"
@@ -12,6 +12,6 @@
         :device-options="$deviceOptions"
         :active-brand="$activeBrand"
         :active-device="$activeDevice" />
-    <x-sections.contact :model="null" />
+    <x-sections.contact :model="$page" />
     <x-ui.scroll-up />
 </x-layouts.app>

@@ -18,8 +18,8 @@
 
 @if ($slides->isNotEmpty())
     <x-ui.sections.wrapper>
-        <x-ui.sections.header title="Примеры выполненных работ"
-            subtitle="Реальные кейсы и типовые задачи, которые мы решаем" />
+        <x-ui.sections.header title="Примеры работ"
+            subtitle="Фото выполненных работ: диагностика, ремонт и восстановление техники в процессе и после обслуживания" />
 
         <x-sections.gallery.slider :slides="$slides->all()" />
 

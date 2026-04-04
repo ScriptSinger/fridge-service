@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GalleryIndexRequest;
 use App\Models\Gallery;
+use App\Models\PageType;
 use App\Pipelines\GalleryPipeline;
 use App\Services\GalleryFilterOptionsService;
+use Illuminate\Support\Facades\Cache;
 
 class GalleryController extends Controller
 {
@@ -15,6 +17,11 @@ class GalleryController extends Controller
         $sort = $request->sort();
         $activeBrand = $request->brand();
         $activeDevice = $request->device();
+        $page = Cache::remember('page:type:gallery', $ttl, function () {
+            return PageType::with('page')
+                ->where('key', 'gallery')
+                ->first()?->page;
+        });
 
         $brandOptions = $filterOptionsService->getBrandOptions($ttl);
         $deviceOptions = $filterOptionsService->getDeviceOptions($ttl);
@@ -36,6 +43,7 @@ class GalleryController extends Controller
             ->withQueryString();
 
         return view('pages.gallery', [
+            'page' => $page,
             'galleries' => $galleries,
             'total' => $galleries->total(),
             'brandOptions' => ['all' => 'Все бренды'] + $brandOptions->all(),
