@@ -4,10 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Price extends Model
 {
     use HasFactory;
+
+    protected static function booted(): void
+    {
+        static::saved(fn (Price $price) => $price->clearFrontendCache());
+        static::deleted(fn (Price $price) => $price->clearFrontendCache());
+    }
 
     // разрешённые для массового заполнения поля
     protected $fillable = [
@@ -89,5 +96,22 @@ class Price extends Model
     public function scopeForService($query, $serviceId)
     {
         return $query->where('service_id', $serviceId);
+    }
+
+    public function clearFrontendCache(): void
+    {
+        if (! $this->device_id) {
+            return;
+        }
+
+        Cache::forget("device:{$this->device_id}:services");
+
+        $brandIds = $this->relationLoaded('brands')
+            ? $this->brands->pluck('id')
+            : $this->brands()->pluck('brands.id');
+
+        foreach ($brandIds as $brandId) {
+            Cache::forget("device:{$this->device_id}:brand:{$brandId}:services");
+        }
     }
 }

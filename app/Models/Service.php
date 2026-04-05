@@ -6,11 +6,18 @@ use App\Models\Concerns\HasImageUrl;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Price;
+use Illuminate\Support\Facades\Cache;
 
 class Service extends Model
 {
     use Sluggable;
     use HasImageUrl;
+
+    protected static function booted(): void
+    {
+        static::saved(fn (Service $service) => $service->clearFrontendCache());
+        static::deleted(fn (Service $service) => $service->clearFrontendCache());
+    }
 
     protected $fillable = [
         'name',
@@ -106,5 +113,26 @@ class Service extends Model
     public function getDisplayNameAttribute(): string
     {
         return $this->name; // можно добавить доп. текст, если нужно
+    }
+
+    public function clearFrontendCache(): void
+    {
+        if (! $this->device_id) {
+            return;
+        }
+
+        Cache::forget("device:{$this->device_id}:services");
+
+        $device = Device::query()
+            ->with('brands:id')
+            ->find($this->device_id);
+
+        if (! $device) {
+            return;
+        }
+
+        foreach ($device->brands as $brand) {
+            Cache::forget("device:{$this->device_id}:brand:{$brand->id}:services");
+        }
     }
 }
