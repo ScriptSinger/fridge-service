@@ -6,7 +6,7 @@
     <x-ui.sections.wrapper id="problems">
         <x-ui.sections.header
             title="Частые неисправности {{ $device->typeInCase('genitive_plural') }} {{ $brand->name }}"
-            subtitle="Мы собрали самые распространённые поломки {{ $device->typeInCase('genitive_plural') }} {{ $brand->name }}" />
+            subtitle="Мы собрали самые распространённые поломки и причины их возникновения." />
 
         <x-ui.sections.toggle-list :limit="6" :count="$items->count()" x-data="problemsMasonry()">
             <div x-ref="grid" class="relative space-y-4 md:space-y-0">
