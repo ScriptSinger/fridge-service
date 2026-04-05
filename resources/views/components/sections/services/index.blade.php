@@ -3,6 +3,10 @@
         $title = isset($device)
             ? 'Примерные цены на ремонт ' . $device->typeInCase('genitive_plural')
             : 'Примерные цены на ремонт бытовой техники';
+
+        if (isset($brand)) {
+            $title .= ' ' . $brand->name;
+        }
     @endphp
 
     <x-ui.sections.header :title="$title"
