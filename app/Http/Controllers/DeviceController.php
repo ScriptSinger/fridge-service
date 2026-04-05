@@ -17,7 +17,7 @@ class DeviceController extends Controller
         $problems = Cache::remember("device:{$device->id}:problems", $ttl, fn() => $device->problems()
             ->where('is_active', true)
             ->get());
-        $services = Cache::remember("device:{$device->id}:services", $ttl, fn() => $device->services()->get());
+        $services = Cache::remember("device:{$device->id}:services", $ttl, fn() => $device->services()->with('prices.brands')->get());
         $faqs = Cache::remember("faqs:device:{$device->id}", $ttl, fn() => Faq::query()
             ->where('device_id', $device->id)
             ->whereNull('brand_id')

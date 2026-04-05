@@ -39,6 +39,11 @@ class Brand extends Model
         return $this->belongsToMany(Device::class);
     }
 
+    public function prices()
+    {
+        return $this->belongsToMany(Price::class, 'brand_price');
+    }
+
     public function problems()
     {
         return $this->belongsToMany(Problem::class, 'brand_problem');

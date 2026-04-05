@@ -1,7 +1,7 @@
  <x-ui.sections.toggle-list :limit="4" :count="$services->count()">
      <div class="divide-y">
          @foreach ($services as $index => $service)
-             @php $price = $service->prices->first(); @endphp
+             @php $price = $service->preferredPrice($service->device_id, $brand->id ?? null); @endphp
 
              <div class="py-3" x-show="showAll || {{ $index }} < limit" x-cloak>
                  <div class="font-medium">{{ $service->name }}</div>

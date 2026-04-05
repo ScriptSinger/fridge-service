@@ -33,7 +33,13 @@ class DeviceBrandController extends Controller
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->get());
-        $services = Cache::remember("device:{$device->id}:services", $ttl, fn() => $device->services()->get());
+        $services = Cache::remember("device:{$device->id}:brand:{$brand->id}:services", $ttl, fn() => $device->services()
+            ->with('prices.brands')
+            ->get()
+            ->filter(fn ($service) => $service->prices->contains(
+                fn ($price) => $price->appliesToBrand($brand->id)
+            ))
+            ->values());
 
         return view('pages.brand', [
             'device'   => $device,

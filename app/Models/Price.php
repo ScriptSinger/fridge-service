@@ -13,7 +13,6 @@ class Price extends Model
     protected $fillable = [
         'service_id',
         'device_id',
-        'brand_id',
         'price_from',
         'price_to',
         'units',
@@ -36,11 +35,11 @@ class Price extends Model
     }
 
     /**
-     * Связь с брендом (Brand)
+     * Связь с брендами (Brand)
      */
-    public function brand()
+    public function brands()
     {
-        return $this->belongsTo(Brand::class);
+        return $this->belongsToMany(Brand::class, 'brand_price');
     }
 
     /**
@@ -72,7 +71,16 @@ class Price extends Model
      */
     public function scopeForBrand($query, $brandId)
     {
-        return $query->where('brand_id', $brandId);
+        return $query->whereHas('brands', fn ($brandQuery) => $brandQuery->whereKey($brandId));
+    }
+
+    public function appliesToBrand(?int $brandId): bool
+    {
+        if (is_null($brandId)) {
+            return $this->brands->isEmpty();
+        }
+
+        return $this->brands->contains('id', $brandId);
     }
 
     /**

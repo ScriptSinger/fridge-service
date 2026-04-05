@@ -46,21 +46,42 @@ class Service extends Model
         return $this->hasMany(Price::class);
     }
 
-    public function preferredPrice(?int $deviceId = null): ?Price
+    public function preferredPrice(?int $deviceId = null, ?int $brandId = null): ?Price
     {
         $prices = $this->relationLoaded('prices') ? $this->prices : $this->prices()->get();
 
+        if (! is_null($brandId)) {
+            return $prices
+                ->filter(fn (Price $item) => $item->device_id === $deviceId && $item->appliesToBrand($brandId))
+                ->sortByDesc(fn ($item) => ! is_null($item->price_from))
+                ->first()
+                ?? $prices
+                    ->filter(fn (Price $item) => $item->appliesToBrand($brandId))
+                    ->sortByDesc(fn ($item) => ! is_null($item->price_from))
+                    ->first()
+                ?? $prices
+                    ->filter(fn (Price $item) => $item->device_id === $deviceId && $item->brands->isEmpty())
+                    ->sortByDesc(fn ($item) => ! is_null($item->price_from))
+                    ->first()
+                ?? $prices
+                    ->filter(fn (Price $item) => $item->brands->isEmpty())
+                    ->sortByDesc(fn ($item) => ! is_null($item->price_from))
+                    ->first()
+                ?? $prices
+                    ->sortByDesc(fn ($item) => ! is_null($item->price_from))
+                    ->first();
+        }
+
         return $prices
-            ->where('device_id', $deviceId)
-            ->whereNull('brand_id')
-            ->sortByDesc(fn ($item) => !is_null($item->price_from))
+            ->filter(fn (Price $item) => $item->device_id === $deviceId && $item->brands->isEmpty())
+            ->sortByDesc(fn ($item) => ! is_null($item->price_from))
             ->first()
             ?? $prices
-                ->whereNull('brand_id')
-                ->sortByDesc(fn ($item) => !is_null($item->price_from))
+                ->filter(fn (Price $item) => $item->brands->isEmpty())
+                ->sortByDesc(fn ($item) => ! is_null($item->price_from))
                 ->first()
             ?? $prices
-                ->sortByDesc(fn ($item) => !is_null($item->price_from))
+                ->sortByDesc(fn ($item) => ! is_null($item->price_from))
                 ->first();
     }
 

@@ -9,7 +9,7 @@ class PriceController extends Controller
 {
     public function index()
     {
-        $devices = Device::with(['services.prices'])
+        $devices = Device::with(['services.prices.brands'])
             ->where('is_active', true)
             ->get();
 

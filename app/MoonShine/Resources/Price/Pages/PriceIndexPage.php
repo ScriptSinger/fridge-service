@@ -6,7 +6,6 @@ namespace App\MoonShine\Resources\Price\Pages;
 
 use App\MoonShine\Resources\Service\ServiceResource;
 use App\MoonShine\Resources\Device\DeviceResource;
-use App\MoonShine\Resources\Brand\BrandResource;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Table\TableBuilder;
@@ -65,13 +64,6 @@ class PriceIndexPage extends IndexPage
                 'device',
                 fn($item) => $item->type,
                 DeviceResource::class
-            )->searchable()
-                ->nullable(),
-            BelongsTo::make(
-                'Brand',
-                'brand',
-                fn($item) => $item->name,
-                BrandResource::class
             )->searchable()
                 ->nullable(),
             Number::make('Price From', 'price_from'),

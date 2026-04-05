@@ -15,6 +15,7 @@ use App\MoonShine\Resources\Service\ServiceResource;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
+use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Text;
@@ -46,12 +47,11 @@ class PriceResource extends ModelResource
                 DeviceResource::class
             )->sortable(),
 
-            BelongsTo::make(
-                'Brand',
-                'brand',
-                fn($item) => $item->name,
-                BrandResource::class
-            )->sortable(),
+            Text::make(
+                'Brands',
+                'brands',
+                formatted: fn (Price $item) => $item->brands->pluck('name')->implode(', ')
+            ),
             Number::make('Price From', 'price_from')->sortable(),
             Number::make('Price To', 'price_to')->sortable(),
             Text::make('Units', 'units'),
@@ -74,12 +74,12 @@ class PriceResource extends ModelResource
                 fn($item) => $item->type,
                 DeviceResource::class
             ),
-            BelongsTo::make(
-                'Brand',
-                'brand',
+            BelongsToMany::make(
+                'Brands',
+                'brands',
                 fn($item) => $item->name,
                 BrandResource::class
-            )->nullable(),
+            ),
 
             Number::make('Price From', 'price_from'),
             Number::make('Price To', 'price_to'),
@@ -103,12 +103,12 @@ class PriceResource extends ModelResource
                 fn($item) => $item->type,
                 DeviceResource::class
             ),
-            BelongsTo::make(
-                'Brand',
-                'brand',
+            BelongsToMany::make(
+                'Brands',
+                'brands',
                 fn($item) => $item->name,
                 BrandResource::class
-            )->nullable(),
+            )->readonly(),
 
             Number::make('Price From', 'price_from'),
             Number::make('Price To', 'price_to'),

@@ -6,12 +6,14 @@
     <div class="hidden md:block">
         @include('components.sections.services.table', [
             'services' => $services,
+            'brand' => $brand ?? null,
         ])
     </div>
 
     <div class="md:hidden">
         @include('components.sections.services.mobile', [
             'services' => $services,
+            'brand' => $brand ?? null,
         ])
     </div>
 

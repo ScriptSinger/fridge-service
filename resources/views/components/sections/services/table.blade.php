@@ -10,7 +10,7 @@
 
              <tbody>
                  @foreach ($services as $index => $service)
-                     @php $price = $service->prices->first(); @endphp
+                     @php $price = $service->preferredPrice($service->device_id, $brand->id ?? null); @endphp
 
                      <tr x-show="showAll || {{ $index }} < limit" x-cloak>
                          <td class="border-b-2 border-gray-200 px-4 py-3">
