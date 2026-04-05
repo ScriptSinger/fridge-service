@@ -5,8 +5,8 @@
 @if ($items->isNotEmpty())
     <x-ui.sections.wrapper id="problems">
         <x-ui.sections.header
-            title="Частые неисправности {{ Str::lower($device->typeInCase('genitive')) }} {{ $brand->name }}"
-            subtitle="Мы собрали самые распространённые поломки {{ Str::lower($device->typeInCase('genitive')) }}" />
+            title="Частые неисправности {{ $device->typeInCase('genitive_plural') }} {{ $brand->name }}"
+            subtitle="Мы собрали самые распространённые поломки {{ $device->typeInCase('genitive_plural') }} {{ $brand->name }}" />
 
         <x-ui.sections.toggle-list :limit="6" :count="$items->count()" x-data="problemsMasonry()">
             <div x-ref="grid" class="relative space-y-4 md:space-y-0">

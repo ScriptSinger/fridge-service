@@ -4,7 +4,7 @@
     <x-sections.brands.problems :problems="$problems" :device="$device" :brand="$brand" />
     <x-sections.common.gallery :galleries="$galleries" />
     @if ($services->isNotEmpty())
-        <x-sections.services.index :services="$services" :brand="$brand" />
+        <x-sections.services.index :services="$services" :device="$device" :brand="$brand" />
     @endif
     <x-sections.common.faq :faqs="$faqs" />
     <x-sections.contact :model="$brand" />

@@ -77,6 +77,23 @@ class Device extends Model
     {
         $map = config('tech_types');
         $type = $this->type;
-        return $map[$type][$case] ?? Str::lower($type);
+
+        if (isset($map[$type][$case])) {
+            return $map[$type][$case];
+        }
+
+        if ($case === 'genitive_plural' && ! empty($this->permalink)) {
+            $normalized = Str::of($this->permalink)
+                ->lower()
+                ->replaceStart('ремонт ', '')
+                ->trim()
+                ->value();
+
+            if ($normalized !== '') {
+                return $normalized;
+            }
+        }
+
+        return Str::lower($type);
     }
 }
