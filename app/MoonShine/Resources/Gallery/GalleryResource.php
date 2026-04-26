@@ -14,6 +14,7 @@ use App\MoonShine\Resources\Gallery\Pages\GalleryDetailPage;
 use App\MoonShine\Resources\Page\PageResource;
 use App\MoonShine\Resources\Service\ServiceResource;
 use MoonShine\TinyMce\Fields\TinyMce;
+use Leeto\InputExtensionCharCount\InputExtensions\CharCount;
 
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
@@ -60,9 +61,15 @@ class GalleryResource extends ModelResource
                 Text::make('Slug', 'slug')
                     ->readonly()
                     ->hint('Генерируется автоматически из Title'),
-                Text::make('Title', 'title')->required(),
-                Text::make('Subtitle', 'subtitle'),
+                Text::make('Title', 'title')
+                    ->required()
+                    ->extension(new CharCount())
+                    ->hint('Рекомендация для Яндекса: держать в пределах ~50–70 символов (в выдаче обрезается по ширине/пикселям).'),
+                Text::make('Subtitle', 'subtitle')
+                    ->extension(new CharCount())
+                    ->hint('Используется как meta description. Рекомендация для Яндекса: ~120–160 символов (может быть заменено текстом страницы в сниппете).'),
                 TinyMce::make('Description', 'description')
+                    ->hint('HTML-описание работы (контент страницы; не лимитируйте под сниппет).')
                     ->addOption('forced_root_block', 'p')
                     ->addOption('force_p_newlines', true)
                     ->addOption('force_br_newlines', false)

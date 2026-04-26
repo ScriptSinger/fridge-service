@@ -60,18 +60,18 @@ class BrandDeviceResource extends ModelResource
         return [
             Box::make('SEO / Метаданные', [
                 Text::make('Title', 'title')
-                    ->extension(new CharCount($titleMax))
+                    ->extension(new CharCount())
                     ->hint($titleHint),
                 Text::make('Description', 'description')
-                    ->extension(new CharCount(160))
+                    ->extension(new CharCount())
                     ->hint('140–160 символов'),
             ]),
             Box::make('Заголовки', [
                 Text::make('H1', 'h1')
-                    ->extension(new CharCount(60))
+                    ->extension(new CharCount())
                     ->hint('30–60 символов'),
                 Text::make('Subtitle', 'subtitle')
-                    ->extension(new CharCount(120))
+                    ->extension(new CharCount())
                     ->hint('105–120 символов'),
             ]),
             Box::make('Связи', [
