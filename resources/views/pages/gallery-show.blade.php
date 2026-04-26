@@ -28,7 +28,8 @@
                 </a>
 
                 @if ($gallery->description)
-                    <div class="prose prose-gray max-w-none mt-6">
+                    <div
+                        class="mt-6 text-gray-700 text-sm leading-6 [&_p]:my-3 [&_ul]:my-3 [&_ol]:my-3 [&_ul]:list-disc [&_ol]:list-decimal [&_ul]:pl-6 [&_ol]:pl-6 [&_li]:my-1 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-gray-900 [&_h2]:mt-5 [&_h2]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-gray-900 [&_h3]:mt-4 [&_h3]:mb-2">
                         {!! $gallery->description !!}
                     </div>
                 @endif
