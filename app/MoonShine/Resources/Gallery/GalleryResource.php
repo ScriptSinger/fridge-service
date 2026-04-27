@@ -55,6 +55,42 @@ class GalleryResource extends ModelResource
 
     protected function formFields(): iterable
     {
+        $tinyMceUploadUrl = route('moonshine.tinymce.upload');
+        $tinyMceUploadHandler = <<<JS
+            (blobInfo, progress) => new Promise((resolve, reject) => {
+                const url = "{$tinyMceUploadUrl}";
+                const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+                const formData = new FormData();
+                formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+                fetch(url, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'X-CSRF-TOKEN': token || '',
+                        'Accept': 'application/json',
+                    },
+                    body: formData,
+                })
+                    .then((response) => response.json().then((data) => ({ ok: response.ok, data })))
+                    .then(({ ok, data }) => {
+                        if (!ok) {
+                            reject(data?.message || 'Upload failed');
+                            return;
+                        }
+
+                        if (data && typeof data.location === 'string') {
+                            resolve(data.location);
+                            return;
+                        }
+
+                        reject('Invalid upload response');
+                    })
+                    .catch(() => reject('Upload failed'));
+            })
+        JS;
+
         return [
             Box::make([
                 ID::make()->readonly(),
@@ -70,6 +106,8 @@ class GalleryResource extends ModelResource
                     ->hint('Используется как meta description. Рекомендация для Яндекса: ~120–160 символов (может быть заменено текстом страницы в сниппете).'),
                 TinyMce::make('Description', 'description')
                     ->hint('HTML-описание работы (контент страницы; не лимитируйте под сниппет).')
+                    ->addOption('automatic_uploads', true)
+                    ->addCallback('images_upload_handler', $tinyMceUploadHandler)
                     ->addOption('forced_root_block', 'p')
                     ->addOption('force_p_newlines', true)
                     ->addOption('force_br_newlines', false)
