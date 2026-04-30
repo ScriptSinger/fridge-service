@@ -15,7 +15,6 @@ services:
       - "traefik.http.routers.appliance_repair.rule=Host(`service.ufamasters.ru`)"
       - "traefik.http.routers.appliance_repair.entrypoints=websecure"
       - "traefik.http.routers.appliance_repair.tls.certresolver=myresolver"
-
       - "traefik.http.routers.appliance_repair-insecure.rule=Host(`service.ufamasters.ru`)"
       - "traefik.http.routers.appliance_repair-insecure.entrypoints=web"
       - "traefik.http.routers.appliance_repair-insecure.middlewares=redirect-to-https"
@@ -44,7 +43,7 @@ services:
       MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
     volumes:
       - db_data:/var/lib/mysql
-
+      - ./docker/mysql/binlog.cnf:/etc/mysql/conf.d/binlog.cnf:ro
     networks:
       - laravel
 
