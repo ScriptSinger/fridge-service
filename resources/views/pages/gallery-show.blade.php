@@ -29,8 +29,27 @@
 
                 @if ($gallery->description)
                     <div
-                        class="mt-6 text-gray-700 text-sm leading-6 [&_p]:my-3 [&_ul]:my-3 [&_ol]:my-3 [&_ul]:list-disc [&_ol]:list-decimal [&_ul]:pl-6 [&_ol]:pl-6 [&_li]:my-1 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-gray-900 [&_h2]:mt-5 [&_h2]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-gray-900 [&_h3]:mt-4 [&_h3]:mb-2">
+                        x-data="contentLightbox()"
+                        x-init="init()"
+                        class="mt-6 text-gray-700 text-sm leading-6 [&_p]:my-3 [&_ul]:my-3 [&_ol]:my-3 [&_ul]:list-disc [&_ol]:list-decimal [&_ul]:pl-6 [&_ol]:pl-6 [&_li]:my-1 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-gray-900 [&_h2]:mt-5 [&_h2]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-gray-900 [&_h3]:mt-4 [&_h3]:mb-2 [&_img]:cursor-zoom-in">
                         {!! $gallery->description !!}
+
+                        <template x-teleport="body">
+                            <div x-cloak x-show="open" x-transition.opacity @keydown.escape.window="close()"
+                                @click="close()" class="fixed inset-0 z-[120] bg-black/80 p-4 sm:p-6">
+                                <div class="relative mx-auto flex h-full max-w-6xl items-center justify-center"
+                                    @click.stop>
+                                    <button type="button" @click="close()"
+                                        class="fixed top-4 right-4 sm:top-6 sm:right-6 h-12 w-12 rounded-full bg-white/95 text-gray-900 shadow-lg hover:bg-white z-[130] cursor-pointer"
+                                        aria-label="Закрыть">
+                                        <span class="text-2xl leading-none">&times;</span>
+                                    </button>
+
+                                    <img :src="src" :alt="alt" decoding="async"
+                                        class="max-h-full w-auto max-w-full rounded-xl object-contain">
+                                </div>
+                            </div>
+                        </template>
                     </div>
                 @endif
 
