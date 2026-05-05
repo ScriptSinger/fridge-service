@@ -35,8 +35,10 @@
                         {!! $gallery->description !!}
 
                         <template x-teleport="body">
-                            <div x-cloak x-show="open" x-transition.opacity @keydown.escape.window="close()"
-                                @click="close()" class="fixed inset-0 z-[120] bg-black/80 p-4 sm:p-6">
+                            <div x-cloak x-show="open" x-transition.opacity @keydown.window="handleKeydown($event)"
+                                @click="close()" class="fixed inset-0 z-[120] bg-black/80 p-4 sm:p-6"
+                                role="dialog" aria-modal="true" :aria-label="alt || 'Изображение'" tabindex="-1"
+                                x-ref="dialog">
                                 <div class="relative mx-auto flex h-full max-w-6xl items-center justify-center"
                                     @click.stop>
                                     <button type="button" @click="close()"
@@ -55,7 +57,8 @@
 
                 <template x-teleport="body">
                     <div x-cloak x-show="imageModalOpen" x-transition.opacity @keydown.escape.window="closeModal()"
-                        @click="closeModal()" class="fixed inset-0 z-[100] bg-black/80 p-4 sm:p-6">
+                        @click="closeModal()" class="fixed inset-0 z-[100] bg-black/80 p-4 sm:p-6"
+                        role="dialog" aria-modal="true" aria-label="Изображение" tabindex="-1">
                         <div class="relative mx-auto flex h-full max-w-6xl items-center justify-center" @click.stop>
                             <button type="button" @click="closeModal()"
                                 class="fixed top-4 right-4 sm:top-6 sm:right-6 h-12 w-12 rounded-full bg-white/95 text-gray-900 shadow-lg hover:bg-white z-[110] cursor-pointer"
