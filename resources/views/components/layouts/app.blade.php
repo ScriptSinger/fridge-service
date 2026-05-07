@@ -59,7 +59,7 @@
 
     <x-layouts.footer />
 
-    <x-ui.phone-cta variant="fab" />
+    <x-ui.floating-contact />
     @vite('resources/js/app.js')
 </body>
 
