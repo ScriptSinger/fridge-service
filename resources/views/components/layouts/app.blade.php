@@ -39,6 +39,7 @@
 
     @vite('resources/css/app.css')
     @includeWhen(app()->environment('production'), 'components.analytics.metrika')
+    @includeWhen(app()->environment('production'), 'components.analytics.google-ads')
 </head>
 
 <body class="min-h-screen flex flex-col bg-white">
