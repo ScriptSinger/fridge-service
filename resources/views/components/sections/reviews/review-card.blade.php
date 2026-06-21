@@ -20,6 +20,12 @@
     class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 h-full flex flex-col justify-between"
     itemprop="review" itemscope itemtype="https://schema.org/Review">
 
+    <div itemprop="itemReviewed" itemscope itemtype="https://schema.org/ApplianceRepair">
+        <meta itemprop="name" content="РемБытТехника">
+        <meta itemprop="telephone" content="{{ config('contacts.phone_tel') }}">
+        <meta itemprop="address" content="{{ config('contacts.address_full') }}">
+    </div>
+
     @if ($date)
         <meta itemprop="datePublished" content="{{ $date }}">
     @endif
