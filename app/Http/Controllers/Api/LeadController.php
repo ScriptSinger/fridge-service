@@ -4,12 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLeadRequest;
+use App\Jobs\SendTelegramLeadNotification;
 use App\Models\Lead;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
-
 
 class LeadController extends Controller
 {
@@ -28,24 +25,7 @@ class LeadController extends Controller
             }
         }
 
-        $token = config('services.telegram.bot_token');
-        $chatId = config('services.telegram.chat_id');
-        $proxy = config('services.telegram.proxy');
-
-        $message = "Новый лид!\n";
-        $message .= "Имя: " . ($lead->name ?? '—') . "\n";
-        $message .= "Телефон: " . ($lead->phone ?? '—') . "\n";
-        $message .= "Бренд: " . ($lead->leadable_type ?? '—') . "\n";
-        // $message .= "Комментарий: " . ($lead->comment ?? '—');
-
-        $http = Http::withOptions($proxy ? ['proxy' => $proxy] : []);
-        $http->post("https://api.telegram.org/bot{$token}/sendMessage", [
-            'chat_id' => $chatId,
-            'text' => $message,
-        ]);
-
-
-
+        SendTelegramLeadNotification::dispatch($lead->id);
 
         return $request->wantsJson()
             ? response()->json(['success' => true, 'id' => $lead->id])

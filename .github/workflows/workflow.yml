@@ -111,4 +111,5 @@ jobs:
             docker compose exec php php artisan route:cache
             docker compose exec php php artisan view:cache
             docker compose run --rm php php artisan migrate --force
+            docker compose restart queue
           EOF
