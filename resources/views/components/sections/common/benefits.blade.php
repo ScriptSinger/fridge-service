@@ -65,7 +65,7 @@
                     <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
                     <path d="M22 4L12 14.01l-3-3"></path>
                 </svg>
-                <h3 class="title-font font-medium text-base sm:text-lg">Гарантия до 1 год на выполненный ремонт</h3>
+                <h3 class="title-font font-medium text-base sm:text-lg">Гарантия до 1 года на выполненный ремонт</h3>
             </div>
         </div>
     </div>
