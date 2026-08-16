@@ -18,6 +18,7 @@ use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
 use MoonShine\Laravel\Fields\Relationships\MorphTo;
 use MoonShine\UI\Components\Layout\Box;
+use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\DateRange;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Switcher;
@@ -38,6 +39,7 @@ class LeadResource extends ModelResource
     {
         return [
             ID::make()->sortable(),
+            Date::make('Получено', 'created_at')->format('d.m.Y H:i')->sortable(),
             Text::make('Name', 'name')->sortable(),
             Text::make('Phone', 'phone')->sortable(),
             Textarea::make('Comment', 'comment')->sortable(),
@@ -50,9 +52,6 @@ class LeadResource extends ModelResource
                     Page::class => 'title',
                 ])->sortable(),
 
-            Text::make('Utm_source', 'utm_source')->sortable(),
-            Text::make('Utm_medium', 'utm_medium')->sortable(),
-            Text::make('Utm_campaign', 'utm_campaign')->sortable(),
         ];
     }
 
