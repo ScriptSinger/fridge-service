@@ -1,7 +1,7 @@
 @props(['idPrefix' => 'lead'])
 <div x-data='leadForm(@json($payload))' {{ $attributes->merge(['class' => 'w-full']) }}>
     <template x-if="!success">
-        <div>
+        <form @submit.prevent="submit">
             <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Заказать ремонт</h2>
             <p class="leading-relaxed mb-5 text-gray-600">Заполните форму, и мы свяжемся с вами в ближайшее время.</p>
             <div class="relative mb-4">
@@ -34,12 +34,15 @@
                 <p x-show="errors.privacy_policy" x-text="errors.privacy_policy"></p>
             </div>
 
-            <button @click="submit()" :disabled="loading"
+            <p x-cloak x-show="submissionError" x-text="submissionError" role="alert"
+                class="mb-4 text-sm text-red-600"></p>
+
+            <button type="submit" :disabled="loading"
                 class="text-white bg-yellow-500 border-0 py-2 px-5 md:px-6 focus:outline-none hover:bg-yellow-600 rounded text-base md:text-lg cursor-pointer w-full">
                 <span x-show="!loading">Отправить</span>
                 <span x-show="loading">Отправляем...</span>
             </button>
-        </div>
+        </form>
     </template>
 
     <template x-if="success">
