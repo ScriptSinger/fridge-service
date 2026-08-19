@@ -14,7 +14,10 @@
 
                      <tr x-show="showAll || {{ $index }} < limit" x-cloak>
                          <td class="border-b-2 border-gray-200 px-4 py-3">
-                             {{ $service->name }}
+                            <a href="{{ route('services.show', [$service->device, $service->slug]) }}"
+                                class="font-medium text-gray-900 hover:text-yellow-600 hover:underline">
+                                {{ $service->name }}
+                            </a>
                          </td>
                          <td class="border-b-2 border-gray-200 px-4 py-3">
                              @if ($price && $price->price_from)

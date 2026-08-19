@@ -1,6 +1,6 @@
 {
   "project": "fridge-service",
-  "generated_at": "2026-02-28",
+  "generated_at": "2026-08-19",
   "source_of_truth": {
     "routes": ["routes/web.php", "routes/api.php"],
     "controllers": [
@@ -142,6 +142,24 @@
         { "name": "services", "component": "x-sections.common.services.index", "data": ["Service.*"] },
         { "name": "faq", "component": "x-sections.common.faq", "data": ["Faq.*"] },
         { "name": "contact", "component": "x-sections.contact", "data": ["brand.*"] }
+      ]
+    },
+    {
+      "key": "service",
+      "route": "/{device:slug}/uslugi/{service}",
+      "status": "current",
+      "controller": "ServiceController@show",
+      "view": "pages.service",
+      "model": "Device + Service",
+      "meta_fields": ["service.seo_title", "service.seo_description"],
+      "sections": [
+        { "name": "breadcrumbs", "component": "x-ui.breadcrumbs", "data": ["route=services.show", "service.*"] },
+        { "name": "hero", "component": "x-sections.hero", "data": ["service.h1", "service.subtitle"] },
+        { "name": "price", "component": "inline section in pages.service", "data": ["Service->prices"] },
+        { "name": "content", "component": "inline section in pages.service", "data": ["service.content"] },
+        { "name": "gallery", "component": "x-sections.common.gallery", "data": ["Gallery.service_id"] },
+        { "name": "faq", "component": "x-sections.common.faq", "data": ["Faq.device_id"] },
+        { "name": "contact", "component": "x-sections.contact", "data": ["service.*"] }
       ]
     },
     {

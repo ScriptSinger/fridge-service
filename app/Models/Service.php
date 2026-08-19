@@ -21,7 +21,12 @@ class Service extends Model
 
     protected $fillable = [
         'name',
+        'h1',
+        'subtitle',
+        'seo_title',
+        'seo_description',
         'description',
+        'content',
         'device_id',
         'slug',
         'tags',
@@ -32,7 +37,8 @@ class Service extends Model
     {
         return [
             'slug' => [
-                'source' => 'name'
+                'source' => 'name',
+                'onUpdate' => true,
             ]
         ];
     }
@@ -51,6 +57,16 @@ class Service extends Model
     public function prices()
     {
         return $this->hasMany(Price::class);
+    }
+
+    public function galleries()
+    {
+        return $this->hasMany(Gallery::class);
+    }
+
+    public function leads()
+    {
+        return $this->morphMany(Lead::class, 'leadable');
     }
 
     public function preferredPrice(?int $deviceId = null, ?int $brandId = null): ?Price

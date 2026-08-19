@@ -9,6 +9,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\MoonShine\TinyMceImageUploadController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,8 @@ Route::get('/personal-data-consent', [PageController::class, 'showLegal'])
     ->defaults('type', 'personal-data-consent')
     ->name('legal.personal-data-consent');
 
+Route::get('{device:slug}/uslugi/{service}', [ServiceController::class, 'show'])
+    ->name('services.show');
 
 Route::get('{device:slug}', [DeviceController::class, 'show'])
     ->name('devices.show');

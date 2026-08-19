@@ -48,7 +48,12 @@ class ServiceFormPage extends FormPage
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'h1' => ['nullable', 'string', 'max:255'],
+            'subtitle' => ['nullable', 'string', 'max:255'],
+            'seo_title' => ['nullable', 'string', 'max:255'],
+            'seo_description' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
+            'content' => ['nullable', 'string'],
             'device_id' => ['required', 'exists:devices,id'],
             'slug' => ['nullable', 'string', 'max:255'],
             'tags' => ['nullable', 'array'],

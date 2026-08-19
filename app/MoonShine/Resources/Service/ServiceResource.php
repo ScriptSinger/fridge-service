@@ -18,6 +18,9 @@ use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
+use MoonShine\UI\Components\Layout\Box;
+use MoonShine\TinyMce\Fields\TinyMce;
+use Leeto\InputExtensionCharCount\InputExtensions\CharCount;
 
 /**
  * @extends ModelResource<Service, ServiceIndexPage, ServiceFormPage, ServiceDetailPage>
@@ -49,18 +52,37 @@ class ServiceResource extends ModelResource
     protected function formFields(): iterable
     {
         return [
-            Text::make('Name', 'name')->required(),
-            Textarea::make('Description', 'description'),
-            BelongsTo::make(
-                'Device',
-                'device',
-                fn($item) => $item->type,
-                DeviceResource::class
-            )->required(),
-
-            HasMany::make('Prices', 'prices')->creatable(),
-            // HasMany::make('Problems', 'problems'), // связь через pivot
-            Switcher::make('Активна', 'is_active'),
+            Box::make('SEO и заголовки', [
+                Text::make('Название услуги', 'name')->required(),
+                Text::make('H1', 'h1')
+                    ->hint('Например: Замена компрессора холодильника в Уфе'),
+                Text::make('SEO title', 'seo_title')
+                    ->extension(new CharCount(60))
+                    ->hint('До 60 символов без названия компании'),
+                Textarea::make('SEO description', 'seo_description')
+                    ->hint('Краткое описание для сниппета'),
+                Text::make('Подзаголовок', 'subtitle')
+                    ->extension(new CharCount(140)),
+            ]),
+            Box::make('Услуга', [
+                Text::make('Slug', 'slug')
+                    ->readonly()
+                    ->hint('Перегенерируется автоматически при изменении названия'),
+                Textarea::make('Краткое описание', 'description')
+                    ->hint('Показывается в мобильном прайсе и используется, если не заполнен подзаголовок.'),
+                BelongsTo::make(
+                    'Техника',
+                    'device',
+                    fn($item) => $item->type,
+                    DeviceResource::class
+                )->required()->searchable(),
+                HasMany::make('Цены', 'prices')->creatable(),
+                Switcher::make('Активна', 'is_active'),
+            ]),
+            Box::make('Контент посадочной страницы', [
+                TinyMce::make('Основной контент', 'content')
+                    ->hint('Опишите признаки, причины, ход ремонта и гарантию. Не дублируйте текст других услуг.'),
+            ]),
 
         ];
     }
@@ -69,7 +91,12 @@ class ServiceResource extends ModelResource
     {
         return [
             Text::make('Name', 'name')->required(),
+            Text::make('H1', 'h1'),
+            Text::make('SEO title', 'seo_title'),
+            Textarea::make('SEO description', 'seo_description'),
+            Text::make('Подзаголовок', 'subtitle'),
             Textarea::make('Description', 'description'),
+            TinyMce::make('Основной контент', 'content'),
             BelongsTo::make(
                 'Device',
                 'device',

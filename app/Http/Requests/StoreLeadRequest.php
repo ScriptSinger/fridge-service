@@ -7,6 +7,7 @@ use App\Models\Device;
 use App\Models\ErrorCode;
 use App\Models\Page;
 use App\Models\Problem;
+use App\Models\Service;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
@@ -72,6 +73,7 @@ class StoreLeadRequest extends FormRequest
             Device::class,
             Brand::class,
             Problem::class,
+            Service::class,
             ErrorCode::class,
             Page::class,
         ];

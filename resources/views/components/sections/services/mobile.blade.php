@@ -4,7 +4,10 @@
              @php $price = $service->preferredPrice($service->device_id, $brand->id ?? null); @endphp
 
              <div class="py-3" x-show="showAll || {{ $index }} < limit" x-cloak>
-                 <div class="font-medium">{{ $service->name }}</div>
+                <a href="{{ route('services.show', [$service->device, $service->slug]) }}"
+                    class="font-medium text-gray-900 hover:text-yellow-600 hover:underline">
+                    {{ $service->name }}
+                </a>
 
                  @if ($service->description)
                      <div class="text-sm text-gray-500">
