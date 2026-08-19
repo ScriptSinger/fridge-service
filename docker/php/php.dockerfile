@@ -2,6 +2,7 @@ FROM php:8.4-fpm-bullseye
 
 ARG UID
 ARG GID
+ARG REDIS_VERSION=6.1.0
 
 ENV UID=${UID:-1000}
 ENV GID=${GID:-1000}
@@ -31,7 +32,7 @@ RUN apt-get update && apt-get install -y \
     make \
     autoconf \
     && docker-php-ext-install pdo pdo_mysql zip \
-    && pecl install redis \
+    && pecl install https://pecl.php.net/get/redis-${REDIS_VERSION}.tgz \
     && docker-php-ext-enable redis \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
