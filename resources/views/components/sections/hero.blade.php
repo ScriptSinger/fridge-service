@@ -1,8 +1,12 @@
-@props(['model', 'h1', 'subtitle'])
+@props(['model', 'h1', 'subtitle', 'compact' => false])
 
 <section x-data="modalPhone()" class="text-gray-600 body-font">
 
-    <div class="container mx-auto flex lg:flex-row flex-col lg:items-center px-5 py-10 md:py-24 md:pt-9">
+    <div @class([
+        'container mx-auto flex lg:flex-row flex-col lg:items-center px-5',
+        'py-10 md:py-24 md:pt-9' => ! $compact,
+        'py-8 md:py-12' => $compact,
+    ])>
         <div class="lg:max-w-lg lg:w-full mb-10 lg:mb-0">
             <img class="object-cover object-center rounded" src="{{ asset('assets/images/hero.webp') }}"
                 alt="Мастер по ремонту бытовой техники в Уфе">
