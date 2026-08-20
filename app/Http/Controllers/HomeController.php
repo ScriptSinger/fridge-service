@@ -36,7 +36,7 @@ class HomeController extends Controller
         $galleries = Cache::remember("gallery:page:{$page->id}", $ttl, function () use ($page) {
             return Gallery::where('page_id', $page->id)->orderBy('sort_order')->get();
         });
-        $devices = Cache::remember('devices:active', $ttl, fn() => Device::where('is_active', true)->get());
+        $devices = Device::activeCached();
         $reviews = Cache::remember('reviews:home', $ttl, function () {
             return Review::with(['device', 'brand', 'service'])
                 ->published()

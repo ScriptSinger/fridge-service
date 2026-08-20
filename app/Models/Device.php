@@ -4,13 +4,21 @@ namespace App\Models;
 
 use App\Models\Concerns\HasImageUrl;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class Device extends Model
 {
     use Sluggable;
     use HasImageUrl;
+
+    protected static function booted(): void
+    {
+        static::saved(fn (Device $device) => $device->clearActiveCache());
+        static::deleted(fn (Device $device) => $device->clearActiveCache());
+    }
 
     protected $fillable = [
         'slug',
@@ -47,7 +55,7 @@ class Device extends Model
 
     public function services()
     {
-        return $this->hasMany(Service::class)->where('is_active', true);;
+        return $this->hasMany(Service::class)->where('is_active', true);
     }
 
     public function faqs()
@@ -65,6 +73,22 @@ class Device extends Model
     public function getShortDescriptionAttribute()
     {
         return Str::limit(strip_tags($this->description), 120);
+    }
+
+    /**
+     * Активные устройства, закэшированные под общим ключом для всех потребителей
+     * (главная страница, навигация/футер), чтобы избежать рассинхронизации кэша.
+     */
+    public static function activeCached(): Collection
+    {
+        return Cache::remember('devices:active', now()->addMinutes(20), function () {
+            return static::where('is_active', true)->orderBy('type')->get();
+        });
+    }
+
+    public function clearActiveCache(): void
+    {
+        Cache::forget('devices:active');
     }
 
     /**
