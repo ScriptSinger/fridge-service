@@ -1,36 +1,58 @@
 @props(['devices'])
 
+@php
+    $pluralizeRu = function (int $n, string $one, string $few, string $many) {
+        $mod100 = abs($n) % 100;
+        $mod10 = $mod100 % 10;
+
+        if ($mod100 >= 11 && $mod100 <= 14) {
+            return $many;
+        }
+
+        return match (true) {
+            $mod10 === 1 => $one,
+            $mod10 >= 2 && $mod10 <= 4 => $few,
+            default => $many,
+        };
+    };
+@endphp
+
 <x-ui.sections.wrapper id="pricing">
     <x-ui.sections.header title="Примерные цены на ремонт бытовой техники"
-        subtitle="Выберите тип техники, чтобы посмотреть ориентировочные цены" />
+        subtitle="Выберите тип техники, чтобы посмотреть полный список услуг и цен" />
 
-    <div class="space-y-4">
+    <div class="grid gap-4 sm:grid-cols-2">
         @foreach ($devices as $device)
-            <details class="group rounded-lg border border-gray-200 bg-white"
-                @if ($loop->first) open @endif>
-                <summary class="cursor-pointer list-none px-4 py-3 flex items-center justify-between">
-                    <span class="font-semibold text-gray-900">{{ $device->type }}</span>
-                    <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200 group-open:rotate-180"
-                        fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
+            @php
+                $minPrice = $device->services
+                    ->map(fn ($service) => $service->preferredPrice($service->device_id)?->price_from)
+                    ->filter()
+                    ->min();
+                $servicesCount = $device->services->count();
+                $servicesWord = $pluralizeRu($servicesCount, 'вид', 'вида', 'видов');
+            @endphp
 
-                </summary>
-
-                <div class="px-4 pb-4">
-                    <div class="hidden md:block">
-                        @include('components.sections.prices.table', [
-                            'services' => $device->services,
-                        ])
-                    </div>
-
-                    <div class="md:hidden">
-                        @include('components.sections.prices.mobile', [
-                            'services' => $device->services,
-                        ])
-                    </div>
+            <div class="rounded-lg border border-gray-200 bg-white p-5 flex flex-col justify-between">
+                <div>
+                    <h3 class="font-semibold text-gray-900 text-lg">{{ $device->type }}</h3>
+                    <p class="text-sm text-gray-500 mt-1">{{ $servicesCount }} {{ $servicesWord }} ремонта</p>
                 </div>
-            </details>
+
+                <div class="mt-4 flex items-center justify-between gap-4">
+                    <span class="text-gray-900 font-medium whitespace-nowrap">
+                        @if ($minPrice)
+                            от {{ number_format($minPrice, 0, '.', ' ') }} ₽
+                        @else
+                            по договорённости
+                        @endif
+                    </span>
+
+                    <a href="{{ route('devices.show', $device) }}#pricing"
+                        class="font-medium text-yellow-600 hover:text-yellow-700 hover:underline whitespace-nowrap">
+                        Смотреть цены →
+                    </a>
+                </div>
+            </div>
         @endforeach
     </div>
 </x-ui.sections.wrapper>
