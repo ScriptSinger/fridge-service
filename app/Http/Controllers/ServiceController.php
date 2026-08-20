@@ -49,7 +49,7 @@ class ServiceController extends Controller
             $ttl,
             fn () => $device->services()
                 ->whereKeyNot($service->id)
-                ->orderBy('name')
+                ->orderByRaw('RAND(?)', [$service->id])
                 ->limit(6)
                 ->get()
         );
