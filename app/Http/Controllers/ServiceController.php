@@ -35,14 +35,25 @@ class ServiceController extends Controller
         );
 
         $faqs = Cache::remember(
-            "faqs:device:{$device->id}",
+            "faqs:device:{$device->id}:service:{$service->id}",
             $ttl,
-            fn () => Faq::query()
-                ->where('device_id', $device->id)
-                ->whereNull('brand_id')
-                ->where('is_active', true)
-                ->orderBy('sort_order')
-                ->get()
+            function () use ($device, $service) {
+                $serviceFaqs = Faq::query()
+                    ->where('service_id', $service->id)
+                    ->where('is_active', true)
+                    ->orderBy('sort_order')
+                    ->get();
+
+                return $serviceFaqs->isNotEmpty()
+                    ? $serviceFaqs
+                    : Faq::query()
+                        ->where('device_id', $device->id)
+                        ->whereNull('brand_id')
+                        ->whereNull('service_id')
+                        ->where('is_active', true)
+                        ->orderBy('sort_order')
+                        ->get();
+            }
         );
 
         $relatedServices = Cache::remember(

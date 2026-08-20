@@ -64,6 +64,11 @@ class Service extends Model
         return $this->hasMany(Gallery::class);
     }
 
+    public function faqs()
+    {
+        return $this->hasMany(Faq::class)->where('is_active', true);
+    }
+
     public function leads()
     {
         return $this->morphMany(Lead::class, 'leadable');

@@ -30,6 +30,7 @@ class DeviceBrandController extends Controller
         $brandFaqs = Cache::remember("faqs:device:{$device->id}:brand:{$brand->id}", $ttl, fn() => Faq::query()
             ->where('device_id', $device->id)
             ->where('brand_id', $brand->id)
+            ->whereNull('service_id')
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->get());

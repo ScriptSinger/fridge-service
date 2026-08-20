@@ -3,6 +3,8 @@
 @php($items = collect($faqs)->values())
 
 @if ($items->isNotEmpty())
+    <script type="application/ld+json">{!! \App\Models\Faq::jsonLdFor($items) !!}</script>
+
     <x-ui.sections.wrapper id="faq">
         <x-ui.sections.header title="Часто задаваемые вопросы"
             subtitle="Ответы на популярные вопросы о наших услугах по ремонту бытовой техники" />

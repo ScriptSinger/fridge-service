@@ -9,6 +9,7 @@ use App\Models\Faq;
 use App\MoonShine\Resources\Brand\BrandResource;
 use App\MoonShine\Resources\Device\DeviceResource;
 use App\MoonShine\Resources\Page\PageResource;
+use App\MoonShine\Resources\Service\ServiceResource;
 use App\MoonShine\Resources\Faq\Pages\FaqIndexPage;
 use App\MoonShine\Resources\Faq\Pages\FaqFormPage;
 use App\MoonShine\Resources\Faq\Pages\FaqDetailPage;
@@ -40,6 +41,7 @@ class FaqResource extends ModelResource
             Number::make('Порядок', 'sort_order')->sortable(),
             Switcher::make('Активна', 'is_active')->sortable(),
             BelongsTo::make('Тип техники', 'device', fn($item) => $item->type, DeviceResource::class)->sortable(),
+            BelongsTo::make('Услуга', 'service', fn($item) => $item->name, ServiceResource::class)->sortable(),
             BelongsTo::make('Бренд', 'brand', fn($item) => $item->name, BrandResource::class)->sortable(),
             BelongsTo::make('Страница', 'page', fn($item) => $item->h1, PageResource::class)->sortable(),
         ];
@@ -56,7 +58,12 @@ class FaqResource extends ModelResource
                 Switcher::make('Активна', 'is_active'),
                 BelongsTo::make('Тип техники', 'device', fn($item) => $item->type, DeviceResource::class)
                     ->nullable()
-                    ->searchable(),
+                    ->searchable()
+                    ->hint('Общий FAQ устройства (показывается на страницах услуг без своего FAQ).'),
+                BelongsTo::make('Услуга', 'service', fn($item) => $item->name, ServiceResource::class)
+                    ->nullable()
+                    ->searchable()
+                    ->hint('Если указано — вопрос показывается только на странице этой услуги, а не на всех услугах устройства.'),
                 BelongsTo::make('Бренд', 'brand', fn($item) => $item->name, BrandResource::class)
                     ->nullable()
                     ->searchable(),
@@ -76,6 +83,7 @@ class FaqResource extends ModelResource
             Number::make('Порядок', 'sort_order')->sortable(),
             Switcher::make('Активна', 'is_active')->sortable(),
             BelongsTo::make('Тип техники', 'device', fn($item) => $item->type, DeviceResource::class),
+            BelongsTo::make('Услуга', 'service', fn($item) => $item->name, ServiceResource::class),
             BelongsTo::make('Бренд', 'brand', fn($item) => $item->name, BrandResource::class),
             BelongsTo::make('Страница', 'page', fn($item) => $item->h1, PageResource::class),
         ];
