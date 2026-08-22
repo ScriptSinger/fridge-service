@@ -7,6 +7,7 @@ namespace App\MoonShine\Resources\Service;
 use App\Models\Service;
 use App\MoonShine\Resources\Device\DeviceResource;
 use App\MoonShine\Resources\Price\PriceResource;
+use App\MoonShine\Support\TinyMceUpload;
 use App\MoonShine\Resources\Service\Pages\ServiceIndexPage;
 use App\MoonShine\Resources\Service\Pages\ServiceFormPage;
 use App\MoonShine\Resources\Service\Pages\ServiceDetailPage;
@@ -80,8 +81,10 @@ class ServiceResource extends ModelResource
                 Switcher::make('Активна', 'is_active'),
             ]),
             Box::make('Контент посадочной страницы', [
-                TinyMce::make('Основной контент', 'content')
-                    ->hint('Используйте «Заголовок 2» для разделов и маркированные/нумерованные списки для перечислений. Не вставляйте текст одной строкой.'),
+                TinyMceUpload::withImageUpload(
+                    TinyMce::make('Основной контент', 'content')
+                        ->hint('Используйте «Заголовок 2» для разделов и маркированные/нумерованные списки для перечислений. Не вставляйте текст одной строкой.')
+                ),
             ]),
 
         ];
