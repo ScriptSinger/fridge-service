@@ -15,7 +15,7 @@
 
     @if (filled($service->content))
         <x-ui.sections.wrapper id="service-content" innerClass="container mx-auto px-5 py-8 md:py-10">
-            <div class="max-w-4xl text-base leading-relaxed text-gray-600 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:leading-tight [&_h2]:text-gray-900 [&_h3]:mt-7 [&_h3]:mb-3 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-gray-900 [&_p]:my-4 [&_ul]:my-4 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-6 [&_ol]:my-4 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-6 [&_a]:text-yellow-700 [&_a]:underline [&_strong]:font-semibold [&_strong]:text-gray-900">
+            <div class="prose prose-gray max-w-4xl prose-headings:text-gray-900 prose-h2:mt-10 prose-h2:mb-4 prose-h3:mt-7 prose-h3:mb-3 prose-a:text-yellow-700 prose-strong:text-gray-900 prose-img:mx-auto prose-img:rounded-2xl prose-img:shadow-sm prose-figure:mx-auto prose-figcaption:text-center">
                 {!! $service->content !!}
             </div>
         </x-ui.sections.wrapper>

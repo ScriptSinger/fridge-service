@@ -33,7 +33,7 @@
                     <div
                         x-data="contentLightbox()"
                         x-init="init()"
-                        class="mt-6 text-gray-700 text-sm leading-6 [&_p]:my-3 [&_ul]:my-3 [&_ol]:my-3 [&_ul]:list-disc [&_ol]:list-decimal [&_ul]:pl-6 [&_ol]:pl-6 [&_li]:my-1 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-gray-900 [&_h2]:mt-5 [&_h2]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-gray-900 [&_h3]:mt-4 [&_h3]:mb-2 [&_img]:block [&_img]:mx-auto [&_img]:my-6 [&_img]:w-auto [&_img]:h-auto [&_img]:max-w-full [&_img]:rounded-2xl [&_img]:shadow-sm [&_img]:cursor-zoom-in [&_table]:my-4 [&_table]:w-full [&_table]:overflow-x-auto [&_table]:border-collapse [&_table]:text-sm [&_thead]:bg-gray-50 [&_th]:border [&_th]:border-gray-200 [&_th]:px-3 [&_th]:py-2 [&_th]:text-left [&_th]:font-semibold [&_th]:text-gray-900 [&_td]:border [&_td]:border-gray-200 [&_td]:px-3 [&_td]:py-2 [&_tbody_tr:nth-child(even)]:bg-gray-50">
+                        class="prose prose-sm prose-gray mt-6 max-w-none prose-headings:text-gray-900 prose-h2:mt-5 prose-h2:mb-2 prose-h3:mt-4 prose-h3:mb-2 prose-img:mx-auto prose-img:rounded-2xl prose-img:shadow-sm prose-img:cursor-zoom-in prose-figure:mx-auto prose-figcaption:text-center prose-table:text-sm prose-th:bg-gray-50">
                         {!! $gallery->description !!}
 
                         <template x-teleport="body">
