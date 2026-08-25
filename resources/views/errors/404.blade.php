@@ -16,9 +16,9 @@
 
                     <rect x="60" y="46" width="72" height="34" rx="6" fill="#052e16" />
                     <text x="96" y="70" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
-                        font-size="22" font-weight="700" fill="#4ade80">404</text>
+                        font-size="22" font-weight="700" fill="#4ade80" class="animate-pulse">404</text>
 
-                    <g class="animate-pulse">
+                    <g>
                         <circle cx="164" cy="63" r="13" fill="#374151" stroke="#4b5563" stroke-width="2" />
                         <rect x="162" y="52" width="4" height="9" rx="2" fill="#facc15" />
                     </g>
@@ -27,7 +27,7 @@
                         <rect x="200" y="52" width="4" height="9" rx="2" fill="#9ca3af" />
                     </g>
 
-                    <circle cx="238" cy="63" r="6" fill="#f59e0b" class="animate-pulse" />
+                    <circle cx="238" cy="63" r="6" fill="#f59e0b" />
 
                     <circle cx="160" cy="228" r="98" fill="#d1d5db" />
                     <circle cx="160" cy="228" r="98" fill="none" stroke="#9ca3af" stroke-width="4" />
@@ -50,22 +50,7 @@
                         <line x1="212" y1="192" x2="230" y2="200" />
                     </g>
 
-                    <g class="animate-bounce">
-                        <path d="M244 20 l7 16 h-6 l7 15 -22 -19 h7 l-7 -12 z" fill="#f59e0b" />
-                    </g>
-
-                    <g class="animate-spin" style="transform-origin: 54px 118px; animation-duration: 3.5s;">
-                        <path
-                            d="M54 108 l4 4 4 -4 4 4 -4 4 4 4 -4 4 -4 -4 -4 4 -4 -4 4 -4 -4 -4 4 -4 4 -4 z"
-                            fill="#facc15" />
-                        <circle cx="54" cy="118" r="3.5" fill="#78350f" />
-                    </g>
-
-                    <g fill="#e5e7eb" opacity="0.9">
-                        <circle cx="118" cy="128" r="6" class="animate-bounce" />
-                        <circle cx="160" cy="112" r="8" class="animate-bounce" style="animation-delay: .2s;" />
-                        <circle cx="200" cy="130" r="5" class="animate-bounce" style="animation-delay: .4s;" />
-                    </g>
+                    <path d="M248 18 L231 40 L240 40 L234 53 L253 30 L244 30 Z" fill="#f59e0b" />
                 </svg>
             </div>
 
