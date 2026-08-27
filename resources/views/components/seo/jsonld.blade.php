@@ -10,7 +10,7 @@
                 '@id' => $organizationId,
                 'name' => 'РемБытТехника',
                 'url' => $siteUrl,
-                'logo' => $siteUrl . '/assets/images/logo.png',
+                'logo' => $siteUrl . '/assets/images/logo.webp',
                 'sameAs' => [
                     'https://yandex.ru/profile/14301877469/',
                     'https://vk.com/rbtufa2016',
@@ -21,7 +21,7 @@
                 '@id' => $siteUrl . '/#appliance-repair',
                 'name' => 'РемБытТехника',
                 'url' => $siteUrl,
-                'logo' => $siteUrl . '/assets/images/logo.png',
+                'logo' => $siteUrl . '/assets/images/logo.webp',
                 'image' => $siteUrl . '/assets/images/hero.webp',
                 'telephone' => config('contacts.phone_tel'),
                 'email' => config('contacts.email'),
