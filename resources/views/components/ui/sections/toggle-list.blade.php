@@ -15,7 +15,7 @@
 
     @if ($count > $limit)
         <div class="{{ $toggleSpacingClass }}">
-            <a @click.prevent="showAll = !showAll; $nextTick(() => $dispatch('masonry:refresh'))"
+            <button type="button" @click="showAll = !showAll; $nextTick(() => $dispatch('masonry:refresh'))"
                 class="text-yellow-500 inline-flex items-center cursor-pointer">
                 <span x-show="!showAll">Показать ещё</span>
                 <span x-show="showAll">Скрыть</span>
@@ -24,7 +24,7 @@
                     stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
-            </a>
+            </button>
         </div>
     @endif
 </div>

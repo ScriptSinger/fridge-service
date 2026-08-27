@@ -27,8 +27,8 @@
 
     <a href="{{ $detailUrl ?? route('gallery.index') }}" @click.prevent="openModal()"
         class="mb-4 block w-full overflow-hidden rounded-xl border border-gray-100 cursor-zoom-in">
-        <img src="{{ $image }}" alt="{{ $imageAlt }}" class="w-full h-56 sm:h-64 object-cover" loading="lazy"
-            itemprop="contentUrl">
+        <img src="{{ $image }}" alt="{{ $imageAlt }}" width="640" height="480"
+            class="w-full h-56 sm:h-64 object-cover" loading="lazy" itemprop="contentUrl">
     </a>
 
     <div class="mb-3 flex min-w-0 items-start justify-between gap-4">

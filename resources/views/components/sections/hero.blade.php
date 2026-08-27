@@ -9,7 +9,7 @@
     ])>
         <div class="lg:max-w-lg lg:w-full mb-10 lg:mb-0">
             <img class="object-cover object-center rounded" src="{{ asset('assets/images/hero.webp') }}"
-                alt="Мастер по ремонту бытовой техники в Уфе">
+                alt="Мастер по ремонту бытовой техники в Уфе" width="1344" height="768">
         </div>
         <div class="lg:flex-grow lg:pl-24 flex flex-col md:text-left text-center">
             <h1 class="md:text-left title-font text-2xl sm:text-3xl lg:text-4xl mb-4 font-medium text-gray-900">

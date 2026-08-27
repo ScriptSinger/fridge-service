@@ -22,7 +22,8 @@
              <div class="flex w-max" :style="translateX()">
                  <template x-for="(slide, index) in slides" :key="index">
                      <div class="shrink-0 flex items-center justify-center p-4">
-                         <img :src="slide.image" :alt="slide.image_alt" class="h-16 md:h-20 object-contain">
+                         <img :src="slide.image" :alt="slide.image_alt" width="128" height="80"
+                             class="h-16 md:h-20 w-24 md:w-32 object-contain">
                      </div>
                  </template>
              </div>
