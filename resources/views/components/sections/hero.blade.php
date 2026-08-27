@@ -1,4 +1,12 @@
-@props(['model', 'h1', 'subtitle', 'compact' => false])
+@props([
+    'model',
+    'h1',
+    'subtitle',
+    'compact' => false,
+    'image' => null,
+    'imageAlt' => 'Мастер по ремонту бытовой техники в Уфе',
+    'zoomable' => false,
+])
 
 <section x-data="modalPhone()" class="text-gray-600 body-font">
 
@@ -8,8 +16,16 @@
         'py-8 md:py-12' => $compact,
     ])>
         <div class="lg:max-w-lg lg:w-full mb-10 lg:mb-0">
-            <img class="object-cover object-center rounded" src="{{ asset('assets/images/hero.webp') }}"
-                alt="Мастер по ремонту бытовой техники в Уфе" width="1344" height="768">
+            @if ($zoomable)
+                <a href="{{ $image ?? asset('assets/images/hero.webp') }}" @click.prevent="$dispatch('hero-image-zoom')"
+                    class="block w-full cursor-zoom-in">
+                    <img class="w-full aspect-[7/4] object-cover object-center rounded"
+                        src="{{ $image ?? asset('assets/images/hero.webp') }}" alt="{{ $imageAlt }}">
+                </a>
+            @else
+                <img class="w-full aspect-[7/4] object-cover object-center rounded"
+                    src="{{ $image ?? asset('assets/images/hero.webp') }}" alt="{{ $imageAlt }}">
+            @endif
         </div>
         <div class="lg:flex-grow lg:pl-24 flex flex-col md:text-left text-center">
             <h1 class="md:text-left title-font text-2xl sm:text-3xl lg:text-4xl mb-4 font-medium text-gray-900">

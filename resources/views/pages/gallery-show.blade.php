@@ -17,23 +17,23 @@
     <x-sections.hero
         :model="null"
         :h1="$title"
-        :subtitle="$gallery->subtitle" />
+        :subtitle="$gallery->subtitle"
+        :image="$gallery->image_url"
+        :imageAlt="$gallery->image_alt ?: $title"
+        :zoomable="true" />
 
     <x-ui.sections.wrapper id="gallery-detail">
-        <div class="grid gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:items-start">
-            <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm lg:self-start"
-                x-data="galleryCard(null)">
-                <a href="{{ $gallery->image_url }}" @click.prevent="openModal()"
-                    class="block w-full overflow-hidden rounded-xl cursor-zoom-in">
-                    <img src="{{ $gallery->image_url }}" alt="{{ $gallery->image_alt ?: $title }}"
-                        class="w-full rounded-xl object-cover">
-                </a>
-
-                @if ($gallery->description)
+        <div @class([
+                'grid gap-8 lg:items-start',
+                'lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]' => (bool) $gallery->description,
+            ])
+            x-data="galleryCard(null)" @hero-image-zoom.window="openModal()">
+            @if ($gallery->description)
+                <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm lg:self-start">
                     <div
                         x-data="contentLightbox()"
                         x-init="init()"
-                        class="prose prose-sm prose-gray mt-6 max-w-none prose-headings:text-gray-900 prose-h2:mt-5 prose-h2:mb-2 prose-h3:mt-4 prose-h3:mb-2 prose-img:mx-auto prose-img:rounded-2xl prose-img:shadow-sm prose-img:cursor-zoom-in prose-figure:mx-auto prose-figcaption:text-center prose-table:text-sm prose-th:bg-gray-50">
+                        class="prose prose-sm prose-gray max-w-none prose-headings:text-gray-900 prose-h2:mt-5 prose-h2:mb-2 prose-h3:mt-4 prose-h3:mb-2 prose-img:mx-auto prose-img:rounded-2xl prose-img:shadow-sm prose-img:cursor-zoom-in prose-figure:mx-auto prose-figcaption:text-center prose-table:text-sm prose-th:bg-gray-50">
                         {!! $gallery->description !!}
 
                         <template x-teleport="body">
@@ -55,25 +55,25 @@
                             </div>
                         </template>
                     </div>
-                @endif
+                </div>
+            @endif
 
-                <template x-teleport="body">
-                    <div x-cloak x-show="imageModalOpen" x-transition.opacity @keydown.escape.window="closeModal()"
-                        @click="closeModal()" class="fixed inset-0 z-[100] bg-black/80 p-4 sm:p-6"
-                        role="dialog" aria-modal="true" aria-label="Изображение" tabindex="-1">
-                        <div class="relative mx-auto flex h-full max-w-6xl items-center justify-center" @click.stop>
-                            <button type="button" @click="closeModal()"
-                                class="fixed top-4 right-4 sm:top-6 sm:right-6 h-12 w-12 rounded-full bg-white/95 text-gray-900 shadow-lg hover:bg-white z-[110] cursor-pointer"
-                                aria-label="Закрыть">
-                                <span class="text-2xl leading-none">&times;</span>
-                            </button>
+            <template x-teleport="body">
+                <div x-cloak x-show="imageModalOpen" x-transition.opacity @keydown.escape.window="closeModal()"
+                    @click="closeModal()" class="fixed inset-0 z-[100] bg-black/80 p-4 sm:p-6"
+                    role="dialog" aria-modal="true" aria-label="Изображение" tabindex="-1">
+                    <div class="relative mx-auto flex h-full max-w-6xl items-center justify-center" @click.stop>
+                        <button type="button" @click="closeModal()"
+                            class="fixed top-4 right-4 sm:top-6 sm:right-6 h-12 w-12 rounded-full bg-white/95 text-gray-900 shadow-lg hover:bg-white z-[110] cursor-pointer"
+                            aria-label="Закрыть">
+                            <span class="text-2xl leading-none">&times;</span>
+                        </button>
 
-                            <img src="{{ $gallery->image_url }}" alt="{{ $gallery->image_alt ?: $title }}"
-                                class="max-h-full w-auto max-w-full rounded-xl object-contain">
-                        </div>
+                        <img src="{{ $gallery->image_url }}" alt="{{ $gallery->image_alt ?: $title }}"
+                            class="max-h-full w-auto max-w-full rounded-xl object-contain">
                     </div>
-                </template>
-            </div>
+                </div>
+            </template>
 
             <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
                 <h2 class="text-lg font-semibold text-gray-900 mb-4">Детали работы</h2>
