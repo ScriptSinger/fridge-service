@@ -30,6 +30,9 @@ services:
       - ./:/var/www/html
       - ./docker/php/php-overrides.ini:/usr/local/etc/php/conf.d/php-overrides.ini
 
+    depends_on:
+      - redis
+
     networks:
       - laravel
     # - appliance_repair_laravel
@@ -39,10 +42,11 @@ services:
       context: .
       dockerfile: docker/php/php.dockerfile
     user: "${UID}:${GID}"
-    command: php artisan queue:work database --sleep=3 --tries=3 --max-time=3600
+    command: php artisan queue:work ${QUEUE_CONNECTION:-database} --sleep=3 --tries=3 --max-time=3600
     restart: unless-stopped
     depends_on:
       - mysql
+      - redis
     volumes:
       - ./:/var/www/html
       - ./docker/php/php-overrides.ini:/usr/local/etc/php/conf.d/php-overrides.ini
@@ -58,9 +62,18 @@ services:
     restart: unless-stopped
     depends_on:
       - mysql
+      - redis
     volumes:
       - ./:/var/www/html
       - ./docker/php/php-overrides.ini:/usr/local/etc/php/conf.d/php-overrides.ini
+    networks:
+      - laravel
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
     networks:
       - laravel
 
@@ -88,6 +101,7 @@ services:
 
 volumes:
   db_data:
+  redis_data:
 
 networks:
   appliance_repair_laravel:

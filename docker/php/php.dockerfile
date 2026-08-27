@@ -31,7 +31,7 @@ RUN apt-get update && apt-get install -y \
     g++ \
     make \
     autoconf \
-    && docker-php-ext-install pdo pdo_mysql zip \
+    && docker-php-ext-install pdo pdo_mysql zip opcache \
     && pecl install https://pecl.php.net/get/redis-${REDIS_VERSION}.tgz \
     && docker-php-ext-enable redis \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
