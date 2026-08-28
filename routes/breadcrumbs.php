@@ -2,6 +2,7 @@
 
 use App\Models\Brand;
 use App\Models\Gallery;
+use App\Models\Problem;
 use App\Models\Service;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
@@ -26,6 +27,12 @@ Breadcrumbs::for('services.show', function (BreadcrumbTrail $trail, Service $ser
     $device = request()->route('device');
     $trail->parent('devices.show', $device);
     $trail->push($service->name, route('services.show', [$device, $service->slug]));
+});
+
+Breadcrumbs::for('problems.show', function (BreadcrumbTrail $trail, Problem $problem) {
+    $device = request()->route('device');
+    $trail->parent('devices.show', $device);
+    $trail->push($problem->title, route('problems.show', [$device, $problem->slug]));
 });
 
 Breadcrumbs::for('prices.index', function (BreadcrumbTrail $trail) {

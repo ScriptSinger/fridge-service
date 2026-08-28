@@ -11,7 +11,7 @@
         <x-ui.sections.toggle-list :limit="6" :count="$items->count()" x-data="problemsMasonry()">
             <div x-ref="grid" class="relative space-y-4 md:space-y-0">
                 @foreach ($items as $index => $problem)
-                    <x-ui.sections.content-card :problem="$problem" x-show="showAll || {{ $index }} < limit" x-cloak />
+                    <x-ui.sections.content-card :problem="$problem" :device="$device" x-show="showAll || {{ $index }} < limit" x-cloak />
                 @endforeach
             </div>
         </x-ui.sections.toggle-list>

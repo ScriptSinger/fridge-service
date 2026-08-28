@@ -6,6 +6,10 @@
                     $breadcrumbs = $route ? Breadcrumbs::generate($route, $model) : Breadcrumbs::current();
                 @endphp
 
+                @if ($breadcrumbs->isNotEmpty())
+                    <script type="application/ld+json">{!! \App\Support\Seo\BreadcrumbJsonLd::make($breadcrumbs) !!}</script>
+                @endif
+
                 @foreach ($breadcrumbs as $breadcrumb)
                     <li class="flex items-center">
                         @if ($breadcrumb->url && !$loop->last)

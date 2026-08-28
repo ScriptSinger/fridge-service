@@ -8,6 +8,7 @@ use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ProblemController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\MoonShine\TinyMceImageUploadController;
@@ -37,6 +38,9 @@ Route::get('/personal-data-consent', [PageController::class, 'showLegal'])
 
 Route::get('{device:slug}/uslugi/{service}', [ServiceController::class, 'show'])
     ->name('services.show');
+
+Route::get('{device:slug}/neispravnosti/{problem}', [ProblemController::class, 'show'])
+    ->name('problems.show');
 
 Route::get('{device:slug}', [DeviceController::class, 'show'])
     ->name('devices.show');

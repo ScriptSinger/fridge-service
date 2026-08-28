@@ -9,6 +9,8 @@ use App\Models\Problem;
 use App\MoonShine\Resources\Brand\BrandResource;
 use App\MoonShine\Resources\Device\DeviceResource;
 use App\MoonShine\Resources\ErrorCode\ErrorCodeResource;
+use App\MoonShine\Resources\Service\ServiceResource;
+use App\MoonShine\Support\TinyMceUpload;
 use App\MoonShine\Resources\Problem\Pages\ProblemIndexPage;
 use App\MoonShine\Resources\Problem\Pages\ProblemFormPage;
 use App\MoonShine\Resources\Problem\Pages\ProblemDetailPage;
@@ -22,6 +24,8 @@ use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
+use MoonShine\TinyMce\Fields\TinyMce;
+use Leeto\InputExtensionCharCount\InputExtensions\CharCount;
 
 
 /**
@@ -62,12 +66,27 @@ class ProblemResource extends ModelResource
                     ->hint('Генерируется автоматически'),
 
                 Text::make('Title', 'title')
-                    ->required(),
+                    ->required()
+                    ->hint('Короткое название — используется в карточках, хлебных крошках и ссылках.'),
 
                 Text::make('H1', 'h1')
-                    ->required(),
+                    ->required()
+                    ->hint('Полный заголовок страницы неисправности, например: «Холодильник не включается: причины и ремонт в Уфе».'),
 
-                Textarea::make('Content', 'content'),
+                Text::make('Подзаголовок', 'subtitle')
+                    ->extension(new CharCount(140)),
+
+                Text::make('SEO title', 'seo_title')
+                    ->extension(new CharCount(60))
+                    ->hint('До 60 символов без названия компании'),
+
+                Textarea::make('SEO description', 'seo_description')
+                    ->hint('Краткое описание для сниппета'),
+
+                TinyMceUpload::withImageUpload(
+                    TinyMce::make('Основной контент', 'content')
+                        ->hint('Используйте «Заголовок 2» для разделов и маркированные/нумерованные списки для перечислений: причины, признаки, стоимость ремонта.')
+                ),
 
                 Switcher::make('Активна', 'is_active'),
 
@@ -93,6 +112,16 @@ class ProblemResource extends ModelResource
                     fn($item) => $item->title,
                     ErrorCodeResource::class
                 ),
+
+                BelongsToMany::make(
+                    'Услуги',
+                    'services',
+                    fn($item) => $item->name,
+                    ServiceResource::class
+                )->valuesQuery(fn ($query) => $query->when(
+                    $this->getItem()?->device_id,
+                    fn ($q, $deviceId) => $q->where('device_id', $deviceId)
+                )),
             ]),
         ];
     }
@@ -104,7 +133,10 @@ class ProblemResource extends ModelResource
             Text::make('Slug', 'slug'),
             Text::make('Title', 'title'),
             Text::make('H1', 'h1'),
-            Textarea::make('Content', 'content'),
+            Text::make('Подзаголовок', 'subtitle'),
+            Text::make('SEO title', 'seo_title'),
+            Textarea::make('SEO description', 'seo_description'),
+            TinyMce::make('Основной контент', 'content'),
             BelongsTo::make(
                 'Device',
                 'device',
@@ -122,6 +154,12 @@ class ProblemResource extends ModelResource
                 'Error Codes',
                 'errorCodes',
                 ErrorCodeResource::class
+            )->readonly(),
+
+            BelongsToMany::make(
+                'Услуги',
+                'services',
+                ServiceResource::class
             )->readonly(),
 
             Switcher::make('Активна', 'is_active'),

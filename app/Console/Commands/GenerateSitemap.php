@@ -241,6 +241,26 @@ class GenerateSitemap extends Command
                         );
                     }
                 });
+
+            Problem::query()
+                ->where('is_active', true)
+                ->whereNotNull('slug')
+                ->with('device:id,slug,is_active')
+                ->orderBy('id')
+                ->chunk(200, function ($problems) use ($sitemap) {
+                    foreach ($problems as $problem) {
+                        if (! $problem->device?->is_active || empty($problem->device->slug)) {
+                            continue;
+                        }
+
+                        $sitemap->add(
+                            Url::create(route('problems.show', [$problem->device, $problem->slug]))
+                                ->setLastModificationDate($problem->updated_at)
+                                ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+                                ->setPriority(0.65)
+                        );
+                    }
+                });
         } catch (\Throwable $e) {
             $this->warn('Database is unavailable. Generated sitemap with static routes only.');
         }
