@@ -50,7 +50,7 @@ class ProblemResource extends ModelResource
                 fn($item) => $item->type,
                 DeviceResource::class
             )->sortable(),
-            Textarea::make('Content', 'content'),
+            Text::make('Content', 'short_content'),
             Switcher::make('Активна', 'is_active')->sortable(),
         ];
     }
