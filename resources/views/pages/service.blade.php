@@ -10,12 +10,13 @@
 
     <x-ui.sections.wrapper id="service-detail">
         <div @class([
-                'grid gap-8 lg:items-start',
-                'lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]' => $hasContent,
-            ])>
+            'grid gap-8 lg:items-start',
+            'lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]' => $hasContent,
+        ])>
             @if ($hasContent)
                 <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm lg:self-start">
-                    <div class="prose prose-gray max-w-none prose-headings:text-gray-900 prose-h2:mt-8 prose-h2:mb-3 prose-h3:mt-6 prose-h3:mb-2 prose-a:text-yellow-700 prose-strong:text-gray-900 prose-img:mx-auto prose-img:rounded-2xl prose-img:shadow-sm prose-figure:mx-auto prose-figcaption:text-center">
+                    <div
+                        class="prose prose-gray max-w-none prose-headings:text-gray-900 prose-h2:mt-8 prose-h2:mb-3 prose-h3:mt-6 prose-h3:mb-2 prose-a:text-yellow-700 prose-strong:text-gray-900 prose-img:mx-auto prose-img:rounded-2xl prose-img:shadow-sm prose-figure:mx-auto prose-figcaption:text-center">
                         {!! $service->content !!}
                     </div>
                 </div>
@@ -29,7 +30,7 @@
                     <div class="rounded-xl bg-gray-50 border border-gray-200 p-5">
                         @if ($price?->price_from)
                             <p class="text-sm text-gray-600 mb-1">Цена от</p>
-                            <p class="text-3xl font-bold text-yellow-700">
+                            <p class="text-3xl font-bold">
                                 {{ number_format($price->price_from, 0, '.', ' ') }}
                                 <span class="text-lg font-medium text-gray-600">{{ $price->units }}</span>
                             </p>
