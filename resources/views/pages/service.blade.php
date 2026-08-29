@@ -1,25 +1,46 @@
+@php
+    $hasContent = filled($service->content);
+    $price = $service->preferredPrice($device->id);
+@endphp
+
 <x-layouts.app :title="$service->seo_title ?: $service->name" :description="$service->seo_description ?: $service->description">
     <x-ui.breadcrumbs route="services.show" :model="$service" />
 
     <x-sections.hero :model="$service" :h1="$service->h1 ?: $service->name" :subtitle="$service->subtitle ?: $service->description" compact />
 
-    <x-ui.sections.wrapper id="service-price" innerClass="container mx-auto px-5 py-8 md:py-10">
-        @php($price = $service->preferredPrice($device->id))
-        <x-ui.sections.header title="Стоимость услуги" subtitle="Точную стоимость мастер согласует после диагностики." />
-        <div class="rounded-lg border border-gray-200 bg-gray-50 p-5 sm:p-6">
-            <p class="text-lg text-gray-900">
-                {{ $price?->price_from ? 'от ' . number_format($price->price_from, 0, '.', ' ') . ' ' . $price->units : 'По договорённости' }}
-            </p>
+    <x-ui.sections.wrapper id="service-detail">
+        <div @class([
+                'grid gap-8 lg:items-start',
+                'lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]' => $hasContent,
+            ])>
+            @if ($hasContent)
+                <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm lg:self-start">
+                    <div class="prose prose-gray max-w-none prose-headings:text-gray-900 prose-h2:mt-8 prose-h2:mb-3 prose-h3:mt-6 prose-h3:mb-2 prose-a:text-yellow-700 prose-strong:text-gray-900 prose-img:mx-auto prose-img:rounded-2xl prose-img:shadow-sm prose-figure:mx-auto prose-figcaption:text-center">
+                        {!! $service->content !!}
+                    </div>
+                </div>
+            @endif
+
+            <div class="flex flex-col gap-8">
+                <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-2">Стоимость услуги</h2>
+                    <p class="text-sm text-gray-500 mb-5">Точную стоимость мастер согласует после диагностики.</p>
+
+                    <div class="rounded-xl bg-gray-50 border border-gray-200 p-5">
+                        @if ($price?->price_from)
+                            <p class="text-sm text-gray-600 mb-1">Цена от</p>
+                            <p class="text-3xl font-bold text-yellow-700">
+                                {{ number_format($price->price_from, 0, '.', ' ') }}
+                                <span class="text-lg font-medium text-gray-600">{{ $price->units }}</span>
+                            </p>
+                        @else
+                            <p class="text-lg font-semibold text-gray-900">По договорённости</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
         </div>
     </x-ui.sections.wrapper>
-
-    @if (filled($service->content))
-        <x-ui.sections.wrapper id="service-content" innerClass="container mx-auto px-5 py-8 md:py-10">
-            <div class="prose prose-gray max-w-4xl prose-headings:text-gray-900 prose-h2:mt-10 prose-h2:mb-4 prose-h3:mt-7 prose-h3:mb-3 prose-a:text-yellow-700 prose-strong:text-gray-900 prose-img:mx-auto prose-img:rounded-2xl prose-img:shadow-sm prose-figure:mx-auto prose-figcaption:text-center">
-                {!! $service->content !!}
-            </div>
-        </x-ui.sections.wrapper>
-    @endif
 
     <x-sections.common.gallery :galleries="$galleries" />
     <x-sections.common.faq :faqs="$faqs" />
