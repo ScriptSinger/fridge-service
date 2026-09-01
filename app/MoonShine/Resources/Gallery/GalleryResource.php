@@ -68,7 +68,12 @@ class GalleryResource extends ModelResource
                     ->hint('Рекомендация для Яндекса: держать в пределах ~50–70 символов (в выдаче обрезается по ширине/пикселям).'),
                 Text::make('Subtitle', 'subtitle')
                     ->extension(new CharCount())
-                    ->hint('Используется как meta description. Рекомендация для Яндекса: ~120–160 символов (может быть заменено текстом страницы в сниппете).'),
+                    ->hint('Подзаголовок на странице (в hero-блоке).'),
+                Text::make('SEO title', 'seo_title')
+                    ->extension(new CharCount(60))
+                    ->hint('До ~60 символов. Если не заполнено — используется Title.'),
+                Textarea::make('SEO description', 'seo_description')
+                    ->hint('Meta description для сниппета, ~120–160 символов. Если не заполнено — используется Subtitle.'),
                 TinyMceUpload::withImageUpload(
                     TinyMce::make('Description', 'description')
                         ->hint('HTML-описание работы (контент страницы; не лимитируйте под сниппет).')
@@ -110,6 +115,8 @@ class GalleryResource extends ModelResource
             ID::make()->sortable(),
             Text::make('Title', 'title'),
             Text::make('Subtitle', 'subtitle'),
+            Text::make('SEO title', 'seo_title'),
+            Textarea::make('SEO description', 'seo_description'),
             TinyMce::make('Description', 'description'),
             Number::make('Порядок', 'sort_order'),
             Date::make('Дата публикации', 'published_at')->format('d.m.Y'),

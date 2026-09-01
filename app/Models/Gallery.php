@@ -19,6 +19,8 @@ class Gallery extends Model
         'slug',
         'title',
         'subtitle',
+        'seo_title',
+        'seo_description',
         'description',
         'image',
         'image_alt',

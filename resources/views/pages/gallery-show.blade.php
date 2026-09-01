@@ -12,7 +12,7 @@
     ])->filter()->values();
 @endphp
 
-<x-layouts.app :title="$title" :description="$description">
+<x-layouts.app :title="$metaTitle" :description="$description">
     <x-ui.breadcrumbs route="gallery.show" :model="$gallery" />
     <x-sections.hero
         :model="null"

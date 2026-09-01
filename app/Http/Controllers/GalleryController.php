@@ -58,11 +58,13 @@ class GalleryController extends Controller
         $gallery->load(['device', 'brand', 'service']);
 
         $title = $gallery->title ?: 'Выполненный ремонт';
-        $description = $gallery->subtitle ?: 'Фото выполненных работ по ремонту бытовой техники.';
+        $metaTitle = $gallery->seo_title ?: $title;
+        $description = $gallery->seo_description ?: ($gallery->subtitle ?: 'Фото выполненных работ по ремонту бытовой техники.');
 
         return view('pages.gallery-show', [
             'gallery' => $gallery,
             'title' => $title,
+            'metaTitle' => $metaTitle,
             'description' => $description,
         ]);
     }
