@@ -19,6 +19,11 @@ use Leeto\InputExtensionCharCount\InputExtensions\CharCount;
 
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Crud\Handlers\Handler;
+use MoonShine\ImportExport\Contracts\HasImportExportContract;
+use MoonShine\ImportExport\ExportHandler;
+use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\ID;
@@ -31,8 +36,10 @@ use MoonShine\UI\Fields\Textarea;
 /**
  * @extends ModelResource<Gallery, GalleryIndexPage, GalleryFormPage, GalleryDetailPage>
  */
-class GalleryResource extends ModelResource
+class GalleryResource extends ModelResource implements HasImportExportContract
 {
+    use ImportExportConcern;
+
     protected string $model = Gallery::class;
 
     protected string $title = 'Galleries';
@@ -126,6 +133,50 @@ class GalleryResource extends ModelResource
             BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)->nullable(),
             BelongsTo::make('Service', 'service', fn($item) => $item->name, ServiceResource::class)->nullable(),
             BelongsTo::make('Page', 'page', fn($item) => $item->h1, PageResource::class)->nullable(),
+        ];
+    }
+
+    protected function export(): ?Handler
+    {
+        return ExportHandler::make('Экспорт в CSV')
+            ->csv()
+            ->delimiter(';');
+    }
+
+    protected function import(): ?Handler
+    {
+        return null;
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function exportFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Slug', 'slug'),
+            Text::make('Title', 'title'),
+            Text::make('Subtitle', 'subtitle'),
+            Text::make('SEO title', 'seo_title'),
+            Textarea::make('SEO description', 'seo_description'),
+            Text::make('Alt изображения', 'image_alt'),
+            Number::make('Порядок', 'sort_order'),
+            Date::make('Дата публикации', 'published_at')
+                ->format('d.m.Y')
+                ->modifyRawValue(fn($raw, $original) => $original?->published_at?->format('d.m.Y')),
+            BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)
+                ->nullable()
+                ->modifyRawValue(fn($raw, $original) => $original?->device?->type),
+            BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)
+                ->nullable()
+                ->modifyRawValue(fn($raw, $original) => $original?->brand?->name),
+            BelongsTo::make('Service', 'service', fn($item) => $item->name, ServiceResource::class)
+                ->nullable()
+                ->modifyRawValue(fn($raw, $original) => $original?->service?->name),
+            BelongsTo::make('Page', 'page', fn($item) => $item->h1, PageResource::class)
+                ->nullable()
+                ->modifyRawValue(fn($raw, $original) => $original?->page?->h1),
         ];
     }
 
