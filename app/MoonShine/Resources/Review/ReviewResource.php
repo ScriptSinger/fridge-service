@@ -12,6 +12,11 @@ use App\MoonShine\Resources\Review\Pages\ReviewDetailPage;
 
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Crud\Handlers\Handler;
+use MoonShine\ImportExport\Contracts\HasImportExportContract;
+use MoonShine\ImportExport\ExportHandler;
+use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Number;
@@ -25,8 +30,10 @@ use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 /**
  * @extends ModelResource<Review, ReviewIndexPage, ReviewFormPage, ReviewDetailPage>
  */
-class ReviewResource extends ModelResource
+class ReviewResource extends ModelResource implements HasImportExportContract
 {
+    use ImportExportConcern;
+
     protected string $model = Review::class;
 
     protected string $title = 'Reviews';
@@ -122,6 +129,45 @@ class ReviewResource extends ModelResource
             Text::make('Бренд', 'brand.name'),
             Text::make('Услуга', 'service.name'),
             Date::make('Дата публикации', 'published_at')->format('d.m.Y'),
+            Switcher::make('Избранный', 'is_featured'),
+            Switcher::make('Опубликован', 'is_published'),
+        ];
+    }
+
+    protected function export(): ?Handler
+    {
+        return ExportHandler::make('Экспорт в CSV')
+            ->csv()
+            ->delimiter(';');
+    }
+
+    protected function import(): ?Handler
+    {
+        return null;
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function exportFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Имя', 'name'),
+            Text::make('Город', 'city'),
+            Text::make('Заголовок', 'title'),
+            Textarea::make('Текст', 'text'),
+            Number::make('Оценка', 'rating'),
+            Text::make('Источник', 'source'),
+            BelongsTo::make('Устройство', 'device', fn($item) => $item->type ?? '')
+                ->modifyRawValue(fn($raw, $original) => $original?->device?->type),
+            BelongsTo::make('Бренд', 'brand', fn($item) => $item->name ?? '')
+                ->modifyRawValue(fn($raw, $original) => $original?->brand?->name),
+            BelongsTo::make('Услуга', 'service', fn($item) => $item->name ?? '')
+                ->modifyRawValue(fn($raw, $original) => $original?->service?->name),
+            Date::make('Дата публикации', 'published_at')
+                ->format('d.m.Y')
+                ->modifyRawValue(fn($raw, $original) => $original?->published_at?->format('d.m.Y')),
             Switcher::make('Избранный', 'is_featured'),
             Switcher::make('Опубликован', 'is_published'),
         ];

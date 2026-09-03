@@ -11,6 +11,11 @@ use App\MoonShine\Resources\BrandDevice\Pages\BrandDeviceDetailPage;
 use App\MoonShine\Resources\BrandDevice\Pages\BrandDeviceFormPage;
 use App\MoonShine\Resources\BrandDevice\Pages\BrandDeviceIndexPage;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Crud\Handlers\Handler;
+use MoonShine\ImportExport\Contracts\HasImportExportContract;
+use MoonShine\ImportExport\ExportHandler;
+use MoonShine\ImportExport\Traits\ImportExportConcern;
 use Leeto\InputExtensionCharCount\InputExtensions\CharCount;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Resources\ModelResource;
@@ -22,8 +27,10 @@ use MoonShine\UI\Fields\Textarea;
 /**
  * @extends ModelResource<BrandDevice, BrandDeviceIndexPage, BrandDeviceFormPage, BrandDeviceDetailPage>
  */
-class BrandDeviceResource extends ModelResource
+class BrandDeviceResource extends ModelResource implements HasImportExportContract
 {
+    use ImportExportConcern;
+
     protected string $model = BrandDevice::class;
 
     protected string $title = 'Device Brands';
@@ -113,6 +120,36 @@ class BrandDeviceResource extends ModelResource
             Text::make('Subtitle', 'subtitle'),
             Text::make('Title', 'title'),
             Textarea::make('Description', 'description'),
+        ];
+    }
+
+    protected function export(): ?Handler
+    {
+        return ExportHandler::make('Экспорт в CSV')
+            ->csv()
+            ->delimiter(';');
+    }
+
+    protected function import(): ?Handler
+    {
+        return null;
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function exportFields(): iterable
+    {
+        return [
+            ID::make(),
+            BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)
+                ->modifyRawValue(fn($raw, $original) => $original?->device?->type),
+            BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)
+                ->modifyRawValue(fn($raw, $original) => $original?->brand?->name),
+            Text::make('H1', 'h1'),
+            Text::make('Subtitle', 'subtitle'),
+            Text::make('Title', 'title'),
+            Text::make('Description', 'description'),
         ];
     }
 

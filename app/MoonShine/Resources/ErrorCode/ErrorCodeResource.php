@@ -13,6 +13,11 @@ use App\MoonShine\Resources\ErrorCode\Pages\ErrorCodeDetailPage;
 use App\MoonShine\Resources\Problem\ProblemResource;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Crud\Handlers\Handler;
+use MoonShine\ImportExport\Contracts\HasImportExportContract;
+use MoonShine\ImportExport\ExportHandler;
+use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\UI\Components\Layout\Box;
@@ -23,8 +28,10 @@ use MoonShine\UI\Fields\Textarea;
 /**
  * @extends ModelResource<ErrorCode, ErrorCodeIndexPage, ErrorCodeFormPage, ErrorCodeDetailPage>
  */
-class ErrorCodeResource extends ModelResource
+class ErrorCodeResource extends ModelResource implements HasImportExportContract
 {
+    use ImportExportConcern;
+
     protected string $model = ErrorCode::class;
 
     protected string $title = 'ErrorCodes';
@@ -88,6 +95,34 @@ class ErrorCodeResource extends ModelResource
         ];
     }
 
+
+    protected function export(): ?Handler
+    {
+        return ExportHandler::make('Экспорт в CSV')
+            ->csv()
+            ->delimiter(';');
+    }
+
+    protected function import(): ?Handler
+    {
+        return null;
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function exportFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Slug', 'slug'),
+            Text::make('Title', 'title'),
+            Text::make('Code', 'code'),
+            Textarea::make('Description', 'description'),
+            BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)
+                ->modifyRawValue(fn($raw, $original) => $original?->brand?->name),
+        ];
+    }
 
     /**
      * @return list<class-string<PageContract>>

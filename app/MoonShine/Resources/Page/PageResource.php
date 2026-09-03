@@ -12,6 +12,11 @@ use App\MoonShine\Resources\Page\Pages\PageDetailPage;
 use Leeto\InputExtensionCharCount\InputExtensions\CharCount;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Crud\Handlers\Handler;
+use MoonShine\ImportExport\Contracts\HasImportExportContract;
+use MoonShine\ImportExport\ExportHandler;
+use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\TinyMce\Fields\TinyMce;
 use MoonShine\UI\Components\Layout\Box;
@@ -25,8 +30,10 @@ use MoonShine\UI\Fields\Textarea;
 /**
  * @extends ModelResource<Page, PageIndexPage, PageFormPage, PageDetailPage>
  */
-class PageResource extends ModelResource
+class PageResource extends ModelResource implements HasImportExportContract
 {
+    use ImportExportConcern;
+
     protected string $model = Page::class;
     protected string $title = 'Pages';
 
@@ -112,6 +119,36 @@ class PageResource extends ModelResource
             Text::make('Title', 'title'),
             Text::make('Description', 'description'),
             Text::make('Content', 'content'),
+            Switcher::make('Активна', 'is_active'),
+        ];
+    }
+
+    protected function export(): ?Handler
+    {
+        return ExportHandler::make('Экспорт в CSV')
+            ->csv()
+            ->delimiter(';');
+    }
+
+    protected function import(): ?Handler
+    {
+        return null;
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function exportFields(): iterable
+    {
+        return [
+            ID::make(),
+            BelongsTo::make('Type', 'pageType', 'name')
+                ->modifyRawValue(fn($raw, $original) => $original?->pageType?->name),
+            Text::make('Slug', 'slug'),
+            Text::make('H1', 'h1'),
+            Text::make('Subtitle', 'subtitle'),
+            Text::make('Title', 'title'),
+            Text::make('Description', 'description'),
             Switcher::make('Активна', 'is_active'),
         ];
     }

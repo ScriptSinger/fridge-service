@@ -14,6 +14,11 @@ use App\MoonShine\Resources\Price\Pages\PriceDetailPage;
 use App\MoonShine\Resources\Service\ServiceResource;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Crud\Handlers\Handler;
+use MoonShine\ImportExport\Contracts\HasImportExportContract;
+use MoonShine\ImportExport\ExportHandler;
+use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\UI\Fields\ID;
@@ -23,8 +28,10 @@ use MoonShine\UI\Fields\Text;
 /**
  * @extends ModelResource<Price, PriceIndexPage, PriceFormPage, PriceDetailPage>
  */
-class PriceResource extends ModelResource
+class PriceResource extends ModelResource implements HasImportExportContract
 {
+    use ImportExportConcern;
+
     protected string $model = Price::class;
 
     protected string $title = 'Prices';
@@ -113,6 +120,37 @@ class PriceResource extends ModelResource
             Number::make('Price From', 'price_from'),
             Number::make('Price To', 'price_to'),
             Text::make('Units', 'units')->default('₽'),
+        ];
+    }
+
+    protected function export(): ?Handler
+    {
+        return ExportHandler::make('Экспорт в CSV')
+            ->csv()
+            ->delimiter(';');
+    }
+
+    protected function import(): ?Handler
+    {
+        return null;
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function exportFields(): iterable
+    {
+        return [
+            ID::make(),
+            BelongsTo::make('Service', 'service', fn($item) => $item->name, ServiceResource::class)
+                ->modifyRawValue(fn($raw, $original) => $original?->service?->name),
+            BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)
+                ->modifyRawValue(fn($raw, $original) => $original?->device?->type),
+            Text::make('Brands', 'brands')
+                ->modifyRawValue(fn($raw, $original) => $original?->brands?->pluck('name')->implode(', ')),
+            Number::make('Price From', 'price_from'),
+            Number::make('Price To', 'price_to'),
+            Text::make('Units', 'units'),
         ];
     }
 

@@ -13,6 +13,11 @@ use App\MoonShine\Resources\Certificate\CertificateResource;
 
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Crud\Handlers\Handler;
+use MoonShine\ImportExport\Contracts\HasImportExportContract;
+use MoonShine\ImportExport\ExportHandler;
+use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\HasMany;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Layout\Flex;
@@ -23,8 +28,10 @@ use MoonShine\UI\Fields\Text;
 /**
  * @extends ModelResource<Master, MasterIndexPage, MasterFormPage, MasterDetailPage>
  */
-class MasterResource extends ModelResource
+class MasterResource extends ModelResource implements HasImportExportContract
 {
+    use ImportExportConcern;
+
     protected string $model = Master::class;
 
     protected string $title = 'Masters';
@@ -74,6 +81,33 @@ class MasterResource extends ModelResource
             Text::make('Description', 'description')->sortable(),
             Image::make('Photo', 'photo')->disk(config('filesystems.media')),
             HasMany::make('Certificates', 'certificates', CertificateResource::class)->readonly(),
+        ];
+    }
+
+    protected function export(): ?Handler
+    {
+        return ExportHandler::make('Экспорт в CSV')
+            ->csv()
+            ->delimiter(';');
+    }
+
+    protected function import(): ?Handler
+    {
+        return null;
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function exportFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Фамилия', 'last_name'),
+            Text::make('Имя', 'first_name'),
+            Text::make('Отчество', 'middle_name'),
+            Text::make('Role', 'role'),
+            Text::make('Description', 'description'),
         ];
     }
 

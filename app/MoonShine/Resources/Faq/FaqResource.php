@@ -15,6 +15,11 @@ use App\MoonShine\Resources\Faq\Pages\FaqFormPage;
 use App\MoonShine\Resources\Faq\Pages\FaqDetailPage;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Crud\Handlers\Handler;
+use MoonShine\ImportExport\Contracts\HasImportExportContract;
+use MoonShine\ImportExport\ExportHandler;
+use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\ID;
@@ -26,8 +31,10 @@ use MoonShine\UI\Fields\Textarea;
 /**
  * @extends ModelResource<Faq, FaqIndexPage, FaqFormPage, FaqDetailPage>
  */
-class FaqResource extends ModelResource
+class FaqResource extends ModelResource implements HasImportExportContract
 {
+    use ImportExportConcern;
+
     protected string $model = Faq::class;
 
     protected string $title = 'Faqs';
@@ -86,6 +93,40 @@ class FaqResource extends ModelResource
             BelongsTo::make('Услуга', 'service', fn($item) => $item->name, ServiceResource::class),
             BelongsTo::make('Бренд', 'brand', fn($item) => $item->name, BrandResource::class),
             BelongsTo::make('Страница', 'page', fn($item) => $item->h1, PageResource::class),
+        ];
+    }
+
+    protected function export(): ?Handler
+    {
+        return ExportHandler::make('Экспорт в CSV')
+            ->csv()
+            ->delimiter(';');
+    }
+
+    protected function import(): ?Handler
+    {
+        return null;
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function exportFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Question', 'question'),
+            Text::make('Answer', 'answer'),
+            Number::make('Порядок', 'sort_order'),
+            Switcher::make('Активна', 'is_active'),
+            BelongsTo::make('Тип техники', 'device', fn($item) => $item->type, DeviceResource::class)
+                ->modifyRawValue(fn($raw, $original) => $original?->device?->type),
+            BelongsTo::make('Услуга', 'service', fn($item) => $item->name, ServiceResource::class)
+                ->modifyRawValue(fn($raw, $original) => $original?->service?->name),
+            BelongsTo::make('Бренд', 'brand', fn($item) => $item->name, BrandResource::class)
+                ->modifyRawValue(fn($raw, $original) => $original?->brand?->name),
+            BelongsTo::make('Страница', 'page', fn($item) => $item->h1, PageResource::class)
+                ->modifyRawValue(fn($raw, $original) => $original?->page?->h1),
         ];
     }
 

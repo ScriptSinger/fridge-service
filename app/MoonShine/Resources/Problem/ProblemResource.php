@@ -17,6 +17,11 @@ use App\MoonShine\Resources\Problem\Pages\ProblemDetailPage;
 
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Crud\Handlers\Handler;
+use MoonShine\ImportExport\Contracts\HasImportExportContract;
+use MoonShine\ImportExport\ExportHandler;
+use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\UI\Components\Layout\Box;
@@ -31,8 +36,10 @@ use Leeto\InputExtensionCharCount\InputExtensions\CharCount;
 /**
  * @extends ModelResource<Problem, ProblemIndexPage, ProblemFormPage, ProblemDetailPage>
  */
-class ProblemResource extends ModelResource
+class ProblemResource extends ModelResource implements HasImportExportContract
 {
+    use ImportExportConcern;
+
     protected string $model = Problem::class;
 
     protected string $title = 'Problems';
@@ -164,6 +171,43 @@ class ProblemResource extends ModelResource
 
             Switcher::make('Активна', 'is_active'),
 
+        ];
+    }
+
+    protected function export(): ?Handler
+    {
+        return ExportHandler::make('Экспорт в CSV')
+            ->csv()
+            ->delimiter(';');
+    }
+
+    protected function import(): ?Handler
+    {
+        return null;
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function exportFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Slug', 'slug'),
+            Text::make('Title', 'title'),
+            Text::make('H1', 'h1'),
+            Text::make('Подзаголовок', 'subtitle'),
+            Text::make('SEO title', 'seo_title'),
+            Textarea::make('SEO description', 'seo_description'),
+            Switcher::make('Активна', 'is_active'),
+            BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)
+                ->modifyRawValue(fn($raw, $original) => $original?->device?->type),
+            Text::make('Brands', 'brands')
+                ->modifyRawValue(fn($raw, $original) => $original?->brands?->pluck('name')->implode(', ')),
+            Text::make('Error Codes', 'errorCodes')
+                ->modifyRawValue(fn($raw, $original) => $original?->errorCodes?->pluck('title')->implode(', ')),
+            Text::make('Услуги', 'services')
+                ->modifyRawValue(fn($raw, $original) => $original?->services?->pluck('name')->implode(', ')),
         ];
     }
 

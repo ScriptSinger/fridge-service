@@ -13,6 +13,11 @@ use App\MoonShine\Resources\Service\Pages\ServiceFormPage;
 use App\MoonShine\Resources\Service\Pages\ServiceDetailPage;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Crud\Handlers\Handler;
+use MoonShine\ImportExport\Contracts\HasImportExportContract;
+use MoonShine\ImportExport\ExportHandler;
+use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\HasMany;
 use MoonShine\UI\Fields\ID;
@@ -26,8 +31,10 @@ use Leeto\InputExtensionCharCount\InputExtensions\CharCount;
 /**
  * @extends ModelResource<Service, ServiceIndexPage, ServiceFormPage, ServiceDetailPage>
  */
-class ServiceResource extends ModelResource
+class ServiceResource extends ModelResource implements HasImportExportContract
 {
+    use ImportExportConcern;
+
     protected string $model = Service::class;
 
     protected string $title = 'Services';
@@ -109,6 +116,38 @@ class ServiceResource extends ModelResource
             HasMany::make('Prices', 'prices'),
             Switcher::make('Активна', 'is_active')
 
+        ];
+    }
+
+    protected function export(): ?Handler
+    {
+        return ExportHandler::make('Экспорт в CSV')
+            ->csv()
+            ->delimiter(';');
+    }
+
+    protected function import(): ?Handler
+    {
+        return null;
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function exportFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Slug', 'slug'),
+            Text::make('Name', 'name'),
+            Text::make('H1', 'h1'),
+            Text::make('SEO title', 'seo_title'),
+            Textarea::make('SEO description', 'seo_description'),
+            Text::make('Подзаголовок', 'subtitle'),
+            Textarea::make('Description', 'description'),
+            Switcher::make('Активна', 'is_active'),
+            BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)
+                ->modifyRawValue(fn($raw, $original) => $original?->device?->type),
         ];
     }
 

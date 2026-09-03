@@ -16,6 +16,11 @@ use App\MoonShine\Resources\Lead\Pages\LeadFormPage;
 use App\MoonShine\Resources\Lead\Pages\LeadDetailPage;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Crud\Handlers\Handler;
+use MoonShine\ImportExport\Contracts\HasImportExportContract;
+use MoonShine\ImportExport\ExportHandler;
+use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\MorphTo;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\Date;
@@ -29,8 +34,10 @@ use MoonShine\UI\Fields\Textarea;
 /**
  * @extends ModelResource<Lead, LeadIndexPage, LeadFormPage, LeadDetailPage>
  */
-class LeadResource extends ModelResource
+class LeadResource extends ModelResource implements HasImportExportContract
 {
+    use ImportExportConcern;
+
     protected string $model = Lead::class;
 
     protected string $title = 'Leads';
@@ -120,6 +127,49 @@ class LeadResource extends ModelResource
             Text::make('UTM Campaign', 'utm_campaign'),
         ];
     }
+    protected function export(): ?Handler
+    {
+        return ExportHandler::make('Экспорт в CSV')
+            ->csv()
+            ->delimiter(';');
+    }
+
+    protected function import(): ?Handler
+    {
+        return null;
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function exportFields(): iterable
+    {
+        return [
+            ID::make(),
+            Date::make('Получено', 'created_at')
+                ->format('d.m.Y H:i')
+                ->modifyRawValue(fn($raw, $original) => $original?->created_at?->format('d.m.Y H:i')),
+            Text::make('Name', 'name'),
+            Text::make('Phone', 'phone'),
+            Textarea::make('Comment', 'comment'),
+            Text::make('Utm_source', 'utm_source'),
+            Text::make('Utm_medium', 'utm_medium'),
+            Text::make('Utm_campaign', 'utm_campaign'),
+            Text::make('Leadable', 'leadable')
+                ->modifyRawValue(function ($raw, $original) {
+                    $leadable = $original?->leadable;
+
+                    if (! $leadable) {
+                        return null;
+                    }
+
+                    $label = $leadable->title ?? $leadable->name ?? $leadable->type ?? $leadable->getKey();
+
+                    return class_basename($leadable) . ': ' . $label;
+                }),
+        ];
+    }
+
     /**
      * @return list<class-string<PageContract>>
      */

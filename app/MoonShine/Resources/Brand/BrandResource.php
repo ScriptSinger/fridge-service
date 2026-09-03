@@ -14,6 +14,11 @@ use App\MoonShine\Resources\ErrorCode\ErrorCodeResource;
 use App\MoonShine\Resources\Problem\ProblemResource;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Crud\Handlers\Handler;
+use MoonShine\ImportExport\Contracts\HasImportExportContract;
+use MoonShine\ImportExport\ExportHandler;
+use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\Laravel\Fields\Relationships\HasMany;
 use MoonShine\UI\Components\Layout\Box;
@@ -26,8 +31,10 @@ use MoonShine\UI\Fields\Textarea;
 /**
  * @extends ModelResource<Brand, BrandIndexPage, BrandFormPage, BrandDetailPage>
  */
-class BrandResource extends ModelResource
+class BrandResource extends ModelResource implements HasImportExportContract
 {
+    use ImportExportConcern;
+
     protected string $model = Brand::class;
     protected string $title = 'Brands';
 
@@ -89,6 +96,32 @@ class BrandResource extends ModelResource
                 'errorCodes',
                 ErrorCodeResource::class
             )->readonly(),
+        ];
+    }
+
+    protected function export(): ?Handler
+    {
+        return ExportHandler::make('Экспорт в CSV')
+            ->csv()
+            ->delimiter(';');
+    }
+
+    protected function import(): ?Handler
+    {
+        return null;
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function exportFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Slug', 'slug'),
+            Text::make('Name', 'name'),
+            Text::make('Alt изображения', 'image_alt'),
+            Switcher::make('Активна', 'is_active'),
         ];
     }
 

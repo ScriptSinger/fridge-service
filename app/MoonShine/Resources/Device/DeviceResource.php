@@ -13,6 +13,11 @@ use App\MoonShine\Resources\Device\Pages\DeviceDetailPage;
 use Leeto\InputExtensionCharCount\InputExtensions\CharCount;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Crud\Handlers\Handler;
+use MoonShine\ImportExport\Contracts\HasImportExportContract;
+use MoonShine\ImportExport\ExportHandler;
+use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\ID;
@@ -23,8 +28,10 @@ use MoonShine\UI\Fields\Text;
 /**
  * @extends ModelResource<Device, DeviceIndexPage, DeviceFormPage, DeviceDetailPage>
  */
-class DeviceResource extends ModelResource
+class DeviceResource extends ModelResource implements HasImportExportContract
 {
+    use ImportExportConcern;
+
     protected string $model = Device::class;
 
     protected string $title = 'Devices';
@@ -125,6 +132,36 @@ class DeviceResource extends ModelResource
                 fn($item) => $item->name,
                 BrandResource::class
             )->readonly(),
+        ];
+    }
+
+    protected function export(): ?Handler
+    {
+        return ExportHandler::make('Экспорт в CSV')
+            ->csv()
+            ->delimiter(';');
+    }
+
+    protected function import(): ?Handler
+    {
+        return null;
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function exportFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Slug', 'slug'),
+            Text::make('Постоянная ссылка', 'permalink'),
+            Text::make('Type', 'type'),
+            Text::make('H1', 'h1'),
+            Text::make('Subtitle', 'subtitle'),
+            Text::make('Title', 'title'),
+            Text::make('Description', 'description'),
+            Switcher::make('Активна', 'is_active'),
         ];
     }
 

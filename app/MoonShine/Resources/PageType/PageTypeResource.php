@@ -12,6 +12,11 @@ use App\MoonShine\Resources\PageType\Pages\PageTypeDetailPage;
 
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Crud\Handlers\Handler;
+use MoonShine\ImportExport\Contracts\HasImportExportContract;
+use MoonShine\ImportExport\ExportHandler;
+use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
@@ -19,8 +24,10 @@ use MoonShine\UI\Fields\Text;
 /**
  * @extends ModelResource<PageType, PageTypeIndexPage, PageTypeFormPage, PageTypeDetailPage>
  */
-class PageTypeResource extends ModelResource
+class PageTypeResource extends ModelResource implements HasImportExportContract
 {
+    use ImportExportConcern;
+
     protected string $model = PageType::class;
 
     protected string $title = 'PageTypes';
@@ -55,6 +62,32 @@ class PageTypeResource extends ModelResource
             Text::make('Name', 'name'),
             Text::make('Template', 'template'),
             Switcher::make('Системная', 'is_system')
+        ];
+    }
+
+    protected function export(): ?Handler
+    {
+        return ExportHandler::make('Экспорт в CSV')
+            ->csv()
+            ->delimiter(';');
+    }
+
+    protected function import(): ?Handler
+    {
+        return null;
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function exportFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Key', 'key'),
+            Text::make('Name', 'name'),
+            Text::make('Template', 'template'),
+            Switcher::make('Системная', 'is_system'),
         ];
     }
 
