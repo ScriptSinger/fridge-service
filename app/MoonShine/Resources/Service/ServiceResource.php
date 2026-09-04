@@ -60,20 +60,22 @@ class ServiceResource extends ModelResource implements HasImportExportContract
     protected function formFields(): iterable
     {
         return [
-            Box::make('SEO и заголовки', [
+            Box::make('Заголовки', [
                 Text::make('Название услуги', 'name')
                     ->required()
                     ->extension(new CharCount(255)),
                 Text::make('H1', 'h1')
                     ->extension(new CharCount(255))
                     ->hint('Например: Замена компрессора холодильника в Уфе'),
+                Text::make('Подзаголовок', 'subtitle')
+                    ->extension(new CharCount(140)),
+            ]),
+            Box::make('SEO / Метаданные', [
                 Text::make('SEO title', 'seo_title')
                     ->extension(new CharCount(60))
                     ->hint('До 60 символов без названия компании'),
                 Textarea::make('SEO description', 'seo_description')
                     ->hint('Краткое описание для сниппета'),
-                Text::make('Подзаголовок', 'subtitle')
-                    ->extension(new CharCount(140)),
             ]),
             Box::make('Услуга', [
                 Text::make('Slug', 'slug')

@@ -65,13 +65,7 @@ class ProblemResource extends ModelResource implements HasImportExportContract
     protected function formFields(): iterable
     {
         return [
-            Box::make([
-                ID::make()->readonly(),
-
-                Text::make('Slug', 'slug')
-                    ->readonly()
-                    ->hint('Генерируется автоматически'),
-
+            Box::make('Заголовки', [
                 Text::make('Title', 'title')
                     ->required()
                     ->extension(new CharCount(255))
@@ -84,20 +78,23 @@ class ProblemResource extends ModelResource implements HasImportExportContract
 
                 Text::make('Подзаголовок', 'subtitle')
                     ->extension(new CharCount(140)),
+            ]),
 
+            Box::make('SEO / Метаданные', [
                 Text::make('SEO title', 'seo_title')
                     ->extension(new CharCount(60))
                     ->hint('До 60 символов без названия компании'),
 
                 Textarea::make('SEO description', 'seo_description')
                     ->hint('Краткое описание для сниппета'),
+            ]),
 
-                TinyMceUpload::withImageUpload(
-                    TinyMce::make('Основной контент', 'content')
-                        ->hint('Используйте «Заголовок 2» для разделов и маркированные/нумерованные списки для перечислений: причины, признаки, стоимость ремонта.')
-                ),
+            Box::make('Неисправность', [
+                ID::make()->readonly(),
 
-                Switcher::make('Активна', 'is_active'),
+                Text::make('Slug', 'slug')
+                    ->readonly()
+                    ->hint('Генерируется автоматически'),
 
                 BelongsTo::make(
                     'Device',
@@ -108,6 +105,17 @@ class ProblemResource extends ModelResource implements HasImportExportContract
                     ->required()
                     ->searchable(),
 
+                Switcher::make('Активна', 'is_active'),
+            ]),
+
+            Box::make('Контент', [
+                TinyMceUpload::withImageUpload(
+                    TinyMce::make('Основной контент', 'content')
+                        ->hint('Используйте «Заголовок 2» для разделов и маркированные/нумерованные списки для перечислений: причины, признаки, стоимость ремонта.')
+                ),
+            ]),
+
+            Box::make('Связи', [
                 BelongsToMany::make(
                     'Brands',
                     'brands',
