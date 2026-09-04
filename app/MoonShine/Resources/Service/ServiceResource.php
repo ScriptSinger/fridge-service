@@ -61,8 +61,11 @@ class ServiceResource extends ModelResource implements HasImportExportContract
     {
         return [
             Box::make('SEO и заголовки', [
-                Text::make('Название услуги', 'name')->required(),
+                Text::make('Название услуги', 'name')
+                    ->required()
+                    ->extension(new CharCount(255)),
                 Text::make('H1', 'h1')
+                    ->extension(new CharCount(255))
                     ->hint('Например: Замена компрессора холодильника в Уфе'),
                 Text::make('SEO title', 'seo_title')
                     ->extension(new CharCount(60))

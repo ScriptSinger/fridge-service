@@ -74,10 +74,12 @@ class ProblemResource extends ModelResource implements HasImportExportContract
 
                 Text::make('Title', 'title')
                     ->required()
+                    ->extension(new CharCount(255))
                     ->hint('Короткое название — используется в карточках, хлебных крошках и ссылках.'),
 
                 Text::make('H1', 'h1')
                     ->required()
+                    ->extension(new CharCount(255))
                     ->hint('Полный заголовок страницы неисправности, например: «Холодильник не включается: причины и ремонт в Уфе».'),
 
                 Text::make('Подзаголовок', 'subtitle')
