@@ -46,9 +46,15 @@
     @endif
 
     <a href="{{ $detailUrl ?? route('gallery.index') }}" @click.prevent="openModal()"
-        class="mb-4 block w-full overflow-hidden rounded-xl border border-gray-100 cursor-zoom-in">
-        <img src="{{ $image }}" alt="{{ $imageAlt }}" width="640" height="480"
-            class="w-full h-56 sm:h-64 object-cover" loading="lazy" itemprop="contentUrl">
+        x-data="{ imgLoaded: false }" x-init="if ($refs.img.complete) imgLoaded = true"
+        class="mb-4 block relative w-full overflow-hidden rounded-xl border border-gray-100 cursor-zoom-in">
+        <div x-show="!imgLoaded" x-transition:leave="transition-opacity duration-300" x-transition:leave-end="opacity-0"
+            class="absolute inset-0 h-56 sm:h-64 bg-gray-200 animate-pulse"></div>
+        <img x-ref="img" src="{{ $image }}" alt="{{ $imageAlt }}" width="640" height="480"
+            @load="imgLoaded = true" @@error="imgLoaded = true"
+            :class="imgLoaded ? 'opacity-100' : 'opacity-0'"
+            class="w-full h-56 sm:h-64 object-cover transition-opacity duration-300" loading="lazy"
+            itemprop="contentUrl">
     </a>
 
     <div class="mb-3 flex min-w-0 items-start justify-between gap-4">
