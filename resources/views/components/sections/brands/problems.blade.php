@@ -8,10 +8,11 @@
             title="Частые неисправности {{ $device->typeInCase('genitive_plural') }} {{ $brand->name }}"
             subtitle="Мы собрали самые распространённые поломки и причины их возникновения." />
 
-        <x-ui.sections.toggle-list :limit="6" :count="$items->count()" x-data="problemsMasonry()">
-            <div x-ref="grid" class="relative space-y-4 md:space-y-0">
+        <x-ui.sections.toggle-list :limit="6" :count="$items->count()">
+            <div class="columns-1 gap-4 md:columns-2 md:gap-6 xl:columns-3 xl:gap-8">
                 @foreach ($items as $index => $problem)
-                    <x-ui.sections.content-card :problem="$problem" :device="$device" x-show="showAll || {{ $index }} < limit" x-cloak />
+                    <x-ui.sections.content-card :problem="$problem" :device="$device"
+                        class="mb-4 break-inside-avoid md:mb-6 xl:mb-8" x-show="showAll || {{ $index }} < limit" x-cloak />
                 @endforeach
             </div>
         </x-ui.sections.toggle-list>

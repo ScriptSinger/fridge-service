@@ -12,7 +12,6 @@ import phoneMask from "./directives/phoneMask";
 import reviewsSlider from "./components/reviewsSlider";
 import reviewsIndexSort from "./components/reviewsIndexSort";
 import gallerySectionScroll from "./components/gallerySectionScroll";
-import problemsMasonry from "./components/problemsMasonry";
 import galleryCard from "./components/galleryCard";
 import contentLightbox from "./components/contentLightbox";
 
@@ -30,7 +29,6 @@ Alpine.data("brandCarousel", brandCarousel);
 Alpine.data("reviewsSlider", reviewsSlider);
 Alpine.data("reviewsIndexSort", reviewsIndexSort);
 Alpine.data("gallerySectionScroll", gallerySectionScroll);
-Alpine.data("problemsMasonry", problemsMasonry);
 Alpine.data("galleryCard", galleryCard);
 Alpine.data("contentLightbox", contentLightbox);
 

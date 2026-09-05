@@ -47,9 +47,9 @@
             <x-ui.buttons.filter :value="request('sort', 'newest')" :query-key="'sort'" :scroll-on-navigate="true" :full-width-mobile="true" />
         </div>
 
-        <div x-ref="grid" class="relative space-y-4 md:space-y-0">
+        <div class="columns-1 gap-4 md:columns-2 md:gap-6 xl:columns-3 xl:gap-8">
             @foreach ($reviews as $review)
-                <div data-rating="{{ (float) $review->rating }}"
+                <div class="mb-4 break-inside-avoid md:mb-6 xl:mb-8" data-rating="{{ (float) $review->rating }}"
                     data-published-ts="{{ $review->published_date?->timestamp ?? 0 }}"
                     data-has-photo="{{ $review->image_url ? '1' : '0' }}"
                     data-source="{{ strtolower((string) ($review->source ?? 'google')) }}">
