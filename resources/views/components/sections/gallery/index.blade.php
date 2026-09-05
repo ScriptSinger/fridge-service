@@ -25,7 +25,8 @@
                 :full-width-mobile="true" />
         </div>
 
-        <div x-ref="grid" class="relative space-y-4 md:space-y-0">
+        <div x-ref="grid" x-cloak :class="{ 'opacity-0': !ready }"
+            class="relative space-y-4 md:space-y-0 transition-opacity duration-300">
             @foreach ($galleries as $gallery)
                 <div>
                     <x-sections.gallery.gallery-card :gallery="$gallery" />

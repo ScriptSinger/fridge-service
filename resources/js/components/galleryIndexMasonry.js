@@ -4,6 +4,7 @@ export default function galleryIndexMasonry() {
         layoutTimer: null,
         onResize: null,
         onPaginationClick: null,
+        ready: false,
 
         init() {
             this.bindImageListeners();
@@ -11,6 +12,11 @@ export default function galleryIndexMasonry() {
             this.scheduleLayout();
             window.addEventListener("load", () => this.scheduleLayout(), { once: true });
             this.scrollAfterNavigationIfNeeded();
+
+            // Safety net: reveal the grid even if layout math never settles.
+            setTimeout(() => {
+                this.ready = true;
+            }, 1000);
 
             this.onResize = () => {
                 if (this.resizeTimer) {
@@ -107,6 +113,7 @@ export default function galleryIndexMasonry() {
 
             if (!visibleCards.length) {
                 container.style.height = "0px";
+                this.ready = true;
                 return;
             }
 
@@ -116,6 +123,7 @@ export default function galleryIndexMasonry() {
                 });
 
                 container.style.height = "auto";
+                this.ready = true;
                 return;
             }
 
@@ -158,6 +166,7 @@ export default function galleryIndexMasonry() {
             });
 
             container.style.height = `${Math.max(...columnHeights) - gap}px`;
+            this.ready = true;
         },
 
         bindImageListeners() {
