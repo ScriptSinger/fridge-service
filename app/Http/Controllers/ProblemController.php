@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Device;
+use App\Models\Gallery;
 use App\Models\Problem;
 use Illuminate\Support\Facades\Cache;
 
@@ -27,6 +28,15 @@ class ProblemController extends Controller
                 ->firstOrFail()
         );
 
-        return view('pages.problem', compact('device', 'problem'));
+        $galleries = Cache::remember(
+            "gallery:problem:{$problem->id}",
+            $ttl,
+            fn () => Gallery::query()
+                ->where('problem_id', $problem->id)
+                ->orderBy('sort_order')
+                ->get()
+        );
+
+        return view('pages.problem', compact('device', 'problem', 'galleries'));
     }
 }

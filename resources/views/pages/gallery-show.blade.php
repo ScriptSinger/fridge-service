@@ -9,6 +9,9 @@
         $gallery->service
             ? ['label' => $gallery->service->name, 'url' => route('services.show', [$gallery->service->device, $gallery->service->slug])]
             : null,
+        $gallery->problem
+            ? ['label' => $gallery->problem->title, 'url' => $gallery->problem->device ? route('problems.show', [$gallery->problem->device, $gallery->problem->slug]) : null]
+            : null,
     ])->filter()->values();
 @endphp
 

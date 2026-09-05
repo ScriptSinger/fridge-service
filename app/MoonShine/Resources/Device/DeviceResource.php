@@ -64,14 +64,7 @@ class DeviceResource extends ModelResource implements HasImportExportContract
         $titleHint = "55–60 (макс 65). Бренд добавится автоматически (+{$brandSuffixLen} симв.), лимит для ввода: {$titleMax}";
 
         return [
-            Box::make([
-                ID::make()->readonly(),
-                Text::make('Slug', 'slug')
-                    ->readonly()
-                    ->hint('Генерируется автоматически'),
-
-                Text::make('Постоянная ссылка', 'permalink'),
-                Text::make('Type', 'type'),
+            Box::make('Заголовки', [
                 Text::make('H1', 'h1')
                     ->extension(new CharCount(60))
                     ->hint('30–60 символов')
@@ -79,16 +72,6 @@ class DeviceResource extends ModelResource implements HasImportExportContract
                 Text::make('Subtitle', 'subtitle')
                     ->extension(new CharCount(120))
                     ->hint('105–120 символов'),
-                Switcher::make('Активна', 'is_active')
-                    ->default(true),
-            ]),
-
-            Box::make([
-                Image::make('Изображение', 'image')
-                    ->disk(config('filesystems.media'))
-                    ->dir('devices')
-                    ->hint('Hero / OG image 720x600'),
-                Text::make('Alt для изображения', 'image_alt'),
             ]),
 
             Box::make('SEO / Метаданные', [
@@ -100,7 +83,23 @@ class DeviceResource extends ModelResource implements HasImportExportContract
                     ->hint('140–160 симоволов'),
             ]),
 
-            Box::make([
+            Box::make('Техника', [
+                ID::make()->readonly(),
+                Text::make('Slug', 'slug')
+                    ->readonly()
+                    ->hint('Генерируется автоматически'),
+                Text::make('Постоянная ссылка', 'permalink'),
+                Text::make('Type', 'type'),
+                Image::make('Изображение', 'image')
+                    ->disk(config('filesystems.media'))
+                    ->dir('devices')
+                    ->hint('Hero / OG image 720x600'),
+                Text::make('Alt для изображения', 'image_alt'),
+                Switcher::make('Активна', 'is_active')
+                    ->default(true),
+            ]),
+
+            Box::make('Связи', [
                 BelongsToMany::make(
                     'Brands',
                     'brands',

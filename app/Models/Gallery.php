@@ -15,6 +15,7 @@ class Gallery extends Model
         'device_id',
         'brand_id',
         'service_id',
+        'problem_id',
         'page_id',
         'slug',
         'title',
@@ -69,6 +70,11 @@ class Gallery extends Model
     public function service()
     {
         return $this->belongsTo(Service::class);
+    }
+
+    public function problem()
+    {
+        return $this->belongsTo(Problem::class);
     }
 
     public function page()

@@ -12,6 +12,7 @@ use App\MoonShine\Resources\Gallery\Pages\GalleryIndexPage;
 use App\MoonShine\Resources\Gallery\Pages\GalleryFormPage;
 use App\MoonShine\Resources\Gallery\Pages\GalleryDetailPage;
 use App\MoonShine\Resources\Page\PageResource;
+use App\MoonShine\Resources\Problem\ProblemResource;
 use App\MoonShine\Resources\Service\ServiceResource;
 use App\MoonShine\Support\TinyMceUpload;
 use MoonShine\TinyMce\Fields\TinyMce;
@@ -57,6 +58,7 @@ class GalleryResource extends ModelResource implements HasImportExportContract
             BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)->nullable()->sortable(),
             BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)->nullable()->sortable(),
             BelongsTo::make('Service', 'service', fn($item) => $item->name, ServiceResource::class)->nullable(),
+            BelongsTo::make('Problem', 'problem', fn($item) => $item->title, ProblemResource::class)->nullable(),
             BelongsTo::make('Page', 'page', fn($item) => $item->h1, PageResource::class)->nullable(),
         ];
     }
@@ -64,11 +66,7 @@ class GalleryResource extends ModelResource implements HasImportExportContract
     protected function formFields(): iterable
     {
         return [
-            Box::make([
-                ID::make()->readonly(),
-                Text::make('Slug', 'slug')
-                    ->readonly()
-                    ->hint('Генерируется автоматически из Title'),
+            Box::make('Заголовки', [
                 Text::make('Title', 'title')
                     ->required()
                     ->extension(new CharCount())
@@ -76,30 +74,42 @@ class GalleryResource extends ModelResource implements HasImportExportContract
                 Text::make('Subtitle', 'subtitle')
                     ->extension(new CharCount())
                     ->hint('Подзаголовок на странице (в hero-блоке).'),
+            ]),
+
+            Box::make('SEO / Метаданные', [
                 Text::make('SEO title', 'seo_title')
                     ->extension(new CharCount(60))
                     ->hint('До ~60 символов. Если не заполнено — используется Title.'),
                 Textarea::make('SEO description', 'seo_description')
                     ->hint('Meta description для сниппета, ~120–160 символов. Если не заполнено — используется Subtitle.'),
-                TinyMceUpload::withImageUpload(
-                    TinyMce::make('Description', 'description')
-                        ->hint('HTML-описание работы (контент страницы; не лимитируйте под сниппет).')
-                ),
-                Number::make('Порядок', 'sort_order')->default(0),
-                Date::make('Дата публикации', 'published_at')
-                    ->format('d.m.Y')
-                    ->default(now())
-                    ->required(),
             ]),
-            Box::make([
+
+            Box::make('Галерея', [
+                ID::make()->readonly(),
+                Text::make('Slug', 'slug')
+                    ->readonly()
+                    ->hint('Генерируется автоматически из Title'),
                 Image::make('Изображение', 'image')
                     ->disk(config('filesystems.media'))
                     ->dir('galleries')
                     ->hint('Рекомендуемый размер: 1200x720 px (соотношение 5:3)')
                     ->removable(),
                 Text::make('Alt для изображения', 'image_alt'),
+                Number::make('Порядок', 'sort_order')->default(0),
+                Date::make('Дата публикации', 'published_at')
+                    ->format('d.m.Y')
+                    ->default(now())
+                    ->required(),
             ]),
-            Box::make([
+
+            Box::make('Контент', [
+                TinyMceUpload::withImageUpload(
+                    TinyMce::make('Description', 'description')
+                        ->hint('HTML-описание работы (контент страницы; не лимитируйте под сниппет).')
+                ),
+            ]),
+
+            Box::make('Связи', [
                 BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)
                     ->nullable()
                     ->searchable(),
@@ -107,6 +117,9 @@ class GalleryResource extends ModelResource implements HasImportExportContract
                     ->nullable()
                     ->searchable(),
                 BelongsTo::make('Service', 'service', fn($item) => $item->name, ServiceResource::class)
+                    ->nullable()
+                    ->searchable(),
+                BelongsTo::make('Problem', 'problem', fn($item) => $item->title, ProblemResource::class)
                     ->nullable()
                     ->searchable(),
                 BelongsTo::make('Page', 'page', fn($item) => $item->h1, PageResource::class)
@@ -132,6 +145,7 @@ class GalleryResource extends ModelResource implements HasImportExportContract
             BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)->nullable(),
             BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)->nullable(),
             BelongsTo::make('Service', 'service', fn($item) => $item->name, ServiceResource::class)->nullable(),
+            BelongsTo::make('Problem', 'problem', fn($item) => $item->title, ProblemResource::class)->nullable(),
             BelongsTo::make('Page', 'page', fn($item) => $item->h1, PageResource::class)->nullable(),
         ];
     }
@@ -174,6 +188,9 @@ class GalleryResource extends ModelResource implements HasImportExportContract
             BelongsTo::make('Service', 'service', fn($item) => $item->name, ServiceResource::class)
                 ->nullable()
                 ->modifyRawValue(fn($raw, $original) => $original?->service?->name),
+            BelongsTo::make('Problem', 'problem', fn($item) => $item->title, ProblemResource::class)
+                ->nullable()
+                ->modifyRawValue(fn($raw, $original) => $original?->problem?->title),
             BelongsTo::make('Page', 'page', fn($item) => $item->h1, PageResource::class)
                 ->nullable()
                 ->modifyRawValue(fn($raw, $original) => $original?->page?->h1),

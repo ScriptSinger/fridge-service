@@ -8,9 +8,29 @@
     $imageAlt = $gallery->image_alt ?: $title;
     $date = optional($gallery->published_date)->toDateString();
     $dateLabel = $gallery->published_date_formatted;
-    $metaItems = collect([$gallery->device?->type, $gallery->brand?->name, $gallery->service?->name])
-        ->filter()
-        ->values();
+    $metaItems = collect([
+        $gallery->device
+            ? ['label' => $gallery->device->type, 'url' => route('devices.show', $gallery->device)]
+            : null,
+        $gallery->brand
+            ? [
+                'label' => $gallery->brand->name,
+                'url' => $gallery->device ? route('devices.brands.show', [$gallery->device, $gallery->brand]) : null,
+            ]
+            : null,
+        $gallery->service
+            ? [
+                'label' => $gallery->service->name,
+                'url' => $gallery->service->device ? route('services.show', [$gallery->service->device, $gallery->service->slug]) : null,
+            ]
+            : null,
+        $gallery->problem
+            ? [
+                'label' => $gallery->problem->title,
+                'url' => $gallery->problem->device ? route('problems.show', [$gallery->problem->device, $gallery->problem->slug]) : null,
+            ]
+            : null,
+    ])->filter()->values();
     $detailUrl = $gallery->slug ? route('gallery.show', $gallery) : null;
 @endphp
 
@@ -51,10 +71,17 @@
     @if ($metaItems->isNotEmpty())
         <div class="mt-auto flex flex-wrap gap-2">
             @foreach ($metaItems as $metaItem)
-                <span
-                    class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium">
-                    {{ $metaItem }}
-                </span>
+                @if ($metaItem['url'])
+                    <a href="{{ $metaItem['url'] }}"
+                        class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium hover:bg-yellow-100 hover:text-yellow-700">
+                        {{ $metaItem['label'] }}
+                    </a>
+                @else
+                    <span
+                        class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium">
+                        {{ $metaItem['label'] }}
+                    </span>
+                @endif
             @endforeach
         </div>
     @endif

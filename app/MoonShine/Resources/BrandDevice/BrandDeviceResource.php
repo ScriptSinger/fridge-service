@@ -65,14 +65,6 @@ class BrandDeviceResource extends ModelResource implements HasImportExportContra
         $titleHint = "55–60 (макс 65). Бренд добавится автоматически (+{$brandSuffixLen} симв.), лимит для ввода: {$titleMax}";
 
         return [
-            Box::make('SEO / Метаданные', [
-                Text::make('Title', 'title')
-                    ->extension(new CharCount())
-                    ->hint($titleHint),
-                Text::make('Description', 'description')
-                    ->extension(new CharCount())
-                    ->hint('140–160 символов'),
-            ]),
             Box::make('Заголовки', [
                 Text::make('H1', 'h1')
                     ->extension(new CharCount())
@@ -80,6 +72,14 @@ class BrandDeviceResource extends ModelResource implements HasImportExportContra
                 Text::make('Subtitle', 'subtitle')
                     ->extension(new CharCount())
                     ->hint('105–120 символов'),
+            ]),
+            Box::make('SEO / Метаданные', [
+                Text::make('Title', 'title')
+                    ->extension(new CharCount())
+                    ->hint($titleHint),
+                Text::make('Description', 'description')
+                    ->extension(new CharCount())
+                    ->hint('140–160 символов'),
             ]),
             Box::make('Связи', [
                 BelongsTo::make(

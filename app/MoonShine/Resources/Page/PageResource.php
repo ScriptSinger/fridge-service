@@ -61,14 +61,6 @@ class PageResource extends ModelResource implements HasImportExportContract
         $titleHint = "55–60 (макс 65). Бренд добавится автоматически (+{$brandSuffixLen} симв.), лимит для ввода: {$titleMax}";
 
         return [
-            Box::make('SEO / Метаданные', [
-                Text::make('Title', 'title')
-                    ->extension(new CharCount($titleMax))
-                    ->hint($titleHint),
-                Textarea::make('Description', 'description')
-                    ->hint('Для обычных страниц — кратко; для юридических страниц допустим развернутый текст.'),
-            ]),
-
             Box::make('Заголовки', [
                 Text::make('H1', 'h1')
                     ->extension(new CharCount(60))
@@ -78,6 +70,14 @@ class PageResource extends ModelResource implements HasImportExportContract
                 Text::make('Subtitle', 'subtitle')
                     ->extension(new CharCount(120))
                     ->hint('105–120 символов'),
+            ]),
+
+            Box::make('SEO / Метаданные', [
+                Text::make('Title', 'title')
+                    ->extension(new CharCount($titleMax))
+                    ->hint($titleHint),
+                Textarea::make('Description', 'description')
+                    ->hint('Для обычных страниц — кратко; для юридических страниц допустим развернутый текст.'),
             ]),
 
             Box::make('Страница', [
@@ -99,7 +99,7 @@ class PageResource extends ModelResource implements HasImportExportContract
                     ->default(true),
             ]),
 
-            Box::make('Контент страницы', [
+            Box::make('Контент', [
                 TinyMce::make('Content', 'content')
                     ->hint('Основной контент страницы (например, текст политики, оферты и др.)'),
             ]),

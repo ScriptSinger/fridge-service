@@ -68,6 +68,8 @@
         </x-ui.sections.wrapper>
     @endif
 
+    <x-sections.common.gallery :galleries="$galleries" />
+
     <x-sections.contact :model="$problem" />
     <x-ui.scroll-up />
 </x-layouts.app>
