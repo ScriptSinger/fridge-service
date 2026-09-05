@@ -24,13 +24,13 @@
                 'url' => $gallery->service->device ? route('services.show', [$gallery->service->device, $gallery->service->slug]) : null,
             ]
             : null,
-        $gallery->problem
+        ($gallery->problem && $gallery->problem->is_active)
             ? [
                 'label' => $gallery->problem->title,
                 'url' => $gallery->problem->device ? route('problems.show', [$gallery->problem->device, $gallery->problem->slug]) : null,
             ]
             : null,
-        $gallery->errorCode
+        ($gallery->errorCode && $gallery->errorCode->is_active)
             ? [
                 'label' => $gallery->errorCode->title,
                 'url' => $gallery->errorCode->device ? route('error-codes.show', [$gallery->errorCode->device, $gallery->errorCode->slug]) : null,

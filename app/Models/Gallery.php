@@ -5,11 +5,21 @@ namespace App\Models;
 use App\Models\Concerns\HasImageUrl;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Gallery extends Model
 {
     use HasImageUrl;
     use Sluggable;
+
+    protected static function booted(): void
+    {
+        static::saved(function (Gallery $gallery) {
+            $gallery->clearFrontendCache();
+            $gallery->clearFrontendCache($gallery->getOriginal());
+        });
+        static::deleted(fn (Gallery $gallery) => $gallery->clearFrontendCache());
+    }
 
     protected $fillable = [
         'device_id',
@@ -96,5 +106,31 @@ class Gallery extends Model
     public function getPublishedDateAttribute()
     {
         return $this->published_at ?? $this->created_at;
+    }
+
+    /**
+     * Сбрасывает кэш списков, в которых показывается эта галерея. Принимает
+     * необязательный набор атрибутов, чтобы очистить кэш и по прежним
+     * значениям связей — на случай, если галерею перепривязали к другой
+     * проблеме/коду ошибки/бренду.
+     */
+    public function clearFrontendCache(?array $attributes = null): void
+    {
+        $problemId = $attributes['problem_id'] ?? $this->problem_id;
+        $errorCodeId = $attributes['error_code_id'] ?? $this->error_code_id;
+        $deviceId = $attributes['device_id'] ?? $this->device_id;
+        $brandId = $attributes['brand_id'] ?? $this->brand_id;
+
+        if ($problemId) {
+            Cache::forget("gallery:problem:{$problemId}");
+        }
+
+        if ($errorCodeId) {
+            Cache::forget("gallery:error-code:{$errorCodeId}");
+        }
+
+        if ($deviceId && $brandId) {
+            Cache::forget("gallery:device:{$deviceId}:brand:{$brandId}");
+        }
     }
 }

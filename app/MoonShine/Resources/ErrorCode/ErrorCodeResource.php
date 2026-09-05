@@ -75,7 +75,7 @@ class ErrorCodeResource extends ModelResource implements HasImportExportContract
                 Text::make('Title', 'title')
                     ->required()
                     ->extension(new CharCount(255))
-                    ->hint('Короткое название — используется в бейджах, хлебных крошках и ссылках.'),
+                    ->hint('Короткое название — используется в бейджах, хлебных крошках и ссылках. Пишите с контекстом, не просто код: например, «Ошибка LE стиральной машины LG», а не просто «LE».'),
 
                 Text::make('H1', 'h1')
                     ->required()
