@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Device;
+use App\Models\ErrorCode;
 use App\Models\Faq;
 use App\Models\Gallery;
 use App\Models\PageType;
@@ -258,6 +259,20 @@ class GenerateSitemap extends Command
                                 ->setLastModificationDate($problem->updated_at)
                                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
                                 ->setPriority(0.65)
+                        );
+                    }
+                });
+            ErrorCode::query()
+                ->where('is_active', true)
+                ->whereNotNull('slug')
+                ->orderBy('id')
+                ->chunk(200, function ($errorCodes) use ($sitemap) {
+                    foreach ($errorCodes as $errorCode) {
+                        $sitemap->add(
+                            Url::create(route('error-codes.show', $errorCode))
+                                ->setLastModificationDate($errorCode->updated_at)
+                                ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+                                ->setPriority(0.6)
                         );
                     }
                 });

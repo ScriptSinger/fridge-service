@@ -41,6 +41,11 @@ class DeviceBrandController extends Controller
                 fn ($price) => $price->appliesToBrand($brand->id)
             ))
             ->values());
+        $errorCodes = Cache::remember("errorcodes:device:{$device->id}:brand:{$brand->id}", $ttl, fn() => $brand->errorCodes()
+            ->whereNotNull('slug')
+            ->where('is_active', true)
+            ->orderBy('code')
+            ->get());
 
         return view('pages.brand', [
             'device'   => $device,
@@ -48,6 +53,7 @@ class DeviceBrandController extends Controller
             'problems' => $problems,
             'services' => $services,
             'galleries' => $galleries,
+            'errorCodes' => $errorCodes,
             'faqs' => $brandFaqs,
             'title' => $brand->pivot->title ?: $device->title,
             'description' => $brand->pivot->description ?: $device->description,

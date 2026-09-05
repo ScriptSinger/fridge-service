@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Brand;
+use App\Models\ErrorCode;
 use App\Models\Gallery;
 use App\Models\Problem;
 use App\Models\Service;
@@ -68,6 +69,11 @@ Breadcrumbs::for('gallery.index', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('gallery.show', function (BreadcrumbTrail $trail, Gallery $gallery) {
     $trail->parent('gallery.index');
     $trail->push($gallery->title ?: 'Выполненный ремонт', route('gallery.show', $gallery));
+});
+
+Breadcrumbs::for('error-codes.show', function (BreadcrumbTrail $trail, ErrorCode $errorCode) {
+    $trail->parent('home');
+    $trail->push($errorCode->title, route('error-codes.show', $errorCode));
 });
 
 Breadcrumbs::for('legal.privacy-policy', function (BreadcrumbTrail $trail) {

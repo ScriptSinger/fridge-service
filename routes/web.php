@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DeviceBrandController;
 use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\ErrorCodeController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PriceController;
@@ -22,6 +23,8 @@ Route::get('/about', [AboutController::class, 'index'])->name('about.index');
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
 Route::get('/gallery/{gallery:slug}', [GalleryController::class, 'show'])->name('gallery.show');
+
+Route::get('/oshibka/{errorCode:slug}', [ErrorCodeController::class, 'show'])->name('error-codes.show');
 
 Route::middleware(array_merge(['moonshine'], config('moonshine.auth.middleware', [])))
     ->prefix(config('moonshine.prefix'))

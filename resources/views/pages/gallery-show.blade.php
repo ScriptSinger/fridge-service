@@ -12,6 +12,9 @@
         $gallery->problem
             ? ['label' => $gallery->problem->title, 'url' => $gallery->problem->device ? route('problems.show', [$gallery->problem->device, $gallery->problem->slug]) : null]
             : null,
+        $gallery->errorCode
+            ? ['label' => $gallery->errorCode->title, 'url' => $gallery->errorCode->slug ? route('error-codes.show', $gallery->errorCode) : null]
+            : null,
     ])->filter()->values();
 @endphp
 

@@ -54,10 +54,17 @@
                                     @endforeach
 
                                     @foreach ($problem->errorCodes as $errorCode)
-                                        <span
-                                            class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium">
-                                            {{ $errorCode->title }}
-                                        </span>
+                                        @if ($errorCode->slug)
+                                            <a href="{{ route('error-codes.show', $errorCode) }}"
+                                                class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium hover:bg-yellow-100 hover:text-yellow-700">
+                                                {{ $errorCode->title }}
+                                            </a>
+                                        @else
+                                            <span
+                                                class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium">
+                                                {{ $errorCode->title }}
+                                            </span>
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>

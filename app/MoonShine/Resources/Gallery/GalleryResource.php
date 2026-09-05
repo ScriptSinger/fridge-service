@@ -11,6 +11,7 @@ use App\MoonShine\Resources\Device\DeviceResource;
 use App\MoonShine\Resources\Gallery\Pages\GalleryIndexPage;
 use App\MoonShine\Resources\Gallery\Pages\GalleryFormPage;
 use App\MoonShine\Resources\Gallery\Pages\GalleryDetailPage;
+use App\MoonShine\Resources\ErrorCode\ErrorCodeResource;
 use App\MoonShine\Resources\Page\PageResource;
 use App\MoonShine\Resources\Problem\ProblemResource;
 use App\MoonShine\Resources\Service\ServiceResource;
@@ -59,6 +60,7 @@ class GalleryResource extends ModelResource implements HasImportExportContract
             BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)->nullable()->sortable(),
             BelongsTo::make('Service', 'service', fn($item) => $item->name, ServiceResource::class)->nullable(),
             BelongsTo::make('Problem', 'problem', fn($item) => $item->title, ProblemResource::class)->nullable(),
+            BelongsTo::make('ErrorCode', 'errorCode', fn($item) => $item->title, ErrorCodeResource::class)->nullable(),
             BelongsTo::make('Page', 'page', fn($item) => $item->h1, PageResource::class)->nullable(),
         ];
     }
@@ -122,6 +124,13 @@ class GalleryResource extends ModelResource implements HasImportExportContract
                 BelongsTo::make('Problem', 'problem', fn($item) => $item->title, ProblemResource::class)
                     ->nullable()
                     ->searchable(),
+                BelongsTo::make('ErrorCode', 'errorCode', fn($item) => $item->title, ErrorCodeResource::class)
+                    ->nullable()
+                    ->searchable()
+                    ->valuesQuery(fn ($query) => $query->when(
+                        $this->getItem()?->brand_id,
+                        fn ($q, $brandId) => $q->where('brand_id', $brandId)
+                    )),
                 BelongsTo::make('Page', 'page', fn($item) => $item->h1, PageResource::class)
                     ->nullable()
                     ->searchable(),
@@ -146,6 +155,7 @@ class GalleryResource extends ModelResource implements HasImportExportContract
             BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)->nullable(),
             BelongsTo::make('Service', 'service', fn($item) => $item->name, ServiceResource::class)->nullable(),
             BelongsTo::make('Problem', 'problem', fn($item) => $item->title, ProblemResource::class)->nullable(),
+            BelongsTo::make('ErrorCode', 'errorCode', fn($item) => $item->title, ErrorCodeResource::class)->nullable(),
             BelongsTo::make('Page', 'page', fn($item) => $item->h1, PageResource::class)->nullable(),
         ];
     }
@@ -191,6 +201,9 @@ class GalleryResource extends ModelResource implements HasImportExportContract
             BelongsTo::make('Problem', 'problem', fn($item) => $item->title, ProblemResource::class)
                 ->nullable()
                 ->modifyRawValue(fn($raw, $original) => $original?->problem?->title),
+            BelongsTo::make('ErrorCode', 'errorCode', fn($item) => $item->title, ErrorCodeResource::class)
+                ->nullable()
+                ->modifyRawValue(fn($raw, $original) => $original?->errorCode?->title),
             BelongsTo::make('Page', 'page', fn($item) => $item->h1, PageResource::class)
                 ->nullable()
                 ->modifyRawValue(fn($raw, $original) => $original?->page?->h1),

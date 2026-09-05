@@ -16,6 +16,7 @@ class Gallery extends Model
         'brand_id',
         'service_id',
         'problem_id',
+        'error_code_id',
         'page_id',
         'slug',
         'title',
@@ -75,6 +76,11 @@ class Gallery extends Model
     public function problem()
     {
         return $this->belongsTo(Problem::class);
+    }
+
+    public function errorCode()
+    {
+        return $this->belongsTo(ErrorCode::class);
     }
 
     public function page()
