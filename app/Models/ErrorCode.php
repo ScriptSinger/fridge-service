@@ -18,6 +18,7 @@ class ErrorCode extends Model
     }
 
     protected $fillable = [
+        'device_id',
         'brand_id',
         'code',
         'title',
@@ -44,6 +45,11 @@ class ErrorCode extends Model
         return Str::limit(html_entity_decode(strip_tags((string) $this->content), ENT_QUOTES, 'UTF-8'), 70);
     }
 
+    public function device()
+    {
+        return $this->belongsTo(Device::class);
+    }
+
     public function brand()
     {
         return $this->belongsTo(Brand::class);
@@ -61,14 +67,10 @@ class ErrorCode extends Model
 
     public function clearFrontendCache(): void
     {
-        if (! $this->brand_id) {
+        if (! $this->device_id || ! $this->brand_id) {
             return;
         }
 
-        $deviceIds = $this->brand?->devices()->pluck('devices.id') ?? collect();
-
-        foreach ($deviceIds as $deviceId) {
-            Cache::forget("errorcodes:device:{$deviceId}:brand:{$this->brand_id}");
-        }
+        Cache::forget("errorcodes:device:{$this->device_id}:brand:{$this->brand_id}");
     }
 }

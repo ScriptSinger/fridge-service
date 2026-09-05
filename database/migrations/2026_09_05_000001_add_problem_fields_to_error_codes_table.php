@@ -10,6 +10,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('error_codes', function (Blueprint $table) {
+            // nullable для отката: как и problems.device_id, обязательность
+            // обеспечивается на уровне формы MoonShine (->required())
+            $table->foreignId('device_id')->nullable()->after('brand_id')
+                ->constrained()->cascadeOnDelete();
             $table->string('slug')->unique()->nullable()->after('title');
             $table->string('h1')->nullable()->after('slug');
             $table->renameColumn('description', 'subtitle');
@@ -31,6 +35,7 @@ return new class extends Migration
             $table->renameColumn('subtitle', 'description');
             $table->dropUnique(['slug']);
             $table->dropColumn('slug');
+            $table->dropConstrainedForeignId('device_id');
         });
     }
 };

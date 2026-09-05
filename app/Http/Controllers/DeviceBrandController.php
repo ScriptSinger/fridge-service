@@ -42,6 +42,7 @@ class DeviceBrandController extends Controller
             ))
             ->values());
         $errorCodes = Cache::remember("errorcodes:device:{$device->id}:brand:{$brand->id}", $ttl, fn() => $brand->errorCodes()
+            ->where('device_id', $device->id)
             ->whereNotNull('slug')
             ->where('is_active', true)
             ->orderBy('code')

@@ -7,6 +7,7 @@ namespace App\MoonShine\Resources\ErrorCode;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ErrorCode;
 use App\MoonShine\Resources\Brand\BrandResource;
+use App\MoonShine\Resources\Device\DeviceResource;
 use App\MoonShine\Resources\ErrorCode\Pages\ErrorCodeIndexPage;
 use App\MoonShine\Resources\ErrorCode\Pages\ErrorCodeFormPage;
 use App\MoonShine\Resources\ErrorCode\Pages\ErrorCodeDetailPage;
@@ -48,6 +49,7 @@ class ErrorCodeResource extends ModelResource implements HasImportExportContract
             Text::make('Title', 'title')->sortable(),
             Text::make('H1', 'h1')->sortable(),
             Text::make('Code', 'code')->sortable(),
+            BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)->nullable()->sortable(),
             BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)->nullable()->sortable(),
             Switcher::make('Активен', 'is_active')->sortable(),
         ];
@@ -56,6 +58,9 @@ class ErrorCodeResource extends ModelResource implements HasImportExportContract
     protected function filters(): iterable
     {
         return [
+            BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)
+                ->nullable()
+                ->searchable(),
             BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)
                 ->nullable()
                 ->searchable(),
@@ -100,6 +105,10 @@ class ErrorCodeResource extends ModelResource implements HasImportExportContract
                 Text::make('Code', 'code')
                     ->required(),
 
+                BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)
+                    ->required()
+                    ->searchable(),
+
                 BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)
                     ->required()
                     ->searchable(),
@@ -137,6 +146,13 @@ class ErrorCodeResource extends ModelResource implements HasImportExportContract
             Textarea::make('SEO description', 'seo_description'),
             Text::make('Code', 'code'),
             TinyMce::make('Основной контент', 'content'),
+
+            BelongsTo::make(
+                'Device',
+                'device',
+                fn($item) => $item->type,
+                DeviceResource::class
+            )->readonly(),
 
             BelongsTo::make(
                 'Brand',
@@ -183,6 +199,8 @@ class ErrorCodeResource extends ModelResource implements HasImportExportContract
             Textarea::make('SEO description', 'seo_description'),
             Text::make('Code', 'code'),
             Switcher::make('Активен', 'is_active'),
+            BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)
+                ->modifyRawValue(fn($raw, $original) => $original?->device?->type),
             BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)
                 ->modifyRawValue(fn($raw, $original) => $original?->brand?->name),
             Text::make('Problems', 'problems')

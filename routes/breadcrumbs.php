@@ -72,8 +72,9 @@ Breadcrumbs::for('gallery.show', function (BreadcrumbTrail $trail, Gallery $gall
 });
 
 Breadcrumbs::for('error-codes.show', function (BreadcrumbTrail $trail, ErrorCode $errorCode) {
-    $trail->parent('home');
-    $trail->push($errorCode->title, route('error-codes.show', $errorCode));
+    $device = request()->route('device');
+    $trail->parent('devices.show', $device);
+    $trail->push($errorCode->title, route('error-codes.show', [$device, $errorCode->slug]));
 });
 
 Breadcrumbs::for('legal.privacy-policy', function (BreadcrumbTrail $trail) {

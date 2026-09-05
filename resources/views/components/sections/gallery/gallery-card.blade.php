@@ -31,7 +31,10 @@
             ]
             : null,
         $gallery->errorCode
-            ? ['label' => $gallery->errorCode->title, 'url' => $gallery->errorCode->slug ? route('error-codes.show', $gallery->errorCode) : null]
+            ? [
+                'label' => $gallery->errorCode->title,
+                'url' => $gallery->errorCode->device ? route('error-codes.show', [$gallery->errorCode->device, $gallery->errorCode->slug]) : null,
+            ]
             : null,
     ])->filter()->values();
     $detailUrl = $gallery->slug ? route('gallery.show', $gallery) : null;

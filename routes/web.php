@@ -24,8 +24,6 @@ Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index'
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
 Route::get('/gallery/{gallery:slug}', [GalleryController::class, 'show'])->name('gallery.show');
 
-Route::get('/oshibka/{errorCode:slug}', [ErrorCodeController::class, 'show'])->name('error-codes.show');
-
 Route::middleware(array_merge(['moonshine'], config('moonshine.auth.middleware', [])))
     ->prefix(config('moonshine.prefix'))
     ->group(function () {
@@ -44,6 +42,9 @@ Route::get('{device:slug}/uslugi/{service}', [ServiceController::class, 'show'])
 
 Route::get('{device:slug}/neispravnosti/{problem}', [ProblemController::class, 'show'])
     ->name('problems.show');
+
+Route::get('{device:slug}/oshibka/{errorCode}', [ErrorCodeController::class, 'show'])
+    ->name('error-codes.show');
 
 Route::get('{device:slug}', [DeviceController::class, 'show'])
     ->name('devices.show');

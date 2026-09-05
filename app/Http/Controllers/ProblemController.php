@@ -23,6 +23,7 @@ class ProblemController extends Controller
                 ->with([
                     'brands' => fn ($query) => $query->where('is_active', true),
                     'errorCodes.brand',
+                    'errorCodes.device',
                     'services' => fn ($query) => $query->where('is_active', true),
                 ])
                 ->firstOrFail()

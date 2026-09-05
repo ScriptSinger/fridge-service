@@ -13,7 +13,7 @@
             ? ['label' => $gallery->problem->title, 'url' => $gallery->problem->device ? route('problems.show', [$gallery->problem->device, $gallery->problem->slug]) : null]
             : null,
         $gallery->errorCode
-            ? ['label' => $gallery->errorCode->title, 'url' => $gallery->errorCode->slug ? route('error-codes.show', $gallery->errorCode) : null]
+            ? ['label' => $gallery->errorCode->title, 'url' => $gallery->errorCode->device ? route('error-codes.show', [$gallery->errorCode->device, $gallery->errorCode->slug]) : null]
             : null,
     ])->filter()->values();
 @endphp

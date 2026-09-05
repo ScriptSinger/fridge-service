@@ -265,11 +265,16 @@ class GenerateSitemap extends Command
             ErrorCode::query()
                 ->where('is_active', true)
                 ->whereNotNull('slug')
+                ->with('device:id,slug,is_active')
                 ->orderBy('id')
                 ->chunk(200, function ($errorCodes) use ($sitemap) {
                     foreach ($errorCodes as $errorCode) {
+                        if (! $errorCode->device?->is_active || empty($errorCode->device->slug)) {
+                            continue;
+                        }
+
                         $sitemap->add(
-                            Url::create(route('error-codes.show', $errorCode))
+                            Url::create(route('error-codes.show', [$errorCode->device, $errorCode->slug]))
                                 ->setLastModificationDate($errorCode->updated_at)
                                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
                                 ->setPriority(0.6)

@@ -54,8 +54,8 @@
                                     @endforeach
 
                                     @foreach ($problem->errorCodes as $errorCode)
-                                        @if ($errorCode->slug)
-                                            <a href="{{ route('error-codes.show', $errorCode) }}"
+                                        @if ($errorCode->slug && $errorCode->device)
+                                            <a href="{{ route('error-codes.show', [$errorCode->device, $errorCode->slug]) }}"
                                                 class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium hover:bg-yellow-100 hover:text-yellow-700">
                                                 {{ $errorCode->title }}
                                             </a>

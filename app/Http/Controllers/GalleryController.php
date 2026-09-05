@@ -29,7 +29,7 @@ class GalleryController extends Controller
         $activeDevice = $filterOptionsService->normalizeActiveOption($activeDevice, $deviceOptions);
 
         $galleriesQuery = Gallery::query()
-            ->with(['device', 'brand', 'service.device', 'problem.device', 'errorCode'])
+            ->with(['device', 'brand', 'service.device', 'problem.device', 'errorCode.device'])
             ->hasImage();
 
         $galleriesQuery = GalleryPipeline::apply($galleriesQuery, [
@@ -55,7 +55,7 @@ class GalleryController extends Controller
 
     public function show(Gallery $gallery)
     {
-        $gallery->load(['device', 'brand', 'service.device', 'problem.device', 'errorCode']);
+        $gallery->load(['device', 'brand', 'service.device', 'problem.device', 'errorCode.device']);
 
         $title = $gallery->title ?: 'Выполненный ремонт';
         $metaTitle = $gallery->seo_title ?: $title;

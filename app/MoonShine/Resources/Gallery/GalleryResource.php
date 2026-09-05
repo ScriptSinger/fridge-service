@@ -127,10 +127,15 @@ class GalleryResource extends ModelResource implements HasImportExportContract
                 BelongsTo::make('ErrorCode', 'errorCode', fn($item) => $item->title, ErrorCodeResource::class)
                     ->nullable()
                     ->searchable()
-                    ->valuesQuery(fn ($query) => $query->when(
-                        $this->getItem()?->brand_id,
-                        fn ($q, $brandId) => $q->where('brand_id', $brandId)
-                    )),
+                    ->valuesQuery(fn ($query) => $query
+                        ->when(
+                            $this->getItem()?->device_id,
+                            fn ($q, $deviceId) => $q->where('device_id', $deviceId)
+                        )
+                        ->when(
+                            $this->getItem()?->brand_id,
+                            fn ($q, $brandId) => $q->where('brand_id', $brandId)
+                        )),
                 BelongsTo::make('Page', 'page', fn($item) => $item->h1, PageResource::class)
                     ->nullable()
                     ->searchable(),

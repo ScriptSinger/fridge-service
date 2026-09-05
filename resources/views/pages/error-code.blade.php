@@ -1,7 +1,8 @@
 @php
     $hasContent = filled($errorCode->content);
     $hasProblems = $errorCode->problems->isNotEmpty();
-    $hasMeta = $hasProblems || $devices->isNotEmpty();
+    $hasBrand = (bool) $errorCode->brand;
+    $hasMeta = $hasProblems || $hasBrand;
 @endphp
 
 <x-layouts.app :title="$errorCode->seo_title ?: $errorCode->h1" :description="$errorCode->seo_description ?: $errorCode->short_content">
@@ -42,17 +43,15 @@
                             </div>
                         @endif
 
-                        @if ($devices->isNotEmpty() && $errorCode->brand)
+                        @if ($hasBrand)
                             <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                                <h2 class="text-lg font-semibold text-gray-900 mb-4">Ремонт {{ $errorCode->brand->name }}</h2>
+                                <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ $device->permalink }}</h2>
 
                                 <div class="flex flex-wrap gap-2">
-                                    @foreach ($devices as $device)
-                                        <a href="{{ route('devices.brands.show', [$device, $errorCode->brand]) }}"
-                                            class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium hover:bg-yellow-100 hover:text-yellow-700">
-                                            {{ $device->permalink }}
-                                        </a>
-                                    @endforeach
+                                    <a href="{{ route('devices.brands.show', [$device, $errorCode->brand]) }}"
+                                        class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium hover:bg-yellow-100 hover:text-yellow-700">
+                                        {{ $errorCode->brand->name }}
+                                    </a>
                                 </div>
                             </div>
                         @endif
