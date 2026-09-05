@@ -18,13 +18,23 @@
         <div class="lg:max-w-lg lg:w-full mb-10 lg:mb-0">
             @if ($zoomable)
                 <a href="{{ $image ?? asset('assets/images/hero.webp') }}" @click.prevent="$dispatch('hero-image-zoom')"
-                    class="block w-full cursor-zoom-in">
-                    <img class="w-full aspect-[7/4] object-cover object-center rounded"
-                        src="{{ $image ?? asset('assets/images/hero.webp') }}" alt="{{ $imageAlt }}">
+                    x-data="{ imgLoaded: false }" x-init="if ($refs.heroImg.complete) imgLoaded = true"
+                    class="block relative w-full cursor-zoom-in">
+                    <div x-show="!imgLoaded" class="absolute inset-0 aspect-[7/4] rounded bg-gray-200 animate-pulse"></div>
+                    <img x-ref="heroImg" class="w-full aspect-[7/4] object-cover object-center rounded"
+                        src="{{ $image ?? asset('assets/images/hero.webp') }}" alt="{{ $imageAlt }}"
+                        fetchpriority="high" decoding="async" @load="imgLoaded = true" @@error="imgLoaded = true"
+                        :class="imgLoaded ? 'opacity-100' : 'opacity-0'">
                 </a>
             @else
-                <img class="w-full aspect-[7/4] object-cover object-center rounded"
-                    src="{{ $image ?? asset('assets/images/hero.webp') }}" alt="{{ $imageAlt }}">
+                <div x-data="{ imgLoaded: false }" x-init="if ($refs.heroImg.complete) imgLoaded = true"
+                    class="relative w-full">
+                    <div x-show="!imgLoaded" class="absolute inset-0 aspect-[7/4] rounded bg-gray-200 animate-pulse"></div>
+                    <img x-ref="heroImg" class="w-full aspect-[7/4] object-cover object-center rounded"
+                        src="{{ $image ?? asset('assets/images/hero.webp') }}" alt="{{ $imageAlt }}"
+                        fetchpriority="high" decoding="async" @load="imgLoaded = true" @@error="imgLoaded = true"
+                        :class="imgLoaded ? 'opacity-100' : 'opacity-0'">
+                </div>
             @endif
         </div>
         <div class="lg:flex-grow lg:pl-24 flex flex-col md:text-left text-center">
