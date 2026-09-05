@@ -7,7 +7,7 @@
     'activeDevice' => 'all',
 ])
 
-<x-ui.sections.wrapper id="gallery-index-section" class="bg-gray-50" x-data="galleryIndexMasonry()" x-init="init()" x-ref="section">
+<x-ui.sections.wrapper id="gallery-index-section" class="bg-gray-50" x-data="gallerySectionScroll()" x-init="init()" x-ref="section">
     <x-ui.sections.header suptitle="Галерея работ" title="Примеры работ"
         subtitle="На странице {{ $total }} фото выполненных ремонтов">
     </x-ui.sections.header>
@@ -25,10 +25,9 @@
                 :full-width-mobile="true" />
         </div>
 
-        <div x-ref="grid" x-cloak :class="{ 'opacity-0': !ready }"
-            class="relative space-y-4 md:space-y-0 transition-opacity duration-300">
+        <div class="columns-1 gap-4 md:columns-2 md:gap-6 xl:columns-3 xl:gap-8">
             @foreach ($galleries as $gallery)
-                <div>
+                <div class="mb-4 break-inside-avoid md:mb-6 xl:mb-8">
                     <x-sections.gallery.gallery-card :gallery="$gallery" />
                 </div>
             @endforeach
