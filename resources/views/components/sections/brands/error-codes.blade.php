@@ -5,27 +5,37 @@
 @if ($items->isNotEmpty())
     <x-ui.sections.wrapper id="error-codes">
         <x-ui.sections.header title="Коды ошибок {{ $brand->name }}"
-            subtitle="Расшифровка распространённых кодов ошибок и вероятные причины." />
+            subtitle="Что означают распространённые коды ошибок — подробнее о причинах и ремонте на странице каждого кода." />
 
-        <x-ui.sections.toggle-list :limit="6" :count="$items->count()">
-            <div class="columns-1 gap-4 md:columns-2 md:gap-6 xl:columns-3 xl:gap-8">
-                @foreach ($items as $index => $errorCode)
-                    <div class="mb-4 break-inside-avoid md:mb-6 xl:mb-8" x-show="showAll || {{ $index }} < limit" x-cloak>
-                        <a href="{{ route('error-codes.show', [$device, $errorCode->slug]) }}"
-                            class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 h-full flex flex-col transition hover:border-yellow-300">
-                            <div>
-                                <h2 class="text-lg text-gray-900 font-medium title-font mb-3">
-                                    {{ $errorCode->title }}
-                                </h2>
-                                @if ($errorCode->subtitle)
-                                    <p class="text-gray-700 leading-6">
-                                        {{ $errorCode->subtitle }}
-                                    </p>
-                                @endif
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
+        <x-ui.sections.toggle-list :limit="10" :count="$items->count()">
+            <div class="w-full overflow-auto">
+                <table class="table-auto w-full text-left whitespace-no-wrap">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-3 bg-gray-100">Код</th>
+                            <th class="px-4 py-3 bg-gray-100">Расшифровка</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach ($items as $index => $errorCode)
+                            <tr x-show="showAll || {{ $index }} < limit" x-cloak>
+                                <td class="border-b-2 border-gray-200 px-4 py-3">
+                                    <a href="{{ route('error-codes.show', [$device, $errorCode->slug]) }}"
+                                        class="font-medium text-gray-900 hover:text-yellow-600 hover:underline">
+                                        {{ $errorCode->code }}
+                                    </a>
+                                </td>
+                                <td class="border-b-2 border-gray-200 px-4 py-3">
+                                    <a href="{{ route('error-codes.show', [$device, $errorCode->slug]) }}"
+                                        class="hover:text-yellow-600 hover:underline">
+                                        {{ $errorCode->subtitle ?: $errorCode->title }}
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </x-ui.sections.toggle-list>
     </x-ui.sections.wrapper>

@@ -83,7 +83,8 @@ class ErrorCodeResource extends ModelResource implements HasImportExportContract
                     ->hint('Полный заголовок страницы кода ошибки, например: «Ошибка E3 холодильника LG: причины и ремонт в Уфе».'),
 
                 Text::make('Подзаголовок', 'subtitle')
-                    ->extension(new CharCount(140)),
+                    ->extension(new CharCount(140))
+                    ->hint('Короткая расшифровка кода без привязки к устройству/бренду — используется в таблице кодов ошибок на странице бренда, например «Ошибка электропитания».'),
             ]),
 
             Box::make('SEO / Метаданные', [
