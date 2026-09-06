@@ -73,7 +73,13 @@ Breadcrumbs::for('gallery.show', function (BreadcrumbTrail $trail, Gallery $gall
 
 Breadcrumbs::for('error-codes.show', function (BreadcrumbTrail $trail, ErrorCode $errorCode) {
     $device = request()->route('device');
-    $trail->parent('devices.show', $device);
+
+    if ($errorCode->brand) {
+        $trail->parent('devices.brands.show', $errorCode->brand);
+    } else {
+        $trail->parent('devices.show', $device);
+    }
+
     $trail->push($errorCode->title, route('error-codes.show', [$device, $errorCode->slug]));
 });
 
