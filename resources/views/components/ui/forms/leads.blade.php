@@ -1,9 +1,9 @@
-@props(['idPrefix' => 'lead'])
+@props(['idPrefix' => 'lead', 'title' => 'Заказать ремонт', 'subtitle' => 'Заполните форму, и мы свяжемся с вами в ближайшее время.'])
 <div x-data='leadForm(@json($payload))' {{ $attributes->merge(['class' => 'w-full']) }}>
     <template x-if="!success">
         <form @submit.prevent="submit">
-            <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Заказать ремонт</h2>
-            <p class="leading-relaxed mb-5 text-gray-600">Заполните форму, и мы свяжемся с вами в ближайшее время.</p>
+            <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">{{ $title }}</h2>
+            <p class="leading-relaxed mb-5 text-gray-600">{{ $subtitle }}</p>
             <div class="relative mb-4">
                 <label for="{{ $idPrefix }}-name" class="leading-7 text-sm text-gray-600">Имя</label>
                 <input id="{{ $idPrefix }}-name" type="text" x-model="form.name" name="name" autocomplete="name"
