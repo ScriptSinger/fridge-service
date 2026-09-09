@@ -1,34 +1,13 @@
  <x-ui.sections.wrapper id="contact" class="relative">
      <div class="flex sm:flex-nowrap flex-wrap">
          <div
-             class="lg:w-2/3 md:w-1/2 bg-gray-300 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
+             class="w-full lg:w-2/3 md:w-1/2 bg-gray-300 rounded-lg overflow-hidden sm:mr-10 relative h-64 sm:h-auto">
 
              <iframe class="absolute inset-0 w-full h-full" frameborder="0" title="map" marginheight="0" marginwidth="0"
                  scrolling="no"
-                 src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d1172.3155538371814!2d56.010745175163244!3d54.76957903861371!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sru!2sus!4v1773232165192!5m2!1sru!2sus"
-                 allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-                 style="filter: grayscale(1) contrast(1.2) opacity(0.4);">
+                 src="https://yandex.ru/map-widget/v1/?ll=56.010745%2C54.769579&z=16&ol=biz&oid=14301877469"
+                 allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
              </iframe>
-
-             <div class="bg-white relative flex flex-wrap py-6 rounded shadow-md w-full">
-                 <div class="lg:w-1/2 px-6">
-                     <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs">
-                         Адрес
-                     </h2>
-                     <p class="mt-1">
-                         {{ config('contacts.address_full') }}
-                     </p>
-                 </div>
-
-                 <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
-                     <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs">
-                         Телефон
-                     </h2>
-                     <p class="leading-relaxed">
-                         <x-ui.phone class="mt-2 text-gray-900 hover:text-yellow-600" />
-                     </p>
-                 </div>
-             </div>
          </div>
 
          <div class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
