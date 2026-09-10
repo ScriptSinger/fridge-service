@@ -6,7 +6,7 @@
 
             <div x-ref="map" class="absolute inset-0 w-full h-full"></div>
 
-            <div x-show="open" x-cloak style="position:absolute;top:12px;right:12px;z-index:10;max-width:calc(100% - 24px);">
+            <div x-show="open" x-cloak style="position:absolute;top:12px;left:12px;z-index:10;max-width:calc(100% - 24px);">
                 <x-sections.contact-map-card />
             </div>
         </div>
