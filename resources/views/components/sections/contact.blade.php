@@ -5,7 +5,7 @@
 
              <iframe class="absolute inset-0 w-full h-full" frameborder="0" title="map" marginheight="0" marginwidth="0"
                  scrolling="no"
-                 src="https://yandex.ru/map-widget/v1/?ll=56.010745%2C54.769579&z=16&ol=biz&oid=14301877469"
+                 src="https://yandex.ru/map-widget/v1/?ll=56.010745%2C54.769579&z=16&pt=56.010745,54.769579,pm2rdm"
                  allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
              </iframe>
          </div>

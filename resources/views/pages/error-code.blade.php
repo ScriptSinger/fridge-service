@@ -25,36 +25,26 @@
                 @endif
 
                 @if ($hasMeta)
-                    <div class="flex flex-col gap-8">
-                        @if ($hasProblems)
-                            <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                                <h2 class="text-lg font-semibold text-gray-900 mb-4">Возможные причины</h2>
+                    <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Информация</h2>
 
-                                <div class="flex flex-wrap gap-2">
-                                    @foreach ($errorCode->problems as $problem)
-                                        @if ($problem->device)
-                                            <a href="{{ route('problems.show', [$problem->device, $problem->slug]) }}"
-                                                class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium hover:bg-yellow-100 hover:text-yellow-700">
-                                                {{ $problem->title }}
-                                            </a>
-                                        @endif
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-
-                        @if ($hasBrand)
-                            <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                                <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ $device->permalink }}</h2>
-
-                                <div class="flex flex-wrap gap-2">
-                                    <a href="{{ route('devices.brands.show', [$device, $errorCode->brand]) }}"
+                        <div class="flex flex-wrap gap-2">
+                            @foreach ($errorCode->problems as $problem)
+                                @if ($problem->device)
+                                    <a href="{{ route('problems.show', [$problem->device, $problem->slug]) }}"
                                         class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium hover:bg-yellow-100 hover:text-yellow-700">
-                                        {{ $errorCode->brand->name }}
+                                        {{ $problem->title }}
                                     </a>
-                                </div>
-                            </div>
-                        @endif
+                                @endif
+                            @endforeach
+
+                            @if ($hasBrand)
+                                <a href="{{ route('devices.brands.show', [$device, $errorCode->brand]) }}"
+                                    class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium hover:bg-yellow-100 hover:text-yellow-700">
+                                    {{ $errorCode->brand->name }}
+                                </a>
+                            @endif
+                        </div>
                     </div>
                 @endif
             </div>
