@@ -16,6 +16,11 @@
     </div>
 
     <div style="display:flex;align-items:center;gap:8px;font-size:14px;color:#374151;margin-bottom:6px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>{{ config('contacts.address_full') }}</span>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:8px;font-size:14px;color:#374151;margin-bottom:6px;">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         <span>{{ config('contacts.opening_hours_display') }}</span>
     </div>
