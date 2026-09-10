@@ -7,6 +7,7 @@ use App\Models\Problem;
 use App\Models\Service;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
+use Illuminate\Support\Str;
 
 
 Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
@@ -68,7 +69,7 @@ Breadcrumbs::for('gallery.index', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('gallery.show', function (BreadcrumbTrail $trail, Gallery $gallery) {
     $trail->parent('gallery.index');
-    $trail->push($gallery->title ?: 'Выполненный ремонт', route('gallery.show', $gallery));
+    $trail->push($gallery->title ? Str::limit($gallery->title, 40, preserveWords: true) : 'Выполненный ремонт', route('gallery.show', $gallery));
 });
 
 Breadcrumbs::for('error-codes.show', function (BreadcrumbTrail $trail, ErrorCode $errorCode) {
@@ -80,7 +81,7 @@ Breadcrumbs::for('error-codes.show', function (BreadcrumbTrail $trail, ErrorCode
         $trail->parent('devices.show', $device);
     }
 
-    $trail->push($errorCode->title, route('error-codes.show', [$device, $errorCode->slug]));
+    $trail->push($errorCode->code ? 'Ошибка '.$errorCode->code : $errorCode->title, route('error-codes.show', [$device, $errorCode->slug]));
 });
 
 Breadcrumbs::for('legal.privacy-policy', function (BreadcrumbTrail $trail) {
