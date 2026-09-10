@@ -14,6 +14,7 @@ import reviewsIndexSort from "./components/reviewsIndexSort";
 import gallerySectionScroll from "./components/gallerySectionScroll";
 import galleryCard from "./components/galleryCard";
 import contentLightbox from "./components/contentLightbox";
+import yandexMap from "./components/yandexMap";
 
 // делаем Alpine глобальным
 window.Alpine = Alpine;
@@ -31,6 +32,7 @@ Alpine.data("reviewsIndexSort", reviewsIndexSort);
 Alpine.data("gallerySectionScroll", gallerySectionScroll);
 Alpine.data("galleryCard", galleryCard);
 Alpine.data("contentLightbox", contentLightbox);
+Alpine.data("yandexMap", yandexMap);
 
 // регистрируем директиву
 Alpine.directive("phone", (el) => phoneMask(el));
