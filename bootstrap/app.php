@@ -3,10 +3,13 @@
 use App\Http\Middleware\AccessLogMiddleware;
 use App\Http\Middleware\RequestIdMiddleware;
 use App\Http\Middleware\TrackUTM;
+use App\Models\Redirect;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request as HttpRequest;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -35,5 +38,15 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // Slug changes on Problem/ErrorCode/Service/Gallery record a 301
+        // here instead of leaving an already-indexed URL to 404, since the
+        // route pattern always matches and it's the model lookup inside the
+        // controller that fails — Route::fallback never sees these.
+        $exceptions->render(function (NotFoundHttpException $e, HttpRequest $request) {
+            $redirect = Redirect::query()->where('from_path', $request->getPathInfo())->first();
+
+            if ($redirect) {
+                return redirect($redirect->to_path, 301);
+            }
+        });
     })->create();

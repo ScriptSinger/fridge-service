@@ -55,7 +55,7 @@ class GalleryController extends Controller
 
     public function show(Gallery $gallery)
     {
-        $gallery->load(['device', 'brand', 'service.device', 'problem.device', 'errorCode.device']);
+        $gallery->load(['device', 'brand', 'service.device', 'problem.device', 'errorCode.device', 'errorCode.brand']);
 
         $title = $gallery->title ?: 'Выполненный ремонт';
         $metaTitle = $gallery->seo_title ?: $title;

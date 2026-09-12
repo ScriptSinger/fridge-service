@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasImageUrl;
+use App\Models\Concerns\RecordsSlugRedirects;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
@@ -10,11 +11,13 @@ use Illuminate\Support\Facades\Cache;
 class Gallery extends Model
 {
     use HasImageUrl;
+    use RecordsSlugRedirects;
     use Sluggable;
 
     protected static function booted(): void
     {
         static::saved(function (Gallery $gallery) {
+            $gallery->recordSlugRedirect();
             $gallery->clearFrontendCache();
             $gallery->clearFrontendCache($gallery->getOriginal());
         });
@@ -106,6 +109,11 @@ class Gallery extends Model
     public function getPublishedDateAttribute()
     {
         return $this->published_at ?? $this->created_at;
+    }
+
+    protected function slugRedirectPath(string $slug): ?string
+    {
+        return parse_url(route('gallery.show', $slug), PHP_URL_PATH);
     }
 
     /**

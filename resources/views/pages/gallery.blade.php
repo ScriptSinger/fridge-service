@@ -1,6 +1,7 @@
 <x-layouts.app
     :title="$page?->title ?? 'Галерея работ'"
     :description="$page?->description ?? 'Фотографии выполненных работ и отдельных этапов ремонта.'"
+    :canonical="route('gallery.index')"
     :noindex="request()->query() !== []">
     <x-ui.breadcrumbs route="gallery.index" :model="null" />
     <x-sections.hero :model="$page" :h1="$page?->h1" :subtitle="$page?->subtitle" />

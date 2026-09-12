@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\RecordsSlugRedirects;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
@@ -9,11 +10,15 @@ use Illuminate\Support\Str;
 
 class Problem extends Model
 {
+    use RecordsSlugRedirects;
     use Sluggable;
 
     protected static function booted(): void
     {
-        static::saved(fn (Problem $problem) => $problem->clearFrontendCache());
+        static::saved(function (Problem $problem) {
+            $problem->recordSlugRedirect();
+            $problem->clearFrontendCache();
+        });
         static::deleted(fn (Problem $problem) => $problem->clearFrontendCache());
     }
 
@@ -67,6 +72,15 @@ class Problem extends Model
     public function getShortContentAttribute()
     {
         return Str::limit(html_entity_decode(strip_tags($this->content), ENT_QUOTES, 'UTF-8'), 70);
+    }
+
+    protected function slugRedirectPath(string $slug): ?string
+    {
+        if (! $this->device) {
+            return null;
+        }
+
+        return parse_url(route('problems.show', [$this->device, $slug]), PHP_URL_PATH);
     }
 
     public function clearFrontendCache(): void

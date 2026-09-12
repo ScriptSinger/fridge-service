@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\RecordsSlugRedirects;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
@@ -9,11 +10,15 @@ use Illuminate\Support\Str;
 
 class ErrorCode extends Model
 {
+    use RecordsSlugRedirects;
     use Sluggable;
 
     protected static function booted(): void
     {
-        static::saved(fn (ErrorCode $errorCode) => $errorCode->clearFrontendCache());
+        static::saved(function (ErrorCode $errorCode) {
+            $errorCode->recordSlugRedirect();
+            $errorCode->clearFrontendCache();
+        });
         static::deleted(fn (ErrorCode $errorCode) => $errorCode->clearFrontendCache());
     }
 
@@ -63,6 +68,15 @@ class ErrorCode extends Model
     public function leads()
     {
         return $this->morphMany(Lead::class, 'leadable');
+    }
+
+    protected function slugRedirectPath(string $slug): ?string
+    {
+        if (! $this->device) {
+            return null;
+        }
+
+        return parse_url(route('error-codes.show', [$this->device, $slug]), PHP_URL_PATH);
     }
 
     public function clearFrontendCache(): void

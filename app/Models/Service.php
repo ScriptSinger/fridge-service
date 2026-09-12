@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasImageUrl;
+use App\Models\Concerns\RecordsSlugRedirects;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Price;
@@ -10,12 +11,16 @@ use Illuminate\Support\Facades\Cache;
 
 class Service extends Model
 {
+    use RecordsSlugRedirects;
     use Sluggable;
     use HasImageUrl;
 
     protected static function booted(): void
     {
-        static::saved(fn (Service $service) => $service->clearFrontendCache());
+        static::saved(function (Service $service) {
+            $service->recordSlugRedirect();
+            $service->clearFrontendCache();
+        });
         static::deleted(fn (Service $service) => $service->clearFrontendCache());
     }
 
@@ -134,6 +139,15 @@ class Service extends Model
     public function getDisplayNameAttribute(): string
     {
         return $this->name; // можно добавить доп. текст, если нужно
+    }
+
+    protected function slugRedirectPath(string $slug): ?string
+    {
+        if (! $this->device) {
+            return null;
+        }
+
+        return parse_url(route('services.show', [$this->device, $slug]), PHP_URL_PATH);
     }
 
     public function clearFrontendCache(): void

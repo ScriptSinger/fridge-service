@@ -68,7 +68,32 @@ Breadcrumbs::for('gallery.index', function (BreadcrumbTrail $trail) {
 });
 
 Breadcrumbs::for('gallery.show', function (BreadcrumbTrail $trail, Gallery $gallery) {
-    $trail->parent('gallery.index');
+    if ($gallery->problem && $gallery->problem->is_active && $gallery->problem->device) {
+        $trail->parent('devices.show', $gallery->problem->device);
+        $trail->push($gallery->problem->title, route('problems.show', [$gallery->problem->device, $gallery->problem->slug]));
+    } elseif ($gallery->errorCode && $gallery->errorCode->is_active && $gallery->errorCode->device) {
+        $errorCode = $gallery->errorCode;
+
+        if ($errorCode->brand) {
+            $trail->parent('devices.show', $errorCode->device);
+            $trail->push($errorCode->brand->name, route('devices.brands.show', [$errorCode->device, $errorCode->brand]));
+        } else {
+            $trail->parent('devices.show', $errorCode->device);
+        }
+
+        $trail->push($errorCode->code ? 'Ошибка '.$errorCode->code : $errorCode->title, route('error-codes.show', [$errorCode->device, $errorCode->slug]));
+    } elseif ($gallery->brand && $gallery->device) {
+        $trail->parent('devices.show', $gallery->device);
+        $trail->push($gallery->brand->name, route('devices.brands.show', [$gallery->device, $gallery->brand]));
+    } elseif ($gallery->service && $gallery->service->device) {
+        $trail->parent('devices.show', $gallery->service->device);
+        $trail->push($gallery->service->name, route('services.show', [$gallery->service->device, $gallery->service->slug]));
+    } elseif ($gallery->device) {
+        $trail->parent('devices.show', $gallery->device);
+    } else {
+        $trail->parent('gallery.index');
+    }
+
     $trail->push($gallery->title ? Str::limit($gallery->title, 40, preserveWords: true) : 'Выполненный ремонт', route('gallery.show', $gallery));
 });
 
