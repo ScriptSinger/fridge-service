@@ -8,7 +8,7 @@
                 {{ $problem->title }}
             </h2>
             @if ($problem->subtitle)
-                <p class="text-gray-700 leading-6">
+                <p class="hidden text-gray-700 leading-6 md:block">
                     {{ $problem->subtitle }}
                 </p>
             @endif

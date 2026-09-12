@@ -19,7 +19,13 @@
 
                     <tbody>
                         @foreach ($items as $index => $errorCode)
-                            <tr x-show="showAll || {{ $index }} < limit" x-cloak>
+                            <tr x-show="showAll || {{ $index }} < limit" x-cloak
+                                x-transition:enter="transition-opacity duration-200"
+                                x-transition:enter-start="opacity-0"
+                                x-transition:enter-end="opacity-100"
+                                x-transition:leave="transition-opacity duration-150"
+                                x-transition:leave-start="opacity-100"
+                                x-transition:leave-end="opacity-0">
                                 <td class="border-b-2 border-gray-200 px-4 py-3">
                                     <a href="{{ route('error-codes.show', [$device, $errorCode->slug]) }}"
                                         class="font-medium text-gray-900 hover:text-yellow-600 hover:underline">
