@@ -15,6 +15,7 @@ import gallerySectionScroll from "./components/gallerySectionScroll";
 import galleryCard from "./components/galleryCard";
 import contentLightbox from "./components/contentLightbox";
 import yandexMap from "./components/yandexMap";
+import breadcrumbScroll from "./components/breadcrumbScroll";
 
 // делаем Alpine глобальным
 window.Alpine = Alpine;
@@ -33,6 +34,7 @@ Alpine.data("gallerySectionScroll", gallerySectionScroll);
 Alpine.data("galleryCard", galleryCard);
 Alpine.data("contentLightbox", contentLightbox);
 Alpine.data("yandexMap", yandexMap);
+Alpine.data("breadcrumbScroll", breadcrumbScroll);
 
 // регистрируем директиву
 Alpine.directive("phone", (el) => phoneMask(el));
