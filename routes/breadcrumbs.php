@@ -33,7 +33,14 @@ Breadcrumbs::for('services.show', function (BreadcrumbTrail $trail, Service $ser
 
 Breadcrumbs::for('problems.show', function (BreadcrumbTrail $trail, Problem $problem) {
     $device = request()->route('device');
-    $trail->parent('devices.show', $device);
+    $brand = $problem->brands->first();
+
+    if ($brand) {
+        $trail->parent('devices.brands.show', $brand);
+    } else {
+        $trail->parent('devices.show', $device);
+    }
+
     $trail->push($problem->title, route('problems.show', [$device, $problem->slug]));
 });
 
