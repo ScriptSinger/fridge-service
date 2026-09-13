@@ -18,8 +18,30 @@
                 ])>
                 @if ($hasContent)
                     <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm lg:self-start">
-                        <div class="prose prose-gray max-w-none prose-headings:text-gray-900 prose-h2:mt-8 prose-h2:mb-3 prose-h3:mt-6 prose-h3:mb-2 prose-a:text-yellow-700 prose-strong:text-gray-900 prose-img:mx-auto prose-img:rounded-2xl prose-img:shadow-sm prose-figure:mx-auto prose-figcaption:text-center">
+                        <div
+                            x-data="contentLightbox()"
+                            x-init="init()"
+                            class="prose prose-gray max-w-none prose-headings:text-gray-900 prose-h2:mt-8 prose-h2:mb-3 prose-h3:mt-6 prose-h3:mb-2 prose-a:text-yellow-700 prose-strong:text-gray-900 prose-img:mx-auto prose-img:rounded-2xl prose-img:shadow-sm prose-img:cursor-zoom-in prose-figure:mx-auto prose-figcaption:text-center">
                             {!! $errorCode->content !!}
+
+                            <template x-teleport="body">
+                                <div x-cloak x-show="open" x-transition.opacity @keydown.window="handleKeydown($event)"
+                                    @click="close()" class="fixed inset-0 z-[120] bg-black/80 p-4 sm:p-6"
+                                    role="dialog" aria-modal="true" :aria-label="alt || 'Изображение'" tabindex="-1"
+                                    x-ref="dialog">
+                                    <div class="relative mx-auto flex h-full max-w-6xl items-center justify-center"
+                                        @click.stop>
+                                        <button type="button" @click="close()"
+                                            class="fixed top-4 right-4 sm:top-6 sm:right-6 h-12 w-12 rounded-full bg-white/95 text-gray-900 shadow-lg hover:bg-white z-[130] cursor-pointer"
+                                            aria-label="Закрыть">
+                                            <span class="text-2xl leading-none">&times;</span>
+                                        </button>
+
+                                        <img :src="src" :alt="alt" decoding="async"
+                                            class="max-h-full w-auto max-w-full rounded-xl object-contain">
+                                    </div>
+                                </div>
+                            </template>
                         </div>
                     </div>
                 @endif
