@@ -7,7 +7,7 @@
         <x-ui.sections.header title="Коды ошибок {{ $brand->name }}"
             subtitle="Что означают распространённые коды ошибок — подробнее о причинах и ремонте на странице каждого кода." />
 
-        <x-ui.sections.toggle-list :limit="10" :count="$items->count()">
+        <x-ui.sections.toggle-list :limit="6" :count="$items->count()">
             <div class="w-full overflow-auto">
                 <table class="table-auto w-full text-left whitespace-no-wrap">
                     <thead>
