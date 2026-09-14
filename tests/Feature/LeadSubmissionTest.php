@@ -2,11 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Jobs\SendEmailLeadNotification;
 use App\Jobs\SendTelegramLeadNotification;
+use App\Mail\NewLeadMail;
 use App\Models\Lead;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
@@ -41,6 +44,11 @@ class LeadSubmissionTest extends TestCase
             SendTelegramLeadNotification::class,
             fn (SendTelegramLeadNotification $job) => $job->leadId === $leadId,
         );
+
+        Queue::assertPushed(
+            SendEmailLeadNotification::class,
+            fn (SendEmailLeadNotification $job) => $job->leadId === $leadId,
+        );
     }
 
     public function test_worker_sends_queued_lead_to_telegram(): void
@@ -64,6 +72,24 @@ class LeadSubmissionTest extends TestCase
         Http::assertSent(fn (Request $request) => $request->url() === 'https://api.telegram.org/bottest-token/sendMessage'
             && $request['chat_id'] === '123456'
             && str_contains($request['text'], $lead->phone)
+        );
+    }
+
+    public function test_worker_sends_queued_lead_by_email(): void
+    {
+        config(['services.lead_notification.email' => 'lucky2strike@yandex.ru']);
+        Mail::fake();
+
+        $lead = Lead::create([
+            'name' => 'Иван',
+            'phone' => '+7 (999) 123-45-67',
+        ]);
+
+        (new SendEmailLeadNotification($lead->id))->handle();
+
+        Mail::assertSent(
+            NewLeadMail::class,
+            fn (NewLeadMail $mail) => $mail->hasTo('lucky2strike@yandex.ru') && $mail->lead->is($lead),
         );
     }
 }

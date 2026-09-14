@@ -47,6 +47,9 @@ return [
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
+            // Наш internal mailrelay-контейнер использует самоподписанный TLS-сертификат,
+            // поэтому проверку сертификата для него нужно отключать через MAIL_VERIFY_PEER=false.
+            'verify_peer' => env('MAIL_VERIFY_PEER', true),
         ],
 
         'ses' => [

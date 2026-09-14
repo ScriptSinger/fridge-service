@@ -45,4 +45,8 @@ return [
         'maps_api_key' => env('YANDEX_MAPS_API_KEY'),
     ],
 
+    'lead_notification' => [
+        'email' => env('LEAD_NOTIFICATION_EMAIL', 'lucky2strike@yandex.ru'),
+    ],
+
 ];

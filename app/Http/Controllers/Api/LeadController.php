@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLeadRequest;
+use App\Jobs\SendEmailLeadNotification;
 use App\Jobs\SendTelegramLeadNotification;
 use App\Models\Lead;
 use Illuminate\Support\Arr;
@@ -26,6 +27,7 @@ class LeadController extends Controller
         }
 
         SendTelegramLeadNotification::dispatch($lead->id);
+        SendEmailLeadNotification::dispatch($lead->id);
 
         return $request->wantsJson()
             ? response()->json(['success' => true, 'id' => $lead->id])
