@@ -1,10 +1,15 @@
 <x-ui.sections.wrapper id="contact" class="relative">
-    <div class="flex sm:flex-nowrap flex-wrap">
+    <div class="flex md:flex-nowrap flex-wrap">
         <div
-            class="w-full lg:w-2/3 md:w-1/2 bg-gray-300 rounded-lg overflow-hidden sm:mr-10 relative h-64 sm:h-auto"
+            class="w-full lg:w-2/3 md:w-1/2 bg-gray-300 rounded-lg overflow-hidden md:mr-10 relative h-64 sm:h-[520px]"
             x-data="yandexMap(@js(['lat' => 54.769579, 'lng' => 56.010745, 'apikey' => config('services.yandex.maps_api_key')]))">
 
             <div x-ref="map" class="absolute inset-0 w-full h-full"></div>
+
+            <div x-show="mapFailed" x-cloak
+                class="absolute inset-0 flex items-center justify-center text-center text-sm text-gray-500 px-6">
+                Карта временно недоступна. Наши контакты указаны рядом.
+            </div>
 
             <div x-show="open" x-cloak style="position:absolute;top:12px;left:12px;z-index:10;max-width:calc(100% - 24px);">
                 <x-sections.contact-map-card />
