@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Service;
 
+use App\Models\Device;
 use App\Models\Service;
 use App\MoonShine\Resources\Device\DeviceResource;
 use App\MoonShine\Resources\Price\PriceResource;
@@ -17,6 +18,7 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Crud\Handlers\Handler;
 use MoonShine\ImportExport\Contracts\HasImportExportContract;
 use MoonShine\ImportExport\ExportHandler;
+use App\MoonShine\Support\GuardedImportHandler;
 use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\HasMany;
@@ -133,7 +135,8 @@ class ServiceResource extends ModelResource implements HasImportExportContract
 
     protected function import(): ?Handler
     {
-        return null;
+        return GuardedImportHandler::make('Импорт из CSV')
+            ->delimiter(';');
     }
 
     /**
@@ -153,6 +156,26 @@ class ServiceResource extends ModelResource implements HasImportExportContract
             Switcher::make('Активна', 'is_active'),
             BelongsTo::make('Device', 'device', fn($item) => $item->type, DeviceResource::class)
                 ->modifyRawValue(fn($raw, $original) => $original?->device?->type),
+        ];
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function importFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Slug', 'slug'),
+            Text::make('Name', 'name'),
+            Text::make('H1', 'h1'),
+            Text::make('SEO title', 'seo_title'),
+            Textarea::make('SEO description', 'seo_description'),
+            Text::make('Подзаголовок', 'subtitle'),
+            Textarea::make('Description', 'description'),
+            Switcher::make('Активна', 'is_active')->default(false),
+            Text::make('Device', 'device_id')
+                ->fromRaw(fn($raw) => filled($raw) ? Device::query()->where('type', $raw)->value('id') : null),
         ];
     }
 

@@ -6,6 +6,7 @@ namespace App\MoonShine\Resources\Certificate;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Certificate;
+use App\Models\Master;
 use App\MoonShine\Resources\Certificate\Pages\CertificateIndexPage;
 use App\MoonShine\Resources\Certificate\Pages\CertificateFormPage;
 use App\MoonShine\Resources\Certificate\Pages\CertificateDetailPage;
@@ -16,6 +17,7 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Crud\Handlers\Handler;
 use MoonShine\ImportExport\Contracts\HasImportExportContract;
 use MoonShine\ImportExport\ExportHandler;
+use App\MoonShine\Support\GuardedImportHandler;
 use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\UI\Components\Layout\Box;
@@ -95,7 +97,8 @@ class CertificateResource extends ModelResource implements HasImportExportContra
 
     protected function import(): ?Handler
     {
-        return null;
+        return GuardedImportHandler::make('Импорт из CSV')
+            ->delimiter(';');
     }
 
     /**
@@ -110,6 +113,23 @@ class CertificateResource extends ModelResource implements HasImportExportContra
             Text::make('Description', 'description'),
             BelongsTo::make('Master', 'master', fn($item) => $item->name, MasterResource::class)
                 ->modifyRawValue(fn($raw, $original) => $original?->master?->name),
+        ];
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function importFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Title', 'title'),
+            Text::make('Subtitle', 'subtitle'),
+            Text::make('Description', 'description'),
+            Text::make('Master', 'master_id')
+                ->fromRaw(fn($raw) => filled($raw)
+                    ? Master::query()->get()->first(fn($master) => $master->name === $raw)?->id
+                    : null),
         ];
     }
 

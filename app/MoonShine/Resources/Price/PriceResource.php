@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Price;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Brand;
+use App\Models\Device;
 use App\Models\Price;
+use App\Models\Service;
 use App\MoonShine\Resources\Brand\BrandResource;
 use App\MoonShine\Resources\Device\DeviceResource;
 use App\MoonShine\Resources\Price\Pages\PriceIndexPage;
@@ -18,6 +21,7 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Crud\Handlers\Handler;
 use MoonShine\ImportExport\Contracts\HasImportExportContract;
 use MoonShine\ImportExport\ExportHandler;
+use App\MoonShine\Support\GuardedImportHandler;
 use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
@@ -132,7 +136,8 @@ class PriceResource extends ModelResource implements HasImportExportContract
 
     protected function import(): ?Handler
     {
-        return null;
+        return GuardedImportHandler::make('Импорт из CSV')
+            ->delimiter(';');
     }
 
     /**
@@ -152,6 +157,53 @@ class PriceResource extends ModelResource implements HasImportExportContract
             Number::make('Price To', 'price_to'),
             Text::make('Units', 'units'),
         ];
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function importFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Service', 'service_id')
+                ->fromRaw(fn($raw) => filled($raw) ? Service::query()->where('name', $raw)->value('id') : null),
+            Text::make('Device', 'device_id')
+                ->nullable()
+                ->fromRaw(fn($raw) => filled($raw) ? Device::query()->where('type', $raw)->value('id') : null),
+            Text::make('Brands', 'brands_pivot')
+                ->nullable(),
+            Number::make('Price From', 'price_from'),
+            Number::make('Price To', 'price_to'),
+            Text::make('Units', 'units')->default('₽'),
+        ];
+    }
+
+    private ?string $pendingBrands = null;
+
+    public function beforeImportFilling(array $data): array
+    {
+        if (array_key_exists('brands_pivot', $data)) {
+            $this->pendingBrands = $data['brands_pivot'];
+            unset($data['brands_pivot']);
+        }
+
+        return $data;
+    }
+
+    public function afterImported(mixed $item): mixed
+    {
+        if ($this->pendingBrands !== null) {
+            $titles = array_filter(array_map('trim', explode(',', $this->pendingBrands)));
+
+            $item->brands()->sync(
+                $titles === [] ? [] : Brand::query()->whereIn('name', $titles)->pluck('id')
+            );
+
+            $this->pendingBrands = null;
+        }
+
+        return $item;
     }
 
     /**

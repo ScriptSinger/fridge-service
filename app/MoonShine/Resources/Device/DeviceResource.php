@@ -17,6 +17,7 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Crud\Handlers\Handler;
 use MoonShine\ImportExport\Contracts\HasImportExportContract;
 use MoonShine\ImportExport\ExportHandler;
+use App\MoonShine\Support\GuardedImportHandler;
 use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\UI\Components\Layout\Box;
@@ -143,7 +144,8 @@ class DeviceResource extends ModelResource implements HasImportExportContract
 
     protected function import(): ?Handler
     {
-        return null;
+        return GuardedImportHandler::make('Импорт из CSV')
+            ->delimiter(';');
     }
 
     /**
@@ -161,6 +163,24 @@ class DeviceResource extends ModelResource implements HasImportExportContract
             Text::make('Title', 'title'),
             Text::make('Description', 'description'),
             Switcher::make('Активна', 'is_active'),
+        ];
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function importFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Slug', 'slug'),
+            Text::make('Постоянная ссылка', 'permalink'),
+            Text::make('Type', 'type'),
+            Text::make('H1', 'h1'),
+            Text::make('Subtitle', 'subtitle'),
+            Text::make('Title', 'title'),
+            Text::make('Description', 'description'),
+            Switcher::make('Активна', 'is_active')->default(false),
         ];
     }
 

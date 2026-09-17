@@ -16,6 +16,7 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Crud\Handlers\Handler;
 use MoonShine\ImportExport\Contracts\HasImportExportContract;
 use MoonShine\ImportExport\ExportHandler;
+use App\MoonShine\Support\GuardedImportHandler;
 use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Switcher;
@@ -74,7 +75,8 @@ class PageTypeResource extends ModelResource implements HasImportExportContract
 
     protected function import(): ?Handler
     {
-        return null;
+        return GuardedImportHandler::make('Импорт из CSV')
+            ->delimiter(';');
     }
 
     /**
@@ -88,6 +90,20 @@ class PageTypeResource extends ModelResource implements HasImportExportContract
             Text::make('Name', 'name'),
             Text::make('Template', 'template'),
             Switcher::make('Системная', 'is_system'),
+        ];
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function importFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Key', 'key'),
+            Text::make('Name', 'name'),
+            Text::make('Template', 'template'),
+            Switcher::make('Системная', 'is_system')->default(false),
         ];
     }
 

@@ -4,8 +4,15 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Gallery;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Brand;
+use App\Models\Device;
+use App\Models\ErrorCode;
 use App\Models\Gallery;
+use App\Models\Page;
+use App\Models\Problem;
+use App\Models\Service;
 use App\MoonShine\Resources\Brand\BrandResource;
 use App\MoonShine\Resources\Device\DeviceResource;
 use App\MoonShine\Resources\Gallery\Pages\GalleryIndexPage;
@@ -25,6 +32,7 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Crud\Handlers\Handler;
 use MoonShine\ImportExport\Contracts\HasImportExportContract;
 use MoonShine\ImportExport\ExportHandler;
+use App\MoonShine\Support\GuardedImportHandler;
 use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\UI\Components\Layout\Box;
@@ -174,7 +182,8 @@ class GalleryResource extends ModelResource implements HasImportExportContract
 
     protected function import(): ?Handler
     {
-        return null;
+        return GuardedImportHandler::make('Импорт из CSV')
+            ->delimiter(';');
     }
 
     /**
@@ -212,6 +221,44 @@ class GalleryResource extends ModelResource implements HasImportExportContract
             BelongsTo::make('Page', 'page', fn($item) => $item->h1, PageResource::class)
                 ->nullable()
                 ->modifyRawValue(fn($raw, $original) => $original?->page?->h1),
+        ];
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function importFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Slug', 'slug'),
+            Text::make('Title', 'title'),
+            Text::make('Subtitle', 'subtitle'),
+            Text::make('SEO title', 'seo_title'),
+            Textarea::make('SEO description', 'seo_description'),
+            Text::make('Alt изображения', 'image_alt'),
+            Number::make('Порядок', 'sort_order')->default(0),
+            Text::make('Дата публикации', 'published_at')
+                ->nullable()
+                ->fromRaw(fn($raw) => filled($raw) ? Carbon::createFromFormat('d.m.Y', $raw)->toDateString() : null),
+            Text::make('Device', 'device_id')
+                ->nullable()
+                ->fromRaw(fn($raw) => filled($raw) ? Device::query()->where('type', $raw)->value('id') : null),
+            Text::make('Brand', 'brand_id')
+                ->nullable()
+                ->fromRaw(fn($raw) => filled($raw) ? Brand::query()->where('name', $raw)->value('id') : null),
+            Text::make('Service', 'service_id')
+                ->nullable()
+                ->fromRaw(fn($raw) => filled($raw) ? Service::query()->where('name', $raw)->value('id') : null),
+            Text::make('Problem', 'problem_id')
+                ->nullable()
+                ->fromRaw(fn($raw) => filled($raw) ? Problem::query()->where('title', $raw)->value('id') : null),
+            Text::make('ErrorCode', 'error_code_id')
+                ->nullable()
+                ->fromRaw(fn($raw) => filled($raw) ? ErrorCode::query()->where('title', $raw)->value('id') : null),
+            Text::make('Page', 'page_id')
+                ->nullable()
+                ->fromRaw(fn($raw) => filled($raw) ? Page::query()->where('h1', $raw)->value('id') : null),
         ];
     }
 

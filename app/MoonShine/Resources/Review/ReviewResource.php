@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Review;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Brand;
+use App\Models\Device;
 use App\Models\Review;
+use App\Models\Service;
 use App\MoonShine\Resources\Review\Pages\ReviewIndexPage;
 use App\MoonShine\Resources\Review\Pages\ReviewFormPage;
 use App\MoonShine\Resources\Review\Pages\ReviewDetailPage;
@@ -16,6 +20,7 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Crud\Handlers\Handler;
 use MoonShine\ImportExport\Contracts\HasImportExportContract;
 use MoonShine\ImportExport\ExportHandler;
+use App\MoonShine\Support\GuardedImportHandler;
 use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Image;
@@ -143,7 +148,8 @@ class ReviewResource extends ModelResource implements HasImportExportContract
 
     protected function import(): ?Handler
     {
-        return null;
+        return GuardedImportHandler::make('Импорт из CSV')
+            ->delimiter(';');
     }
 
     /**
@@ -170,6 +176,36 @@ class ReviewResource extends ModelResource implements HasImportExportContract
                 ->modifyRawValue(fn($raw, $original) => $original?->published_at?->format('d.m.Y')),
             Switcher::make('Избранный', 'is_featured'),
             Switcher::make('Опубликован', 'is_published'),
+        ];
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function importFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Имя', 'name'),
+            Text::make('Город', 'city'),
+            Text::make('Заголовок', 'title'),
+            Textarea::make('Текст', 'text'),
+            Number::make('Оценка', 'rating')->default(5),
+            Text::make('Источник', 'source'),
+            Text::make('Устройство', 'device_id')
+                ->nullable()
+                ->fromRaw(fn($raw) => filled($raw) ? Device::query()->where('type', $raw)->value('id') : null),
+            Text::make('Бренд', 'brand_id')
+                ->nullable()
+                ->fromRaw(fn($raw) => filled($raw) ? Brand::query()->where('name', $raw)->value('id') : null),
+            Text::make('Услуга', 'service_id')
+                ->nullable()
+                ->fromRaw(fn($raw) => filled($raw) ? Service::query()->where('name', $raw)->value('id') : null),
+            Text::make('Дата публикации', 'published_at')
+                ->nullable()
+                ->fromRaw(fn($raw) => filled($raw) ? Carbon::createFromFormat('d.m.Y', $raw)->toDateString() : null),
+            Switcher::make('Избранный', 'is_featured')->default(false),
+            Switcher::make('Опубликован', 'is_published')->default(false),
         ];
     }
 

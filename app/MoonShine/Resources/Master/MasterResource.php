@@ -17,6 +17,7 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Crud\Handlers\Handler;
 use MoonShine\ImportExport\Contracts\HasImportExportContract;
 use MoonShine\ImportExport\ExportHandler;
+use App\MoonShine\Support\GuardedImportHandler;
 use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\HasMany;
 use MoonShine\UI\Components\Layout\Box;
@@ -93,7 +94,8 @@ class MasterResource extends ModelResource implements HasImportExportContract
 
     protected function import(): ?Handler
     {
-        return null;
+        return GuardedImportHandler::make('Импорт из CSV')
+            ->delimiter(';');
     }
 
     /**
@@ -109,6 +111,14 @@ class MasterResource extends ModelResource implements HasImportExportContract
             Text::make('Role', 'role'),
             Text::make('Description', 'description'),
         ];
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function importFields(): iterable
+    {
+        return $this->exportFields();
     }
 
     /**

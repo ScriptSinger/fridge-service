@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Faq;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Brand;
+use App\Models\Device;
 use App\Models\Faq;
+use App\Models\Page;
+use App\Models\Service;
 use App\MoonShine\Resources\Brand\BrandResource;
 use App\MoonShine\Resources\Device\DeviceResource;
 use App\MoonShine\Resources\Page\PageResource;
@@ -19,6 +23,7 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Crud\Handlers\Handler;
 use MoonShine\ImportExport\Contracts\HasImportExportContract;
 use MoonShine\ImportExport\ExportHandler;
+use App\MoonShine\Support\GuardedImportHandler;
 use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\UI\Components\Layout\Box;
@@ -105,7 +110,8 @@ class FaqResource extends ModelResource implements HasImportExportContract
 
     protected function import(): ?Handler
     {
-        return null;
+        return GuardedImportHandler::make('Импорт из CSV')
+            ->delimiter(';');
     }
 
     /**
@@ -127,6 +133,32 @@ class FaqResource extends ModelResource implements HasImportExportContract
                 ->modifyRawValue(fn($raw, $original) => $original?->brand?->name),
             BelongsTo::make('Страница', 'page', fn($item) => $item->h1, PageResource::class)
                 ->modifyRawValue(fn($raw, $original) => $original?->page?->h1),
+        ];
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function importFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Question', 'question'),
+            Text::make('Answer', 'answer'),
+            Number::make('Порядок', 'sort_order')->default(0),
+            Switcher::make('Активна', 'is_active')->default(false),
+            Text::make('Тип техники', 'device_id')
+                ->nullable()
+                ->fromRaw(fn($raw) => filled($raw) ? Device::query()->where('type', $raw)->value('id') : null),
+            Text::make('Услуга', 'service_id')
+                ->nullable()
+                ->fromRaw(fn($raw) => filled($raw) ? Service::query()->where('name', $raw)->value('id') : null),
+            Text::make('Бренд', 'brand_id')
+                ->nullable()
+                ->fromRaw(fn($raw) => filled($raw) ? Brand::query()->where('name', $raw)->value('id') : null),
+            Text::make('Страница', 'page_id')
+                ->nullable()
+                ->fromRaw(fn($raw) => filled($raw) ? Page::query()->where('h1', $raw)->value('id') : null),
         ];
     }
 

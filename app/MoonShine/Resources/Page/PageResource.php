@@ -6,6 +6,7 @@ namespace App\MoonShine\Resources\Page;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Page;
+use App\Models\PageType;
 use App\MoonShine\Resources\Page\Pages\PageIndexPage;
 use App\MoonShine\Resources\Page\Pages\PageFormPage;
 use App\MoonShine\Resources\Page\Pages\PageDetailPage;
@@ -16,6 +17,7 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Crud\Handlers\Handler;
 use MoonShine\ImportExport\Contracts\HasImportExportContract;
 use MoonShine\ImportExport\ExportHandler;
+use App\MoonShine\Support\GuardedImportHandler;
 use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\TinyMce\Fields\TinyMce;
@@ -132,7 +134,8 @@ class PageResource extends ModelResource implements HasImportExportContract
 
     protected function import(): ?Handler
     {
-        return null;
+        return GuardedImportHandler::make('Импорт из CSV')
+            ->delimiter(';');
     }
 
     /**
@@ -150,6 +153,24 @@ class PageResource extends ModelResource implements HasImportExportContract
             Text::make('Title', 'title'),
             Text::make('Description', 'description'),
             Switcher::make('Активна', 'is_active'),
+        ];
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function importFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Type', 'page_type_id')
+                ->fromRaw(fn($raw) => filled($raw) ? PageType::query()->where('name', $raw)->value('id') : null),
+            Text::make('Slug', 'slug'),
+            Text::make('H1', 'h1'),
+            Text::make('Subtitle', 'subtitle'),
+            Text::make('Title', 'title'),
+            Text::make('Description', 'description'),
+            Switcher::make('Активна', 'is_active')->default(false),
         ];
     }
 

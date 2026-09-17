@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Problem;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Brand;
+use App\Models\Device;
+use App\Models\ErrorCode;
 use App\Models\Problem;
+use App\Models\Service;
 use App\MoonShine\Resources\Brand\BrandResource;
 use App\MoonShine\Resources\Device\DeviceResource;
 use App\MoonShine\Resources\ErrorCode\ErrorCodeResource;
@@ -21,6 +25,7 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Crud\Handlers\Handler;
 use MoonShine\ImportExport\Contracts\HasImportExportContract;
 use MoonShine\ImportExport\ExportHandler;
+use App\MoonShine\Support\GuardedImportHandler;
 use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
@@ -193,7 +198,8 @@ class ProblemResource extends ModelResource implements HasImportExportContract
 
     protected function import(): ?Handler
     {
-        return null;
+        return GuardedImportHandler::make('Импорт из CSV')
+            ->delimiter(';');
     }
 
     /**
@@ -219,6 +225,70 @@ class ProblemResource extends ModelResource implements HasImportExportContract
             Text::make('Услуги', 'services')
                 ->modifyRawValue(fn($raw, $original) => $original?->services?->pluck('name')->implode(', ')),
         ];
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function importFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Slug', 'slug'),
+            Text::make('Title', 'title'),
+            Text::make('H1', 'h1'),
+            Text::make('Подзаголовок', 'subtitle'),
+            Text::make('SEO title', 'seo_title'),
+            Textarea::make('SEO description', 'seo_description'),
+            Switcher::make('Активна', 'is_active')->default(false),
+            Text::make('Device', 'device_id')
+                ->fromRaw(fn($raw) => filled($raw) ? Device::query()->where('type', $raw)->value('id') : null),
+            Text::make('Brands', 'brands_pivot')
+                ->nullable(),
+            Text::make('Error Codes', 'error_codes_pivot')
+                ->nullable(),
+            Text::make('Услуги', 'services_pivot')
+                ->nullable(),
+        ];
+    }
+
+    /**
+     * @var array<string, string|null>
+     */
+    private array $pendingPivots = [];
+
+    public function beforeImportFilling(array $data): array
+    {
+        foreach (['brands_pivot', 'error_codes_pivot', 'services_pivot'] as $key) {
+            if (array_key_exists($key, $data)) {
+                $this->pendingPivots[$key] = $data[$key];
+                unset($data[$key]);
+            }
+        }
+
+        return $data;
+    }
+
+    public function afterImported(mixed $item): mixed
+    {
+        if (array_key_exists('brands_pivot', $this->pendingPivots)) {
+            $titles = array_filter(array_map('trim', explode(',', (string) $this->pendingPivots['brands_pivot'])));
+            $item->brands()->sync($titles === [] ? [] : Brand::query()->whereIn('name', $titles)->pluck('id'));
+        }
+
+        if (array_key_exists('error_codes_pivot', $this->pendingPivots)) {
+            $titles = array_filter(array_map('trim', explode(',', (string) $this->pendingPivots['error_codes_pivot'])));
+            $item->errorCodes()->sync($titles === [] ? [] : ErrorCode::query()->whereIn('title', $titles)->pluck('id'));
+        }
+
+        if (array_key_exists('services_pivot', $this->pendingPivots)) {
+            $titles = array_filter(array_map('trim', explode(',', (string) $this->pendingPivots['services_pivot'])));
+            $item->services()->sync($titles === [] ? [] : Service::query()->whereIn('name', $titles)->pluck('id'));
+        }
+
+        $this->pendingPivots = [];
+
+        return $item;
     }
 
     /**

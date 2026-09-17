@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\BrandDevice;
 
+use App\Models\Brand;
 use App\Models\BrandDevice;
+use App\Models\Device;
 use App\MoonShine\Resources\Brand\BrandResource;
 use App\MoonShine\Resources\Device\DeviceResource;
 use App\MoonShine\Resources\BrandDevice\Pages\BrandDeviceDetailPage;
@@ -15,6 +17,7 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Crud\Handlers\Handler;
 use MoonShine\ImportExport\Contracts\HasImportExportContract;
 use MoonShine\ImportExport\ExportHandler;
+use App\MoonShine\Support\GuardedImportHandler;
 use MoonShine\ImportExport\Traits\ImportExportConcern;
 use Leeto\InputExtensionCharCount\InputExtensions\CharCount;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
@@ -132,7 +135,8 @@ class BrandDeviceResource extends ModelResource implements HasImportExportContra
 
     protected function import(): ?Handler
     {
-        return null;
+        return GuardedImportHandler::make('Импорт из CSV')
+            ->delimiter(';');
     }
 
     /**
@@ -146,6 +150,24 @@ class BrandDeviceResource extends ModelResource implements HasImportExportContra
                 ->modifyRawValue(fn($raw, $original) => $original?->device?->type),
             BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)
                 ->modifyRawValue(fn($raw, $original) => $original?->brand?->name),
+            Text::make('H1', 'h1'),
+            Text::make('Subtitle', 'subtitle'),
+            Text::make('Title', 'title'),
+            Text::make('Description', 'description'),
+        ];
+    }
+
+    /**
+     * @return list<FieldContract>
+     */
+    protected function importFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make('Device', 'device_id')
+                ->fromRaw(fn($raw) => filled($raw) ? Device::query()->where('type', $raw)->value('id') : null),
+            Text::make('Brand', 'brand_id')
+                ->fromRaw(fn($raw) => filled($raw) ? Brand::query()->where('name', $raw)->value('id') : null),
             Text::make('H1', 'h1'),
             Text::make('Subtitle', 'subtitle'),
             Text::make('Title', 'title'),
