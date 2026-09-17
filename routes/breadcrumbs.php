@@ -5,6 +5,7 @@ use App\Models\ErrorCode;
 use App\Models\Gallery;
 use App\Models\Problem;
 use App\Models\Service;
+use App\Services\BreadcrumbParentResolver;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 use Illuminate\Support\Str;
@@ -33,13 +34,8 @@ Breadcrumbs::for('services.show', function (BreadcrumbTrail $trail, Service $ser
 
 Breadcrumbs::for('problems.show', function (BreadcrumbTrail $trail, Problem $problem) {
     $device = request()->route('device');
-    $brand = $problem->brands->first();
-
-    if ($brand) {
-        $trail->parent('devices.brands.show', $brand);
-    } else {
-        $trail->parent('devices.show', $device);
-    }
+    $target = app(BreadcrumbParentResolver::class)->forProblem($problem, $device);
+    $trail->parent($target->parentRoute, ...$target->parentParams);
 
     $trail->push($problem->title, route('problems.show', [$device, $problem->slug]));
 });
@@ -75,19 +71,11 @@ Breadcrumbs::for('gallery.index', function (BreadcrumbTrail $trail) {
 });
 
 Breadcrumbs::for('gallery.show', function (BreadcrumbTrail $trail, Gallery $gallery) {
-    // Only Device/Service/Brand pages actually link into a gallery item, so
-    // those are the only relations that can be a breadcrumb parent here —
-    // Problem/ErrorCode are deliberately excluded even when set on the record.
-    if ($gallery->brand && $gallery->device) {
-        $trail->parent('devices.show', $gallery->device);
-        $trail->push($gallery->brand->name, route('devices.brands.show', [$gallery->device, $gallery->brand]));
-    } elseif ($gallery->service && $gallery->service->device) {
-        $trail->parent('devices.show', $gallery->service->device);
-        $trail->push($gallery->service->name, route('services.show', [$gallery->service->device, $gallery->service->slug]));
-    } elseif ($gallery->device) {
-        $trail->parent('devices.show', $gallery->device);
-    } else {
-        $trail->parent('gallery.index');
+    $target = app(BreadcrumbParentResolver::class)->forGallery($gallery);
+    $trail->parent($target->parentRoute, ...$target->parentParams);
+
+    if ($target->extraLabel !== null) {
+        $trail->push($target->extraLabel, route($target->extraRoute, $target->extraParams));
     }
 
     $trail->push($gallery->title ? Str::limit($gallery->title, 40, preserveWords: true) : 'Выполненный ремонт', route('gallery.show', $gallery));
@@ -95,12 +83,8 @@ Breadcrumbs::for('gallery.show', function (BreadcrumbTrail $trail, Gallery $gall
 
 Breadcrumbs::for('error-codes.show', function (BreadcrumbTrail $trail, ErrorCode $errorCode) {
     $device = request()->route('device');
-
-    if ($errorCode->brand) {
-        $trail->parent('devices.brands.show', $errorCode->brand);
-    } else {
-        $trail->parent('devices.show', $device);
-    }
+    $target = app(BreadcrumbParentResolver::class)->forErrorCode($errorCode, $device);
+    $trail->parent($target->parentRoute, ...$target->parentParams);
 
     $trail->push($errorCode->code ? 'Ошибка '.$errorCode->code : $errorCode->title, route('error-codes.show', [$device, $errorCode->slug]));
 });
