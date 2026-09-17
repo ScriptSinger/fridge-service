@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Device;
+use App\Models\Faq;
 use App\Models\Gallery;
 use App\Models\Problem;
 use Illuminate\Support\Facades\Cache;
@@ -38,6 +39,16 @@ class ProblemController extends Controller
                 ->get()
         );
 
-        return view('pages.problem', compact('device', 'problem', 'galleries'));
+        $faqs = Cache::remember(
+            "faqs:problem:{$problem->id}",
+            $ttl,
+            fn () => Faq::query()
+                ->where('problem_id', $problem->id)
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->get()
+        );
+
+        return view('pages.problem', compact('device', 'problem', 'galleries', 'faqs'));
     }
 }

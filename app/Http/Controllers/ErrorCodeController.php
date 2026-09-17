@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Device;
 use App\Models\ErrorCode;
+use App\Models\Faq;
 use App\Models\Gallery;
 use Illuminate\Support\Facades\Cache;
 
@@ -36,6 +37,16 @@ class ErrorCodeController extends Controller
                 ->get()
         );
 
-        return view('pages.error-code', compact('device', 'errorCode', 'galleries'));
+        $faqs = Cache::remember(
+            "faqs:error-code:{$errorCode->id}",
+            $ttl,
+            fn () => Faq::query()
+                ->where('error_code_id', $errorCode->id)
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->get()
+        );
+
+        return view('pages.error-code', compact('device', 'errorCode', 'galleries', 'faqs'));
     }
 }

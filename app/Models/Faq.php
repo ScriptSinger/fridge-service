@@ -10,6 +10,8 @@ class Faq extends Model
     protected $fillable = [
         'device_id',
         'service_id',
+        'problem_id',
+        'error_code_id',
         'brand_id',
         'page_id',
         'question',
@@ -27,6 +29,16 @@ class Faq extends Model
     public function service()
     {
         return $this->belongsTo(Service::class); // nullable, для FAQ конкретной услуги
+    }
+
+    public function problem()
+    {
+        return $this->belongsTo(Problem::class); // nullable, для FAQ конкретной неисправности
+    }
+
+    public function errorCode()
+    {
+        return $this->belongsTo(ErrorCode::class); // nullable, для FAQ конкретного кода ошибки
     }
 
     public function brand()

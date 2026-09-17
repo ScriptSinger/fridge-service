@@ -86,6 +86,7 @@
     @endif
 
     <x-sections.common.gallery :galleries="$galleries" />
+    <x-sections.common.faq :faqs="$faqs" />
 
     <x-sections.contact :model="$problem" />
     <x-ui.scroll-up />
