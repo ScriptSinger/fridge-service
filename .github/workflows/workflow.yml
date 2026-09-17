@@ -31,14 +31,14 @@ jobs:
       - name: Install Composer Dependencies
         run: composer install --prefer-dist --optimize-autoloader --no-interaction
 
-      - name: Run Tests
-        run: php artisan test
-
       - name: Install Node Dependencies
         run: npm ci
 
       - name: Build Frontend Assets
         run: npm run build
+
+      - name: Run Tests
+        run: php artisan test
 
       - name: Install Production Dependencies
         run: composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction
