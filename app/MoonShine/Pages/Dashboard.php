@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Pages;
 
+use App\Enums\LeadStatus;
 use App\Models\Lead;
 use App\Models\Gallery;
 use App\Models\Page as ContentPage;
@@ -45,8 +46,8 @@ class Dashboard extends Page
     protected function components(): iterable
     {
         $accessMetrics = $this->calculateAccessMetrics();
-        $leadsTotal = $this->safeCount(Lead::class);
-        $leadsToday = $this->safeCountToday(Lead::class);
+        $leadsTotal = $this->safeLeadsCount();
+        $leadsToday = $this->safeLeadsCount(today: true);
         $publishedReviews = $this->safeCount(Review::class, ['is_published' => true]);
         $galleriesTotal = $this->safeCount(Gallery::class);
         $publishedGalleries = $this->safeCountBeforeNow(Gallery::class, 'published_at');
@@ -154,6 +155,24 @@ class Dashboard extends Page
 
         foreach ($where as $column => $value) {
             $query->where($column, $value);
+        }
+
+        return $query->count();
+    }
+
+    // Not routed through safeCount()/safeCountToday() — those are shared by
+    // several unrelated models, and "irrelevant" leads (wrong city,
+    // accidental click, etc.) shouldn't count toward real lead volume.
+    private function safeLeadsCount(bool $today = false): int
+    {
+        if (! Schema::hasTable('leads')) {
+            return 0;
+        }
+
+        $query = Lead::query()->where('status', '!=', LeadStatus::Irrelevant->value);
+
+        if ($today) {
+            $query->whereDate('created_at', today());
         }
 
         return $query->count();
