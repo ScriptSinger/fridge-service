@@ -1,3 +1,5 @@
+import { getUtmParams } from "./lib/utm";
+
 // Делегирование на document: чтобы отследить клик по новой ссылке "позвонить"/
 // написать в мессенджер, достаточно добавить data-contact-channel, без
 // дополнительной разводки JS. sendBeacon переживает уход со страницы
@@ -9,7 +11,10 @@ export default function initContactClickTracking() {
             return;
         }
 
-        const payload = JSON.stringify({ channel: el.dataset.contactChannel });
+        const payload = JSON.stringify({
+            channel: el.dataset.contactChannel,
+            ...getUtmParams(),
+        });
         navigator.sendBeacon(
             "/api/contact-clicks",
             new Blob([payload], { type: "application/json" }),

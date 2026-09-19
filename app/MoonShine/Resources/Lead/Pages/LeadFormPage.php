@@ -10,7 +10,9 @@ use MoonShine\Contracts\UI\FormBuilderContract;
 use MoonShine\UI\Components\FormBuilder;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
+use App\Enums\LeadStatus;
 use App\MoonShine\Resources\Lead\LeadResource;
+use Illuminate\Validation\Rule;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Components\Layout\Box;
@@ -48,7 +50,12 @@ class LeadFormPage extends FormPage
     {
         return [
             'name' => ['nullable', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:255'],
+            // Only a "form" lead ever collects a phone (already enforced at
+            // creation by StoreLeadRequest) — phone/WhatsApp/Telegram/VK
+            // click-leads never have one, and staff still need to edit those
+            // rows (e.g. change status) without being forced to invent one.
+            'phone' => ['nullable', 'string', 'max:255'],
+            'status' => ['nullable', Rule::enum(LeadStatus::class)],
             'comment' => ['nullable', 'string'],
             'utm_source' => ['nullable', 'string', 'max:255'],
             'utm_medium' => ['nullable', 'string', 'max:255'],

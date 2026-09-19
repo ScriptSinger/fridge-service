@@ -4,10 +4,20 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 
 class TrackUTM
 {
+    // Plain, JS-readable cookie (see bootstrap/app.php's encryptCookies
+    // except list) — the lead form and contact-click beacon read it
+    // client-side and send the values explicitly, because /api/leads and
+    // /api/contact-clicks are stateless routes with no session access to
+    // whatever this middleware captured on an earlier page view.
+    public const COOKIE_NAME = 'utm_data';
+
+    private const TTL_MINUTES = 60 * 24 * 30; // 30-day attribution window
+
     /**
      * Handle an incoming request.
      *
@@ -15,12 +25,21 @@ class TrackUTM
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $utmSource = $request->utm_source ?? null;
-        $utmMedium = $request->utm_medium ?? null;
-        $utmCampaign = $request->utm_campaign ?? null;
+        $hasExplicitUtm = $request->query('utm_source') !== null;
+        $alreadyCaptured = $request->cookie(self::COOKIE_NAME) !== null;
 
-        // если UTM нет, пробуем определить через referer
-        if (!$utmSource && $referer = $request->headers->get('referer')) {
+        // First-touch attribution: once a visit is tagged, later internal
+        // navigation (no query params, referer is our own site) must not
+        // wipe it — only an explicit new ?utm_source= tag may override.
+        if (! $hasExplicitUtm && $alreadyCaptured) {
+            return $next($request);
+        }
+
+        $utmSource = $request->query('utm_source');
+        $utmMedium = $request->query('utm_medium');
+        $utmCampaign = $request->query('utm_campaign');
+
+        if (! $utmSource && $referer = $request->headers->get('referer')) {
             if (str_contains($referer, 'google.com')) {
                 $utmSource = 'google';
                 $utmMedium = 'organic';
@@ -30,12 +49,21 @@ class TrackUTM
             }
         }
 
-        // сохраняем в сессию, чтобы формы могли использовать
-        session([
-            'utm_source' => $utmSource,
-            'utm_medium' => $utmMedium,
-            'utm_campaign' => $utmCampaign,
-        ]);
+        if ($utmSource) {
+            // httpOnly defaults to true on Cookie::make() — must be false
+            // here, or the frontend's document.cookie read (utm.js) would
+            // never see this cookie at all, silently breaking the beacon.
+            Cookie::queue(Cookie::make(
+                name: self::COOKIE_NAME,
+                value: json_encode([
+                    'utm_source' => $utmSource,
+                    'utm_medium' => $utmMedium,
+                    'utm_campaign' => $utmCampaign,
+                ]),
+                minutes: self::TTL_MINUTES,
+                httpOnly: false,
+            ));
+        }
 
         return $next($request);
     }

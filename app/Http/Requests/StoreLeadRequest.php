@@ -53,12 +53,8 @@ class StoreLeadRequest extends FormRequest
 
     public function prepareForValidation()
     {
-        // можно автоматом привести
         $this->merge([
             'phone' => trim($this->phone),
-            'utm_source' => $this->input('utm_source', session('utm_source')),
-            'utm_medium' => $this->input('utm_medium', session('utm_medium')),
-            'utm_campaign' => $this->input('utm_campaign', session('utm_campaign')),
         ]);
     }
 

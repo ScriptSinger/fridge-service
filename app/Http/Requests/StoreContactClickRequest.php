@@ -35,13 +35,4 @@ class StoreContactClickRequest extends FormRequest
             'utm_campaign' => ['nullable', 'string', 'max:255'],
         ];
     }
-
-    public function prepareForValidation(): void
-    {
-        $this->merge([
-            'utm_source' => $this->input('utm_source', session('utm_source')),
-            'utm_medium' => $this->input('utm_medium', session('utm_medium')),
-            'utm_campaign' => $this->input('utm_campaign', session('utm_campaign')),
-        ]);
-    }
 }

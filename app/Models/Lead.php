@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\LeadStatus;
 use Illuminate\Database\Eloquent\Model;
 
 class Lead extends Model
@@ -20,6 +21,10 @@ class Lead extends Model
         self::CHANNEL_VK,
     ];
 
+    protected $casts = [
+        'status' => LeadStatus::class,
+    ];
+
     protected static function booted(): void
     {
         // Not mass-assignable on purpose — a client posting the form/click
@@ -36,6 +41,7 @@ class Lead extends Model
         'phone',
         'comment',
         'channel',
+        'status',
         'utm_source',
         'utm_medium',
         'utm_campaign',

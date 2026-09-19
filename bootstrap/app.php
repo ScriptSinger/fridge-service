@@ -27,6 +27,15 @@ return Application::configure(basePath: dirname(__DIR__))
                 | Request::HEADER_X_FORWARDED_PROTO
         );
 
+        // Read via raw document.cookie by the lead-form/contact-click JS, so
+        // Laravel must not try to decrypt it (it would silently null out any
+        // value it can't decrypt). Kept as a literal in sync by hand with
+        // TrackUTM::COOKIE_NAME, matching how 'cookie_consent' was handled
+        // here previously — config() isn't available this early either.
+        $middleware->encryptCookies(except: [
+            'utm_data',
+        ]);
+
         $middleware->web(append: [
             TrackUTM::class,
             RequestIdMiddleware::class,

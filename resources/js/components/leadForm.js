@@ -1,3 +1,5 @@
+import { getUtmParams } from "../lib/utm";
+
 export default (payload = {}) => ({
     form: {
         name: "",
@@ -21,7 +23,8 @@ export default (payload = {}) => ({
             // POST-запрос через Axios (он уже подключён в bootstrap.js)
             await axios.post("/api/leads", {
                 ...this.form, // поля формы
-                ...payload, // leadable_type, leadable_id, UTM и др.
+                ...payload, // leadable_type, leadable_id
+                ...getUtmParams(), // из cookie, поставленной TrackUTM
             });
 
             // Если успешно

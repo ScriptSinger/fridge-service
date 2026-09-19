@@ -38,6 +38,7 @@ class LeadSubmissionTest extends TestCase
             'id' => $leadId,
             'name' => 'Иван',
             'phone' => '+7 (999) 123-45-67',
+            'status' => 'new',
         ]);
 
         Queue::assertPushed(

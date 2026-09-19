@@ -26,6 +26,7 @@ class ContactClickTest extends TestCase
             'channel' => 'whatsapp',
             'phone' => null,
             'name' => null,
+            'status' => 'new',
         ]);
     }
 
@@ -49,13 +50,17 @@ class ContactClickTest extends TestCase
         $this->assertDatabaseCount('leads', 0);
     }
 
-    public function test_pulls_utm_from_session_when_not_posted(): void
+    public function test_saves_utm_fields_when_posted(): void
     {
-        $response = $this->withSession([
+        // /api/contact-clicks is stateless (no session), so UTM values come
+        // from the request body — the frontend reads them from the cookie
+        // TrackUTM sets and sends them explicitly, see resources/js/lib/utm.js.
+        $response = $this->postJson('/api/contact-clicks', [
+            'channel' => 'phone',
             'utm_source' => 'yandex',
             'utm_medium' => 'cpc',
             'utm_campaign' => 'summer',
-        ])->postJson('/api/contact-clicks', ['channel' => 'phone']);
+        ]);
 
         $response->assertOk();
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Lead;
 
+use App\Enums\LeadStatus;
 use App\Models\Brand;
 use App\Models\Device;
 use Illuminate\Database\Eloquent\Model;
@@ -28,6 +29,7 @@ use MoonShine\UI\Fields\DateRange;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Select;
+use MoonShine\UI\Fields\Enum;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 
@@ -61,10 +63,13 @@ class LeadResource extends ModelResource implements HasImportExportContract
         return [
             ID::make()->sortable(),
             Date::make('Получено', 'created_at')->format('d.m.Y H:i')->sortable(),
+            Enum::make('Статус', 'status')->attach(LeadStatus::class)->sortable(),
             Select::make('Канал', 'channel')->options($this->channelOptions())->sortable(),
             Text::make('Name', 'name')->sortable(),
             Text::make('Phone', 'phone')->sortable(),
             Text::make('IP', 'ip_address')->sortable(),
+            Text::make('User Agent', 'user_agent')
+                ->modifyRawValue(fn($raw, $original) => \Illuminate\Support\Str::limit((string) $original?->user_agent, 40)),
             Textarea::make('Comment', 'comment')->sortable(),
             MorphTo::make('Leadable', 'leadable')
                 ->types([
@@ -83,6 +88,7 @@ class LeadResource extends ModelResource implements HasImportExportContract
         return [
             Box::make([
                 ID::make()->readonly(),
+                Enum::make('Статус', 'status')->attach(LeadStatus::class)->default(LeadStatus::New),
                 Select::make('Канал', 'channel')->options($this->channelOptions())->readonly(),
                 Text::make('Name', 'name'),
                 Text::make('Phone', 'phone'),
@@ -101,6 +107,7 @@ class LeadResource extends ModelResource implements HasImportExportContract
     {
         return [
             ID::make()->sortable(),
+            Enum::make('Статус', 'status')->attach(LeadStatus::class),
             Select::make('Канал', 'channel')->options($this->channelOptions()),
             Text::make('Name', 'name'),
             Text::make('Phone', 'phone'),
@@ -116,6 +123,7 @@ class LeadResource extends ModelResource implements HasImportExportContract
     protected function filters(): array
     {
         return [
+            Enum::make('Статус', 'status')->attach(LeadStatus::class)->nullable(),
             Select::make('Канал', 'channel')->options($this->channelOptions())->nullable(),
             Text::make('Name', 'name'),
             Text::make('Phone', 'phone'),
@@ -173,6 +181,8 @@ class LeadResource extends ModelResource implements HasImportExportContract
             Date::make('Получено', 'created_at')
                 ->format('d.m.Y H:i')
                 ->modifyRawValue(fn($raw, $original) => $original?->created_at?->format('d.m.Y H:i')),
+            Enum::make('Статус', 'status')->attach(LeadStatus::class)
+                ->modifyRawValue(fn($raw, $original) => $original?->status?->toString()),
             Select::make('Канал', 'channel')->options($this->channelOptions())
                 ->modifyRawValue(fn($raw, $original) => $this->channelOptions()[$original?->channel] ?? $original?->channel),
             Text::make('Name', 'name'),
