@@ -8,6 +8,12 @@
             : 'https://t.me/' . ltrim($telegramUrl, '@/'))
         : null;
     $whatsappTel = config('contacts.whatsapp_tel') ?: $phoneTel;
+    $vkUrl = config('contacts.vk_url');
+    // vk.me/{screen_name} opens the community's chat directly (like wa.me/t.me)
+    // instead of just the group wall — requires "Сообщения сообщества" to be
+    // enabled in the community's settings, which it already is for this one.
+    $vkScreenName = $vkUrl ? trim((string) parse_url($vkUrl, PHP_URL_PATH), '/') : null;
+    $vkHref = $vkScreenName ? 'https://vk.me/' . $vkScreenName : null;
 
     $channels = array_values(
         array_filter(
@@ -18,6 +24,13 @@
                     'href' => $telegramHref,
                     'class' => 'bg-[#229ED9] text-white hover:bg-[#1f8fc7]',
                     'icon' => 'heroicon-o-paper-airplane',
+                ],
+                [
+                    'key' => 'vk',
+                    'label' => 'ВКонтакте',
+                    'href' => $vkHref,
+                    'class' => 'bg-[#0077FF] text-white hover:bg-[#0066dd]',
+                    'icon' => 'assets/images/svg/vk.svg',
                 ],
                 [
                     'key' => 'whatsapp',
@@ -53,9 +66,10 @@
             @foreach ($channels as $channel)
                 @if (!empty($channel['mobileOnly']))
                     <a href="{{ $channel['href'] }}" aria-label="{{ $channel['label'] }}"
-                        title="{{ $channel['label'] }}"
+                        title="{{ $channel['label'] }}" data-contact-channel="{{ $channel['key'] }}"
+                        @unless (str_starts_with($channel['href'], 'tel:')) target="_blank" rel="noopener noreferrer" @endunless
                         class="flex h-14 w-14 items-center justify-center rounded-full shadow-xl ring-1 ring-black/5 transition duration-200 hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-white md:hidden {{ $channel['class'] }}">
-                        @if ($channel['icon'] === 'assets/images/svg/whatsapp.svg')
+                        @if (str_starts_with($channel['icon'], 'assets/'))
                             <img src="{{ asset($channel['icon']) }}" alt="" class="h-5 w-5" loading="lazy">
                         @else
                             <x-dynamic-component :component="$channel['icon']" class="h-5 w-5" />
@@ -63,9 +77,10 @@
                     </a>
                 @else
                     <a href="{{ $channel['href'] }}" aria-label="{{ $channel['label'] }}"
-                        title="{{ $channel['label'] }}"
+                        title="{{ $channel['label'] }}" data-contact-channel="{{ $channel['key'] }}"
+                        @unless (str_starts_with($channel['href'], 'tel:')) target="_blank" rel="noopener noreferrer" @endunless
                         class="flex h-14 w-14 items-center justify-center rounded-full shadow-xl ring-1 ring-black/5 transition duration-200 hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-white {{ $channel['class'] }}">
-                        @if ($channel['icon'] === 'assets/images/svg/whatsapp.svg')
+                        @if (str_starts_with($channel['icon'], 'assets/'))
                             <img src="{{ asset($channel['icon']) }}" alt="" class="h-5 w-5" loading="lazy">
                         @else
                             <x-dynamic-component :component="$channel['icon']" class="h-5 w-5" />

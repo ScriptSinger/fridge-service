@@ -2,18 +2,14 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Brand;
-use App\Models\Device;
-use App\Models\ErrorCode;
-use App\Models\Page;
-use App\Models\Problem;
-use App\Models\Service;
+use App\Http\Requests\Concerns\ValidatesLeadable;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 class StoreLeadRequest extends FormRequest
 {
+    use ValidatesLeadable;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -36,8 +32,7 @@ class StoreLeadRequest extends FormRequest
             'privacy_policy' => ['accepted'],
 
             // morph
-            'leadable_type' => ['nullable', 'string', Rule::in($this->allowedLeadableTypes())],
-            'leadable_id' => ['nullable', 'integer', 'required_with:leadable_type'],
+            ...$this->leadableRules(),
 
             // UTM
             'utm_source' => ['nullable', 'string', 'max:255'],
@@ -65,18 +60,6 @@ class StoreLeadRequest extends FormRequest
             'utm_medium' => $this->input('utm_medium', session('utm_medium')),
             'utm_campaign' => $this->input('utm_campaign', session('utm_campaign')),
         ]);
-    }
-
-    public function allowedLeadableTypes(): array
-    {
-        return [
-            Device::class,
-            Brand::class,
-            Problem::class,
-            Service::class,
-            ErrorCode::class,
-            Page::class,
-        ];
     }
 
     public function withValidator(Validator $validator): void

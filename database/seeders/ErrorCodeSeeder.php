@@ -24,12 +24,12 @@ class ErrorCodeSeeder extends Seeder
             [
                 'code' => 'E3',
                 'title' => 'Ошибка E3 холодильника LG',
-                'description' => 'Ошибка E3 указывает на проблему с датчиком температуры.'
+                'subtitle' => 'Ошибка E3 указывает на проблему с датчиком температуры.'
             ],
             [
                 'code' => 'E1',
                 'title' => 'Ошибка E1 холодильника LG',
-                'description' => 'Ошибка E1 связана с неисправностью системы охлаждения.'
+                'subtitle' => 'Ошибка E1 связана с неисправностью системы охлаждения.'
             ],
         ];
 
@@ -41,7 +41,7 @@ class ErrorCodeSeeder extends Seeder
                 ],
                 [
                     'title' => $error['title'],
-                    'description' => $error['description'],
+                    'subtitle' => $error['subtitle'],
                 ]
             );
         }

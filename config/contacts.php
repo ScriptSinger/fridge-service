@@ -7,6 +7,7 @@ return [
     'email' => env('CONTACT_EMAIL', 'ufamasters102@gmail.com'),
     'telegram_url' => env('CONTACT_TELEGRAM_URL', 'https://t.me/heturion'),
     'whatsapp_tel' => env('CONTACT_WHATSAPP_TEL'),
+    'vk_url' => env('CONTACT_VK_URL', 'https://vk.ru/rbtufa2016'),
 
     'address_full' => env(
         'CONTACT_ADDRESS_FULL',

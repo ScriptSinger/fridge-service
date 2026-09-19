@@ -16,6 +16,7 @@ import galleryCard from "./components/galleryCard";
 import contentLightbox from "./components/contentLightbox";
 import yandexMap from "./components/yandexMap";
 import breadcrumbScroll from "./components/breadcrumbScroll";
+import initContactClickTracking from "./contactClickTracking";
 
 // делаем Alpine глобальным
 window.Alpine = Alpine;
@@ -41,3 +42,5 @@ Alpine.directive("phone", (el) => phoneMask(el));
 
 // запускаем Alpine
 Alpine.start();
+
+initContactClickTracking();

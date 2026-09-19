@@ -42,13 +42,29 @@ class LeadResource extends ModelResource implements HasImportExportContract
 
     protected string $title = 'Leads';
 
+    /**
+     * @return array<string, string>
+     */
+    protected function channelOptions(): array
+    {
+        return [
+            Lead::CHANNEL_FORM => 'Форма',
+            Lead::CHANNEL_PHONE => 'Звонок',
+            Lead::CHANNEL_WHATSAPP => 'WhatsApp',
+            Lead::CHANNEL_TELEGRAM => 'Telegram',
+            Lead::CHANNEL_VK => 'ВКонтакте',
+        ];
+    }
+
     protected function indexFields(): iterable
     {
         return [
             ID::make()->sortable(),
             Date::make('Получено', 'created_at')->format('d.m.Y H:i')->sortable(),
+            Select::make('Канал', 'channel')->options($this->channelOptions())->sortable(),
             Text::make('Name', 'name')->sortable(),
             Text::make('Phone', 'phone')->sortable(),
+            Text::make('IP', 'ip_address')->sortable(),
             Textarea::make('Comment', 'comment')->sortable(),
             MorphTo::make('Leadable', 'leadable')
                 ->types([
@@ -67,8 +83,11 @@ class LeadResource extends ModelResource implements HasImportExportContract
         return [
             Box::make([
                 ID::make()->readonly(),
+                Select::make('Канал', 'channel')->options($this->channelOptions())->readonly(),
                 Text::make('Name', 'name'),
                 Text::make('Phone', 'phone'),
+                Text::make('IP', 'ip_address')->readonly(),
+                Text::make('User Agent', 'user_agent')->readonly(),
                 Textarea::make('Comment', 'comment'),
                 Text::make('Utm_source', 'utm_source'),
                 Text::make('Utm_medium', 'utm_medium'),
@@ -82,8 +101,11 @@ class LeadResource extends ModelResource implements HasImportExportContract
     {
         return [
             ID::make()->sortable(),
+            Select::make('Канал', 'channel')->options($this->channelOptions()),
             Text::make('Name', 'name'),
             Text::make('Phone', 'phone'),
+            Text::make('IP', 'ip_address'),
+            Text::make('User Agent', 'user_agent'),
             Textarea::make('Comment', 'comment'),
             Text::make('Utm_source', 'utm_source'),
             Text::make('Utm_medium', 'utm_medium'),
@@ -94,8 +116,10 @@ class LeadResource extends ModelResource implements HasImportExportContract
     protected function filters(): array
     {
         return [
+            Select::make('Канал', 'channel')->options($this->channelOptions())->nullable(),
             Text::make('Name', 'name'),
             Text::make('Phone', 'phone'),
+            Text::make('IP', 'ip_address'),
             Select::make('Leadable Type', 'leadable_type')
                 ->options([
                     Device::class => 'Device',
@@ -149,8 +173,12 @@ class LeadResource extends ModelResource implements HasImportExportContract
             Date::make('Получено', 'created_at')
                 ->format('d.m.Y H:i')
                 ->modifyRawValue(fn($raw, $original) => $original?->created_at?->format('d.m.Y H:i')),
+            Select::make('Канал', 'channel')->options($this->channelOptions())
+                ->modifyRawValue(fn($raw, $original) => $this->channelOptions()[$original?->channel] ?? $original?->channel),
             Text::make('Name', 'name'),
             Text::make('Phone', 'phone'),
+            Text::make('IP', 'ip_address'),
+            Text::make('User Agent', 'user_agent'),
             Textarea::make('Comment', 'comment'),
             Text::make('Utm_source', 'utm_source'),
             Text::make('Utm_medium', 'utm_medium'),

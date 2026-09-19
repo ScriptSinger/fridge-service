@@ -27,7 +27,7 @@
 
     <div style="display:flex;align-items:center;gap:8px;font-size:14px;color:#374151;margin-bottom:6px;">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-        <a href="tel:{{ config('contacts.phone_tel') }}" style="color:#374151;text-decoration:none;">{{ config('contacts.phone_display') }}</a>
+        <a href="tel:{{ config('contacts.phone_tel') }}" data-contact-channel="phone" style="color:#374151;text-decoration:none;">{{ config('contacts.phone_display') }}</a>
     </div>
 
     <div style="display:flex;align-items:center;gap:8px;font-size:14px;color:#374151;margin-bottom:12px;">

@@ -7,23 +7,23 @@ use App\Http\Requests\StoreLeadRequest;
 use App\Jobs\SendEmailLeadNotification;
 use App\Jobs\SendTelegramLeadNotification;
 use App\Models\Lead;
+use App\Support\ResolvesLeadable;
 use Illuminate\Support\Arr;
 
 class LeadController extends Controller
 {
+    use ResolvesLeadable;
+
     public function store(StoreLeadRequest $request)
     {
-        $lead = Lead::create(
-            Arr::except($request->validated(), ['privacy_policy'])
-        );
+        $lead = Lead::create([
+            ...Arr::except($request->validated(), ['privacy_policy']),
+            'channel' => Lead::CHANNEL_FORM,
+        ]);
 
-        if ($request->leadable_type && in_array($request->leadable_type, $request->allowedLeadableTypes(), true)) {
-            $leadable = $request->leadable_type::find($request->leadable_id);
-
-            if ($leadable) {
-                $lead->leadable()->associate($leadable);
-                $lead->save();
-            }
+        if ($leadable = $this->resolveLeadable($request->leadable_type, $request->leadable_id, $request->allowedLeadableTypes())) {
+            $lead->leadable()->associate($leadable);
+            $lead->save();
         }
 
         SendTelegramLeadNotification::dispatch($lead->id);
