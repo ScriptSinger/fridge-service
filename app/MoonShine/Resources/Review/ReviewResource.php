@@ -10,6 +10,9 @@ use App\Models\Brand;
 use App\Models\Device;
 use App\Models\Review;
 use App\Models\Service;
+use App\MoonShine\Resources\Brand\BrandResource;
+use App\MoonShine\Resources\Device\DeviceResource;
+use App\MoonShine\Resources\Service\ServiceResource;
 use App\MoonShine\Resources\Review\Pages\ReviewIndexPage;
 use App\MoonShine\Resources\Review\Pages\ReviewFormPage;
 use App\MoonShine\Resources\Review\Pages\ReviewDetailPage;
@@ -62,6 +65,31 @@ class ReviewResource extends ModelResource implements HasImportExportContract
             Switcher::make('Featured', 'is_featured'),
             Switcher::make('Published', 'is_published'),
 
+        ];
+    }
+
+    protected function filters(): iterable
+    {
+        return [
+            BelongsTo::make('Устройство', 'device', fn($item) => $item->type ?? '', DeviceResource::class)
+                ->nullable()
+                ->searchable(),
+            BelongsTo::make('Бренд', 'brand', fn($item) => $item->name ?? '', BrandResource::class)
+                ->nullable()
+                ->searchable(),
+            BelongsTo::make('Услуга', 'service', fn($item) => $item->name ?? '', ServiceResource::class)
+                ->nullable()
+                ->searchable(),
+            Text::make('Город', 'city'),
+            Select::make('Источник', 'source')
+                ->options([
+                    'google' => 'Google',
+                    'yandex' => 'Yandex',
+                    'avito' => 'Avito',
+                ])
+                ->nullable(),
+            Switcher::make('Избранный', 'is_featured'),
+            Switcher::make('Опубликован', 'is_published'),
         ];
     }
 
