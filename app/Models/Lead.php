@@ -21,6 +21,18 @@ class Lead extends Model
         self::CHANNEL_VK,
     ];
 
+    // Only meaningful when channel = form — the two lead-form usages
+    // (modal "Заказать ремонт" vs the contact-section "Получить
+    // консультацию") share the same component/endpoint, so without this
+    // nobody could tell which one a client actually submitted.
+    public const INTENT_REPAIR = 'repair';
+    public const INTENT_CONSULTATION = 'consultation';
+
+    public const INTENTS = [
+        self::INTENT_REPAIR,
+        self::INTENT_CONSULTATION,
+    ];
+
     protected $casts = [
         'status' => LeadStatus::class,
     ];
@@ -41,6 +53,7 @@ class Lead extends Model
         'phone',
         'comment',
         'channel',
+        'intent',
         'status',
         'utm_source',
         'utm_medium',
@@ -50,5 +63,32 @@ class Lead extends Model
     public function leadable()
     {
         return $this->morphTo();
+    }
+
+    /**
+     * Human-readable labels for notifications (Telegram/email) — kept here
+     * rather than reusing LeadResource's option maps, since a queued Job/Mail
+     * pulling in a MoonShine admin resource class would be a backwards
+     * dependency.
+     */
+    public function getChannelLabelAttribute(): string
+    {
+        return match ($this->channel) {
+            self::CHANNEL_FORM => 'Форма',
+            self::CHANNEL_PHONE => 'Звонок',
+            self::CHANNEL_WHATSAPP => 'WhatsApp',
+            self::CHANNEL_TELEGRAM => 'Telegram',
+            self::CHANNEL_VK => 'ВКонтакте',
+            default => $this->channel ?? '—',
+        };
+    }
+
+    public function getIntentLabelAttribute(): ?string
+    {
+        return match ($this->intent) {
+            self::INTENT_REPAIR => 'Заказать ремонт',
+            self::INTENT_CONSULTATION => 'Получить консультацию',
+            default => null,
+        };
     }
 }

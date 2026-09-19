@@ -46,6 +46,12 @@ class SendTelegramLeadNotification implements ShouldQueue
         }
 
         $message = "Новый лид!\n";
+        $message .= 'Канал: '.$lead->channel_label."\n";
+
+        if ($lead->intent_label) {
+            $message .= 'Цель: '.$lead->intent_label."\n";
+        }
+
         $message .= 'Имя: '.($lead->name ?? '—')."\n";
         $message .= 'Телефон: '.($lead->phone ?? '—')."\n";
         $message .= 'Источник: '.($lead->leadable_type ?? '—');

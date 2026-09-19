@@ -25,6 +25,7 @@ class LeadSubmissionTest extends TestCase
             'name' => 'Иван',
             'phone' => '+7 (999) 123-45-67',
             'comment' => 'Нужен ремонт.',
+            'intent' => 'consultation',
             'privacy_policy' => true,
         ]);
 
@@ -39,6 +40,8 @@ class LeadSubmissionTest extends TestCase
             'name' => 'Иван',
             'phone' => '+7 (999) 123-45-67',
             'status' => 'new',
+            'channel' => 'form',
+            'intent' => 'consultation',
         ]);
 
         Queue::assertPushed(
@@ -66,6 +69,8 @@ class LeadSubmissionTest extends TestCase
         $lead = Lead::create([
             'name' => 'Иван',
             'phone' => '+7 (999) 123-45-67',
+            'channel' => 'form',
+            'intent' => 'repair',
         ]);
 
         (new SendTelegramLeadNotification($lead->id))->handle();
@@ -73,6 +78,7 @@ class LeadSubmissionTest extends TestCase
         Http::assertSent(fn (Request $request) => $request->url() === 'https://api.telegram.org/bottest-token/sendMessage'
             && $request['chat_id'] === '123456'
             && str_contains($request['text'], $lead->phone)
+            && str_contains($request['text'], 'Заказать ремонт')
         );
     }
 
@@ -92,5 +98,34 @@ class LeadSubmissionTest extends TestCase
             NewLeadMail::class,
             fn (NewLeadMail $mail) => $mail->hasTo('lucky2strike@yandex.ru') && $mail->lead->is($lead),
         );
+    }
+
+    public function test_email_shows_the_channel_and_intent_when_set(): void
+    {
+        $lead = Lead::create([
+            'name' => 'Иван',
+            'phone' => '+7 (999) 123-45-67',
+            'channel' => 'form',
+            'intent' => 'consultation',
+        ]);
+
+        $html = (new NewLeadMail($lead))->render();
+
+        $this->assertStringContainsString('Форма', $html);
+        $this->assertStringContainsString('Получить консультацию', $html);
+    }
+
+    public function test_email_omits_the_intent_line_when_not_set(): void
+    {
+        $lead = Lead::create([
+            'name' => 'Иван',
+            'phone' => '+7 (999) 123-45-67',
+            'channel' => 'phone',
+        ]);
+
+        $html = (new NewLeadMail($lead))->render();
+
+        $this->assertStringContainsString('Звонок', $html);
+        $this->assertStringNotContainsString('Цель:', $html);
     }
 }

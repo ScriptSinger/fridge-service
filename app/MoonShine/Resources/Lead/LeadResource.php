@@ -58,6 +58,17 @@ class LeadResource extends ModelResource implements HasImportExportContract
         ];
     }
 
+    /**
+     * @return array<string, string>
+     */
+    protected function intentOptions(): array
+    {
+        return [
+            Lead::INTENT_REPAIR => 'Заказать ремонт',
+            Lead::INTENT_CONSULTATION => 'Получить консультацию',
+        ];
+    }
+
     protected function indexFields(): iterable
     {
         return [
@@ -65,6 +76,7 @@ class LeadResource extends ModelResource implements HasImportExportContract
             Date::make('Получено', 'created_at')->format('d.m.Y H:i')->sortable(),
             Enum::make('Статус', 'status')->attach(LeadStatus::class)->sortable(),
             Select::make('Канал', 'channel')->options($this->channelOptions())->sortable(),
+            Select::make('Цель', 'intent')->options($this->intentOptions())->sortable(),
             Text::make('Name', 'name')->sortable(),
             Text::make('Phone', 'phone')->sortable(),
             Text::make('IP', 'ip_address')->sortable(),
@@ -90,6 +102,7 @@ class LeadResource extends ModelResource implements HasImportExportContract
                 ID::make()->readonly(),
                 Enum::make('Статус', 'status')->attach(LeadStatus::class)->default(LeadStatus::New),
                 Select::make('Канал', 'channel')->options($this->channelOptions())->readonly(),
+                Select::make('Цель', 'intent')->options($this->intentOptions())->nullable()->readonly(),
                 Text::make('Name', 'name'),
                 Text::make('Phone', 'phone'),
                 Text::make('IP', 'ip_address')->readonly(),
@@ -109,6 +122,7 @@ class LeadResource extends ModelResource implements HasImportExportContract
             ID::make()->sortable(),
             Enum::make('Статус', 'status')->attach(LeadStatus::class),
             Select::make('Канал', 'channel')->options($this->channelOptions()),
+            Select::make('Цель', 'intent')->options($this->intentOptions())->nullable(),
             Text::make('Name', 'name'),
             Text::make('Phone', 'phone'),
             Text::make('IP', 'ip_address'),
@@ -125,6 +139,7 @@ class LeadResource extends ModelResource implements HasImportExportContract
         return [
             Enum::make('Статус', 'status')->attach(LeadStatus::class)->nullable(),
             Select::make('Канал', 'channel')->options($this->channelOptions())->nullable(),
+            Select::make('Цель', 'intent')->options($this->intentOptions())->nullable(),
             Text::make('Name', 'name'),
             Text::make('Phone', 'phone'),
             Text::make('IP', 'ip_address'),
@@ -185,6 +200,8 @@ class LeadResource extends ModelResource implements HasImportExportContract
                 ->modifyRawValue(fn($raw, $original) => $original?->status?->toString()),
             Select::make('Канал', 'channel')->options($this->channelOptions())
                 ->modifyRawValue(fn($raw, $original) => $this->channelOptions()[$original?->channel] ?? $original?->channel),
+            Select::make('Цель', 'intent')->options($this->intentOptions())
+                ->modifyRawValue(fn($raw, $original) => $this->intentOptions()[$original?->intent] ?? $original?->intent),
             Text::make('Name', 'name'),
             Text::make('Phone', 'phone'),
             Text::make('IP', 'ip_address'),

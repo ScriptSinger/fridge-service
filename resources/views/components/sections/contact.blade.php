@@ -18,7 +18,9 @@
 
         <div class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
             <x-forms.leads class="w-full" :model="$model" idPrefix="contact" title="Получить консультацию"
-               subtitle="Оставьте контакты, и мы бесплатно проконсультируем вас в ближайшее время." />
+               subtitle="Оставьте контакты, и мы бесплатно проконсультируем вас в ближайшее время."
+               successMessage="Перезвоним в течение 15 минут и бесплатно проконсультируем по вашему вопросу."
+               :payload="['intent' => 'consultation']" />
         </div>
     </div>
 </x-ui.sections.wrapper>

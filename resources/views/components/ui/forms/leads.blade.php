@@ -1,4 +1,10 @@
-@props(['idPrefix' => 'lead', 'title' => 'Заказать ремонт', 'subtitle' => 'Заполните форму, и мы свяжемся с вами в ближайшее время.'])
+@props([
+    'idPrefix' => 'lead',
+    'title' => 'Заказать ремонт',
+    'subtitle' => 'Заполните форму, и мы свяжемся с вами в ближайшее время.',
+    'successTitle' => 'Заявка принята!',
+    'successMessage' => 'Перезвоним в течение 15 минут, чтобы уточнить детали и договориться о времени визита мастера.',
+])
 <div x-data='leadForm(@json($payload))' {{ $attributes->merge(['class' => 'w-full']) }}>
     <template x-if="!success">
         <form @submit.prevent="submit">
@@ -46,6 +52,12 @@
     </template>
 
     <template x-if="success">
-        <p class="text-grey-600 font-medium text-center">Спасибо! Заявка отправлена.</p>
+        <div class="py-2 text-center">
+            <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-yellow-100">
+                <x-heroicon-o-check-circle class="h-8 w-8 text-yellow-600" />
+            </div>
+            <h2 class="text-lg font-semibold text-gray-900 mb-2">{{ $successTitle }}</h2>
+            <p class="text-gray-600 leading-relaxed">{{ $successMessage }}</p>
+        </div>
     </template>
 </div>

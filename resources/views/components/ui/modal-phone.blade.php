@@ -10,6 +10,6 @@
             <x-heroicon-o-x-mark class="h-5 w-5" />
         </button>
 
-        <x-forms.leads class="w-full" :model="$model" idPrefix="modal" />
+        <x-forms.leads class="w-full" :model="$model" idPrefix="modal" :payload="['intent' => 'repair']" />
     </div>
 </div>

@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Concerns\ValidatesLeadable;
+use App\Models\Lead;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 class StoreLeadRequest extends FormRequest
@@ -29,6 +31,7 @@ class StoreLeadRequest extends FormRequest
             'name' => ['nullable', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:30', 'regex:/^[0-9\\s\\-\\+\\(\\)]+$/'],
             'comment' => ['nullable', 'string'],
+            'intent' => ['nullable', 'string', Rule::in(Lead::INTENTS)],
             'privacy_policy' => ['accepted'],
 
             // morph
