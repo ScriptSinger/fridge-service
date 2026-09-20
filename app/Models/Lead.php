@@ -91,4 +91,29 @@ class Lead extends Model
             default => null,
         };
     }
+
+    public function getPhoneTelAttribute(): ?string
+    {
+        return self::normalizePhoneForTel($this->phone);
+    }
+
+    public static function normalizePhoneForTel(?string $phone): ?string
+    {
+        $phone = trim((string) $phone);
+
+        if ($phone === '') {
+            return null;
+        }
+
+        $digits = preg_replace('/\D+/', '', $phone) ?? '';
+
+        return match (true) {
+            strlen($digits) === 10 => '+7'.$digits,
+            strlen($digits) === 11 && str_starts_with($digits, '8') => '+7'.substr($digits, 1),
+            strlen($digits) === 11 && str_starts_with($digits, '7') => '+'.$digits,
+            str_starts_with($phone, '+') && $digits !== '' => '+'.$digits,
+            $digits !== '' => $digits,
+            default => null,
+        };
+    }
 }

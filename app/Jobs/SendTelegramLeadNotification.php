@@ -53,7 +53,7 @@ class SendTelegramLeadNotification implements ShouldQueue
         }
 
         $message .= 'Имя: '.($lead->name ?? '—')."\n";
-        $message .= 'Телефон: '.($lead->phone ?? '—')."\n";
+        $message .= 'Телефон: '.($lead->phone_tel ?? '—')."\n";
         $message .= 'Источник: '.($lead->leadable_type ?? '—');
 
         $response = Http::withOptions($proxy ? ['proxy' => $proxy] : [])

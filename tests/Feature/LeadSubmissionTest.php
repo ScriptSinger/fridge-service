@@ -77,7 +77,8 @@ class LeadSubmissionTest extends TestCase
 
         Http::assertSent(fn (Request $request) => $request->url() === 'https://api.telegram.org/bottest-token/sendMessage'
             && $request['chat_id'] === '123456'
-            && str_contains($request['text'], $lead->phone)
+            && str_contains($request['text'], '+79991234567')
+            && ! str_contains($request['text'], $lead->phone)
             && str_contains($request['text'], 'Заказать ремонт')
         );
     }

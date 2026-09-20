@@ -78,7 +78,12 @@ class LeadResource extends ModelResource implements HasImportExportContract
             Select::make('Канал', 'channel')->options($this->channelOptions())->sortable(),
             Select::make('Цель', 'intent')->options($this->intentOptions())->sortable(),
             Text::make('Name', 'name')->sortable(),
-            Text::make('Phone', 'phone')->sortable(),
+            Text::make('Phone', 'phone')
+                ->link(
+                    fn(string $value): string => $this->phoneTelHref($value),
+                    withoutIcon: true,
+                )
+                ->sortable(),
             Text::make('IP', 'ip_address')->sortable(),
             Text::make('User Agent', 'user_agent')
                 ->modifyRawValue(fn($raw, $original) => \Illuminate\Support\Str::limit((string) $original?->user_agent, 40)),
@@ -124,7 +129,11 @@ class LeadResource extends ModelResource implements HasImportExportContract
             Select::make('Канал', 'channel')->options($this->channelOptions()),
             Select::make('Цель', 'intent')->options($this->intentOptions())->nullable(),
             Text::make('Name', 'name'),
-            Text::make('Phone', 'phone'),
+            Text::make('Phone', 'phone')
+                ->link(
+                    fn(string $value): string => $this->phoneTelHref($value),
+                    withoutIcon: true,
+                ),
             Text::make('IP', 'ip_address'),
             Text::make('User Agent', 'user_agent'),
             Textarea::make('Comment', 'comment'),
@@ -174,6 +183,14 @@ class LeadResource extends ModelResource implements HasImportExportContract
             Text::make('UTM Campaign', 'utm_campaign'),
         ];
     }
+
+    protected function phoneTelHref(string $phone): string
+    {
+        $tel = Lead::normalizePhoneForTel($phone);
+
+        return $tel === null ? '' : 'tel:'.$tel;
+    }
+
     protected function export(): ?Handler
     {
         return ExportHandler::make('Экспорт в CSV')
