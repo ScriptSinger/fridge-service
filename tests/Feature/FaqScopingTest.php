@@ -6,7 +6,10 @@ use App\Models\Brand;
 use App\Models\Device;
 use App\Models\ErrorCode;
 use App\Models\Faq;
+use App\Models\Page;
+use App\Models\PageType;
 use App\Models\Problem;
+use App\Models\Service;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -18,6 +21,58 @@ use Tests\TestCase;
 class FaqScopingTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function test_home_page_does_not_show_service_scoped_faqs(): void
+    {
+        $pageType = PageType::create([
+            'key' => 'home',
+            'name' => 'Главная',
+            'template' => 'home',
+            'is_system' => true,
+        ]);
+
+        Page::create([
+            'page_type_id' => $pageType->id,
+            'h1' => 'Главная',
+            'subtitle' => 'Ремонт бытовой техники',
+            'title' => 'Главная',
+            'description' => 'Главная страница',
+            'is_active' => true,
+        ]);
+
+        $device = Device::create([
+            'slug' => 'stiralnie-mashiny',
+            'permalink' => 'Стиральные машины',
+            'type' => 'Стиральная машина',
+            'is_active' => true,
+        ]);
+
+        $service = Service::create([
+            'device_id' => $device->id,
+            'name' => 'Замена насоса',
+            'slug' => 'zamena-nasosa',
+            'is_active' => true,
+        ]);
+
+        Faq::create([
+            'question' => 'Общий вопрос для главной?',
+            'answer' => 'Общий ответ.',
+            'is_active' => true,
+        ]);
+
+        Faq::create([
+            'service_id' => $service->id,
+            'question' => 'Вопрос только для услуги?',
+            'answer' => 'Ответ только для услуги.',
+            'is_active' => true,
+        ]);
+
+        $response = $this->get(route('home'));
+
+        $response->assertOk();
+        $response->assertSee('Общий вопрос для главной?');
+        $response->assertDontSee('Вопрос только для услуги?');
+    }
 
     public function test_problem_page_shows_only_its_own_faqs(): void
     {

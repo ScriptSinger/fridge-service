@@ -24,6 +24,9 @@ class HomeController extends Controller
         $faqs = Cache::remember("faqs:page:{$page->id}", $ttl, function () use ($page) {
             return Faq::query()
                 ->whereNull('device_id')
+                ->whereNull('service_id')
+                ->whereNull('problem_id')
+                ->whereNull('error_code_id')
                 ->whereNull('brand_id')
                 ->where('is_active', true)
                 ->where(function ($subQuery) use ($page) {
