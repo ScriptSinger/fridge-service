@@ -25,6 +25,7 @@ use App\MoonShine\Resources\PageType\PageTypeResource;
 use App\MoonShine\Resources\Review\ReviewResource;
 use App\MoonShine\Resources\Master\MasterResource;
 use App\MoonShine\Resources\Certificate\CertificateResource;
+use App\MoonShine\Pages\AccessLogs;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -55,6 +56,7 @@ class MoonShineServiceProvider extends ServiceProvider
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),
+                AccessLogs::class,
             ])
         ;
     }
