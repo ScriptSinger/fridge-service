@@ -14,3 +14,15 @@
 [x-cloak] {
     display: none !important;
 }
+
+/* Tables entered through TinyMCE must not expand the page on small screens. */
+.prose :where(table) {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+}
+
+.prose :where(table th, table td) {
+    min-width: 8rem;
+}
