@@ -15,14 +15,22 @@
     display: none !important;
 }
 
-/* Tables entered through TinyMCE must not expand the page on small screens. */
+/* Keep rich content inside its grid column on small screens. */
+.prose {
+    min-width: 0;
+}
+
+/* Tables entered through TinyMCE keep their readable width and scroll inside the content. */
 .prose :where(table) {
     display: block;
+    width: 100%;
     max-width: 100%;
     overflow-x: auto;
     overscroll-behavior-inline: contain;
 }
 
-.prose :where(table th, table td) {
-    min-width: 8rem;
+.prose :where(table > thead, table > tbody, table > tfoot) {
+    display: table;
+    width: max-content;
+    min-width: 100%;
 }

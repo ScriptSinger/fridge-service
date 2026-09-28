@@ -17,7 +17,7 @@
                     'lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]' => $hasContent && $hasMeta,
                 ])>
                 @if ($hasContent)
-                    <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm lg:self-start">
+                    <div class="min-w-0 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm lg:self-start">
                         <div
                             x-data="contentLightbox()"
                             x-init="init()"
