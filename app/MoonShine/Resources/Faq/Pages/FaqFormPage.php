@@ -52,6 +52,9 @@ class FaqFormPage extends FormPage
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['sometimes', 'boolean'],
             'device_id' => ['nullable', 'exists:devices,id'],
+            'service_id' => ['nullable', 'exists:services,id'],
+            'problem_id' => ['nullable', 'exists:problems,id'],
+            'error_code_id' => ['nullable', 'exists:error_codes,id'],
             'brand_id' => ['nullable', 'exists:brands,id'],
             'page_id' => ['nullable', 'exists:pages,id'],
         ];

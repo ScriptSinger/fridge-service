@@ -3,9 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Faq extends Model
 {
+
+    protected static function booted(): void
+    {
+        static::saved(function (Faq $faq): void {
+            $faq->clearFrontendCache();
+            $faq->clearFrontendCache($faq->getOriginal());
+        });
+
+        static::deleted(function (Faq $faq): void {
+            $faq->clearFrontendCache();
+        });
+    }
 
     protected $fillable = [
         'device_id',
@@ -19,6 +32,42 @@ class Faq extends Model
         'sort_order',
         'is_active',
     ];
+
+    /**
+     * Сбрасывает кэш всех страниц, на которых может отображаться FAQ.
+     * Принимает прежние атрибуты, чтобы кэш очищался и после перепривязки FAQ.
+     */
+    public function clearFrontendCache(?array $attributes = null): void
+    {
+        $attributes ??= $this->getAttributes();
+
+        foreach (Page::query()->pluck('id') as $pageId) {
+            Cache::forget("faqs:page:{$pageId}");
+        }
+
+        $cacheKeys = [
+            'device_id' => 'faqs:device:%s',
+            'service_id' => 'faqs:device:%s:service:%s',
+            'problem_id' => 'faqs:problem:%s',
+            'error_code_id' => 'faqs:error-code:%s',
+        ];
+
+        if ($deviceId = $attributes['device_id'] ?? null) {
+            Cache::forget(sprintf($cacheKeys['device_id'], $deviceId));
+        }
+
+        if (($serviceId = $attributes['service_id'] ?? null) && ($deviceId = $attributes['device_id'] ?? null)) {
+            Cache::forget(sprintf($cacheKeys['service_id'], $deviceId, $serviceId));
+        }
+
+        if ($problemId = $attributes['problem_id'] ?? null) {
+            Cache::forget(sprintf($cacheKeys['problem_id'], $problemId));
+        }
+
+        if ($errorCodeId = $attributes['error_code_id'] ?? null) {
+            Cache::forget(sprintf($cacheKeys['error_code_id'], $errorCodeId));
+        }
+    }
 
     // Если нужно, можно добавить связь к типу техники
     public function device()
