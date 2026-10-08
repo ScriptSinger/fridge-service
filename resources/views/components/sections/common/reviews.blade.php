@@ -24,7 +24,7 @@
     <x-ui.sections.wrapper class="text-gray-600">
         <x-ui.sections.header suptitle="Отзывы клиентов" title="Нас рекомендуют">
             <div class="flex flex-col items-center gap-2 text-center sm:flex-row sm:gap-3 sm:text-left">
-                <div class="text-yellow-500 text-xl" aria-label="Средний рейтинг">
+                <div class="text-yellow-500 text-xl" role="img" aria-label="Средний рейтинг">
                     <x-ui.rating :rating="$avgRating" />
                 </div>
 
@@ -112,7 +112,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center text-xs text-gray-500 mb-2 space-x-2 pt-2">
-                                <div class="flex text-yellow-500" aria-label="Рейтинг" itemprop="reviewRating" itemscope
+                                <div class="flex text-yellow-500" role="img" aria-label="Рейтинг" itemprop="reviewRating" itemscope
                                     itemtype="https://schema.org/Rating">
                                     <meta itemprop="ratingValue" content="{{ $rating }}">
                                     @for ($i = 1; $i <= 5; $i++)

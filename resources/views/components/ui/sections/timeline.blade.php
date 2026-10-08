@@ -1,4 +1,4 @@
-@props(['items', 'showYear' => false, 'image' => null, 'imageAlt' => ''])
+@props(['items', 'showYear' => false, 'image' => null, 'imageAlt' => '', 'imageWidth' => null, 'imageHeight' => null])
 
 <div class="flex flex-wrap w-full">
 
@@ -41,7 +41,7 @@
 
     @if ($image)
         <img class="lg:w-3/5 md:w-1/2 object-cover object-center rounded-lg md:mt-0 mt-12" src="{{ $image }}"
-            alt="{{ $imageAlt }}">
+            alt="{{ $imageAlt }}" @if ($imageWidth) width="{{ $imageWidth }}" height="{{ $imageHeight }}" @endif loading="lazy" decoding="async">
     @endif
 
 </div>

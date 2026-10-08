@@ -55,7 +55,7 @@
     </div>
 
     <div class="flex items-center text-xs text-gray-500 mb-2 space-x-2 pt-2">
-        <div class="flex text-yellow-500" aria-label="Рейтинг" itemprop="reviewRating" itemscope
+        <div class="flex text-yellow-500" role="img" aria-label="Рейтинг" itemprop="reviewRating" itemscope
             itemtype="https://schema.org/Rating">
             <meta itemprop="ratingValue" content="{{ $rating }}">
             @for ($i = 1; $i <= 5; $i++)

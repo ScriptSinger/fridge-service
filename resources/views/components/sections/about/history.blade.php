@@ -4,6 +4,6 @@
         subtitle="Путь развития сервиса от небольшой мастерской до современной сервисной компании" />
 
     <x-ui.sections.timeline :items="config('content.history')" showYear="true" image="{{ asset('assets/images/history.webp') }}"
-        imageAlt="История компании" />
+        imageAlt="История компании" imageWidth="1536" imageHeight="1024" />
 
 </x-ui.sections.wrapper>

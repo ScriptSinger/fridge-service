@@ -10,7 +10,7 @@
 
     <x-ui.sections.header suptitle="Средний рейтинг" title="Нас рекомендуют">
             <div class="flex flex-col items-center gap-2 text-center md:flex-row md:gap-3 md:text-left">
-            <div class="text-yellow-500 text-xl" aria-label="Средний рейтинг">
+            <div class="text-yellow-500 text-xl" role="img" aria-label="Средний рейтинг">
                 <x-ui.rating :rating="$avgRating" />
             </div>
 

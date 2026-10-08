@@ -33,12 +33,26 @@ export default function yandexMap({ lat, lng, apikey }) {
     // состоянию через прокси-обёртку).
     let map = null;
     let resizeObserver = null;
+    let visibilityObserver = null;
 
     return {
         open: true,
         mapFailed: false,
 
         init() {
+            // Карта стоит внизу страницы, а API — это ~700 КБ JS плюс тайлы.
+            // Грузим, только когда блок подъезжает к экрану, иначе он
+            // съедает загрузку и основной поток на первом экране.
+            visibilityObserver = new IntersectionObserver((entries) => {
+                if (!entries.some((entry) => entry.isIntersecting)) return;
+                visibilityObserver.disconnect();
+                visibilityObserver = null;
+                this.mount();
+            }, { rootMargin: "400px 0px" });
+            visibilityObserver.observe(this.$refs.map);
+        },
+
+        mount() {
             loadYandexMaps(apikey)
                 .then((ymaps) => {
                     ymaps.ready(() => {
@@ -75,6 +89,7 @@ export default function yandexMap({ lat, lng, apikey }) {
         },
 
         destroy() {
+            visibilityObserver?.disconnect();
             resizeObserver?.disconnect();
             map?.destroy();
         },
