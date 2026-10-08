@@ -7,7 +7,7 @@
         <x-ui.sections.header title="Коды ошибок {{ $device->typeInCase('genitive_plural') }} по брендам"
             subtitle="Выберите код с дисплея — расскажем, что он означает и как устраняется неисправность." />
 
-        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 xl:gap-8">
+        <div class="grid grid-cols-1 items-start gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 xl:gap-8">
             @foreach ($groups as $brandName => $items)
                 <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
                     <h3 class="text-lg text-gray-900 font-medium title-font mb-3">
