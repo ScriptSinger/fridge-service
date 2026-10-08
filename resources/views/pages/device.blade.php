@@ -6,6 +6,9 @@
     <x-sections.common.error-codes-by-brand :errorCodes="$errorCodes" :device="$device" />
     <x-sections.common.gallery :galleries="$galleries" />
     <x-sections.services.index :services="$services" :device="$device" />
+    <x-sections.common.benefits />
+    <x-sections.common.steps />
+    <x-sections.common.reviews :reviews="$reviews" :limit="12" />
     <x-sections.common.faq :faqs="$faqs" />
     <x-sections.contact :model="$device" />
     <x-sections.brands.brand-carousel :brands="$brands" />

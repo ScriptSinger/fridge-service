@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Device;
 use App\Models\Gallery;
 use App\Models\Faq;
+use App\Models\Review;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 
@@ -38,6 +39,16 @@ class DeviceController extends Controller
             ->orderBy('sort_order')
             ->get());
 
+        // Reviews about this device first, then the rest, so the hub leads
+        // with relevant ones while the rating still reflects every review.
+        $reviews = Cache::remember("reviews:device:{$device->id}", $ttl, fn() => Review::with(['device', 'brand', 'service'])
+            ->published()
+            ->orderByRaw('device_id = ? desc', [$device->id])
+            ->orderByDesc('is_featured')
+            ->orderByDesc('published_at')
+            ->orderByDesc('created_at')
+            ->get());
+
         return view('pages.device', [
             'device' => $device,
             'brands'  => $brands,
@@ -46,6 +57,7 @@ class DeviceController extends Controller
             'services' => $services,
             'faqs'     => $faqs,
             'galleries' => $galleries,
+            'reviews' => $reviews,
         ]);
     }
 }

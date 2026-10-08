@@ -1,7 +1,9 @@
-@props(['reviews'])
+@props(['reviews', 'limit' => null])
 
 @php
-    $slides = $reviews->map(function ($review) {
+    // Rating and count cover every review so the AggregateRating matches the
+    // home page; only the first $limit are rendered to keep hub pages light.
+    $slides = $reviews->when($limit, fn($reviews) => $reviews->take($limit))->map(function ($review) {
         return [
             'name' => $review->name,
             'city' => $review->city,
