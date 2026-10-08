@@ -17,8 +17,9 @@ services:
       - "traefik.http.routers.appliance_repair.tls.certresolver=myresolver"
       - "traefik.http.routers.appliance_repair-insecure.rule=Host(`service.ufamasters.ru`)"
       - "traefik.http.routers.appliance_repair-insecure.entrypoints=web"
-      - "traefik.http.routers.appliance_repair-insecure.middlewares=redirect-to-https"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.appliance_repair-insecure.middlewares=appliance_repair-https"
+      - "traefik.http.middlewares.appliance_repair-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.appliance_repair-https.redirectscheme.permanent=true"
 
   php:
     build:
