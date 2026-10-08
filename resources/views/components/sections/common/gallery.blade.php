@@ -7,7 +7,6 @@
             fn($item) => [
                 'title' => $item->title,
                 'subtitle' => $item->subtitle,
-                'description' => $item->description,
                 'image' => $item->image_url,
                 'image_alt' => $item->image_alt ?: $item->title,
                 'url' => $item->slug ? route('gallery.show', $item) : null,
