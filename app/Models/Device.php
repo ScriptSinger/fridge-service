@@ -53,6 +53,11 @@ class Device extends Model
         return $this->hasMany(Problem::class)->where('is_active', true);
     }
 
+    public function errorCodes()
+    {
+        return $this->hasMany(ErrorCode::class);
+    }
+
     public function services()
     {
         return $this->hasMany(Service::class)->where('is_active', true);

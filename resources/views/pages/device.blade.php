@@ -3,6 +3,7 @@
     <x-sections.hero :model="$device" />
     <x-sections.brands.brand-select :brands="$brands" :device="$device" />
     <x-sections.common.problems :problems="$problems" :device="$device" />
+    <x-sections.common.error-codes-by-brand :errorCodes="$errorCodes" :device="$device" />
     <x-sections.common.gallery :galleries="$galleries" />
     <x-sections.services.index :services="$services" :device="$device" />
     <x-sections.common.faq :faqs="$faqs" />

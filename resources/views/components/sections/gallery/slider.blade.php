@@ -5,7 +5,7 @@
         @touchend="onTouchEnd($event)">
         <div class="flex transition-transform duration-500 ease-out" x-ref="track"
             :style="cardStep ? `transform: translateX(-${current * cardStep}px);` : ''">
-            <x-sections.gallery.slide-card />
+            <x-sections.gallery.slide-card :slides="$slides" />
         </div>
 
         <button type="button"
