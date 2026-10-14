@@ -34,6 +34,7 @@ class BrandDeviceFormPage extends FormPage
         return [
             'device_id' => ['required', 'exists:devices,id'],
             'brand_id' => ['required', 'exists:brands,id'],
+            'sort_order' => ['nullable', 'integer', 'min:0', 'max:65535'],
             'h1' => ['nullable', 'string', 'max:255'],
             'subtitle' => ['nullable', 'string', 'max:255'],
             'title' => ['nullable', 'string', 'max:255'],

@@ -46,6 +46,7 @@ class BrandResource extends ModelResource implements HasImportExportContract
             Image::make('Изображение', 'image')
                 ->disk(config('filesystems.media')),
             Text::make('Name', 'name'),
+            Text::make('Название по-русски', 'name_ru'),
             Text::make('Slug', 'slug'),
             Switcher::make('Активна', 'is_active'),
         ];
@@ -60,6 +61,8 @@ class BrandResource extends ModelResource implements HasImportExportContract
                     ->hint('Генерируется автоматически'),
                 Text::make('Name', 'name')
                     ->required(),
+                Text::make('Название по-русски', 'name_ru')
+                    ->hint('Как бренд ищут по-русски: Атлант, Самсунг. Выводится под логотипом'),
                 Switcher::make('Активна', 'is_active')
                     ->default(true),
             ]),
@@ -83,6 +86,7 @@ class BrandResource extends ModelResource implements HasImportExportContract
             ID::make()->sortable(),
             Text::make('Slug', 'slug'),
             Text::make('Name', 'name'),
+            Text::make('Название по-русски', 'name_ru'),
             Image::make('Изображение', 'image')
                 ->disk(config('filesystems.media')),
             Text::make('Alt для изображения', 'image_alt'),
@@ -122,6 +126,7 @@ class BrandResource extends ModelResource implements HasImportExportContract
             ID::make(),
             Text::make('Slug', 'slug'),
             Text::make('Name', 'name'),
+            Text::make('Название по-русски', 'name_ru'),
             Text::make('Alt изображения', 'image_alt'),
             Switcher::make('Активна', 'is_active'),
         ];
@@ -136,6 +141,7 @@ class BrandResource extends ModelResource implements HasImportExportContract
             ID::make(),
             Text::make('Slug', 'slug'),
             Text::make('Name', 'name'),
+            Text::make('Название по-русски', 'name_ru'),
             Text::make('Alt изображения', 'image_alt'),
             Switcher::make('Активна', 'is_active')->default(false),
         ];

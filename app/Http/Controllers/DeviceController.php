@@ -14,7 +14,10 @@ class DeviceController extends Controller
     public function show(Device $device)
     {
         $ttl = now()->addMinutes(20);
-        $brands = Cache::remember("device:{$device->id}:brands", $ttl, fn() => $device->brands()->get());
+        $brands = Cache::remember("device:{$device->id}:brands", $ttl, fn() => $device->brands()
+            ->orderBy('brand_device.sort_order')
+            ->orderBy('brands.id')
+            ->get());
         $problems = Cache::remember("device:{$device->id}:problems", $ttl, fn() => $device->problems()
             ->where('is_active', true)
             ->whereDoesntHave('brands')

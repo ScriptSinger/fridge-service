@@ -24,6 +24,7 @@ use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 
@@ -54,6 +55,7 @@ class BrandDeviceResource extends ModelResource implements HasImportExportContra
                 fn($item) => $item->name,
                 BrandResource::class
             )->sortable(),
+            Number::make('Порядок', 'sort_order')->sortable(),
             Text::make('H1', 'h1'),
             Text::make('Subtitle', 'subtitle'),
             Text::make('Title', 'title'),
@@ -99,6 +101,9 @@ class BrandDeviceResource extends ModelResource implements HasImportExportContra
                     BrandResource::class
                 )->searchable()
                     ->required(),
+                Number::make('Порядок', 'sort_order')
+                    ->default(500)
+                    ->hint('Порядок в сетке брендов на странице устройства: меньше — выше'),
             ]),
         ];
     }
@@ -150,6 +155,7 @@ class BrandDeviceResource extends ModelResource implements HasImportExportContra
                 ->modifyRawValue(fn($raw, $original) => $original?->device?->type),
             BelongsTo::make('Brand', 'brand', fn($item) => $item->name, BrandResource::class)
                 ->modifyRawValue(fn($raw, $original) => $original?->brand?->name),
+            Number::make('Порядок', 'sort_order'),
             Text::make('H1', 'h1'),
             Text::make('Subtitle', 'subtitle'),
             Text::make('Title', 'title'),
@@ -168,6 +174,7 @@ class BrandDeviceResource extends ModelResource implements HasImportExportContra
                 ->fromRaw(fn($raw) => filled($raw) ? Device::query()->where('type', $raw)->value('id') : null),
             Text::make('Brand', 'brand_id')
                 ->fromRaw(fn($raw) => filled($raw) ? Brand::query()->where('name', $raw)->value('id') : null),
+            Number::make('Порядок', 'sort_order'),
             Text::make('H1', 'h1'),
             Text::make('Subtitle', 'subtitle'),
             Text::make('Title', 'title'),

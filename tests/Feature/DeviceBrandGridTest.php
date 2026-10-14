@@ -37,4 +37,27 @@ class DeviceBrandGridTest extends TestCase
         $response->assertSeeInOrder(['Atlant', 'Атлант', 'Не нашли свой бренд?']);
         $response->assertDontSee('sr-only" aria-label="Ссылки на страницы брендов', false);
     }
+
+    public function test_brands_follow_per_device_sort_order(): void
+    {
+        $device = Device::create([
+            'slug' => 'remont-stiralnyh-mashin',
+            'permalink' => 'Стиральные машины',
+            'type' => 'Стиральная машина',
+            'h1' => 'Ремонт стиральных машин',
+            'subtitle' => 'Выезд мастера на дом',
+            'title' => 'Ремонт стиральных машин',
+            'description' => 'Ремонт стиральных машин в Уфе',
+            'is_active' => true,
+        ]);
+        // Created first, so it would lead by id alone.
+        $atlant = Brand::create(['name' => 'Atlant', 'slug' => 'atlant', 'is_active' => true]);
+        $lg = Brand::create(['name' => 'LG', 'slug' => 'lg', 'is_active' => true]);
+        $device->brands()->attach($atlant, ['sort_order' => 20]);
+        $device->brands()->attach($lg, ['sort_order' => 10]);
+
+        $this->get(route('devices.show', $device))
+            ->assertOk()
+            ->assertSeeInOrder(['/remont-stiralnyh-mashin/lg"', '/remont-stiralnyh-mashin/atlant"'], false);
+    }
 }
