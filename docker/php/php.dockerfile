@@ -17,6 +17,15 @@ RUN groupadd -g ${GID} laravel \
 RUN sed -i "s/^user = .*/user = laravel/" /usr/local/etc/php-fpm.d/www.conf \
     && sed -i "s/^group = .*/group = laravel/" /usr/local/etc/php-fpm.d/www.conf
 
+# Официальный клиент MySQL 8.0 (mysqldump для php artisan db:backup) — той же
+# серии, что и сервер. В репозиториях Debian его нет: пакет mysql-client там
+# ставит клиент MariaDB, который с MySQL 8 совместим не гарантированно.
+RUN apt-get update && apt-get install -y ca-certificates curl gnupg \
+    && curl -fsSL https://repo.mysql.com/RPM-GPG-KEY-mysql-2025 | gpg --dearmor -o /usr/share/keyrings/mysql.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/mysql.gpg] http://repo.mysql.com/apt/debian bookworm mysql-8.0" > /etc/apt/sources.list.d/mysql.list \
+    && apt-get update && apt-get install -y mysql-community-client \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # Установка зависимостей и расширений PHP
 RUN apt-get update && apt-get install -y \
     git \

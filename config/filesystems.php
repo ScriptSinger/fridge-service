@@ -71,6 +71,21 @@ return [
             'use_path_style_endpoint' => true,
         ],
 
+        // Приватный бакет для дампов базы (php artisan db:backup). Дамп содержит
+        // заявки клиентов, поэтому бакет отдельный от публичного с картинками.
+        // Ключ можно завести отдельный — иначе берётся ключ медиа-бакета.
+        'backups' => [
+            'driver' => 's3',
+            'key' => env('BACKUP_S3_KEY', env('YANDEX_S3_KEY')),
+            'secret' => env('BACKUP_S3_SECRET', env('YANDEX_S3_SECRET')),
+            'region' => env('BACKUP_S3_REGION', env('YANDEX_S3_REGION')),
+            'bucket' => env('BACKUP_S3_BUCKET'),
+            'endpoint' => env('BACKUP_S3_ENDPOINT', env('YANDEX_S3_ENDPOINT')),
+            'use_path_style_endpoint' => true,
+            'visibility' => 'private',
+            'throw' => true,
+        ],
+
     ],
 
     /*
