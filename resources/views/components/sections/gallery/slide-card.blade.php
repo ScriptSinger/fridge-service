@@ -1,9 +1,13 @@
-@props(['slides'])
+@props(['slides', 'static' => false])
 
 {{-- Cards are rendered server-side so crawlers see the images and links to gallery pages --}}
 @foreach ($slides as $index => $slide)
     <article
-        class="relative shrink-0 border-r border-gray-200 last:border-r-0 cursor-zoom-in basis-full md:basis-1/2 lg:basis-1/3"
+        @class([
+            'relative cursor-zoom-in',
+            'overflow-hidden rounded-2xl border border-gray-200 shadow-lg' => $static,
+            'shrink-0 border-r border-gray-200 last:border-r-0 basis-full md:basis-1/2 lg:basis-1/3' => ! $static,
+        ])
         data-card @click="openFullscreen({{ $index }})">
 
         {{-- The slider sits far below the fold — never let it compete with the hero for bandwidth --}}

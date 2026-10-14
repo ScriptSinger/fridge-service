@@ -2,10 +2,7 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\Brand;
-use App\Models\Device;
 use App\Models\Gallery;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
@@ -17,13 +14,11 @@ use Tests\TestCase;
  */
 class GalleryCacheInvalidationTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_clears_all_related_cache_keys_when_relations_are_set(): void
     {
         Cache::put('gallery:problem:5', 'x', 60);
         Cache::put('gallery:error-code:7', 'x', 60);
-        Cache::put('gallery:device:1:brand:2', 'x', 60);
+        Cache::put('gallery:own:device:1:brand:2', 'x', 60);
         Cache::put('untouched', 'x', 60);
 
         $gallery = new Gallery([
@@ -37,37 +32,30 @@ class GalleryCacheInvalidationTest extends TestCase
 
         $this->assertFalse(Cache::has('gallery:problem:5'));
         $this->assertFalse(Cache::has('gallery:error-code:7'));
-        $this->assertFalse(Cache::has('gallery:device:1:brand:2'));
+        $this->assertFalse(Cache::has('gallery:own:device:1:brand:2'));
         $this->assertTrue(Cache::has('untouched'));
     }
 
-    public function test_brandless_work_clears_every_brand_page_of_its_device(): void
+    public function test_skips_device_brand_cache_key_when_brand_is_missing(): void
     {
-        // Brand pages borrow works of the same device to fill their row,
-        // so a work without a brand can appear on any of them.
-        $device = Device::create(['slug' => 'remont-holodilnikov', 'permalink' => 'Холодильники', 'type' => 'Холодильник', 'is_active' => true]);
-        $atlant = Brand::create(['name' => 'Atlant', 'slug' => 'atlant', 'is_active' => true]);
-        $lg = Brand::create(['name' => 'LG', 'slug' => 'lg', 'is_active' => true]);
-        $device->brands()->attach([$atlant->id, $lg->id]);
+        Cache::put('gallery:own:device:1:brand:2', 'x', 60);
 
-        Cache::put("gallery:device:{$device->id}:brand:{$atlant->id}", 'x', 60);
-        Cache::put("gallery:device:{$device->id}:brand:{$lg->id}", 'x', 60);
+        $gallery = new Gallery(['device_id' => 1]);
 
-        (new Gallery(['device_id' => $device->id]))->clearFrontendCache();
+        $gallery->clearFrontendCache();
 
-        $this->assertFalse(Cache::has("gallery:device:{$device->id}:brand:{$atlant->id}"));
-        $this->assertFalse(Cache::has("gallery:device:{$device->id}:brand:{$lg->id}"));
+        $this->assertTrue(Cache::has('gallery:own:device:1:brand:2'));
     }
 
     public function test_skips_device_brand_cache_key_when_device_is_missing(): void
     {
-        Cache::put('gallery:device:1:brand:2', 'x', 60);
+        Cache::put('gallery:own:device:1:brand:2', 'x', 60);
 
         $gallery = new Gallery(['brand_id' => 2]);
 
         $gallery->clearFrontendCache();
 
-        $this->assertTrue(Cache::has('gallery:device:1:brand:2'));
+        $this->assertTrue(Cache::has('gallery:own:device:1:brand:2'));
     }
 
     public function test_clears_cache_for_previous_attribute_values_when_record_was_relinked(): void

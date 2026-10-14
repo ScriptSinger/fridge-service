@@ -7,7 +7,6 @@ use App\Models\Concerns\RecordsSlugRedirects;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 
 class Gallery extends Model
 {
@@ -138,15 +137,8 @@ class Gallery extends Model
             Cache::forget("gallery:error-code:{$errorCodeId}");
         }
 
-        // Every brand page of the device may borrow this work to fill its row
-        if ($deviceId) {
-            DB::table('brand_device')
-                ->where('device_id', $deviceId)
-                ->pluck('brand_id')
-                ->push($brandId)
-                ->filter()
-                ->unique()
-                ->each(fn ($id) => Cache::forget("gallery:device:{$deviceId}:brand:{$id}"));
+        if ($deviceId && $brandId) {
+            Cache::forget("gallery:own:device:{$deviceId}:brand:{$brandId}");
         }
     }
 }
