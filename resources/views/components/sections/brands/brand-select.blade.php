@@ -11,7 +11,7 @@
         <x-ui.sections.header title="Выберите бренд {{ Str::lower($device->typeInCase('genitive')) }}"
             subtitle="Ремонтируем все популярные марки — выберите свою" />
 
-        <x-ui.sections.toggle-list :limit="11" :mobileLimit="7" :count="$items->count()" toggleSpacingClass="mt-6 text-center">
+        <x-ui.sections.toggle-list :limit="11" :mobileLimit="7" :count="$items->count()" toggleSpacingClass="mt-6">
             <ul class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 md:gap-4">
                 @foreach ($items as $index => $brand)
                     <li x-show="showAll || {{ $index }} < limit" @if ($index >= 7) x-cloak @endif>
