@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 
 class DeviceBrandController extends Controller
 {
+    private const GALLERY_MIN = 6;
+
     public function show(Device $device, Brand $brand)
     {
         $brand = $device->brands()
@@ -22,11 +24,29 @@ class DeviceBrandController extends Controller
             ->where('device_id', $device->id)
             ->where('is_active', true)
             ->get());
-        $galleries = Cache::remember("gallery:device:{$device->id}:brand:{$brand->id}", $ttl, fn() => Gallery::query()
-            ->where('device_id', $device->id)
-            ->where('brand_id', $brand->id)
-            ->orderBy('sort_order')
-            ->get());
+        // Brands with few or no works of their own would show a near-empty slider,
+        // so the row is topped up with other repairs of the same device type.
+        $galleries = Cache::remember("gallery:device:{$device->id}:brand:{$brand->id}", $ttl, function () use ($device, $brand) {
+            $own = Gallery::query()
+                ->hasImage()
+                ->where('device_id', $device->id)
+                ->where('brand_id', $brand->id)
+                ->orderBy('sort_order')
+                ->get();
+
+            $missing = self::GALLERY_MIN - $own->count();
+            if ($missing <= 0) {
+                return $own;
+            }
+
+            return $own->concat(Gallery::query()
+                ->hasImage()
+                ->where('device_id', $device->id)
+                ->where(fn ($query) => $query->whereNull('brand_id')->orWhere('brand_id', '!=', $brand->id))
+                ->orderBy('sort_order')
+                ->limit($missing)
+                ->get());
+        });
         $brandFaqs = Cache::remember("faqs:device:{$device->id}:brand:{$brand->id}", $ttl, fn() => Faq::query()
             ->where('device_id', $device->id)
             ->where('brand_id', $brand->id)

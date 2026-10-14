@@ -10,12 +10,12 @@
 
         <button type="button"
             class="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/85 text-gray-900 hover:bg-white"
-            aria-label="Предыдущий слайд" @click="prev()">
+            aria-label="Предыдущий слайд" x-show="maxIndex > 0" x-cloak @click="prev()">
             <span class="text-xl leading-none">‹</span>
         </button>
         <button type="button"
             class="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/85 text-gray-900 hover:bg-white"
-            aria-label="Следующий слайд" @click="next()">
+            aria-label="Следующий слайд" x-show="maxIndex > 0" x-cloak @click="next()">
             <span class="text-xl leading-none">›</span>
         </button>
     </div>

@@ -2,7 +2,10 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\Brand;
+use App\Models\Device;
 use App\Models\Gallery;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
@@ -14,6 +17,8 @@ use Tests\TestCase;
  */
 class GalleryCacheInvalidationTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_clears_all_related_cache_keys_when_relations_are_set(): void
     {
         Cache::put('gallery:problem:5', 'x', 60);
@@ -36,15 +41,22 @@ class GalleryCacheInvalidationTest extends TestCase
         $this->assertTrue(Cache::has('untouched'));
     }
 
-    public function test_skips_device_brand_cache_key_when_brand_is_missing(): void
+    public function test_brandless_work_clears_every_brand_page_of_its_device(): void
     {
-        Cache::put('gallery:device:1:brand:2', 'x', 60);
+        // Brand pages borrow works of the same device to fill their row,
+        // so a work without a brand can appear on any of them.
+        $device = Device::create(['slug' => 'remont-holodilnikov', 'permalink' => 'Холодильники', 'type' => 'Холодильник', 'is_active' => true]);
+        $atlant = Brand::create(['name' => 'Atlant', 'slug' => 'atlant', 'is_active' => true]);
+        $lg = Brand::create(['name' => 'LG', 'slug' => 'lg', 'is_active' => true]);
+        $device->brands()->attach([$atlant->id, $lg->id]);
 
-        $gallery = new Gallery(['device_id' => 1]);
+        Cache::put("gallery:device:{$device->id}:brand:{$atlant->id}", 'x', 60);
+        Cache::put("gallery:device:{$device->id}:brand:{$lg->id}", 'x', 60);
 
-        $gallery->clearFrontendCache();
+        (new Gallery(['device_id' => $device->id]))->clearFrontendCache();
 
-        $this->assertTrue(Cache::has('gallery:device:1:brand:2'));
+        $this->assertFalse(Cache::has("gallery:device:{$device->id}:brand:{$atlant->id}"));
+        $this->assertFalse(Cache::has("gallery:device:{$device->id}:brand:{$lg->id}"));
     }
 
     public function test_skips_device_brand_cache_key_when_device_is_missing(): void
