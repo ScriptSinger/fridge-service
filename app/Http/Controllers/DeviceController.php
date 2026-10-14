@@ -22,13 +22,6 @@ class DeviceController extends Controller
             ->where('is_active', true)
             ->whereDoesntHave('brands')
             ->get());
-        $errorCodes = Cache::remember("errorcodes:device:{$device->id}", $ttl, fn() => $device->errorCodes()
-            ->with('brand')
-            ->whereNotNull('slug')
-            ->whereNotNull('brand_id')
-            ->where('is_active', true)
-            ->orderBy('code')
-            ->get());
         $services = Cache::remember("device:{$device->id}:services", $ttl, fn() => $device->services()->with('prices.brands')->get());
         $faqs = Cache::remember("faqs:device:{$device->id}", $ttl, fn() => Faq::query()
             ->where('device_id', $device->id)
@@ -56,7 +49,6 @@ class DeviceController extends Controller
             'device' => $device,
             'brands'  => $brands,
             'problems' => $problems,
-            'errorCodes' => $errorCodes,
             'services' => $services,
             'faqs'     => $faqs,
             'galleries' => $galleries,

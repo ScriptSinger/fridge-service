@@ -81,10 +81,6 @@ class ErrorCode extends Model
 
     public function clearFrontendCache(): void
     {
-        if ($this->device_id) {
-            Cache::forget("errorcodes:device:{$this->device_id}");
-        }
-
         if (! $this->device_id || ! $this->brand_id) {
             return;
         }
