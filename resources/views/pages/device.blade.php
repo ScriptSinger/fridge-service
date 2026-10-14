@@ -11,6 +11,5 @@
     <x-sections.common.reviews :reviews="$reviews" :limit="12" />
     <x-sections.common.faq :faqs="$faqs" />
     <x-sections.contact :model="$device" />
-    <x-sections.brands.brand-carousel :brands="$brands" />
     <x-ui.scroll-up />
 </x-layouts.app>

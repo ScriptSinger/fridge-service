@@ -6,8 +6,6 @@ import "./components/modalPhone";
 
 import leadForm from "./components/leadForm";
 import gallerySlider from "./components/gallerySlider";
-import brandSelect from "./components/brandSelect";
-import brandCarousel from "./components/brandCarousel";
 import phoneMask from "./directives/phoneMask";
 import reviewsSlider from "./components/reviewsSlider";
 import reviewsIndexSort from "./components/reviewsIndexSort";
@@ -27,8 +25,6 @@ Alpine.plugin(collapse);
 // регистрируем компоненты напрямую (без alpine:init)
 Alpine.data("leadForm", leadForm);
 Alpine.data("gallerySlider", gallerySlider);
-Alpine.data("brandSelect", brandSelect);
-Alpine.data("brandCarousel", brandCarousel);
 Alpine.data("reviewsSlider", reviewsSlider);
 Alpine.data("reviewsIndexSort", reviewsIndexSort);
 Alpine.data("gallerySectionScroll", gallerySectionScroll);

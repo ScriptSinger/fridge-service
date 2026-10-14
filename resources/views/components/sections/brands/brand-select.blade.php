@@ -1,72 +1,43 @@
 @props(['device', 'brands'])
 
 @php
-    $items = collect($brands)->filter(fn($b) => !empty($b['slug']))->values()->map(
-        fn($b) => [
-            'name' => $b['name'],
-            'name_ru' => $b['name_ru'],
-            'url' => route('devices.brands.show', [$device->slug, $b['slug']]),
-        ],
-    );
+    $items = collect($brands)->filter(fn($b) => !empty($b->slug))->values();
 @endphp
 
-<x-ui.sections.wrapper id="brand-select">
-    <x-ui.sections.header title="Выберите бренд {{ Str::lower($device->typeInCase('genitive')) }}"
-        subtitle="Начните вводить название бренда или выберите из списка" />
+{{-- A visible grid instead of a search box: with ~15 brands scanning logos is faster than typing,
+     and the hub's most important internal links stay real, visible links for crawlers --}}
+@if ($items->isNotEmpty())
+    <x-ui.sections.wrapper id="brand-select">
+        <x-ui.sections.header title="Выберите бренд {{ Str::lower($device->typeInCase('genitive')) }}"
+            subtitle="Ремонтируем все популярные марки — выберите свою" />
 
-    <div class="mx-auto mt-6">
-        <div x-data="brandSelect(@js($items))" class="space-y-4 relative">
+        <x-ui.sections.toggle-list :limit="11" :mobileLimit="7" :count="$items->count()" toggleSpacingClass="mt-6 text-center">
+            <ul class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 md:gap-4">
+                @foreach ($items as $index => $brand)
+                    <li x-show="showAll || {{ $index }} < limit" @if ($index >= 7) x-cloak @endif>
+                        <a href="{{ route('devices.brands.show', [$device->slug, $brand->slug]) }}"
+                            class="flex h-full flex-col items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white p-4 text-center transition hover:border-yellow-500 hover:shadow-md">
+                            @if ($brand->image)
+                                <img src="{{ $brand->image_url }}" alt="" loading="lazy" decoding="async"
+                                    width="128" height="48" class="h-10 w-full object-contain md:h-12">
+                            @endif
+                            <span class="font-semibold text-gray-900">{{ $brand->name }}</span>
+                            @if ($brand->name_ru && $brand->name_ru !== $brand->name)
+                                <span class="-mt-2 text-xs text-gray-500">{{ $brand->name_ru }}</span>
+                            @endif
+                        </a>
+                    </li>
+                @endforeach
 
-            <!-- Input -->
-            <div class="relative">
-                <input type="text" x-model="search" @focus="open = true" @click="open = true" @click.away="open = false"
-                    @keydown.enter.prevent="goToFirst()" @keydown.escape="open = false" placeholder="Введите бренд..."
-                    class="w-full p-4 pr-12 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 text-gray-900 placeholder-gray-500 cursor-pointer transition">
-
-                <!-- Arrow -->
-                <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-                    <span :class="{ 'rotate-180': open }" class="inline-flex transform transition-transform">
-                        <x-heroicon-o-chevron-down class="w-5 h-5" />
-                    </span>
-                </div>
-            </div>
-
-            <!-- Dropdown -->
-            <div x-show="open" x-transition:enter="transition ease-out duration-150"
-                x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0"
-                x-transition:leave="transition ease-in duration-100"
-                x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-1"
-                class="absolute z-20 w-full bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden">
-
-                <template x-if="filtered.length > 0">
-                    <div class="max-h-64 overflow-y-auto">
-                        <template x-for="brand in filtered" :key="brand.url">
-                            <a :href="brand.url" class="block px-4 py-3 hover:bg-gray-50 transition text-gray-900"
-                                x-text="(/[а-яё]/i.test(search) && brand.name_ru) ? brand.name_ru : brand.name"></a>
-                        </template>
-                    </div>
-                </template>
-
-                <div x-show="filtered.length === 0" class="p-4 text-gray-500">
-                    Ничего не найдено
-                </div>
-
-            </div>
-
-        </div>
-
-        @if ($items->isNotEmpty())
-            <nav class="sr-only" aria-label="Ссылки на страницы брендов">
-                <ul>
-                    @foreach ($items as $item)
-                        <li>
-                            <a href="{{ $item['url'] }}">
-                                {{ $item['name_ru'] ?: $item['name'] }}
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-            </nav>
-        @endif
-    </div>
-</x-ui.sections.wrapper>
+                {{-- Always last and always visible: a visitor whose brand isn't listed calls instead of leaving --}}
+                <li>
+                    <a href="tel:{{ config('contacts.phone_tel') }}" data-contact-channel="phone"
+                        class="flex h-full flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-yellow-500 bg-yellow-50 p-4 text-center transition hover:shadow-md">
+                        <span class="font-semibold text-gray-900">Не нашли свой бренд?</span>
+                        <span class="text-xs text-gray-600">Консультация мастера бесплатно — звоните</span>
+                    </a>
+                </li>
+            </ul>
+        </x-ui.sections.toggle-list>
+    </x-ui.sections.wrapper>
+@endif
