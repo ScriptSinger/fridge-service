@@ -45,9 +45,29 @@ class AccessLogMiddleware
                 'user_agent' => $request->userAgent(),
                 'referer' => $request->headers->get('referer'),
                 'is_bot' => $this->isBot($request->userAgent()),
+                'admin_user_id' => $this->adminUserId($request),
             ];
 
             Log::channel('access')->info('access', $payload);
+        }
+    }
+
+    /**
+     * Only asked on admin URLs: the `api` group has no session, and the
+     * session guard throws when it is touched without one.
+     */
+    private function adminUserId(Request $request): int|string|null
+    {
+        $prefix = trim((string) config('moonshine.prefix', 'admin'), '/');
+
+        if ($prefix === '' || ! $request->is($prefix, $prefix . '/*')) {
+            return null;
+        }
+
+        try {
+            return auth(config('moonshine.auth.guard', 'moonshine'))->id();
+        } catch (\Throwable) {
+            return null;
         }
     }
 

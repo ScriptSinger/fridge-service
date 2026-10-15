@@ -32,6 +32,9 @@ use MoonShine\Support\Attributes\Icon;
 class AccessLogs extends Page
 {
     private const int MAX_ENTRIES = 100;
+    private const array STATUS_FILTERS = [
+        'all', '200', '301', '302', '403', '404', '419', '429', '500', '4xx', '5xx',
+    ];
     private const int DEFAULT_PAGE = 1;
 
     public function getTitle(): string
@@ -45,9 +48,8 @@ class AccessLogs extends Page
     protected function components(): iterable
     {
         $statusFilter = (string) request()->query('status', 'all');
-        $allowedStatuses = ['all', '200', '404', '500'];
 
-        if (! in_array($statusFilter, $allowedStatuses, true)) {
+        if (! in_array($statusFilter, self::STATUS_FILTERS, true)) {
             $statusFilter = 'all';
         }
 
@@ -75,10 +77,10 @@ class AccessLogs extends Page
 
     private function buildStatusFilters(string $active): Flex
     {
-        $options = ['all' => 'All', '200' => '200', '404' => '404', '500' => '500'];
         $links = [];
 
-        foreach ($options as $key => $label) {
+        foreach (self::STATUS_FILTERS as $key) {
+            $label = $key === 'all' ? 'All' : $key;
             $url = $this->getUrl();
             if ($key !== 'all') {
                 $url .= '?status=' . $key;
@@ -107,6 +109,7 @@ class AccessLogs extends Page
             Text::make('User Agent contains', 'user_agent'),
             Switcher::make('Only bots', 'only_bots'),
             Switcher::make('Only suspicious', 'only_suspicious'),
+            Switcher::make('Only slow', 'only_slow'),
         ];
 
         if ($filters['status'] !== 'all') {
@@ -126,6 +129,7 @@ class AccessLogs extends Page
             'date_to' => $filters['date_to'],
             'only_bots' => $filters['only_bots'] ? 1 : 0,
             'only_suspicious' => $filters['only_suspicious'] ? 1 : 0,
+            'only_slow' => $filters['only_slow'] ? 1 : 0,
         ],
         );
     }
@@ -200,6 +204,7 @@ class AccessLogs extends Page
             Text::make('Path', 'path')->sortable(),
             Text::make('Status', 'status')->sortable(),
             Text::make('Duration ms', 'duration_ms')->sortable(),
+            Text::make('Slow', 'slow_request')->sortable(),
             Text::make('Resp size', 'response_size')->sortable(),
             Text::make('IP', 'ip')->sortable(),
             Text::make('User Agent', 'user_agent')->sortable(),
@@ -244,7 +249,9 @@ class AccessLogs extends Page
         foreach ($files as $file) {
             $fileBasename = basename($file);
             $fileObject = new \SplFileObject($file, 'r');
-            $fileObject->setFlags(\SplFileObject::DROP_NEW_LINE | \SplFileObject::SKIP_EMPTY);
+            // Same flags as loadEntry(): with SKIP_EMPTY key() stops being
+            // the real line index and the drawer would open another entry.
+            $fileObject->setFlags(\SplFileObject::DROP_NEW_LINE);
 
             foreach ($fileObject as $line) {
                 if (! is_string($line) || $line === '') {
@@ -281,12 +288,15 @@ class AccessLogs extends Page
                     'path' => Arr::get($context, 'path'),
                     'status' => Arr::get($context, 'status'),
                     'duration_ms' => Arr::get($context, 'duration_ms'),
+                    'slow_request' => Arr::get($context, 'slow_request') ? 'yes' : 'no',
                     'response_size' => Arr::get($context, 'response_size'),
                     'ip' => Arr::get($context, 'ip'),
                     'user_agent' => Arr::get($context, 'user_agent'),
                     'is_bot' => Arr::get($context, 'is_bot') ? 'yes' : 'no',
                     'is_suspicious' => Arr::get($context, 'is_suspicious') ? 'yes' : 'no',
-                    'details' => $this->buildDetailsDrawer($fileBasename, $lineNumber, $context),
+                    // Rendered only for the visible page below — an OffCanvas
+                    // per matching line used to be built for the whole range.
+                    'context' => $context,
                 ];
             }
         }
@@ -306,6 +316,12 @@ class AccessLogs extends Page
         $page = min($page, $pages);
         $offset = ($page - 1) * $limit;
         $items = array_slice($items, $offset, $limit);
+
+        foreach ($items as &$item) {
+            $item['details'] = $this->buildDetailsDrawer($item['file'], $item['line'], $item['context']);
+            unset($item['context']);
+        }
+        unset($item);
 
         return [
             'items' => $items,
@@ -360,6 +376,7 @@ class AccessLogs extends Page
             'path',
             'status',
             'duration_ms',
+            'slow_request',
             'response_size',
             'ip',
             'user_agent',
@@ -434,6 +451,7 @@ class AccessLogs extends Page
             'user_agent' => (string) request()->query('user_agent', ''),
             'only_bots' => (bool) request()->query('only_bots', false),
             'only_suspicious' => (bool) request()->query('only_suspicious', false),
+            'only_slow' => (bool) request()->query('only_slow', false),
         ];
     }
 
@@ -446,7 +464,7 @@ class AccessLogs extends Page
     ): bool
     {
         $status = (int) Arr::get($context, 'status', 0);
-        if ($filters['status'] !== 'all' && $status !== (int) $filters['status']) {
+        if ($filters['status'] !== 'all' && ! $this->statusMatches($status, $filters['status'])) {
             return false;
         }
 
@@ -473,6 +491,10 @@ class AccessLogs extends Page
             return false;
         }
 
+        if ($filters['only_slow'] && ! (bool) Arr::get($context, 'slow_request')) {
+            return false;
+        }
+
         if ($dateFrom || $dateTo) {
             if (! $entryTime) {
                 return false;
@@ -488,6 +510,18 @@ class AccessLogs extends Page
         }
 
         return true;
+    }
+
+    /**
+     * Filter is either an exact code ("404") or a class ("4xx").
+     */
+    private function statusMatches(int $status, string $filter): bool
+    {
+        if (str_ends_with($filter, 'xx')) {
+            return intdiv($status, 100) === (int) $filter[0];
+        }
+
+        return $status === (int) $filter;
     }
 
     private function buildQueryParams(string $status): string
@@ -534,6 +568,16 @@ class AccessLogs extends Page
 
         if (request()->query('only_suspicious')) {
             $params['only_suspicious'] = 1;
+        }
+
+        if (request()->query('only_slow')) {
+            $params['only_slow'] = 1;
+        }
+
+        // Without it, paging silently drops the column the user sorted by.
+        $sort = (string) request()->query('sort', '');
+        if ($sort !== '') {
+            $params['sort'] = $sort;
         }
 
         if (empty($params)) {
@@ -588,6 +632,7 @@ class AccessLogs extends Page
             Text::make('Slow', 'slow_request')->setValue($entry['slow_request'])->readonly(),
             Text::make('Bot', 'is_bot')->setValue($entry['is_bot'])->readonly(),
             Text::make('Suspicious', 'is_suspicious')->setValue($entry['is_suspicious'])->readonly(),
+            Text::make('Admin user ID', 'admin_user_id')->setValue($entry['admin_user_id'])->readonly(),
         ];
     }
 
@@ -692,6 +737,7 @@ class AccessLogs extends Page
             'slow_request' => Arr::get($context, 'slow_request') ? 'yes' : 'no',
             'is_bot' => Arr::get($context, 'is_bot') ? 'yes' : 'no',
             'is_suspicious' => Arr::get($context, 'is_suspicious') ? 'yes' : 'no',
+            'admin_user_id' => (string) Arr::get($context, 'admin_user_id'),
             'raw' => json_encode($decoded, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
         ];
     }

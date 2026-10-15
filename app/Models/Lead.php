@@ -4,9 +4,12 @@ namespace App\Models;
 
 use App\Enums\LeadStatus;
 use Illuminate\Database\Eloquent\Model;
+use MoonShine\ChangeLog\Traits\HasChangeLog;
 
 class Lead extends Model
 {
+    use HasChangeLog;
+
     public const CHANNEL_FORM = 'form';
     public const CHANNEL_PHONE = 'phone';
     public const CHANNEL_WHATSAPP = 'whatsapp';

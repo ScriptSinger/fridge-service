@@ -19,6 +19,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // LogAdminAuthEvent is picked up by Laravel's listener auto-discovery.
     }
 }

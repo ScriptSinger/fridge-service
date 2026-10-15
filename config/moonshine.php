@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\AccessLogMiddleware;
+use App\Http\Middleware\RequestIdMiddleware;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -51,6 +53,10 @@ return [
 
     // Middleware
     'middleware' => [
+        // Outermost on purpose: the admin routes use only this group (not
+        // `web`), so without these nothing under /admin reaches access.log.
+        RequestIdMiddleware::class,
+        AccessLogMiddleware::class,
         EncryptCookies::class,
         AddQueuedCookiesToResponse::class,
         StartSession::class,

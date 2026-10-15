@@ -54,7 +54,7 @@ return [
 
         'stack' => [
             'driver' => 'stack',
-            'channels' => explode(',', (string) env('LOG_STACK', 'single')),
+            'channels' => explode(',', (string) env('LOG_STACK', 'daily')),
             'ignore_exceptions' => false,
         ],
 
@@ -78,6 +78,15 @@ return [
             'path' => storage_path('logs/access.log'),
             'level' => env('LOG_ACCESS_LEVEL', 'info'),
             'days' => env('LOG_ACCESS_DAYS', 14),
+            'replace_placeholders' => true,
+            'tap' => [App\Logging\JsonFormatter::class],
+        ],
+
+        'auth' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/auth.log'),
+            'level' => env('LOG_AUTH_LEVEL', 'info'),
+            'days' => env('LOG_AUTH_DAYS', 90),
             'replace_placeholders' => true,
             'tap' => [App\Logging\JsonFormatter::class],
         ],
