@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class AccessLogMiddleware
@@ -36,6 +37,7 @@ class AccessLogMiddleware
                 'request_id' => $requestId !== '' ? $requestId : null,
                 'method' => $request->getMethod(),
                 'path' => $request->getPathInfo(),
+                'query' => $this->query($request),
                 'status' => $status,
                 'duration_ms' => $durationMs,
                 'slow_request' => $this->isSlow($durationMs),
@@ -71,14 +73,34 @@ class AccessLogMiddleware
         }
     }
 
+    /**
+     * UTM tags and search terms live here; capped so a hostile client cannot
+     * turn the log into a dumping ground.
+     */
+    private function query(Request $request): ?string
+    {
+        $query = $request->getQueryString();
+
+        return $query === null || $query === '' ? null : Str::limit($query, 500, '…');
+    }
+
     private function shouldSkip(string $path): bool
     {
         $lower = strtolower($path);
 
-        return $lower === '/favicon.ico'
-            || str_starts_with($lower, '/css')
-            || str_starts_with($lower, '/js')
-            || str_starts_with($lower, '/images');
+        if ($lower === '/favicon.ico') {
+            return true;
+        }
+
+        // Whole path segments only: a bare "/js" prefix also swallowed real
+        // pages such as /jsonld-demo or /images-gallery.
+        foreach (['/css', '/js', '/images'] as $dir) {
+            if ($lower === $dir || str_starts_with($lower, $dir . '/')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function isBot(?string $userAgent): bool

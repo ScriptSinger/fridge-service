@@ -156,6 +156,7 @@ class AccessLogReader
             'request_id' => (string) Arr::get($context, 'request_id'),
             'method' => (string) Arr::get($context, 'method'),
             'path' => (string) Arr::get($context, 'path'),
+            'query' => (string) Arr::get($context, 'query'),
             'status' => (int) Arr::get($context, 'status'),
             'duration_ms' => (int) Arr::get($context, 'duration_ms'),
             'response_size' => Arr::get($context, 'response_size'),

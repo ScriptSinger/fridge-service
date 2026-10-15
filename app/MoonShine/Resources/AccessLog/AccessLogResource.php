@@ -144,6 +144,7 @@ class AccessLogResource extends CrudResource
             Text::make('Файл', 'file'),
             Text::make('Метод', 'method'),
             Text::make('Путь', 'path'),
+            Text::make('Query string', 'query'),
             Preview::make('Статус', 'status', fn (array $row) => (string) Badge::make(
                 (string) $row['status'],
                 $this->statusColor($row['status']),
