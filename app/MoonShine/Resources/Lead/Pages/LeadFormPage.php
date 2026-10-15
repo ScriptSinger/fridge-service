@@ -12,6 +12,7 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use App\Enums\LeadStatus;
 use App\MoonShine\Resources\Lead\LeadResource;
+use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
 use Illuminate\Validation\Rule;
 use MoonShine\ChangeLog\Components\ChangeLog;
 use MoonShine\Support\ListOf;
@@ -106,7 +107,7 @@ class LeadFormPage extends FormPage
     {
         return [
             ...parent::bottomLayer(),
-            ChangeLog::make('История изменений', $this->getResource())->limit(10),
+            ChangeLog::make('История изменений', $this->getResource(), MoonShineUserResource::class)->limit(10),
         ];
     }
 }
