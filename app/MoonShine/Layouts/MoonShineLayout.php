@@ -13,6 +13,8 @@ use MoonShine\Contracts\ColorManager\ColorManagerContract;
 use MoonShine\Contracts\ColorManager\PaletteContract;
 use MoonShine\MenuManager\MenuItem;
 use MoonShine\MenuManager\MenuGroup;
+use App\Enums\LeadStatus;
+use App\Models\Lead;
 use App\MoonShine\Resources\Service\ServiceResource;
 use App\MoonShine\Resources\Brand\BrandResource;
 use App\MoonShine\Resources\BrandDevice\BrandDeviceResource;
@@ -54,37 +56,47 @@ final class MoonShineLayout extends AppLayout
         return @filemtime(public_path('assets/moonshine/' . $file));
     }
 
+    /**
+     * Иконки на всех пунктах (не только группах) — так группы и одиночные
+     * пункты выглядят одинаково. Паттерн подсмотрен в ~/app/start-stop-laravel.
+     */
     protected function menu(): array
     {
+        $newLeads = Lead::query()->where('status', LeadStatus::New->value)->count();
+
         return [
             ...parent::menu(),
             MenuGroup::make('Logs', [
-                MenuItem::make(AccessLogResource::class, 'Access Logs'),
-                MenuItem::make(AuthLogResource::class, 'Auth Logs'),
-            ], 'folder'),
+                MenuItem::make(AccessLogResource::class, 'Access Logs')->icon('globe-alt'),
+                MenuItem::make(AuthLogResource::class, 'Auth Logs')->icon('shield-check'),
+            ], 'archive-box'),
             MenuGroup::make('Content', [
-                MenuItem::make(PageResource::class, 'Pages'),
-                MenuItem::make(PageTypeResource::class, 'PageTypes'),
-                MenuItem::make(FaqResource::class, 'Faqs'),
-                MenuItem::make(ReviewResource::class, 'Reviews'),
-                MenuItem::make(GalleryResource::class, 'Galleries'),
-            ], 'folder'),
+                MenuItem::make(PageResource::class, 'Pages')->icon('document-text'),
+                MenuItem::make(PageTypeResource::class, 'PageTypes')->icon('rectangle-stack'),
+                MenuItem::make(FaqResource::class, 'Faqs')->icon('question-mark-circle'),
+                MenuItem::make(ReviewResource::class, 'Reviews')->icon('star'),
+                MenuItem::make(GalleryResource::class, 'Galleries')->icon('photo'),
+            ], 'globe-alt'),
             MenuGroup::make('Catalog', [
-                MenuItem::make(DeviceResource::class, 'Devices'),
-                MenuItem::make(BrandResource::class, 'Brands'),
-                MenuItem::make(BrandDeviceResource::class, 'Device Brands'),
-                MenuItem::make(ProblemResource::class, 'Problems'),
-                MenuItem::make(ServiceResource::class, 'Services'),
-                MenuItem::make(PriceResource::class, 'Prices'),
-                MenuItem::make(ErrorCodeResource::class, 'ErrorCodes'),
-            ], 'folder'),
+                MenuItem::make(DeviceResource::class, 'Devices')->icon('cube'),
+                MenuItem::make(BrandResource::class, 'Brands')->icon('tag'),
+                MenuItem::make(BrandDeviceResource::class, 'Device Brands')->icon('link'),
+                MenuItem::make(ProblemResource::class, 'Problems')->icon('exclamation-triangle'),
+                MenuItem::make(ServiceResource::class, 'Services')->icon('wrench-screwdriver'),
+                MenuItem::make(PriceResource::class, 'Prices')->icon('banknotes'),
+                MenuItem::make(ErrorCodeResource::class, 'ErrorCodes')->icon('code-bracket'),
+            ], 'squares-2x2'),
             MenuGroup::make('Team', [
-                MenuItem::make(MasterResource::class, 'Masters'),
-                MenuItem::make(CertificateResource::class, 'Certificates'),
-            ], 'folder'),
+                MenuItem::make(MasterResource::class, 'Masters')->icon('identification'),
+                MenuItem::make(CertificateResource::class, 'Certificates')->icon('academic-cap'),
+            ], 'user-group'),
             MenuGroup::make('Leads', [
-                MenuItem::make(LeadResource::class, 'Leads'),
-            ], 'folder'),
+                // Видно сразу, сколько новых лидов, без захода в раздел.
+                // Только когда > 0 — пустой badge MoonShine передаёт кнопке
+                // как false и ломает рендер (см. feedback в start-stop-laravel).
+                MenuItem::make(LeadResource::class, 'Leads')->icon('chat-bubble-left-right')
+                    ->when($newLeads > 0, fn (MenuItem $item): MenuItem => $item->badge($newLeads)),
+            ], 'inbox'),
         ];
     }
 
