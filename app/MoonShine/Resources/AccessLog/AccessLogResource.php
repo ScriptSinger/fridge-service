@@ -57,7 +57,13 @@ class AccessLogResource extends CrudResource
 
     public function getItems(): LengthAwarePaginator
     {
-        $rows = app(AccessLogReader::class)->entries($this->getFilterParams());
+        $filters = $this->getFilterParams();
+
+        if (filter_var($filters['hide_my_ip'] ?? false, FILTER_VALIDATE_BOOLEAN)) {
+            $filters['exclude_ip'] = trim(($filters['exclude_ip'] ?? '') . ' ' . request()->ip());
+        }
+
+        $rows = app(AccessLogReader::class)->entries($filters);
 
         /** @var QueryTag $tag */
         foreach ($this->getQueryTags() as $tag) {

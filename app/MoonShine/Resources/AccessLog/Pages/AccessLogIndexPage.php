@@ -34,6 +34,8 @@ class AccessLogIndexPage extends IndexPage
             Date::make('По дату', 'date_to'),
             Text::make('Путь содержит', 'path'),
             Text::make('IP содержит', 'ip'),
+            Text::make('Исключить IP', 'exclude_ip')->hint('Точные адреса через запятую или пробел'),
+            Switcher::make('Скрыть мой IP', 'hide_my_ip'),
             Text::make('User-Agent содержит', 'user_agent'),
             Switcher::make('Только боты', 'only_bots'),
             Switcher::make('Только подозрительные', 'only_suspicious'),

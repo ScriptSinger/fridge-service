@@ -73,6 +73,11 @@ class AccessLogResourceTest extends TestCase
             $this->assertSame($row['path'], $reader->find($row['id'])['path']);
         }
 
+        $this->assertSame(
+            ['/wp-login.php', '/admin/authenticate'],
+            $reader->entries(['exclude_ip' => '198.51.100.0, 203.0.113.9'])->pluck('path')->all(),
+        );
+
         $this->assertNull($reader->find('access-2026-10-14.log:1'));
         $this->assertNull($reader->find('../../etc/passwd:0'));
     }
@@ -115,5 +120,21 @@ class AccessLogResourceTest extends TestCase
         $this->get('/admin/resource/access-log-resource/access-log-detail-page/' . $id)
             ->assertOk()
             ->assertSee('req-1', false);
+    }
+
+    public function test_hide_my_ip_removes_the_viewers_own_requests(): void
+    {
+        // The test client's address: its rows must disappear, others stay.
+        $mine = '127.0.0.1';
+        $log = $this->dir . '/access-2026-10-14.log';
+        file_put_contents($log, json_encode([
+            'datetime' => '2026-10-14T10:03:00+00:00',
+            'context' => ['path' => '/mine', 'status' => 200, 'ip' => $mine],
+        ]) . "\n", FILE_APPEND);
+
+        $this->get('/admin/resource/access-log-resource/access-log-index-page?filter[hide_my_ip]=1')
+            ->assertOk()
+            ->assertSee('198.51.100.1', false)
+            ->assertDontSee('/mine', false);
     }
 }

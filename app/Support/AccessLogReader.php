@@ -54,7 +54,7 @@ class AccessLogReader
      * `since` (unix timestamp) skips whole files untouched since then, so the
      * dashboard does not parse two weeks of logs to count the last day.
      *
-     * @param  array{since?: ?int, file?: ?string, date_from?: ?string, date_to?: ?string, path?: ?string, ip?: ?string, user_agent?: ?string, only_bots?: mixed, only_suspicious?: mixed, only_slow?: mixed}  $filters
+     * @param  array{since?: ?int, file?: ?string, date_from?: ?string, date_to?: ?string, path?: ?string, ip?: ?string, exclude_ip?: ?string, user_agent?: ?string, only_bots?: mixed, only_suspicious?: mixed, only_slow?: mixed}  $filters
      * @return Collection<int, array<string, mixed>>
      */
     public function entries(array $filters = []): Collection
@@ -181,6 +181,13 @@ class AccessLogReader
             if ($needle !== '' && ! str_contains((string) $row[$key], $needle)) {
                 return false;
             }
+        }
+
+        // Exact addresses, comma/space separated: the admin's own IP, monitors.
+        $excluded = preg_split('/[\s,]+/', (string) ($filters['exclude_ip'] ?? ''), -1, PREG_SPLIT_NO_EMPTY);
+
+        if ($excluded && in_array($row['ip'], $excluded, true)) {
+            return false;
         }
 
         foreach (['only_bots' => 'is_bot', 'only_suspicious' => 'is_suspicious', 'only_slow' => 'is_slow'] as $filter => $flag) {

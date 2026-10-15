@@ -80,7 +80,7 @@ final class MoonShineLayout extends AppLayout
             MenuGroup::make('Leads', [
                 MenuItem::make(LeadResource::class, 'Leads'),
             ]),
-            MenuItem::make(AccessLogResource::class, 'Access Logs'),
+            MenuItem::make(AccessLogResource::class, 'Access Logs', 'document-magnifying-glass'),
         ];
     }
 
