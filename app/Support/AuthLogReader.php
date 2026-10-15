@@ -5,54 +5,59 @@ declare(strict_types=1);
 namespace App\Support;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
-use SplFileObject;
 
 /**
- * Counts events in the `auth` channel (storage/logs/auth-*.log), see
- * App\Listeners\LogAdminAuthEvent.
+ * Reads the `auth` channel (storage/logs/auth-*.log), see
+ * App\Listeners\LogAdminAuthEvent: events are login, logout and login_failed.
  */
-class AuthLogReader
+class AuthLogReader extends JsonLogReader
 {
-    public function __construct(private ?string $directory = null)
-    {
-    }
+    public const EVENT_LOGIN = 'login';
+
+    public const EVENT_LOGOUT = 'logout';
+
+    public const EVENT_FAILED = 'login_failed';
 
     /**
      * @param  int  $since  unix timestamp
      */
     public function failedLoginsSince(int $since): int
     {
-        $dir = $this->directory ?? storage_path('logs');
-        $count = 0;
+        return $this->entries(['since' => $since])
+            ->where('event', self::EVENT_FAILED)
+            ->count();
+    }
 
-        foreach (glob($dir . '/auth-*.log') ?: [] as $path) {
-            if (filemtime($path) < $since) {
-                continue;
-            }
+    protected function prefix(): string
+    {
+        return 'auth';
+    }
 
-            $file = new SplFileObject($path, 'r');
-            $file->setFlags(SplFileObject::DROP_NEW_LINE);
+    protected function row(string $file, int $line, array $decoded): array
+    {
+        $context = Arr::get($decoded, 'context');
+        $context = is_array($context) ? $context : [];
 
-            foreach ($file as $line) {
-                $entry = is_string($line) && $line !== '' ? json_decode($line, true) : null;
+        $time = $this->parseTime(Arr::get($decoded, 'datetime'));
 
-                if (! is_array($entry) || Arr::get($entry, 'message') !== 'login_failed') {
-                    continue;
-                }
+        return [
+            'id' => $file . ':' . $line,
+            'file' => $file,
+            'time' => $time?->format('d.m.Y H:i:s'),
+            'time_sort' => $time?->getTimestamp() ?? 0,
+            'event' => (string) Arr::get($decoded, 'message'),
+            'login' => (string) Arr::get($context, 'login'),
+            'user_id' => Arr::get($context, 'user_id'),
+            'user_exists' => Arr::get($context, 'user_exists'),
+            'request_id' => (string) Arr::get($context, 'request_id'),
+            'ip' => (string) Arr::get($context, 'ip'),
+            'user_agent' => (string) Arr::get($context, 'user_agent'),
+        ];
+    }
 
-                try {
-                    $time = Carbon::parse((string) Arr::get($entry, 'datetime'))->getTimestamp();
-                } catch (\Throwable) {
-                    continue;
-                }
-
-                if ($time >= $since) {
-                    $count++;
-                }
-            }
-        }
-
-        return $count;
+    protected function matchesOwn(array $row, array $filters): bool
+    {
+        return $this->contains($row, 'login', $filters)
+            && $this->contains($row, 'user_agent', $filters);
     }
 }

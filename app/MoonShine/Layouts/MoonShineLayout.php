@@ -29,6 +29,7 @@ use App\MoonShine\Resources\Master\MasterResource;
 use App\MoonShine\Resources\PageType\PageTypeResource;
 use App\MoonShine\Resources\Review\ReviewResource;
 use App\MoonShine\Resources\AccessLog\AccessLogResource;
+use App\MoonShine\Resources\AuthLog\AuthLogResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -80,7 +81,10 @@ final class MoonShineLayout extends AppLayout
             MenuGroup::make('Leads', [
                 MenuItem::make(LeadResource::class, 'Leads'),
             ]),
-            MenuItem::make(AccessLogResource::class, 'Access Logs', 'document-magnifying-glass'),
+            MenuGroup::make('Logs', [
+                MenuItem::make(AccessLogResource::class, 'Access Logs', 'globe-alt'),
+                MenuItem::make(AuthLogResource::class, 'Auth Logs', 'key'),
+            ], 'document-magnifying-glass'),
         ];
     }
 

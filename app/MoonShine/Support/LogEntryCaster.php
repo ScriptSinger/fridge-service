@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\MoonShine\Resources\AccessLog;
+namespace App\MoonShine\Support;
 
 use Illuminate\Contracts\Pagination\Paginator;
 use MoonShine\Contracts\Core\Paginator\PaginatorContract;
@@ -15,7 +15,7 @@ use MoonShine\Crud\TypeCasts\PaginatorCaster;
  * The stock MixedDataCaster returns no paginator, so a resource over plain
  * arrays would render the table without paging links.
  */
-final readonly class AccessLogCaster implements DataCasterContract
+final readonly class LogEntryCaster implements DataCasterContract
 {
     public function cast(mixed $data): DataWrapperContract
     {

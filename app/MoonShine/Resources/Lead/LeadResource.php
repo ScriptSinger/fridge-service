@@ -8,6 +8,7 @@ use App\Enums\LeadStatus;
 use App\Models\Brand;
 use App\Models\Device;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use App\Models\ErrorCode;
 use App\Models\Lead;
 use App\Models\Page;
@@ -177,7 +178,17 @@ class LeadResource extends ModelResource implements HasImportExportContract
 
                     return $query->whereNotNull('leadable_type')->whereNotNull('leadable_id');
                 }),
-            DateRange::make('Created between', 'created_at'),
+            // The stock range compares the bare date, so "to 15th" meant
+            // created_at <= 15th 00:00 and dropped the whole last day.
+            DateRange::make('Created between', 'created_at')
+                ->onApply(function ($query, $value) {
+                    $from = filled($value['from'] ?? null) ? Carbon::parse($value['from'])->startOfDay() : null;
+                    $to = filled($value['to'] ?? null) ? Carbon::parse($value['to'])->endOfDay() : null;
+
+                    return $query
+                        ->when($from, fn ($q) => $q->where('created_at', '>=', $from))
+                        ->when($to, fn ($q) => $q->where('created_at', '<=', $to));
+                }),
             Text::make('UTM Source', 'utm_source'),
             Text::make('UTM Medium', 'utm_medium'),
             Text::make('UTM Campaign', 'utm_campaign'),

@@ -7,6 +7,7 @@ namespace App\MoonShine\Pages;
 use App\Enums\LeadStatus;
 use App\Models\Lead;
 use App\MoonShine\Resources\AccessLog\AccessLogResource;
+use App\MoonShine\Resources\AuthLog\AuthLogResource;
 use App\MoonShine\Resources\Lead\LeadResource;
 use App\Support\AccessLogReader;
 use App\Support\AuthLogReader;
@@ -57,6 +58,7 @@ class Dashboard extends Page
     {
         $leads = app(LeadResource::class);
         $accessLogs = app(AccessLogResource::class);
+        $authLogs = app(AuthLogResource::class);
 
         $since = now()->subDay()->getTimestamp();
         $newLeads = Lead::query()->where('status', LeadStatus::New->value)->count();
@@ -85,7 +87,14 @@ class Dashboard extends Page
                     'exclamation-circle',
                     $serverErrors > 0 ? Color::ERROR : Color::GRAY,
                 ),
-                $this->tile('Неудачных входов за 24 ч', $failedLogins, 'shield-exclamation', $failedLogins > 0 ? Color::ERROR : Color::GRAY),
+                $this->tile(
+                    $failedLogins > 0
+                        ? $this->link($authLogs->getIndexPageUrl(['query-tag' => 'failed']), 'Неудачных входов за 24 ч')
+                        : 'Неудачных входов за 24 ч',
+                    $failedLogins,
+                    'shield-exclamation',
+                    $failedLogins > 0 ? Color::ERROR : Color::GRAY,
+                ),
             ]),
             Box::make('Ждут ответа', [
                 $this->queue(),

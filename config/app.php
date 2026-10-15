@@ -65,7 +65,11 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    // The business's own zone. MySQL `timestamp` columns hold UTC instants and
+    // convert to the connection zone on read/write (see database.php `timezone`),
+    // so rows written while this was UTC read back correctly without migrating.
+    // Keep this and DB_TIMEZONE in step.
+    'timezone' => env('APP_TIMEZONE', 'Asia/Yekaterinburg'),
 
     /*
     |--------------------------------------------------------------------------

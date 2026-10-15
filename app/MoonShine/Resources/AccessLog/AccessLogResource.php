@@ -7,35 +7,19 @@ namespace App\MoonShine\Resources\AccessLog;
 use App\MoonShine\Resources\AccessLog\Pages\AccessLogDetailPage;
 use App\MoonShine\Resources\AccessLog\Pages\AccessLogIndexPage;
 use App\Support\AccessLogReader;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
-use MoonShine\Contracts\Core\DependencyInjection\FieldsContract;
-use MoonShine\Contracts\Core\TypeCasts\DataCasterContract;
-use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
-use MoonShine\Crud\QueryTags\QueryTag;
-use MoonShine\Crud\Resources\CrudResource;
-use MoonShine\Support\Enums\Action;
+use App\MoonShine\Support\LogResource;
+use App\Support\JsonLogReader;
 use MoonShine\Support\Enums\Color;
-use MoonShine\Support\Enums\SortDirection;
-use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\Badge;
 use MoonShine\UI\Fields\Preview;
 use MoonShine\UI\Fields\Text;
 
 /**
  * Read-only view over storage/logs/access-*.log (see AccessLogReader).
- *
- * @extends CrudResource<\MoonShine\Contracts\Core\DependencyInjection\CoreContract, array<string, mixed>, AccessLogIndexPage, null, AccessLogDetailPage>
  */
-class AccessLogResource extends CrudResource
+class AccessLogResource extends LogResource
 {
     protected string $title = 'Access Logs';
-
-    protected string $sortColumn = 'time_sort';
-
-    protected SortDirection $sortDirection = SortDirection::DESC;
-
-    protected int $itemsPerPage = 50;
 
     protected function pages(): array
     {
@@ -45,78 +29,9 @@ class AccessLogResource extends CrudResource
         ];
     }
 
-    protected function activeActions(): ListOf
+    protected function reader(): JsonLogReader
     {
-        return new ListOf(Action::class, [Action::VIEW]);
-    }
-
-    public function getCaster(): DataCasterContract
-    {
-        return new AccessLogCaster();
-    }
-
-    public function getItems(): LengthAwarePaginator
-    {
-        $filters = $this->getFilterParams();
-
-        if (filter_var($filters['hide_my_ip'] ?? false, FILTER_VALIDATE_BOOLEAN)) {
-            $filters['exclude_ip'] = trim(($filters['exclude_ip'] ?? '') . ' ' . request()->ip());
-        }
-
-        $rows = app(AccessLogReader::class)->entries($filters);
-
-        /** @var QueryTag $tag */
-        foreach ($this->getQueryTags() as $tag) {
-            if ($tag->isActive()) {
-                $rows = $tag->apply($rows);
-                break;
-            }
-        }
-
-        [$column, $direction] = $this->prepareOrder();
-
-        $rows = $rows
-            ->sortBy($column, SORT_REGULAR, $direction === 'desc')
-            ->values();
-
-        $pageName = $this->getQueryParamName('page');
-        $page = max($this->getPaginatorPage(), 1);
-
-        return (new LengthAwarePaginator(
-            $rows->forPage($page, $this->getItemsPerPage())->values(),
-            $rows->count(),
-            $this->getItemsPerPage(),
-            $page,
-            ['path' => Paginator::resolveCurrentPath(), 'pageName' => $pageName],
-        ))->appends($this->getQueryParams()->except($pageName)->toArray());
-    }
-
-    public function findItem(bool $orFail = false): ?DataWrapperContract
-    {
-        $row = app(AccessLogReader::class)->find((string) $this->getItemID());
-
-        if ($row === null) {
-            $orFail && abort(404);
-
-            return null;
-        }
-
-        return $this->getCaster()->cast($row);
-    }
-
-    public function massDelete(array $ids): void
-    {
-        //
-    }
-
-    public function delete(DataWrapperContract $item, ?FieldsContract $fields = null): bool
-    {
-        return false;
-    }
-
-    public function save(DataWrapperContract $item, ?FieldsContract $fields = null): DataWrapperContract
-    {
-        return $item;
+        return app(AccessLogReader::class);
     }
 
     protected function indexFields(): iterable
