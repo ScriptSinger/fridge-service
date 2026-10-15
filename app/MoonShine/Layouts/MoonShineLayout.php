@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Layouts;
 
+use MoonShine\AssetManager\Css;
+use MoonShine\AssetManager\Js;
 use MoonShine\Laravel\Layouts\AppLayout;
 use MoonShine\ColorManager\Palettes\PurplePalette;
 use MoonShine\ColorManager\ColorManager;
@@ -26,7 +28,7 @@ use App\MoonShine\Resources\Gallery\GalleryResource;
 use App\MoonShine\Resources\Master\MasterResource;
 use App\MoonShine\Resources\PageType\PageTypeResource;
 use App\MoonShine\Resources\Review\ReviewResource;
-use App\MoonShine\Pages\AccessLogs;
+use App\MoonShine\Resources\AccessLog\AccessLogResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -39,7 +41,16 @@ final class MoonShineLayout extends AppLayout
     {
         return [
             ...parent::assets(),
+            // Opt-in column resizing (tables with data-resizable). The
+            // mtime query busts nginx's week-long cache for static files.
+            Css::make('/assets/moonshine/resizable-table.css?v=' . $this->assetVersion('resizable-table.css')),
+            Js::make('/assets/moonshine/resizable-table.js?v=' . $this->assetVersion('resizable-table.js')),
         ];
+    }
+
+    private function assetVersion(string $file): int|false
+    {
+        return @filemtime(public_path('assets/moonshine/' . $file));
     }
 
     protected function menu(): array
@@ -69,7 +80,7 @@ final class MoonShineLayout extends AppLayout
             MenuGroup::make('Leads', [
                 MenuItem::make(LeadResource::class, 'Leads'),
             ]),
-            MenuItem::make(AccessLogs::class, 'Access Logs'),
+            MenuItem::make(AccessLogResource::class, 'Access Logs'),
         ];
     }
 

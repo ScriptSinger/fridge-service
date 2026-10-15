@@ -6,32 +6,42 @@ namespace App\MoonShine\Pages;
 
 use App\Enums\LeadStatus;
 use App\Models\Lead;
-use App\Models\Gallery;
-use App\Models\Page as ContentPage;
-use App\Models\Review;
-use App\Models\Service;
-use Illuminate\Support\Arr;
+use App\MoonShine\Resources\AccessLog\AccessLogResource;
+use App\MoonShine\Resources\Lead\LeadResource;
+use App\Support\AccessLogReader;
+use App\Support\AuthLogReader;
+use Carbon\CarbonInterface;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Schema;
-use MoonShine\Laravel\Pages\Page;
 use MoonShine\Contracts\UI\ComponentContract;
+use MoonShine\Laravel\Pages\Page;
+use MoonShine\MenuManager\Attributes\SkipMenu;
+use MoonShine\Support\Enums\Color;
+use MoonShine\UI\Components\Badge;
 use MoonShine\UI\Components\Heading;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Layout\Column;
 use MoonShine\UI\Components\Layout\Grid;
+use MoonShine\UI\Components\Link;
 use MoonShine\UI\Components\Metrics\Wrapped\ValueMetric;
-#[\MoonShine\MenuManager\Attributes\SkipMenu]
+use MoonShine\UI\Components\Table\TableBuilder;
+use MoonShine\UI\Fields\Preview;
 
+/**
+ * Answers "what needs attention now": four numbers, each a link to the list
+ * behind it, and the queue of leads nobody has picked up yet.
+ */
+#[SkipMenu]
 class Dashboard extends Page
 {
+    private const int QUEUE_SIZE = 5;
+
     /**
      * @return array<string, string>
      */
     public function getBreadcrumbs(): array
     {
         return [
-            '#' => $this->getTitle()
+            '#' => $this->getTitle(),
         ];
     }
 
@@ -45,293 +55,96 @@ class Dashboard extends Page
      */
     protected function components(): iterable
     {
-        $accessMetrics = $this->calculateAccessMetrics();
-        $leadsTotal = $this->safeLeadsCount();
-        $leadsToday = $this->safeLeadsCount(today: true);
-        $publishedReviews = $this->safeCount(Review::class, ['is_published' => true]);
-        $galleriesTotal = $this->safeCount(Gallery::class);
-        $publishedGalleries = $this->safeCountBeforeNow(Gallery::class, 'published_at');
-        $activePages = $this->safeCount(ContentPage::class, ['is_active' => true]);
-        $activeServices = $this->safeCount(Service::class, ['is_active' => true]);
+        $leads = app(LeadResource::class);
+        $accessLogs = app(AccessLogResource::class);
+
+        $since = now()->subDay()->getTimestamp();
+        $newLeads = Lead::query()->where('status', LeadStatus::New->value)->count();
+        $today = $this->leadsBetween(now()->startOfDay(), now());
+        $yesterday = $this->leadsBetween(now()->subDay()->startOfDay(), now()->subDay()->endOfDay());
+        $serverErrors = app(AccessLogReader::class)
+            ->entries(['since' => $since])
+            ->filter(static fn (array $row): bool => $row['status'] >= 500)
+            ->count();
+        $failedLogins = app(AuthLogReader::class)->failedLoginsSince($since);
 
         return [
-            Box::make('Access Logs (24h)', [
-                Grid::make([
-                    Column::make([
-                        ValueMetric::make('Total')
-                            ->icon('globe-alt')
-                            ->value($accessMetrics['total']),
-                    ], 3),
-                    Column::make([
-                        ValueMetric::make('4xx')
-                            ->icon('exclamation-triangle')
-                            ->value($accessMetrics['errors_4xx']),
-                    ], 3),
-                    Column::make([
-                        ValueMetric::make('5xx')
-                            ->icon('exclamation-circle')
-                            ->value($accessMetrics['errors_5xx']),
-                    ], 3),
-                    Column::make([
-                        ValueMetric::make('Bots %')
-                            ->icon('cpu-chip')
-                            ->value($accessMetrics['bot_share']),
-                    ], 3),
-                    Column::make([
-                        ValueMetric::make('Avg ms')
-                            ->icon('clock')
-                            ->value($accessMetrics['avg_duration_ms']),
-                    ], 3),
-                    Column::make([
-                        ValueMetric::make('Slow requests')
-                            ->icon('bolt')
-                            ->value($accessMetrics['slow_requests']),
-                    ], 3),
-                    Column::make([
-                        ValueMetric::make('Suspicious')
-                            ->icon('shield-exclamation')
-                            ->value($accessMetrics['suspicious']),
-                    ], 3),
-                ]),
+            Grid::make([
+                $this->tile(
+                    $this->link($leads->getIndexPageUrl(['filter[status]' => LeadStatus::New->value]), 'Новые заявки'),
+                    $newLeads,
+                    'inbox',
+                    $newLeads > 0 ? Color::WARNING : Color::GRAY,
+                ),
+                $this->tile("Заявок сегодня (вчера {$yesterday})", $today, 'calendar-days', Color::PRIMARY),
+                $this->tile(
+                    $serverErrors > 0
+                        ? $this->link($accessLogs->getIndexPageUrl(['query-tag' => '5xx']), 'Ошибки 5xx за 24 ч')
+                        : 'Ошибки 5xx за 24 ч',
+                    $serverErrors,
+                    'exclamation-circle',
+                    $serverErrors > 0 ? Color::ERROR : Color::GRAY,
+                ),
+                $this->tile('Неудачных входов за 24 ч', $failedLogins, 'shield-exclamation', $failedLogins > 0 ? Color::ERROR : Color::GRAY),
             ]),
-            Box::make('Overview', [
-                Grid::make([
-                    Column::make([
-                        ValueMetric::make('Leads Total')
-                            ->icon('users')
-                            ->value($leadsTotal),
-                    ], 4),
-                    Column::make([
-                        ValueMetric::make('Leads Today')
-                            ->icon('calendar-days')
-                            ->value($leadsToday),
-                    ], 4),
-                    Column::make([
-                        ValueMetric::make('Published Reviews')
-                            ->icon('star')
-                            ->value($publishedReviews),
-                    ], 4),
-                    Column::make([
-                        ValueMetric::make('Galleries Total')
-                            ->icon('photo')
-                            ->value($galleriesTotal),
-                    ], 6),
-                    Column::make([
-                        ValueMetric::make('Published Galleries')
-                            ->icon('presentation-chart-bar')
-                            ->value($publishedGalleries),
-                    ], 6),
-                    Column::make([
-                        ValueMetric::make('Active Pages')
-                            ->icon('document-text')
-                            ->value($activePages),
-                    ], 6),
-                    Column::make([
-                        ValueMetric::make('Active Services')
-                            ->icon('wrench-screwdriver')
-                            ->value($activeServices),
-                    ], 6),
-                ]),
-            ]),
-            Box::make('Quick note', [
-                Heading::make('Use filters in CRUD lists to work with fresh leads and unpublished content.', 6),
+            Box::make('Ждут ответа', [
+                $this->queue(),
+                Link::make($leads->getIndexPageUrl(['filter[status]' => LeadStatus::New->value]), 'Все новые заявки →')
+                    ->customAttributes(['class' => 'mt-4']),
             ]),
         ];
     }
 
-    /**
-     * @param class-string<\Illuminate\Database\Eloquent\Model> $modelClass
-     */
-    private function safeCount(string $modelClass, array $where = []): int
+    private function tile(string $label, int $value, string $icon, Color $color): Column
     {
-        $model = new $modelClass();
-        $table = $model->getTable();
-
-        if (! Schema::hasTable($table)) {
-            return 0;
-        }
-
-        $query = $modelClass::query();
-
-        foreach ($where as $column => $value) {
-            $query->where($column, $value);
-        }
-
-        return $query->count();
+        return Column::make([
+            ValueMetric::make($label)->icon($icon)->iconColor($color)->value($value),
+        ], 3);
     }
 
-    // Not routed through safeCount()/safeCountToday() — those are shared by
-    // several unrelated models, and "irrelevant" leads (wrong city,
-    // accidental click, etc.) shouldn't count toward real lead volume.
-    private function safeLeadsCount(bool $today = false): int
+    private function link(string $url, string $label): string
     {
-        if (! Schema::hasTable('leads')) {
-            return 0;
-        }
-
-        $query = Lead::query()->where('status', '!=', LeadStatus::Irrelevant->value);
-
-        if ($today) {
-            $query->whereDate('created_at', today());
-        }
-
-        return $query->count();
+        return (string) Link::make($url, $label);
     }
 
-    /**
-     * @param class-string<\Illuminate\Database\Eloquent\Model> $modelClass
-     */
-    private function safeCountToday(string $modelClass): int
+    private function leadsBetween(CarbonInterface $from, CarbonInterface $to): int
     {
-        $model = new $modelClass();
-        $table = $model->getTable();
-
-        if (! Schema::hasTable($table)) {
-            return 0;
-        }
-
-        return $modelClass::query()
-            ->whereDate('created_at', today())
+        return Lead::query()
+            ->where('status', '!=', LeadStatus::Irrelevant->value)
+            ->whereBetween('created_at', [$from, $to])
             ->count();
     }
 
-    /**
-     * @param class-string<\Illuminate\Database\Eloquent\Model> $modelClass
-     */
-    private function safeCountBeforeNow(string $modelClass, string $column): int
+    private function queue(): ComponentContract
     {
-        $model = new $modelClass();
-        $table = $model->getTable();
+        $leads = app(LeadResource::class);
 
-        if (! Schema::hasTable($table) || ! Schema::hasColumn($table, $column)) {
-            return 0;
+        $rows = Lead::query()
+            ->where('status', LeadStatus::New->value)
+            ->with('leadable')
+            ->latest()
+            ->limit(self::QUEUE_SIZE)
+            ->get()
+            ->map(static fn (Lead $lead): array => [
+                'id' => $lead->getKey(),
+                'age' => $lead->created_at->locale('ru')->diffForHumans(syntax: CarbonInterface::DIFF_ABSOLUTE, short: true),
+                'stale' => $lead->created_at->lt(Carbon::now()->subDay()),
+                'who' => trim(($lead->name ?: '—') . ' ' . $lead->phone),
+                'source' => trim($lead->channel_label . ' · ' . ($lead->leadable?->title ?? $lead->leadable?->name ?? '')),
+                'url' => $leads->getFormPageUrl($lead->getKey()),
+            ])
+            ->all();
+
+        if ($rows === []) {
+            return Heading::make('Новых заявок нет', 6);
         }
 
-        return $modelClass::query()
-            ->whereNotNull($column)
-            ->where($column, '<=', now())
-            ->count();
-    }
-
-    /**
-     * @return array{total:int, errors_4xx:int, errors_5xx:int, bot_share:string, avg_duration_ms:int}
-     */
-    private function calculateAccessMetrics(): array
-    {
-        $cutoff = Carbon::now(config('app.timezone'))->subDay();
-        $files = $this->getAccessMetricFiles($cutoff);
-
-        $total = 0;
-        $errors4xx = 0;
-        $errors5xx = 0;
-        $bots = 0;
-        $slowRequests = 0;
-        $suspicious = 0;
-        $durationSum = 0;
-        $durationCount = 0;
-
-        foreach ($files as $file) {
-            $fileObject = new \SplFileObject($file, 'r');
-            $fileObject->setFlags(\SplFileObject::DROP_NEW_LINE | \SplFileObject::SKIP_EMPTY);
-
-            foreach ($fileObject as $line) {
-                if (! is_string($line) || $line === '') {
-                    continue;
-                }
-
-                $decoded = json_decode($line, true);
-                if (! is_array($decoded)) {
-                    continue;
-                }
-
-                $timestamp = Arr::get($decoded, 'datetime');
-                if (! $timestamp) {
-                    continue;
-                }
-
-                try {
-                    $time = Carbon::parse($timestamp);
-                } catch (\Throwable) {
-                    continue;
-                }
-
-                if ($time->lt($cutoff)) {
-                    continue;
-                }
-
-                $context = Arr::get($decoded, 'context', []);
-                if (! is_array($context)) {
-                    $context = [];
-                }
-
-                $total++;
-
-                $status = (int) Arr::get($context, 'status', 0);
-                if ($status >= 400 && $status <= 499) {
-                    $errors4xx++;
-                }
-                if ($status >= 500 && $status <= 599) {
-                    $errors5xx++;
-                }
-
-                if ((bool) Arr::get($context, 'is_bot')) {
-                    $bots++;
-                }
-
-                if ((bool) Arr::get($context, 'slow_request')) {
-                    $slowRequests++;
-                }
-
-                if ((bool) Arr::get($context, 'is_suspicious')) {
-                    $suspicious++;
-                }
-
-                $duration = Arr::get($context, 'duration_ms');
-                if (is_numeric($duration)) {
-                    $durationSum += (int) $duration;
-                    $durationCount++;
-                }
-            }
-        }
-
-        $botShare = $total > 0 ? round(($bots / $total) * 100, 1) . '%' : '0%';
-        $avgDuration = $durationCount > 0 ? (int) round($durationSum / $durationCount) : 0;
-
-        return [
-            'total' => $total,
-            'errors_4xx' => $errors4xx,
-            'errors_5xx' => $errors5xx,
-            'bot_share' => $botShare,
-            'avg_duration_ms' => $avgDuration,
-            'slow_requests' => $slowRequests,
-            'suspicious' => $suspicious,
-        ];
-    }
-
-    /**
-     * @return list<string>
-     */
-    private function getAccessMetricFiles(Carbon $cutoff): array
-    {
-        $dir = storage_path('logs');
-        $dates = [
-            $cutoff->copy()->format('Y-m-d'),
-            Carbon::now(config('app.timezone'))->format('Y-m-d'),
-        ];
-
-        $files = [];
-        foreach (array_unique($dates) as $date) {
-            $path = $dir . '/access-' . $date . '.log';
-            if (File::exists($path)) {
-                $files[] = $path;
-            }
-        }
-
-        $single = $dir . '/access.log';
-        if (empty($files) && File::exists($single)) {
-            $files[] = $single;
-        }
-
-        return $files;
+        return TableBuilder::make([
+            Preview::make('Ждёт', 'age', static fn (array $row): string => $row['stale']
+                ? (string) Badge::make($row['age'], Color::WARNING)
+                : e($row['age'])),
+            Preview::make('Контакт', 'who', static fn (array $row): string => (string) Link::make($row['url'], e($row['who']))),
+            Preview::make('Откуда', 'source', static fn (array $row): string => e($row['source'])),
+        ], $rows)->simple();
     }
 }
