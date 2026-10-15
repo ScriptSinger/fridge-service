@@ -58,13 +58,17 @@ final class MoonShineLayout extends AppLayout
     {
         return [
             ...parent::menu(),
+            MenuGroup::make('Logs', [
+                MenuItem::make(AccessLogResource::class, 'Access Logs'),
+                MenuItem::make(AuthLogResource::class, 'Auth Logs'),
+            ], 'folder'),
             MenuGroup::make('Content', [
                 MenuItem::make(PageResource::class, 'Pages'),
                 MenuItem::make(PageTypeResource::class, 'PageTypes'),
                 MenuItem::make(FaqResource::class, 'Faqs'),
                 MenuItem::make(ReviewResource::class, 'Reviews'),
                 MenuItem::make(GalleryResource::class, 'Galleries'),
-            ]),
+            ], 'folder'),
             MenuGroup::make('Catalog', [
                 MenuItem::make(DeviceResource::class, 'Devices'),
                 MenuItem::make(BrandResource::class, 'Brands'),
@@ -73,18 +77,14 @@ final class MoonShineLayout extends AppLayout
                 MenuItem::make(ServiceResource::class, 'Services'),
                 MenuItem::make(PriceResource::class, 'Prices'),
                 MenuItem::make(ErrorCodeResource::class, 'ErrorCodes'),
-            ]),
+            ], 'folder'),
             MenuGroup::make('Team', [
                 MenuItem::make(MasterResource::class, 'Masters'),
                 MenuItem::make(CertificateResource::class, 'Certificates'),
-            ]),
+            ], 'folder'),
             MenuGroup::make('Leads', [
                 MenuItem::make(LeadResource::class, 'Leads'),
-            ]),
-            MenuGroup::make('Logs', [
-                MenuItem::make(AccessLogResource::class, 'Access Logs', 'globe-alt'),
-                MenuItem::make(AuthLogResource::class, 'Auth Logs', 'key'),
-            ], 'document-magnifying-glass'),
+            ], 'folder'),
         ];
     }
 
