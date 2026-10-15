@@ -34,7 +34,7 @@ class AccessLogResourceTest extends TestCase
                 'context' => [
                     'request_id' => "req-$i", 'method' => $method, 'path' => $path, 'status' => $status,
                     'duration_ms' => 12, 'slow_request' => false, 'response_size' => 100, 'ip' => '198.51.100.' . $i,
-                    'user_agent' => 'curl/8', 'referer' => null, 'is_bot' => $bot, 'is_suspicious' => $sus,
+                    'user_agent' => 'curl/8', 'referer' => $i === 1 ? 'https://yandex.ru/search/?text=remont' : null, 'is_bot' => $bot, 'is_suspicious' => $sus,
                 ],
                 'datetime' => $time,
             ]) . "\n\n"; // blank line on purpose: line numbers must still match
@@ -78,6 +78,13 @@ class AccessLogResourceTest extends TestCase
             $reader->entries(['exclude_ip' => '198.51.100.0, 203.0.113.9'])->pluck('path')->all(),
         );
 
+        // Row 1 (/wp-login.php) is the only bot in the fixture.
+        $this->assertSame(
+            ['/', '/admin/authenticate'],
+            $reader->entries(['no_bots' => '1'])->pluck('path')->all(),
+        );
+        $this->assertSame(['/wp-login.php'], $reader->entries(['only_bots' => '1'])->pluck('path')->all());
+
         $this->assertNull($reader->find('access-2026-10-14.log:1'));
         $this->assertNull($reader->find('../../etc/passwd:0'));
     }
@@ -92,6 +99,10 @@ class AccessLogResourceTest extends TestCase
             ->assertSee('198.51.100.0', false)
             ->assertSee('198.51.100.1', false)
             ->assertSee('198.51.100.2', false)
+            ->assertSee('https://yandex.ru/search/?text=remont', false)
+            ->assertSee('data-column-selection="is_slow"', false)
+            ->assertSee('data-column-selection="is_bot"', false)
+            ->assertSee('data-column-selection="is_suspicious"', false)
             ->assertSee('data-resizable="access-logs"', false)
             ->assertSee('/assets/moonshine/resizable-table.js?v=', false);
     }

@@ -51,6 +51,10 @@ class AccessLogReader extends JsonLogReader
             return false;
         }
 
+        if ($this->truthy($filters['no_bots'] ?? false) && $row['is_bot']) {
+            return false;
+        }
+
         foreach (['only_bots' => 'is_bot', 'only_suspicious' => 'is_suspicious', 'only_slow' => 'is_slow'] as $filter => $flag) {
             if ($this->truthy($filters[$filter] ?? false) && ! $row[$flag]) {
                 return false;

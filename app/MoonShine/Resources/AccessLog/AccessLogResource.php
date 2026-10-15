@@ -45,8 +45,11 @@ class AccessLogResource extends LogResource
                 $this->statusColor($row['status']),
             ))->sortable(),
             Text::make('мс', 'duration_ms')->sortable(),
-            Preview::make('Флаги', 'is_suspicious', fn (array $row) => $this->flags($row))->sortable(),
+            Preview::make('Slow', 'is_slow', fn (array $row) => $this->flag($row['is_slow'], 'slow', Color::WARNING))->sortable(),
+            Preview::make('Bot', 'is_bot', fn (array $row) => $this->flag($row['is_bot'], 'bot', Color::SECONDARY))->sortable(),
+            Preview::make('Подозрит.', 'is_suspicious', fn (array $row) => $this->flag($row['is_suspicious'], 'suspicious', Color::ERROR))->sortable(),
             Text::make('IP', 'ip')->sortable(),
+            Text::make('Referer', 'referer')->sortable(),
             Text::make('User-Agent', 'user_agent')->sortable(),
         ];
     }
@@ -84,6 +87,11 @@ class AccessLogResource extends LogResource
             5 => Color::ERROR,
             default => Color::SECONDARY,
         };
+    }
+
+    private function flag(bool $on, string $label, Color $color): string
+    {
+        return $on ? (string) Badge::make($label, $color) : '';
     }
 
     /**
