@@ -32,8 +32,6 @@ class GenerateSitemap extends Command
             'about.index',
             'reviews.index',
             'gallery.index',
-            'legal.privacy-policy',
-            'legal.personal-data-consent',
         ];
 
         foreach ($staticRoutes as $routeName) {
@@ -191,8 +189,6 @@ class GenerateSitemap extends Command
                         'prices' => 'prices.index',
                         'contacts' => 'contacts.index',
                         'about' => 'about.index',
-                        'privacy-policy' => 'legal.privacy-policy',
-                        'personal-data-consent' => 'legal.personal-data-consent',
                         default => null,
                     };
 
