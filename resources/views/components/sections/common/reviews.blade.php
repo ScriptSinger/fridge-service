@@ -38,11 +38,7 @@
             </div>
 
             <div class="sr-only" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
-                <div itemprop="itemReviewed" itemscope itemtype="https://schema.org/ApplianceRepair">
-                    <meta itemprop="name" content="РемБытТехника">
-                    <meta itemprop="telephone" content="{{ config('contacts.phone_tel') }}">
-                    <meta itemprop="address" content="{{ config('contacts.address_full') }}">
-                </div>
+                <x-seo.reviewed-item />
                 <meta itemprop="ratingValue" content="{{ $avgRating }}">
                 <meta itemprop="reviewCount" content="{{ $total }}">
                 <meta itemprop="bestRating" content="5">
@@ -83,11 +79,7 @@
                         <article
                             class="relative shrink-0 border-r border-gray-200 last:border-r-0 basis-full md:basis-1/2 lg:basis-1/3 bg-white p-6"
                             data-card itemprop="review" itemscope itemtype="https://schema.org/Review">
-                            <div itemprop="itemReviewed" itemscope itemtype="https://schema.org/ApplianceRepair">
-                                <meta itemprop="name" content="РемБытТехника">
-                                <meta itemprop="telephone" content="{{ config('contacts.phone_tel') }}">
-                                <meta itemprop="address" content="{{ config('contacts.address_full') }}">
-                            </div>
+                            <x-seo.reviewed-item />
                             <meta itemprop="datePublished" content="{{ $slide['date'] ?? '' }}">
                             <div class="flex items-center mb-4">
                                 <div

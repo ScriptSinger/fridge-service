@@ -2,6 +2,13 @@
 
 return [
 
+    'business_name' => env('CONTACT_BUSINESS_NAME', 'РемБытТехника'),
+
+    // One schema.org type for the business everywhere: JSON-LD and review
+    // microdata (itemReviewed). Google rejects ApplianceRepair in itemReviewed,
+    // so it must be a type from its supported list.
+    'schema_business_type' => 'LocalBusiness',
+
     'phone_display' => env('CONTACT_PHONE_DISPLAY', '+7 (919) 609-34-85'),
     'phone_tel' => env('CONTACT_PHONE_TEL', '+79196093485'),
     'email' => env('CONTACT_EMAIL', 'ufamasters102@gmail.com'),

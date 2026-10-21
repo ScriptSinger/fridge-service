@@ -8,7 +8,7 @@
             [
                 '@type' => 'Organization',
                 '@id' => $organizationId,
-                'name' => 'РемБытТехника',
+                'name' => config('contacts.business_name'),
                 'url' => $siteUrl,
                 'logo' => $siteUrl . '/assets/images/logo.webp',
                 'sameAs' => [
@@ -17,9 +17,9 @@
                 ],
             ],
             [
-                '@type' => 'ApplianceRepair',
+                '@type' => config('contacts.schema_business_type'),
                 '@id' => $siteUrl . '/#appliance-repair',
-                'name' => 'РемБытТехника',
+                'name' => config('contacts.business_name'),
                 'url' => $siteUrl,
                 'logo' => $siteUrl . '/assets/images/logo.webp',
                 'image' => $siteUrl . '/assets/images/hero.webp',
